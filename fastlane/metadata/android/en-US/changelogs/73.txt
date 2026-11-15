@@ -1,0 +1,5 @@
+Initial Tubik release (v0.1.0):
+
+- Music Removal: ON by default, upgraded ONNX Runtime to 1.32.0 with full 16 KB page-size support.
+- Open Settings by default with an optional Lock Settings toggle (off by default) behind a Parent PIN.
+- Allowlist and Screen Pin controls available behind Settings.

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Tubik</title>
+    <meta
+      name="description"
+      content="Tubik privacy policy: zero usage analytics, on-device storage, optional services, and private update checks."
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/tubik-logo.svg" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-mark"
+            src="/assets/tubik-logo.svg"
+            alt=""
+            width="36"
+            height="36"
+          />
+          <span>Tubik</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/#features">Controls</a>
+          <a href="/#screenshots">Screenshots</a>
+          <a href="/#install">Install Guide</a>
+          <a href="/privacy" aria-current="page">Privacy</a>
+          <a href="https://github.com/bilalbox/tubik" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="prose-page">
+      <div class="container">
+        <article class="prose">
+          <h1>Tubik privacy policy</h1>
+          <p class="lead">
+            Tubik stores what it needs to play videos and to remember your setup. It has no
+            account of its own, and it does not send usage analytics or build an advertising profile.
+          </p>
+          <p>
+            This policy describes Tubik (<code>dev.twenty3p.tubik</code>) and its website
+            (<code>tubik.23p.dev</code>). Questions belong in
+            <a href="https://github.com/bilalbox/tubik/issues" rel="noopener noreferrer"
+              >this repository's issues</a
+            >.
+          </p>
+
+          <h2>On the device</h2>
+          <p>The app stores this on the phone:</p>
+          <ul>
+            <li>Subscriptions, playlists, bookmarks, and downloads</li>
+            <li>
+              Watch history and search history, which both start on. Either can be turned off.
+              Turning search history off clears it.
+            </li>
+            <li>Settings, including the Allowlist, Music Removal, and Screen Pin</li>
+            <li>
+              A Parent PIN, if you set one, stored as a salted hash. The PIN itself is not stored,
+              and it is not sent off the device.
+            </li>
+          </ul>
+          <p>Music Removal runs on the device. The audio is not uploaded.</p>
+          <p>
+            If the app crashes, it can keep a crash log on the device. That log is not uploaded.
+          </p>
+
+          <h2>App updates</h2>
+          <div class="callout">
+            <p>
+              Automatic update checks start on and can be turned off in Settings (<strong>Check for
+              updates automatically</strong>). While they are on, Tubik checks
+              <code>https://tubik.23p.dev/updates/latest.json</code> about once every 24 hours (and
+              whenever you manually check in Settings) to see if a newer release is available.
+            </p>
+            <p>
+              If you choose <strong>Download &amp; Install</strong> in Settings, Tubik downloads the
+              signed release APK from the URL listed in <code>latest.json</code> (hosted on
+              <code>https://tubik-releases.23p.dev</code>) and verifies its SHA-256 checksum and
+              signing certificate before handing it to Android's package installer.
+            </p>
+            <p>
+              <code>tubik.23p.dev</code> (Cloudflare Pages) and
+              <code>tubik-releases.23p.dev</code> (Cloudflare R2) are hosted on Cloudflare with
+              Cloudflare Web Analytics disabled and zero cookies or tracking scripts. Update checks,
+              APK downloads, and website visits do not send personal identifiers, device identifiers,
+              or usage analytics. Standard web server connection logs (such as IP address and
+              requested URL) are handled transiently by the hosting CDN without tracking profiles.
+            </p>
+          </div>
+
+          <h2>While you watch</h2>
+          <p>
+            Playing, searching, and loading subscriptions contacts YouTube from this device.
+            YouTube can see the device's IP address and which videos and channels are requested.
+            Tubik does not ask you to sign in with a Google or YouTube account.
+          </p>
+          <p>
+            New-video notifications start on. While they are on, the app also checks subscriptions
+            in the background by contacting YouTube.
+          </p>
+          <p>Two lookups run during playback unless you turn them off:</p>
+          <ul>
+            <li>
+              <strong>SponsorBlock</strong> starts on. The video ID is sent to
+              <a href="https://sponsor.ajay.app" rel="noopener noreferrer">sponsor.ajay.app</a> to
+              fetch skip segments.
+            </li>
+            <li>
+              <strong>Dislike counts</strong> start on. The video ID is sent to
+              <code>https://ryd-proxy.kavin.rocks</code> to fetch them.
+            </li>
+          </ul>
+          <p>
+            DeArrow starts off. If you turn it on, the video ID is sent to SponsorBlock's branding
+            service and to <code>https://dearrow-thumb.ajay.app</code>.
+          </p>
+          <p>
+            Submitting SponsorBlock segments or DeArrow titles starts off. Turning that on also
+            sends a SponsorBlock user ID. Read SponsorBlock's
+            <a
+              href="https://gist.github.com/ajayyy/aa9f8ded2b573d4f73a3ffa0ef74f796"
+              rel="noopener noreferrer"
+              >privacy policy</a
+            >
+            and
+            <a
+              href="https://gist.github.com/ajayyy/9e8100f069348e0bc062641f34d6af12"
+              rel="noopener noreferrer"
+              >terms of use</a
+            >
+            before contributing.
+          </p>
+
+          <h2>Local data &amp; backups</h2>
+          <p>
+            Subscriptions, playlists, watch history, and settings stay strictly on the device. You
+            can back up, import, or export your data locally as files you control.
+          </p>
+
+          <h2>YouTube</h2>
+          <p>
+            Tubik is not affiliated with, authorized by, or endorsed by YouTube, Google LLC, or
+            their affiliates. Names and content shown in the app belong to their owners.
+          </p>
+
+          <h2>Changes</h2>
+          <p>
+            Using Tubik means you accept this policy. When it changes, the update is in the
+            repository's <code>PRIVACY_POLICY.md</code> and reflected here.
+          </p>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/updates/latest.json">Update Manifest</a>
+            <a href="https://github.com/bilalbox/tubik" rel="noopener noreferrer">Source Code</a>
+            <a href="https://github.com/bilalbox/tubik/blob/master/PRIVACY_POLICY.md" rel="noopener noreferrer"
+              >PRIVACY_POLICY.md</a
+            >
+          </div>
+          <p class="footer-note">
+            Tubik is free software under the GNU General Public License v3 or later.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

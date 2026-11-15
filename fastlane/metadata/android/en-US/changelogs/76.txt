@@ -1,0 +1,5 @@
+Tubik v0.3.0:
+
+- Videos start playing instead of closing the app.
+- Subscribed channels show up on the subscriptions screen.
+- Updated playback and app libraries to the latest stable versions.

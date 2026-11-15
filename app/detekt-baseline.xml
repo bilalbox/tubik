@@ -1,0 +1,505 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:CompositeBuffer.kt:CompositeBuffer$offset &lt; 0 || length &lt; 0 || offset + length &lt; 0 || destination.size &lt; offset + length</ID>
+    <ID>ComplexCondition:CustomExoPlayerView.kt:CustomExoPlayerView$audioLanguagesAndRoleFlags.isEmpty() || (audioLanguagesAndRoleFlags.size == 1 &amp;&amp; audioLanguagesAndRoleFlags[0].first == null &amp;&amp; !PlayerHelper.haveAudioTrackRoleFlagSet( audioLanguagesAndRoleFlags[0].second, ))</ID>
+    <ID>ComplexCondition:LocalFeedRepository.kt:LocalFeedRepository$tabStreamItems.isEmpty() &amp;&amp; feedItems.isEmpty() &amp;&amp; relevantInfoTabs.isNotEmpty() &amp;&amp; tabResults.all { it.isFailure }</ID>
+    <ID>ComplexCondition:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$!isEnabled &amp;&amp; producerLastEnabledState != true &amp;&amp; hopFill == 0 &amp;&amp; inputRing.isEmpty &amp;&amp; outputRing.isEmpty &amp;&amp; !workerInFlight.get() &amp;&amp; inputAudioFormat.sampleRate == outputAudioFormat.sampleRate &amp;&amp; inputAudioFormat.channelCount == outputAudioFormat.channelCount &amp;&amp; inputAudioFormat.encoding == outputAudioFormat.encoding</ID>
+    <ID>ComplexCondition:PlayerFragment.kt:PlayerFragment.&lt;no name provided&gt;$(PlayingQueue.hasNext() || PlayerHelper.autoPlayEnabled) &amp;&amp; autoPlayCountdownEnabled &amp;&amp; !isTransitioning</ID>
+    <ID>ComplexCondition:PlayerFragment.kt:PlayerFragment.&lt;no name provided&gt;$playbackState == Player.STATE_BUFFERING &amp;&amp; ::streams.isInitialized &amp;&amp; streams.isLive &amp;&amp; playerController.duration - playerController.currentPosition &lt; 700</ID>
+    <ID>ComplexCondition:PlayerGestureController.kt:PlayerGestureController.GestureListener$!isMoving &amp;&amp; (insideThreshHold || insideBorder || abs(distanceX) &gt; abs(distanceY))</ID>
+    <ID>ConstructorParameterNaming:DeArrowThumbnail.kt:DeArrowThumbnail$val UUID: String</ID>
+    <ID>CyclomaticComplexMethod:AbstractPlayerService.kt:AbstractPlayerService$open fun runPlayerCommand</ID>
+    <ID>CyclomaticComplexMethod:BackupHelper.kt:BackupHelper$private fun restorePreferences</ID>
+    <ID>CyclomaticComplexMethod:CustomExoPlayerView.kt:CustomExoPlayerView$fun initialize</ID>
+    <ID>CyclomaticComplexMethod:DashHelper.kt:DashHelper$fun createManifest: String</ID>
+    <ID>CyclomaticComplexMethod:ImportHelper.kt:ImportHelper$@OptIn(ExperimentalSerializationApi::class) suspend fun importPlaylists</ID>
+    <ID>CyclomaticComplexMethod:MainActivity.kt:MainActivity$override fun onCreate</ID>
+    <ID>CyclomaticComplexMethod:MainActivity.kt:MainActivity$private fun loadIntentData</ID>
+    <ID>CyclomaticComplexMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun getOutput: ByteBuffer</ID>
+    <ID>CyclomaticComplexMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun queueInput</ID>
+    <ID>CyclomaticComplexMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun runModelOnHop: FloatArray</ID>
+    <ID>CyclomaticComplexMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun runWorkerLoop</ID>
+    <ID>CyclomaticComplexMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `SpeechPostFilter fuses real FFT and IFFT passes with identical spectral filtering output`</ID>
+    <ID>CyclomaticComplexMethod:OnlinePlayerService.kt:OnlinePlayerService$override suspend fun startPlayback</ID>
+    <ID>CyclomaticComplexMethod:PlayerFragment.kt:PlayerFragment$private fun initializeOnClickActions</ID>
+    <ID>CyclomaticComplexMethod:PlayerGestureController.kt:PlayerGestureController.GestureListener$override fun onScroll: Boolean</ID>
+    <ID>CyclomaticComplexMethod:PlayerHelper.kt:PlayerHelper$fun computeNextSegmentCheckDelayMs: Long?</ID>
+    <ID>CyclomaticComplexMethod:PlaylistFragment.kt:PlaylistFragment$private fun fetchPlaylist</ID>
+    <ID>CyclomaticComplexMethod:PoTokenGenerator.kt:PoTokenGenerator$private fun getWebClientPoTokenLocked: PoTokenResult?</ID>
+    <ID>CyclomaticComplexMethod:SabrClient.kt:SabrClient$private fun processPart</ID>
+    <ID>CyclomaticComplexMethod:SabrClient.kt:SabrClient$private suspend fun fetchStreamData: ByteArray</ID>
+    <ID>CyclomaticComplexMethod:SearchResultFragment.kt:SearchResultFragment$override fun onViewCreated</ID>
+    <ID>CyclomaticComplexMethod:SileroVadGate.kt:SileroVadGate$fun processHop48k: Pair&lt;Float, Float&gt;</ID>
+    <ID>CyclomaticComplexMethod:Streams.kt:Streams$fun toDownloadItems: List&lt;DownloadItem&gt;</ID>
+    <ID>CyclomaticComplexMethod:SubscriptionsFragment.kt:SubscriptionsFragment$@SuppressLint("SetTextI18n") override fun onViewCreated</ID>
+    <ID>CyclomaticComplexMethod:ZoomableImageView.kt:ZoomableImageView.ScaleListener$override fun onScale: Boolean</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:AddToPlaylistDialog.kt:AddToPlaylistDialog$(lastSelectedPlaylistId, playlists, msg, saved)</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:Streams.kt:Streams$val (id, videoFormat, videoQuality, audioFormat, audioQuality, audioTrackLocale, subCode) = downloadData</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:WelcomeActivity.kt:WelcomeActivity$(syncServerType, loggedIn, pipedInstance, navigateToMain)</ID>
+    <ID>EmptyFunctionBlock:NoInternetActivity.kt:NoInternetActivity${}</ID>
+    <ID>EmptyFunctionBlock:SabrMediaPeriod.kt:SabrMediaPeriod${}</ID>
+    <ID>EmptyFunctionBlock:SabrMediaSource.kt:SabrMediaSource${}</ID>
+    <ID>EmptyFunctionBlock:SearchSuggestionsAdapter.kt:SearchSuggestionsAdapter${}</ID>
+    <ID>ForbiddenComment:AddChannelToGroupSheet.kt:AddChannelToGroupSheet.Companion$// TODO: very ugly, refactor the UI part of this to tell what changed</ID>
+    <ID>ForbiddenComment:BaseActivity.kt:BaseActivity$// TODO: remove this case in the future</ID>
+    <ID>ForbiddenComment:ContentFilter.kt:ContentFilter.Companion$// TODO: Remove the conversion code below.</ID>
+    <ID>ForbiddenComment:DefaultSabrChunkSource.kt:DefaultSabrChunkSource$// FIXME: there is probably a better way</ID>
+    <ID>ForbiddenComment:EditChannelGroupSheet.kt:EditChannelGroupSheet$// TODO: either remove this check or figure out how to support this for LibreTube sync</ID>
+    <ID>ForbiddenComment:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository$// TODO: also store and support playlist descriptions</ID>
+    <ID>ForbiddenComment:PlaylistDownloadEnqueueService.kt:PlaylistDownloadEnqueueService$// TODO: inform the user if an already downloaded video has been skipped</ID>
+    <ID>ForbiddenComment:PlaylistsHelper.kt:PlaylistsHelper$// TODO: remove this and pass the type information down instead</ID>
+    <ID>ForbiddenComment:SabrClient.kt:SabrClient$// TODO: decompress gzipped data (not send for the WEB client)</ID>
+    <ID>ForbiddenComment:Streams.kt:Streams$// TODO: doesn't support track types, i.e. if there are two caption tracks for the same</ID>
+    <ID>ForbiddenComment:UserDataRepository.kt:UserDataRepository$// TODO: isSubscribed shouldn't be able to return null?</ID>
+    <ID>ForbiddenComment:WatchHistoryItem.kt:WatchHistoryItem$// TODO: store date when the video was added to the history</ID>
+    <ID>ForbiddenComment:WatchHistoryModel.kt:WatchHistoryModel$// TODO: display errors to user</ID>
+    <ID>FunctionNaming:Tag.kt:fun Any.TAG: String</ID>
+    <ID>LargeClass:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest</ID>
+    <ID>LargeClass:CustomExoPlayerView.kt:CustomExoPlayerView : PlayerViewPlayerOptionsPlayerGestureOptions</ID>
+    <ID>LargeClass:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor : BaseAudioProcessor</ID>
+    <ID>LargeClass:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest</ID>
+    <ID>LargeClass:PlayerFragment.kt:PlayerFragment : FragmentCustomPlayerCallback</ID>
+    <ID>LargeClass:PlayerHelper.kt:PlayerHelper</ID>
+    <ID>LongMethod:AbstractPlayerService.kt:AbstractPlayerService$open fun runPlayerCommand</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `shared channel check covers watch history, local playlists, playlist bookmarks, and downloads`</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is off, everything passes through unchanged`</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, getSuggestions returns only matching Allowed Channel names, allowed local feed titles, and local search history without global autocomplete calls`</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, search combines local Allowed Channel and feed matches with multi-page upstream prefetching when early pages filter to empty`</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, trending, search, and playlists keep only Allowed Channels including Shorts, live streams, and channels`</ID>
+    <ID>LongMethod:AudioPlayerFragment.kt:AudioPlayerFragment$@SuppressLint("ClickableViewAccessibility") override fun onViewCreated</ID>
+    <ID>LongMethod:BackupRestoreSettings.kt:BackupRestoreSettings$override fun onCreatePreferences</ID>
+    <ID>LongMethod:BasePreferenceFragment.kt:BasePreferenceFragment$override fun onDisplayPreferenceDialog</ID>
+    <ID>LongMethod:ChannelContentFragment.kt:ChannelContentFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:ChannelFragment.kt:ChannelFragment$private fun fetchChannel</ID>
+    <ID>LongMethod:ChannelOptionsBottomSheet.kt:ChannelOptionsBottomSheet$override fun onCreate</ID>
+    <ID>LongMethod:CommentsMainFragment.kt:CommentsMainFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:CommentsPagingAdapter.kt:CommentsPagingAdapter$override fun onBindViewHolder</ID>
+    <ID>LongMethod:CreatePlaylistDialog.kt:CreatePlaylistDialog$override fun onCreateDialog: Dialog</ID>
+    <ID>LongMethod:CustomExoPlayerView.kt:CustomExoPlayerView$fun getOptionsMenuItems: List&lt;BottomSheetItem&gt;</ID>
+    <ID>LongMethod:CustomExoPlayerView.kt:CustomExoPlayerView$fun initialize</ID>
+    <ID>LongMethod:DashHelper.kt:DashHelper$fun createManifest: String</ID>
+    <ID>LongMethod:DashHelperTest.kt:DashHelperTest$@Test fun `incomplete streams are skipped instead of crashing manifest creation`</ID>
+    <ID>LongMethod:DataManagementSettings.kt:DataManagementSettings$override fun onCreatePreferences</ID>
+    <ID>LongMethod:DefaultSabrChunkSource.kt:DefaultSabrChunkSource$override fun getNextChunk</ID>
+    <ID>LongMethod:DownloadDialog.kt:DownloadDialog$private fun initDownloadOptions</ID>
+    <ID>LongMethod:DownloadOptionsBottomSheet.kt:DownloadOptionsBottomSheet$override fun onCreate</ID>
+    <ID>LongMethod:DownloadService.kt:DownloadService$private suspend fun downloadFile</ID>
+    <ID>LongMethod:DownloadsAdapter.kt:DownloadsAdapter$@SuppressLint("SetTextI18n") override fun onBindViewHolder</ID>
+    <ID>LongMethod:DownloadsFragment.kt:DownloadsFragmentPage$override fun onViewCreated</ID>
+    <ID>LongMethod:DownloadsFragment.kt:PlaylistDownloadsFragmentPage$override fun onViewCreated</ID>
+    <ID>LongMethod:HomeFragment.kt:HomeFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:ImportHelper.kt:ImportHelper$@OptIn(ExperimentalSerializationApi::class) suspend fun importPlaylists</ID>
+    <ID>LongMethod:LibraryFragment.kt:LibraryFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:LocalFeedRepository.kt:LocalFeedRepository$override suspend fun getFeed: List&lt;StreamItem&gt;</ID>
+    <ID>LongMethod:LocalFeedRepository.kt:LocalFeedRepository$private suspend fun getRelatedStreams: Pair&lt;Subscription?, List&lt;StreamItem&gt;&gt;</ID>
+    <ID>LongMethod:MainActivity.kt:MainActivity$override fun onCreate</ID>
+    <ID>LongMethod:MainSettings.kt:MainSettings$override fun onCreatePreferences</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun getOutput: ByteBuffer</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun queueInput</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun runModelOnHop: FloatArray</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun runWorkerLoop</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `FastEnhancerSpeechModel loads fastenhancer_t fallback model independently from primary model`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `SpeechPostFilter fuses real FFT and IFFT passes with identical spectral filtering output`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `flush on seek clears queued ring-buffer hops, discards in-flight stale hop, and resets model before post-seek audio`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `multi-hop streaming preserves speech and gates music without state resets during concurrent warmup or secondary player init`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `per-hop inference reuses persistent direct-buffer ONNX input tensors without re-allocating per hop`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `pre-flush in-flight failing or slow hop does not re-mute after onFlush clears overload state`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `queuing multi-hop burst never blocks caller thread and ring-buffer backpressure drops overflow without deadlocking`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `speech enhancement and VAD sessions request XNNPACK acceleration and fall back to CPU provider when unavailable`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$@Test fun `when both primary and fallback models are overloaded or fallback fails, audio mutes safely`</ID>
+    <ID>LongMethod:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$fun referenceSpectralSubFrame: FloatArray</ID>
+    <ID>LongMethod:NewPipeDownloaderImplTest.kt:NewPipeDownloaderImplTest$@Test fun `execute tries ANDROID_KIDS first when primary lacks usable streamingData and falls back to IOS when needed`</ID>
+    <ID>LongMethod:NewPipeDownloaderImplTest.kt:NewPipeDownloaderImplTest$@Test fun `shouldRetryPlayerWithFallbackClient triggers on unplayable status or missing usable streamingData`</ID>
+    <ID>LongMethod:NewPipeMediaServiceRepository.kt:NewPipeMediaServiceRepository$override suspend fun getStreams: Streams</ID>
+    <ID>LongMethod:OkHttpMediaDataSource.kt:OkHttpMediaDataSource$private fun openInternal: Long</ID>
+    <ID>LongMethod:OnlinePlayerService.kt:OnlinePlayerService$override suspend fun startPlayback</ID>
+    <ID>LongMethod:OnlinePlayerService.kt:OnlinePlayerService$private fun setStreamSource: Boolean</ID>
+    <ID>LongMethod:PlaybackOptionsSheet.kt:PlaybackOptionsSheet$@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class) override fun onViewCreated</ID>
+    <ID>LongMethod:PlayerBufferingAndSchedulingTest.kt:PlayerBufferingAndSchedulingTest$@Test fun `SponsorBlock segment scheduler triggers at exact boundaries and never leaks duplicate timers across queue switches or pause`</ID>
+    <ID>LongMethod:PlayerFragment.kt:PlayerFragment$@SuppressLint("SetTextI18n") private fun updatePlayerView</ID>
+    <ID>LongMethod:PlayerFragment.kt:PlayerFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:PlayerFragment.kt:PlayerFragment$private fun initializeOnClickActions</ID>
+    <ID>LongMethod:PlayingQueueSheet.kt:PlayingQueueSheet$@SuppressLint("NotifyDataSetChanged") override fun onViewCreated</ID>
+    <ID>LongMethod:PlayingQueueSheet.kt:PlayingQueueSheet$@SuppressLint("NotifyDataSetChanged") private fun showWatchPositionsOptions</ID>
+    <ID>LongMethod:PlaylistFragment.kt:PlaylistFragment$private fun fetchPlaylist</ID>
+    <ID>LongMethod:PlaylistOptionsBottomSheet.kt:PlaylistOptionsBottomSheet$private suspend fun onOptionSelected</ID>
+    <ID>LongMethod:PoTokenGenerator.kt:PoTokenGenerator$private fun getWebClientPoTokenLocked: PoTokenResult?</ID>
+    <ID>LongMethod:RecyclerViewAdapter.kt:&lt;no name provided&gt;$override fun onChildDraw</ID>
+    <ID>LongMethod:SabrClient.kt:SabrClient$private fun processPart</ID>
+    <ID>LongMethod:SabrClient.kt:SabrClient$private suspend fun fetchStreamData: ByteArray</ID>
+    <ID>LongMethod:SabrClientTest.kt:SabrClientTest$@Test fun `SABR_CONTEXT_SENDING_POLICY discard removes both active and inactive contexts from stored map and active set`</ID>
+    <ID>LongMethod:SabrClientTest.kt:SabrClientTest$@Test fun `uninitialized and deselected MEDIA_HEADER parts are safely ignored without NullPointerException`</ID>
+    <ID>LongMethod:SearchResultFragment.kt:SearchResultFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:SetupSubscriptionButton.kt:fun TextView.setupSubscriptionButton</ID>
+    <ID>LongMethod:ShareDialog.kt:ShareDialog$override fun onCreateDialog: Dialog</ID>
+    <ID>LongMethod:SpeechPostFilter.kt:SpeechPostFilter.Companion$private fun fft512</ID>
+    <ID>LongMethod:StreamRefreshRecoveryTest.kt:StreamRefreshRecoveryTest$@Test fun `integration - fallback IOS extraction, 403 cache invalidation, single refresh, and User-Agent propagation`</ID>
+    <ID>LongMethod:StreamRefreshRecoveryTest.kt:StreamRefreshRecoveryTest$@Test fun `mid-stream 403, 410, and SABR reload errors invalidate cache once and resume at saved position`</ID>
+    <ID>LongMethod:SubscriptionsFragment.kt:SubscriptionsFragment$@SuppressLint("SetTextI18n") override fun onViewCreated</ID>
+    <ID>LongMethod:UnifiedMediaTransportTest.kt:UnifiedMediaTransportTest$@Test fun `OkHttpMediaDataSource sends client-matched User-Agent and Range header for DASH and HLS media segments`</ID>
+    <ID>LongMethod:VideoCardsAdapter.kt:VideoCardsAdapter$@SuppressLint("SetTextI18n") override fun onBindViewHolder</ID>
+    <ID>LongMethod:VideoOptionsBottomSheet.kt:VideoOptionsBottomSheet$private suspend fun onOptionSelect</ID>
+    <ID>LongMethod:WatchHistoryFragment.kt:WatchHistoryFragment$override fun onViewCreated</ID>
+    <ID>LongMethod:WelcomeActivity.kt:WelcomeActivity$override fun onCreate</ID>
+    <ID>LoopWithTooManyJumpStatements:CompositeBuffer.kt:CompositeBuffer$for</ID>
+    <ID>LoopWithTooManyJumpStatements:DashHelper.kt:DashHelper$for</ID>
+    <ID>LoopWithTooManyJumpStatements:DownloadService.kt:DownloadService$while</ID>
+    <ID>LoopWithTooManyJumpStatements:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$while</ID>
+    <ID>LoopWithTooManyJumpStatements:PlayerHelper.kt:PlayerHelper$for</ID>
+    <ID>MagicNumber:AudioPlayerFragment.kt:AudioPlayerFragment$100</ID>
+    <ID>MagicNumber:AudioPlayerFragment.kt:AudioPlayerFragment$1000</ID>
+    <ID>MagicNumber:AudioPlayerFragment.kt:AudioPlayerFragment$200</ID>
+    <ID>MagicNumber:AudioPlayerFragment.kt:AudioPlayerFragment$3</ID>
+    <ID>MagicNumber:AutoplayCountdownView.kt:AutoplayCountdownView$1000</ID>
+    <ID>MagicNumber:BackgroundHelper.kt:BackgroundHelper.&lt;no name provided&gt;$200</ID>
+    <ID>MagicNumber:ChannelFragment.kt:ChannelFragment$3</ID>
+    <ID>MagicNumber:ChapterTimeBar.kt:ChapterTimeBar$1000f</ID>
+    <ID>MagicNumber:ColorPickerDialog.kt:ColorPickerDialog.&lt;no name provided&gt;$9</ID>
+    <ID>MagicNumber:CommentsPagingAdapter.kt:CommentsPagingAdapter$58</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$1.5</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$1.5f</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$100</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$100f</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$18f</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$200</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$20f</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$30F</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$500</ID>
+    <ID>MagicNumber:CustomExoPlayerView.kt:CustomExoPlayerView$700</ID>
+    <ID>MagicNumber:CustomSwipeToRefresh.kt:CustomSwipeToRefresh$20f</ID>
+    <ID>MagicNumber:DefaultSabrChunkSource.kt:DefaultSabrChunkSource$404</ID>
+    <ID>MagicNumber:DescriptionLayout.kt:DescriptionLayout$180F</ID>
+    <ID>MagicNumber:DownloadService.kt:DownloadService$200</ID>
+    <ID>MagicNumber:DownloadsFragment.kt:DownloadsFragmentPage$16f</ID>
+    <ID>MagicNumber:DownloadsFragment.kt:DownloadsFragmentPage$64f</ID>
+    <ID>MagicNumber:DpToPx.kt:0.5f</ID>
+    <ID>MagicNumber:DrawableTextView.kt:DrawableTextView$20</ID>
+    <ID>MagicNumber:DrawableTextView.kt:DrawableTextView$3</ID>
+    <ID>MagicNumber:FormatFileSize.kt:10</ID>
+    <ID>MagicNumber:FormatFileSize.kt:10.0</ID>
+    <ID>MagicNumber:FullscreenGestureAnimationController.kt:FullscreenGestureAnimationController$150</ID>
+    <ID>MagicNumber:HomeFragment.kt:HomeFragment$0.3f</ID>
+    <ID>MagicNumber:HomeFragment.kt:HomeFragment$10</ID>
+    <ID>MagicNumber:HomeViewModel.kt:HomeViewModel$20</ID>
+    <ID>MagicNumber:IconsBottomSheet.kt:IconsBottomSheet$3</ID>
+    <ID>MagicNumber:ImageHelper.kt:ImageHelper$25</ID>
+    <ID>MagicNumber:ImportHelper.kt:ImportHelper$24</ID>
+    <ID>MagicNumber:InstancesAdapter.kt:InstancesAdapter$0.5f</ID>
+    <ID>MagicNumber:IntentChooserSheet.kt:IntentChooserSheet$3</ID>
+    <ID>MagicNumber:JavaScriptUtil.kt:97</ID>
+    <ID>MagicNumber:LibraryFragment.kt:LibraryFragment$16f</ID>
+    <ID>MagicNumber:LibraryFragment.kt:LibraryFragment$64f</ID>
+    <ID>MagicNumber:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository$404</ID>
+    <ID>MagicNumber:MainActivity.kt:MainActivity$100</ID>
+    <ID>MagicNumber:MarkableTimeBar.kt:MarkableTimeBar$1000</ID>
+    <ID>MagicNumber:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$1_000_000L</ID>
+    <ID>MagicNumber:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$500L</ID>
+    <ID>MagicNumber:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$5_000_000L</ID>
+    <ID>MagicNumber:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl$429</ID>
+    <ID>MagicNumber:NewPipeMediaServiceRepository.kt:1000</ID>
+    <ID>MagicNumber:NewPipeMediaServiceRepository.kt:NewPipeMediaServiceRepository$4</ID>
+    <ID>MagicNumber:NotificationId.kt:NotificationId.ENQUEUE_PLAYLIST_DOWNLOAD$3</ID>
+    <ID>MagicNumber:OfflineTimeFrameReceiver.kt:OfflineTimeFrameReceiver$1000</ID>
+    <ID>MagicNumber:OnlinePlayerService.kt:OnlinePlayerService$0.97f</ID>
+    <ID>MagicNumber:OnlinePlayerService.kt:OnlinePlayerService$1.03f</ID>
+    <ID>MagicNumber:OnlinePlayerService.kt:OnlinePlayerService$15_000</ID>
+    <ID>MagicNumber:OnlinePlayerService.kt:OnlinePlayerService$4_000</ID>
+    <ID>MagicNumber:OnlinePlayerService.kt:OnlinePlayerService$8_000</ID>
+    <ID>MagicNumber:PlayerFragment.kt:PlayerFragment$1000</ID>
+    <ID>MagicNumber:PlayerFragment.kt:PlayerFragment$1000f</ID>
+    <ID>MagicNumber:PlayerGestureController.kt:PlayerGestureController$0.1f</ID>
+    <ID>MagicNumber:PlayerGestureController.kt:PlayerGestureController.ScaleGestureListener$0.8</ID>
+    <ID>MagicNumber:PlayerGestureController.kt:PlayerGestureController.ScaleGestureListener$1.2</ID>
+    <ID>MagicNumber:PlayerGestureControlsView.kt:PlayerGestureControlsView$0.7</ID>
+    <ID>MagicNumber:PlayerHelper.kt:PlayerHelper$0.5f</ID>
+    <ID>MagicNumber:PlayerHelper.kt:PlayerHelper$0.65f</ID>
+    <ID>MagicNumber:PlayerHelper.kt:PlayerHelper$1000</ID>
+    <ID>MagicNumber:PlayerHelper.kt:PlayerHelper$1000L</ID>
+    <ID>MagicNumber:PlayerHelper.kt:PlayerHelper$1000f</ID>
+    <ID>MagicNumber:PlayingQueue.kt:PlayingQueue$10</ID>
+    <ID>MagicNumber:PlayingQueueSheet.kt:PlayingQueueSheet$0.5f</ID>
+    <ID>MagicNumber:PlaylistFragment.kt:PlaylistFragment$3</ID>
+    <ID>MagicNumber:PlaylistFragment.kt:PlaylistFragment$4</ID>
+    <ID>MagicNumber:PlaylistFragment.kt:PlaylistFragment$5</ID>
+    <ID>MagicNumber:PlaylistsAdapter.kt:PlaylistsAdapter$4</ID>
+    <ID>MagicNumber:PlaylistsHelper.kt:PlaylistsHelper$34</ID>
+    <ID>MagicNumber:PoTokenWebView.kt:PoTokenWebView$600</ID>
+    <ID>MagicNumber:PreferenceHelper.kt:PreferenceHelper$30</ID>
+    <ID>MagicNumber:RawByteStreamDownloadProvider.kt:RawByteStreamDownloadProvider$416</ID>
+    <ID>MagicNumber:SabrClient.kt:SabrClient$3</ID>
+    <ID>MagicNumber:SabrManifest.kt:SabrManifest$1000</ID>
+    <ID>MagicNumber:ScreenPinHelper.kt:ScreenPinHelper$300L</ID>
+    <ID>MagicNumber:SearchResultsAdapter.kt:SearchResultsAdapter$3</ID>
+    <ID>MagicNumber:SeekbarPreviewListener.kt:SeekbarPreviewListener$1000</ID>
+    <ID>MagicNumber:SeekbarPreviewListener.kt:SeekbarPreviewListener$200</ID>
+    <ID>MagicNumber:SeekbarPreviewListener.kt:SeekbarPreviewListener$30f</ID>
+    <ID>MagicNumber:SeekbarPreviewListener.kt:SeekbarPreviewListener$5000</ID>
+    <ID>MagicNumber:SetMetadata.kt:1000</ID>
+    <ID>MagicNumber:SetWatchProgressLength.kt:0.4f</ID>
+    <ID>MagicNumber:SetWatchProgressLength.kt:&lt;no name provided&gt;$16f</ID>
+    <ID>MagicNumber:SileroVadGate.kt:SileroVadGate$3</ID>
+    <ID>MagicNumber:SingleViewTouchableMotionLayout.kt:SingleViewTouchableMotionLayout.Listener$15F</ID>
+    <ID>MagicNumber:SingleViewTouchableMotionLayout.kt:SingleViewTouchableMotionLayout.Listener$200</ID>
+    <ID>MagicNumber:SleepTimerSheet.kt:SleepTimerSheet$1000</ID>
+    <ID>MagicNumber:SliderPreference.kt:SliderPreference$0.5f</ID>
+    <ID>MagicNumber:SliderPreference.kt:SliderPreference$10f</ID>
+    <ID>MagicNumber:SpeechPostFilter.kt:SpeechPostFilter$1.5f</ID>
+    <ID>MagicNumber:SpeechPostFilter.kt:SpeechPostFilter$1e-6f</ID>
+    <ID>MagicNumber:SponsorBlockLabelHelper.kt:SponsorBlockLabelHelper$5</ID>
+    <ID>MagicNumber:StreamRefreshCoordinator.kt:StreamRefreshCoordinator$403</ID>
+    <ID>MagicNumber:StreamRefreshCoordinator.kt:StreamRefreshCoordinator$410</ID>
+    <ID>MagicNumber:SubmitDeArrowDialog.kt:SubmitDeArrowDialog$1000</ID>
+    <ID>MagicNumber:SubmitSegmentDialog.kt:SubmitSegmentDialog$1000</ID>
+    <ID>MagicNumber:SubscriptionsBottomSheet.kt:SubscriptionsBottomSheet$2</ID>
+    <ID>MagicNumber:SubscriptionsFragment.kt:SubscriptionsFragment$0.5f</ID>
+    <ID>MagicNumber:SubscriptionsFragment.kt:SubscriptionsFragment$200</ID>
+    <ID>MagicNumber:SubscriptionsFragment.kt:SubscriptionsFragment$3</ID>
+    <ID>MagicNumber:SubscriptionsFragment.kt:SubscriptionsFragment$4</ID>
+    <ID>MagicNumber:SubscriptionsFragment.kt:SubscriptionsFragment$5</ID>
+    <ID>MagicNumber:TextUtils.kt:TextUtils$10</ID>
+    <ID>MagicNumber:TextUtils.kt:TextUtils$1000</ID>
+    <ID>MagicNumber:TextUtils.kt:TextUtils$1024</ID>
+    <ID>MagicNumber:TextUtils.kt:TextUtils$12</ID>
+    <ID>MagicNumber:TextUtils.kt:TextUtils$60</ID>
+    <ID>MagicNumber:TrendsFragment.kt:TrendsContentFragment$0.3f</ID>
+    <ID>MagicNumber:UmpParser.kt:UmpParser$5</ID>
+    <ID>MagicNumber:UmpParser.kt:UmpParser$8</ID>
+    <ID>MagicNumber:WatchHistoryFragment.kt:WatchHistoryFragment$16f</ID>
+    <ID>MagicNumber:WatchHistoryFragment.kt:WatchHistoryFragment$64f</ID>
+    <ID>MagicNumber:ZoomableImageView.kt:ZoomableImageView$9</ID>
+    <ID>MatchingDeclarationName:SearchDestination.kt:SearchType</ID>
+    <ID>MatchingDeclarationName:UmpParserTest.kt:ParserTest</ID>
+    <ID>MatchingDeclarationName:YouTubeHlsPlaylistParser.kt:YoutubeHlsPlaylistParser : Parser</ID>
+    <ID>MaxLineLength:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$fun</ID>
+    <ID>MaxLineLength:CommentsRepliesFragment.kt:CommentsRepliesFragment$"${getString(R.string.replies)} (${requireArguments().parcelable&lt;Comment&gt;(IntentData.comment)!!.replyCount.formatShort()})"</ID>
+    <ID>MaxLineLength:DatabaseHolder.kt:DatabaseHolder.&lt;no name provided&gt;$"CONSTRAINT parentDownload FOREIGN KEY (videoId) REFERENCES download (videoId) ON DELETE CASCADE"</ID>
+    <ID>MaxLineLength:DownloadService.kt:DownloadService$"No matching stream found for ${item.fileName} format=${item.format} quality=${item.quality}"</ID>
+    <ID>MaxLineLength:LocalFeedRepository.kt:LocalFeedRepository$"getFeed refreshed ${plan.channelIds.size} channels -&gt; ${updatedFeed.size} cached items (failure=${refreshFailure?.javaClass?.simpleName})"</ID>
+    <ID>MaxLineLength:LocalFeedRepository.kt:LocalFeedRepository$"getFeed(${refresh::class.simpleName}): subscribed=${subscribedChannelIds.size}, cached=${cachedFeed.size}, plan=${plan::class.simpleName}"</ID>
+    <ID>MaxLineLength:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$fun</ID>
+    <ID>MaxLineLength:PlayerBufferingAndSchedulingTest.kt:PlayerBufferingAndSchedulingTest$fun</ID>
+    <ID>MaxLineLength:PoTokenGeneratorTest.kt:PoTokenGeneratorTest$fun</ID>
+    <ID>MaxLineLength:SabrClient.kt:SabrClient$"processPart: Content length mismatch for segment $headerId: expected ${segment.header.contentLength}, got $segmentLength"</ID>
+    <ID>MaxLineLength:SabrClient.kt:SabrClient$"processPart: Ignoring MEDIA_HEADER for uninitialized itag=${header.resolvedItag()}"</ID>
+    <ID>MaxLineLength:SabrClientTest.kt:SabrClientTest$fun</ID>
+    <ID>MaxLineLength:SabrDataSource.kt:SabrDataSource$"open: failed to get segment ${playbackRequest!!.segment} for ${playbackRequest.format.itag}: $e"</ID>
+    <ID>PrintStackTrace:AbstractPlayerService.kt:AbstractPlayerService$e</ID>
+    <ID>PrintStackTrace:NavigationHelper.kt:NavigationHelper$e</ID>
+    <ID>PrintStackTrace:Query.kt:e</ID>
+    <ID>ReturnCount:AbstractPlayerService.kt:AbstractPlayerService$fun playNextVideo</ID>
+    <ID>ReturnCount:AbstractPlayerService.kt:AbstractPlayerService$override fun onMediaButtonEvent: Boolean</ID>
+    <ID>ReturnCount:AbstractPlayerService.kt:AbstractPlayerService$private fun handlePlayerAction</ID>
+    <ID>ReturnCount:AllowlistMediaServiceRepository.kt:AllowlistMediaServiceRepository$override suspend fun getSuggestions: List&lt;String&gt;</ID>
+    <ID>ReturnCount:AllowlistMediaServiceRepository.kt:AllowlistMediaServiceRepository$private fun matchesQuery: Boolean</ID>
+    <ID>ReturnCount:AllowlistPolicy.kt:AllowlistPolicy$fun isChannelAllowed: Boolean</ID>
+    <ID>ReturnCount:AnyChildFocused.kt:fun View.anyChildFocused: Boolean</ID>
+    <ID>ReturnCount:AudioPlayerFragment.kt:AudioPlayerFragment$private fun updateChapterIndex</ID>
+    <ID>ReturnCount:AudioPlayerFragment.kt:AudioPlayerFragment$private fun updateSeekBar</ID>
+    <ID>ReturnCount:CustomExoPlayerView.kt:CustomExoPlayerView$fun setCurrentChapterName</ID>
+    <ID>ReturnCount:CustomExoPlayerView.kt:CustomExoPlayerView$override fun onLongPress</ID>
+    <ID>ReturnCount:CustomExoPlayerView.kt:CustomExoPlayerView$override fun onTouchEvent: Boolean</ID>
+    <ID>ReturnCount:CustomExoPlayerView.kt:CustomExoPlayerView$private fun getCurrentAudioTrackTitle: String</ID>
+    <ID>ReturnCount:CustomExoPlayerView.kt:CustomExoPlayerView$private fun updateDisplayedDuration</ID>
+    <ID>ReturnCount:DeArrowUtil.kt:DeArrowUtil$suspend fun deArrowStreams: Streams</ID>
+    <ID>ReturnCount:DeArrowUtil.kt:DeArrowUtil$suspend fun deArrowVideoId: Pair&lt;String?, String?&gt;?</ID>
+    <ID>ReturnCount:DefaultSabrChunkSource.kt:DefaultSabrChunkSource$override fun getNextChunk</ID>
+    <ID>ReturnCount:DefaultSabrChunkSource.kt:DefaultSabrChunkSource$override fun onChunkLoadError: Boolean</ID>
+    <ID>ReturnCount:DefaultTrackSelectorWithAudioQualitySupport.kt:DefaultTrackSelectorWithAudioQualitySupport$override fun selectAudioTrack: android.util.Pair&lt;ExoTrackSelection.Definition, Int&gt;?</ID>
+    <ID>ReturnCount:DismissableTimeBar.kt:DismissableTimeBar$@SuppressLint("ClickableViewAccessibility") override fun onTouchEvent: Boolean</ID>
+    <ID>ReturnCount:DownloadDialog.kt:DownloadDialog$private fun getStreamSelection: Int?</ID>
+    <ID>ReturnCount:DownloadService.kt:DownloadService$@SuppressLint("UnsafeOptInUsageError") private suspend fun selectFormatAndDownloadFile</ID>
+    <ID>ReturnCount:DownloadService.kt:DownloadService$private suspend fun loadStreamsInfo: Streams?</ID>
+    <ID>ReturnCount:DownloadsFragment.kt:DownloadsFragmentPage$private fun toggleDownload: Boolean</ID>
+    <ID>ReturnCount:FastEnhancerSpeechModel.kt:FastEnhancerSpeechModel$@Synchronized override fun processHop: FloatArray</ID>
+    <ID>ReturnCount:FastEnhancerSpeechModel.kt:FastEnhancerSpeechModel.Companion$private inline fun getOrCreateCached: SpeechModel</ID>
+    <ID>ReturnCount:FeedRepository.kt:fun shouldFetchChannelVideos: Boolean</ID>
+    <ID>ReturnCount:FullscreenGestureAnimationController.kt:FullscreenGestureAnimationController$fun onSwipe</ID>
+    <ID>ReturnCount:ImportHelper.kt:ImportHelper$@OptIn(ExperimentalSerializationApi::class) suspend fun importPlaylists</ID>
+    <ID>ReturnCount:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository$override suspend fun isSubscribed: Boolean?</ID>
+    <ID>ReturnCount:LocalFeedRepository.kt:LocalFeedRepository$private suspend fun getRelatedStreams: Pair&lt;Subscription?, List&lt;StreamItem&gt;&gt;</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$fun navigateToMediaByIntent: Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$override fun onKeyUp: Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$private fun fixBottomNavSelectionIndicatorWidth</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$private fun isSearchInProgress: Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$private fun loadIntentData</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity$private fun navigateSafelyToBottomDestination: Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity.&lt;no name provided&gt;$override fun onQueryTextChange: Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt:MainActivity.&lt;no name provided&gt;$override fun onQueryTextSubmit: Boolean</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun getOutput: ByteBuffer</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$override fun queueInput</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun processSingleHop: FloatArray</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun resampleToModelRate: Int</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun runModelOnHop: FloatArray</ID>
+    <ID>ReturnCount:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor$private fun tryDownshiftToFallback: Boolean</ID>
+    <ID>ReturnCount:NavBarHelper.kt:NavBarHelper$fun getNavBarItemPreference: List&lt;Pair&lt;Int, Boolean&gt;&gt;</ID>
+    <ID>ReturnCount:NetworkHelper.kt:NetworkHelper$@Suppress("DEPRECATION") fun isNetworkMetered: Boolean</ID>
+    <ID>ReturnCount:NetworkHelper.kt:NetworkHelper$fun isNetworkAvailable: Boolean</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl$internal fun buildAndroidKidsClientPayload: JsonObject?</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl$internal fun buildIosClientPayload: JsonObject?</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl$internal fun hasUsablePlayableStreams: Boolean</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl$private fun retryPlayerWithIosClient: Response?</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl.Companion$fun resolveMediaUserAgent: String</ID>
+    <ID>ReturnCount:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl.Companion$private fun extractRawQueryParam: String?</ID>
+    <ID>ReturnCount:NotificationWorker.kt:NotificationWorker$private suspend fun checkForNewStreams: Boolean</ID>
+    <ID>ReturnCount:OkHttpMediaDataSource.kt:OkHttpMediaDataSource$override fun read: Int</ID>
+    <ID>ReturnCount:OnlinePlayerService.kt:OnlinePlayerService$override fun handlePlayerError: Boolean</ID>
+    <ID>ReturnCount:OnlinePlayerService.kt:OnlinePlayerService$private fun setStreamSource: Boolean</ID>
+    <ID>ReturnCount:OnlineTimeFrameReceiver.kt:OnlineTimeFrameReceiver$override suspend fun getFrameAtTime: Bitmap?</ID>
+    <ID>ReturnCount:ParentPinStore.kt:ParentPinStore$fun checkPin: Boolean</ID>
+    <ID>ReturnCount:ParentPinStore.kt:ParentPinStore$fun isMusicRemovalEnabledForChannel: Boolean</ID>
+    <ID>ReturnCount:PlaybackSource.kt:fun choosePlaybackSource: PlaybackSource</ID>
+    <ID>ReturnCount:PlayerFragment.kt:PlayerFragment.&lt;no name provided&gt;$override fun onReceive</ID>
+    <ID>ReturnCount:PlayerGestureController.kt:PlayerGestureController$fun onTouchEvent: Boolean</ID>
+    <ID>ReturnCount:PlayerGestureController.kt:PlayerGestureController.GestureListener$override fun onScroll: Boolean</ID>
+    <ID>ReturnCount:PlayerHelper.kt:PlayerHelper$fun computeNextChapterCheckDelayMs: Long?</ID>
+    <ID>ReturnCount:PlayerHelper.kt:PlayerHelper$fun computeNextSegmentCheckDelayMs: Long?</ID>
+    <ID>ReturnCount:PlaylistFragment.kt:PlaylistFragment$@SuppressLint("StringFormatInvalid", "StringFormatMatches") private fun getChannelAndVideoString: String</ID>
+    <ID>ReturnCount:PoTokenGenerator.kt:PoTokenGenerator$private fun getWebClientPoTokenLocked: PoTokenResult?</ID>
+    <ID>ReturnCount:ProxyHelper.kt:ProxyHelper$fun unwrapUrl: String</ID>
+    <ID>ReturnCount:RawByteStreamDownloadProvider.kt:RawByteStreamDownloadProvider$override suspend fun downloadNextChunk: DownloadProgressResult</ID>
+    <ID>ReturnCount:RecyclerView.kt:&lt;no name provided&gt;$override fun onScrolled</ID>
+    <ID>ReturnCount:SabrClient.kt:SabrClient$private fun processPart</ID>
+    <ID>ReturnCount:SabrDataSource.kt:SabrDataSource$override fun read: Int</ID>
+    <ID>ReturnCount:SabrDownloadProvider.kt:SabrDownloadProvider$override suspend fun downloadNextChunk: DownloadProgressResult</ID>
+    <ID>ReturnCount:SileroVadGate.kt:SileroVadGate$private fun runVadFrame16k: Float</ID>
+    <ID>ReturnCount:StreamRefreshCoordinator.kt:StreamRefreshCoordinator$@Synchronized fun canStartNewRecovery: Boolean</ID>
+    <ID>ReturnCount:StreamRefreshCoordinator.kt:StreamRefreshCoordinator$fun isRecoverableError: Boolean</ID>
+    <ID>ReturnCount:SubscriptionsBottomSheet.kt:SubscriptionsBottomSheet$private fun List&lt;Subscription&gt;.filterByGroup: List&lt;Subscription&gt;</ID>
+    <ID>ReturnCount:SubscriptionsFragment.kt:SubscriptionsFragment$private fun List&lt;StreamItem&gt;.filterByGroup: List&lt;StreamItem&gt;</ID>
+    <ID>ReturnCount:TextUtils.kt:TextUtils$private fun parseTimeString: Float?</ID>
+    <ID>ReturnCount:UmpParser.kt:UmpParser$fun readPart: Part?</ID>
+    <ID>ReturnCount:UmpParser.kt:UmpParser$fun readVarint: UInt?</ID>
+    <ID>SwallowedException:AddToPlaylistActivity.kt:AddToPlaylistActivity$e: Exception</ID>
+    <ID>SwallowedException:ChannelContentFragment.kt:ChannelContentFragment$e: Exception</ID>
+    <ID>SwallowedException:ColorPickerDialog.kt:ColorPickerDialog.&lt;no name provided&gt;$e: IllegalArgumentException</ID>
+    <ID>SwallowedException:ContentFilter.kt:ContentFilter.Companion$e: ClassCastException</ID>
+    <ID>SwallowedException:CreateCustomInstanceDialog.kt:CreateCustomInstanceDialog$e: IllegalArgumentException</ID>
+    <ID>SwallowedException:DownloadHelper.kt:DownloadHelper$e: Exception</ID>
+    <ID>SwallowedException:IntentHelper.kt:IntentHelper$e: Exception</ID>
+    <ID>SwallowedException:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository$e: HttpException</ID>
+    <ID>SwallowedException:NavigationHelper.kt:NavigationHelper$e: Exception</ID>
+    <ID>SwallowedException:PlayerSettings.kt:PlayerSettings$e: ActivityNotFoundException</ID>
+    <ID>SwallowedException:SubmitDeArrowDialog.kt:SubmitDeArrowDialog$e: Exception</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:AddToPlaylistViewModel.kt:AddToPlaylistViewModel$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:BaseActivity.kt:BaseActivity$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:CustomExoPlayerView.kt:CustomExoPlayerView$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:DataSaverMode.kt:DataSaverMode$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:DownloadsFragment.kt:DownloadsFragment$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:ImportHelper.kt:ImportHelper$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:InstancesModel.kt:InstancesModel$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:PlayingQueueSheet.kt:PlayingQueueSheet$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:PlaylistFragment.kt:PlaylistFragment$IllegalArgumentException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:ThemeHelper.kt:ThemeHelper$IllegalArgumentException()</ID>
+    <ID>ThrowsCount:InstancesModel.kt:InstancesModel$fun addCustomInstance</ID>
+    <ID>ThrowsCount:OkHttpMediaDataSource.kt:OkHttpMediaDataSource$private fun openInternal: Long</ID>
+    <ID>ThrowsCount:SabrClient.kt:SabrClient$private fun processPart</ID>
+    <ID>ThrowsCount:SabrDataSource.kt:SabrDataSource$override fun open: Long</ID>
+    <ID>TooGenericExceptionCaught:AbstractPlayerService.kt:AbstractPlayerService$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:AddChannelToGroupSheet.kt:AddChannelToGroupSheet$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:AddToPlaylistActivity.kt:AddToPlaylistActivity$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:BackupHelper.kt:BackupHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ChannelContentFragment.kt:ChannelContentFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ChannelFragment.kt:ChannelFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ChannelOptionsBottomSheet.kt:ChannelOptionsBottomSheet$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ChannelTabPagingSource.kt:ChannelTabPagingSource$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:CommentPagingSource.kt:CommentPagingSource$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:CommentRepliesPagingSource.kt:CommentRepliesPagingSource$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DeArrowUtil.kt:DeArrowUtil$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DeleteAccountDialog.kt:DeleteAccountDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DownloadDialog.kt:DownloadDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DownloadHelper.kt:DownloadHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DownloadService.kt:DownloadService$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EditChannelGroupSheet.kt:EditChannelGroupSheet$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:FastEnhancerSpeechModel.kt:FastEnhancerSpeechModel$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:FastEnhancerSpeechModel.kt:FastEnhancerSpeechModel.Companion$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:GeneralSettings.kt:GeneralSettings$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ImportHelper.kt:ImportHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ImportTempPlaylistDialog.kt:ImportTempPlaylistDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:IntentHelper.kt:IntentHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LibraryFragment.kt:LibraryFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LocalFeedRepository.kt:LocalFeedRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LoginDialog.kt:LoginDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:NavBarHelper.kt:NavBarHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:NavigationHelper.kt:NavigationHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:OnlinePlayerService.kt:OnlinePlayerService$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PlayerHelper.kt:PlayerHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PlaylistDescriptionDialog.kt:PlaylistDescriptionDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PlaylistDownloadEnqueueService.kt:PlaylistDownloadEnqueueService$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PlaylistFragment.kt:PlaylistFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PoTokenGenerator.kt:PoTokenGenerator$throwable: Throwable</ID>
+    <ID>TooGenericExceptionCaught:PoTokenWebView.kt:PoTokenWebView$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PoTokenWebView.kt:PoTokenWebView$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:Query.kt:e: Exception</ID>
+    <ID>TooGenericExceptionCaught:RenamePlaylistDialog.kt:RenamePlaylistDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SabrDataSource.kt:SabrDataSource$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SearchPagingSource.kt:SearchPagingSource$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SearchViewModel.kt:SearchViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SetupSubscriptionButton.kt:e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SileroVadGate.kt:SileroVadGate$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:StreamRefreshCoordinator.kt:StreamRefreshCoordinator$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:SubmitDeArrowDialog.kt:SubmitDeArrowDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SubmitSegmentDialog.kt:SubmitSegmentDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SubscriptionsFragment.kt:SubscriptionsFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SubscriptionsViewModel.kt:SubscriptionsViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:TrendsViewModel.kt:TrendsViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:UserDataRepository.kt:UserDataRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:VideoOptionsBottomSheet.kt:VideoOptionsBottomSheet$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:WatchHistoryFragment.kt:WatchHistoryFragment$e: Exception</ID>
+    <ID>TooGenericExceptionThrown:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository$throw Exception(message.orEmpty().ifEmpty { e.message })</ID>
+    <ID>TooGenericExceptionThrown:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$throw Error("Simulated abnormal worker exit")</ID>
+    <ID>TooGenericExceptionThrown:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$throw RuntimeException("Inference error")</ID>
+    <ID>TooGenericExceptionThrown:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest.&lt;no name provided&gt;$throw RuntimeException("Pre-flush failure")</ID>
+    <ID>TooGenericExceptionThrown:PipedUserDataRepository.kt:PipedUserDataRepository$throw Exception(errorMessage)</ID>
+    <ID>TooGenericExceptionThrown:PipedUserDataRepository.kt:PipedUserDataRepository$throw Exception(token.error)</ID>
+    <ID>TooGenericExceptionThrown:SabrClient.kt:SabrClient$throw Exception("Content length mismatch")</ID>
+    <ID>TooGenericExceptionThrown:SabrClient.kt:SabrClient$throw Exception("Header mismatch")</ID>
+    <ID>TooGenericExceptionThrown:UserDataRepository.kt:UserDataRepository$throw Exception("Failed to import ${failedChannels.joinToString(", ")}")</ID>
+    <ID>TooGenericExceptionThrown:UserDataRepository.kt:UserDataRepository$throw Exception("failed to create playlist")</ID>
+    <ID>TooManyFunctions:AbstractPlayerService.kt:AbstractPlayerService : MediaLibraryServiceCallback</ID>
+    <ID>TooManyFunctions:AllowlistMediaServiceRepository.kt:AllowlistMediaServiceRepository : MediaServiceRepository</ID>
+    <ID>TooManyFunctions:AudioPlayerFragment.kt:AudioPlayerFragment : FragmentAudioPlayerOptions</ID>
+    <ID>TooManyFunctions:CustomExoPlayerView.kt:CustomExoPlayerView : PlayerViewPlayerOptionsPlayerGestureOptions</ID>
+    <ID>TooManyFunctions:DownloadDao.kt:DownloadDao</ID>
+    <ID>TooManyFunctions:DownloadService.kt:DownloadService : LifecycleService</ID>
+    <ID>TooManyFunctions:DownloadsFragment.kt:DownloadsFragmentPage : DynamicLayoutManagerFragment</ID>
+    <ID>TooManyFunctions:HomeFragment.kt:HomeFragment : Fragment</ID>
+    <ID>TooManyFunctions:HtmlParser.kt:HtmlParser : TagHandlerContentHandler</ID>
+    <ID>TooManyFunctions:LibreTubeSyncServerApi.kt:LibreTubeSyncServerApi</ID>
+    <ID>TooManyFunctions:LibreTubeSyncServerUserDataRepository.kt:LibreTubeSyncServerUserDataRepository : UserDataRepository</ID>
+    <ID>TooManyFunctions:LocalUserDataRepository.kt:LocalUserDataRepository : UserDataRepository</ID>
+    <ID>TooManyFunctions:MainActivity.kt:MainActivity : AbstractPlayerHostActivity</ID>
+    <ID>TooManyFunctions:MediaServiceRepository.kt:MediaServiceRepository</ID>
+    <ID>TooManyFunctions:MusicRemovalAudioProcessor.kt:MusicRemovalAudioProcessor : BaseAudioProcessor</ID>
+    <ID>TooManyFunctions:NewPipeDownloaderImpl.kt:NewPipeDownloaderImpl : Downloader</ID>
+    <ID>TooManyFunctions:NewPipeMediaServiceRepository.kt:NewPipeMediaServiceRepository : MediaServiceRepository</ID>
+    <ID>TooManyFunctions:OkHttpMediaDataSource.kt:OkHttpMediaDataSource : BaseDataSourceHttpDataSource</ID>
+    <ID>TooManyFunctions:ParentPinStore.kt:ParentPinManager</ID>
+    <ID>TooManyFunctions:ParentPinStore.kt:ParentPinStore</ID>
+    <ID>TooManyFunctions:PipedAuthApi.kt:PipedAuthApi</ID>
+    <ID>TooManyFunctions:PipedUserDataRepository.kt:PipedUserDataRepository : UserDataRepository</ID>
+    <ID>TooManyFunctions:PlayerFragment.kt:PlayerFragment : FragmentCustomPlayerCallback</ID>
+    <ID>TooManyFunctions:PlayerGestureOptions.kt:PlayerGestureOptions</ID>
+    <ID>TooManyFunctions:PlayerHelper.kt:PlayerHelper</ID>
+    <ID>TooManyFunctions:PlayingQueue.kt:PlayingQueue</ID>
+    <ID>TooManyFunctions:PlaylistFragment.kt:PlaylistFragment : DynamicLayoutManagerFragment</ID>
+    <ID>TooManyFunctions:PlaylistsHelper.kt:PlaylistsHelper</ID>
+    <ID>TooManyFunctions:PreferenceHelper.kt:PreferenceHelper</ID>
+    <ID>TooManyFunctions:SabrMediaPeriod.kt:SabrMediaPeriod : MediaPeriodCallback</ID>
+    <ID>TooManyFunctions:SubscriptionsFragment.kt:SubscriptionsFragment : DynamicLayoutManagerFragment</ID>
+    <ID>TooManyFunctions:TextUtils.kt:TextUtils</ID>
+    <ID>TooManyFunctions:UserDataRepository.kt:UserDataRepository</ID>
+    <ID>TopLevelPropertyNaming:ExternalApi.kt:const val USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.3"</ID>
+    <ID>TopLevelPropertyNaming:ExternalApi.kt:private const val GOOGLE_API_KEY = "AIzaSyDyT5W0Jh49F30Pqqtyfdf7pDLFKLJoAnw"</ID>
+    <ID>TopLevelPropertyNaming:ExternalApi.kt:private const val RYD_API_URL = "https://ryd-proxy.kavin.rocks"</ID>
+    <ID>TopLevelPropertyNaming:ExternalApi.kt:private const val SB_API_URL = "https://sponsor.ajay.app"</ID>
+    <ID>UnusedParameter:HomeViewModel.kt:HomeViewModel$context: Context</ID>
+    <ID>VariableNaming:LocalUserDataRepository.kt:LocalUserDataRepository$private val WATCH_HISTORY_PAGE_SIZE = 30</ID>
+    <ID>VariableNaming:MusicRemovalAudioProcessorTest.kt:MusicRemovalAudioProcessorTest$val modelAt1_3x = FakeSpeechModel { hop -&gt; fakeClockNs += 8_200_000L FloatArray(hop.size) { i -&gt; hop[i] * 0.5f } }</ID>
+    <ID>VariableNaming:PlayerBufferingAndSchedulingTest.kt:PlayerBufferingAndSchedulingTest$val States = mutableListOf&lt;Pair&lt;Boolean, Boolean&gt;&gt;()</ID>
+    <ID>VariableNaming:PoTokenGenerator.kt:PoTokenGenerator$private val TAG = PoTokenGenerator::class.simpleName</ID>
+    <ID>WildcardImport:CompositeBufferTest.kt:import org.junit.Assert.*</ID>
+    <ID>WildcardImport:UmpParserTest.kt:import org.junit.Assert.*</ID>
+  </CurrentIssues>
+</SmellBaseline>

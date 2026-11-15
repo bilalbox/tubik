@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/check-baseline-growth
+        if: github.event_name == 'pull_request' && !contains(join(github.event.pull_request.labels.*.name, ','), 'allow-baseline-growth')
+      - uses: ./.github/actions/setup-betterleaks
+      - uses: ./.github/actions/setup-osv-scanner
+      - uses: ./.github/actions/setup-android
+      - uses: ./.github/actions/kotlin-android-quality-gate

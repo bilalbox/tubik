@@ -1,0 +1,5 @@
+Tubik v0.5.0:
+
+- Fixed video playback and progress timestamps when streaming or switching player surfaces.
+- Fixed Subscriptions feed loading, refresh synchronization, and channel ID extraction.
+- Fixed Search back navigation and bottom-tab switching crashes when Search is the start destination.

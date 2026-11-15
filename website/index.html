@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tubik — A calm, distraction-free YouTube client for all ages</title>
+    <meta
+      name="description"
+      content="Tubik is a calm Android YouTube client for all ages — built for anyone who wants to cut out music and YouTube's frenzied trending feeds. Keep only your Allowed Channels with the Allowlist, strip music in realtime with Music Removal, and optionally lock Settings with a Parent PIN and Screen Pin."
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/tubik-logo.svg" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-mark"
+            src="/assets/tubik-logo.svg"
+            alt=""
+            width="36"
+            height="36"
+          />
+          <span>Tubik</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#features">Controls</a>
+          <a href="#screenshots">Screenshots</a>
+          <a href="#install">Install Guide</a>
+          <a href="/privacy">Privacy</a>
+          <a href="https://github.com/bilalbox/tubik" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <h1>A calm YouTube client for all ages — no music, no trending.</h1>
+            <p class="hero-lead">
+              Built for anyone who wants to cut out music and the frenzied trending features of
+              YouTube — whether for yourself or a child's device. Watch only your Allowed Channels,
+              strip background music in realtime as it plays, and optionally lock Settings behind a
+              Parent PIN and Screen Pin. No ads, no Google account, and zero tracking.
+            </p>
+            <div class="hero-actions">
+              <a
+                class="btn btn-primary"
+                id="release-download-link"
+                href="https://tubik-releases.23p.dev/tubik-v0.7.0.apk"
+              >Download Tubik v0.7.0</a>
+              <a
+                class="btn btn-secondary"
+                id="release-notes-link"
+                href="https://github.com/bilalbox/tubik/releases/tag/v0.7.0"
+                rel="noopener noreferrer"
+              >
+                Release notes
+              </a>
+            </div>
+            <div class="release-strip">
+              <dl class="release-facts">
+                <div>
+                  <dt>Version</dt>
+                  <dd><span id="release-version">v0.7.0</span></dd>
+                </div>
+                <div>
+                  <dt>Size</dt>
+                  <dd><span id="release-size">155.5 MB</span></dd>
+                </div>
+                <div>
+                  <dt>Released</dt>
+                  <dd><time id="release-date" datetime="2026-11-15">2026-11-15</time></dd>
+                </div>
+                <div>
+                  <dt>Requires</dt>
+                  <dd>Android 8.0+ (API 26)</dd>
+                </div>
+                <div>
+                  <dt>Package</dt>
+                  <dd><code>dev.twenty3p.tubik</code></dd>
+                </div>
+              </dl>
+              <details class="checksum-details">
+                <summary>APK SHA-256 verification checksum</summary>
+                <code id="release-sha256">e6d5aa3e450cc75ccb1f181465537a325e6caf58d0564b445f13e6a68ace0272</code>
+              </details>
+            </div>
+          </div>
+
+          <div class="hero-device">
+            <img
+              src="/assets/screenshots/allowlist-feed.svg"
+              alt="Tubik Subscriptions screen showing Allowed Channels only and no Trending tab"
+              width="360"
+              height="720"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="features">
+        <div class="container">
+          <div class="section-header">
+            <h2>Built around intentional controls, not algorithmic feeds</h2>
+            <p>
+              Tubik removes the trending tab and home feed completely. Every surface respects the
+              switches you configure in Settings.
+            </p>
+          </div>
+
+          <div class="controls-list">
+            <article class="control-row">
+              <div class="control-heading">
+                <div class="control-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Allowlist &amp; no trending</h3>
+                  <p>Subscriptions are the single source of truth for Allowed Channels.</p>
+                </div>
+              </div>
+              <div class="control-body">
+                <p>
+                  The bottom navigation bar keeps only Search, Subscriptions, and Library. Trending
+                  is gone whether the Allowlist is on or off.
+                </p>
+                <ul>
+                  <li>
+                    While <strong>Allowlist</strong> is on, feeds, search, playlists, history,
+                    downloads, Shorts, and live streams show only <strong>Allowed Channels</strong>.
+                  </li>
+                  <li>Related videos and comments stay hidden during playback.</li>
+                  <li>
+                    Playback from any other channel is refused, and subscribe or unsubscribe actions
+                    stay unavailable until the Allowlist is turned off (and protected by a Parent PIN
+                    if one is set).
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="control-row">
+              <div class="control-heading">
+                <div class="control-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Music Removal &amp; Overload Mute</h3>
+                  <p>Real-time speech-only Music Removal that fails closed instead of leaking music.</p>
+                </div>
+              </div>
+              <div class="control-body">
+                <p>
+                  <strong>Music Removal</strong> starts on and strips music in realtime across the
+                  player, background audio, picture-in-picture, and downloads, keeping speech in mono.
+                </p>
+                <ul>
+                  <li>
+                    <strong>Overload Mute</strong> silences playback audio whenever the speech model
+                    cannot load or the device falls behind realtime throughput, rather than playing
+                    unprocessed audio.
+                  </li>
+                  <li>
+                    Supports <strong>Channel Opt-Out</strong> per channel while the global Music
+                    Removal switch stays on.
+                  </li>
+                  <li>
+                    Caps effective playback speed at 1.5× while Music Removal is active, preserving
+                    your <strong>Preferred Speed</strong> across channels.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="control-row">
+              <div class="control-heading">
+                <div class="control-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Parent PIN &amp; Screen Pin</h3>
+                  <p>Keep Settings locked and pin the device to Tubik in one tap.</p>
+                </div>
+              </div>
+              <div class="control-body">
+                <p>
+                  Set a <strong>Parent PIN</strong> (stored only as a salted hash on the device)
+                  and turn on <strong>Lock Settings</strong> so opening Settings or updating the
+                  app requires the PIN.
+                </p>
+                <ul>
+                  <li>
+                    When a Parent PIN is set, Tubik also requests it before changing subscriptions,
+                    Channel Opt-Out, or restoring backups.
+                  </li>
+                  <li>
+                    <strong>Screen Pin</strong> places a one-touch pin button in the toolbar and
+                    player controls using Android's system screen pinning.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="control-row">
+              <div class="control-heading">
+                <div class="control-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M9 12h6" />
+                    <path d="M12 9v6" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Private, no-account playback</h3>
+                  <p>Plays YouTube without ads, Google login, or usage analytics.</p>
+                </div>
+              </div>
+              <div class="control-body">
+                <p>
+                  Subscriptions, playlists, watch history, downloads, and crash logs stay strictly
+                  on the device, with local backup and import/export support.
+                </p>
+                <ul>
+                  <li>
+                    Includes SponsorBlock, Return YouTube Dislike, optional DeArrow, and offline
+                    downloads.
+                  </li>
+                  <li>
+                    Installs cleanly alongside other YouTube apps as <code>dev.twenty3p.tubik</code>.
+                  </li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="screenshots">
+        <div class="container">
+          <div class="section-header">
+            <h2>Inside Tubik</h2>
+            <p>
+              Clean Material 3 screens built from LibreTube's foundation and shaped for calm,
+              focused watching.
+            </p>
+          </div>
+
+          <div class="screenshots-grid">
+            <figure class="screenshot-figure">
+              <div class="screenshot-frame">
+                <img
+                  src="/assets/screenshots/allowlist-feed.svg"
+                  alt="Tubik Subscriptions tab with Allowlist active and only Allowed Channels listed"
+                  width="360"
+                  height="720"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <strong>Allowed Channels only</strong>
+                <span>Search, Subscriptions, and Library — Trending is removed.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="screenshot-figure">
+              <div class="screenshot-frame">
+                <img
+                  src="/assets/screenshots/player-music-removal.svg"
+                  alt="Tubik video player with Music Removal active, Screen Pin control, and hidden related videos"
+                  width="360"
+                  height="720"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <strong>Focused player with Music Removal</strong>
+                <span>Real-time speech-only Music Removal with Overload Mute and hidden recommendations.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="screenshot-figure">
+              <div class="screenshot-frame">
+                <img
+                  src="/assets/screenshots/settings-parent-pin.svg"
+                  alt="Tubik Settings protected by a Parent PIN prompt"
+                  width="360"
+                  height="720"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <strong>Parent PIN protection</strong>
+                <span>Lock Settings, Allowlist, Music Removal, and Screen Pin behind your PIN.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="install">
+        <div class="container">
+          <div class="section-header">
+            <h2>How to install Tubik on Android</h2>
+            <p>
+              Tubik is distributed directly as a signed APK and will never be published on Google
+              Play. Follow these steps on your Android device.
+            </p>
+          </div>
+
+          <ol class="install-steps">
+            <li class="install-step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <div>
+                <h3>Download the signed APK</h3>
+                <p>
+                  Tap <strong>Download Tubik</strong> at the top of this page to save
+                  <code id="release-apk-filename">tubik-v0.7.0.apk</code> from
+                  <code>tubik-releases.23p.dev</code> (or grab the identical file from GitHub
+                  Releases).
+                </p>
+              </div>
+            </li>
+
+            <li class="install-step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <div>
+                <h3>Allow "Install unknown apps"</h3>
+                <p>
+                  Open the downloaded APK from your browser's Downloads or the Files app. Android
+                  will ask permission to install from that app: tap <strong>Settings</strong>, turn
+                  on <strong>Allow from this source</strong>, go back, and tap
+                  <strong>Install</strong>.
+                </p>
+                <p>
+                  After installation finishes, you can turn that permission back off in
+                  <em>Android Settings → Apps → Special app access → Install unknown apps</em>.
+                </p>
+              </div>
+            </li>
+
+            <li class="install-step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <div>
+                <h3>Confirm Google Play Protect if prompted</h3>
+                <p>
+                  Because Tubik is sideloaded outside the Play Store, Google Play Protect may show a
+                  one-time prompt (<em>"Unknown developer"</em> or <em>"App isn't recognized"</em>).
+                  Tap <strong>More details → Install anyway</strong>.
+                </p>
+              </div>
+            </li>
+
+            <li class="install-step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <div>
+                <h3>Verify the SHA-256 checksum (optional)</h3>
+                <p>
+                  If you downloaded the APK on a computer first, verify its SHA-256 digest matches
+                  the checksum above before copying it to the device:
+                </p>
+                <code class="command-block" id="release-sha256-cmd">sha256sum tubik-v0.7.0.apk</code>
+              </div>
+            </li>
+
+            <li class="install-step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <div>
+                <h3>Configure your controls and stay updated safely</h3>
+                <p>
+                  Open Tubik, subscribe to your Allowed Channels, and open <strong>Settings</strong>
+                  to turn on the <strong>Allowlist</strong> or optionally set a
+                  <strong>Parent PIN</strong> and enable <strong>Lock Settings</strong>. Tubik
+                  checks <code>https://tubik.23p.dev/updates/latest.json</code> for updates, verifies
+                  SHA-256 and the app's signing certificate, and keeps updates gated behind Settings
+                  and Screen Pin protections.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/updates/latest.json">Update Manifest</a>
+            <a href="https://github.com/bilalbox/tubik" rel="noopener noreferrer">Source Code</a>
+            <a href="https://github.com/bilalbox/tubik/releases" rel="noopener noreferrer">Releases</a>
+            <a href="https://github.com/bilalbox/tubik/issues" rel="noopener noreferrer">Issues</a>
+          </div>
+          <p class="footer-note">
+            Tubik is free software under the GNU General Public License v3 or later, built
+            independently from LibreTube's foundation. Tubik is not affiliated with, authorized by,
+            or endorsed by YouTube or Google LLC.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

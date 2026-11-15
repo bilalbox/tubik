@@ -1,0 +1,5 @@
+Tubik v0.4.0:
+
+- Fixed the player closing immediately when starting or switching videos.
+- Fixed the Subscriptions tab appearing empty and not refreshing after subscribing or changing filter chips.
+- Switched to upstream TeamNewPipe/NewPipeExtractor v0.27.1 and verified current dependency versions.

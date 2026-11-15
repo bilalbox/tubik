@@ -1,0 +1,157 @@
+name: Build and release app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build, sign and release APK
+    if: github.ref_type == 'tag' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-android
+
+      - name: Configure release signing
+        env:
+          SIGNING_KEY_B64: ${{ secrets.ANDROID_RELEASE_SIGNING_KEY }}
+          KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_KEY_B64" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "::error::Missing one or more ANDROID_RELEASE_* secrets."
+            exit 1
+          fi
+          printf '%s' "$SIGNING_KEY_B64" | base64 -d > tubik-release.jks
+          cat <<EOF > keystore.properties
+          storeFile=${GITHUB_WORKSPACE}/tubik-release.jks
+          storePassword=${KEYSTORE_PASSWORD}
+          keyAlias=${KEY_ALIAS}
+          keyPassword=${KEY_PASSWORD}
+          EOF
+
+      - name: Run unit tests and build signed release APK
+        run: ./gradlew testDebugUnitTest assembleRelease
+
+      - name: Clean up signing files
+        if: always()
+        run: rm -f tubik-release.jks keystore.properties
+
+      - name: Verify APK signature and 16 KB alignment
+        run: |
+          APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          BUILD_TOOLS_DIR=$(ls -d "${ANDROID_HOME}/build-tools/"* | sort -V | tail -n 1)
+          echo "Using build-tools: $BUILD_TOOLS_DIR"
+          "${BUILD_TOOLS_DIR}/zipalign" -c -P 16 -v 4 "$APK_PATH"
+          "${BUILD_TOOLS_DIR}/apksigner" verify --print-certs --verbose "$APK_PATH"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            OUT_NAME="tubik-${GITHUB_REF_NAME}.apk"
+          else
+            OUT_NAME="tubik-release.apk"
+          fi
+          mv "$APK_PATH" "$OUT_NAME"
+          echo "APK_FILE=$OUT_NAME" >> "$GITHUB_ENV"
+
+      - name: Create changelog summary
+        id: changelog-summary
+        run: |
+          summary_file=$(find fastlane/metadata/android/en-US/changelogs/ -maxdepth 1 -name '*.txt' | sort -V | tail -n 1)
+          if [ -n "$summary_file" ] && [ -f "$summary_file" ]; then
+            summary_quoted=$(sed 's/^/> /' "$summary_file")
+            {
+              echo "summary<<EOF"
+              echo "> [!NOTE]"
+              echo "> ## Release Highlights"
+              echo "$summary_quoted"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "summary=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload release APK artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: tubik-release-apk
+          path: ${{ env.APK_FILE }}
+
+      - name: Attest APK build provenance
+        if: github.ref_type == 'tag' && !github.event.repository.private
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: ${{ env.APK_FILE }}
+
+      - name: Upload APK to Cloudflare R2
+        if: github.ref_type == 'tag'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          aws s3 cp "${APK_FILE}" "s3://tubik-releases/${APK_FILE}" \
+            --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+            --content-type "application/vnd.android.package-archive" \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Create GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v3
+        with:
+          name: Tubik ${{ github.ref_name }}
+          body: ${{ steps.changelog-summary.outputs.summary }}
+          generate_release_notes: true
+          files: ${{ env.APK_FILE }}
+          fail_on_unmatched_files: true
+          make_latest: true
+
+      - name: Update website manifest and download metadata
+        if: github.ref_type == 'tag'
+        run: |
+          python3 tools/release/update_website_manifest.py \
+            --tag "${GITHUB_REF_NAME}" \
+            --apk "${APK_FILE}"
+
+      - name: Deploy website and update manifest to Cloudflare Pages
+        if: github.ref_type == 'tag'
+        uses: ./.github/actions/deploy-pages
+        with:
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  deploy-website:
+    name: Deploy website to Cloudflare Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Preserve live update manifest and sync download metadata
+        run: |
+          if curl -fsSL "https://tubik.23p.dev/updates/latest.json" -o /tmp/live-latest.json && \
+             python3 -c 'import json, sys; data = json.load(open(sys.argv[1])); assert data.get("schemaVersion") == 1 and data.get("apkUrl")' /tmp/live-latest.json; then
+            mv /tmp/live-latest.json website/updates/latest.json
+            echo "Preserved live /updates/latest.json from https://tubik.23p.dev/updates/latest.json"
+          else
+            echo "Using repository website/updates/latest.json (live manifest unavailable)"
+          fi
+          python3 tools/release/update_website_manifest.py --sync-html-from-manifest
+
+      - name: Deploy website to Cloudflare Pages
+        uses: ./.github/actions/deploy-pages
+        with:
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

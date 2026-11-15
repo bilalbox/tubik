@@ -1,0 +1,5 @@
+Tubik v0.6.0:
+
+- Added per-channel Music Removal opt-out toggle on channel pages and subscription rows, with the global setting acting as a master off switch.
+- Protected per-channel Music Removal opt-out with the Parent PIN when set.
+- Synced playback speed clamping and overload indicator behavior with the active channel's Music Removal setting.

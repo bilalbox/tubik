@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "versionCode": 80,
+  "versionName": "0.7.0",
+  "minSdk": 26,
+  "minSupportedVersionCode": 80,
+  "publishedAt": "2026-11-15T01:36:27Z",
+  "sha256": "e6d5aa3e450cc75ccb1f181465537a325e6caf58d0564b445f13e6a68ace0272",
+  "sizeBytes": 163068188,
+  "apkUrl": "https://tubik-releases.23p.dev/tubik-v0.7.0.apk",
+  "releaseNotesUrl": "https://github.com/bilalbox/tubik/releases/tag/v0.7.0",
+  "changelog": "Tubik v0.7.0:\n\n- Adopted the kotlin-android quality gate (ktfmt formatting, detekt, Android Lint, secret & vulnerability scanning, Roborazzi screenshot checks, Kover coverage ratchet, and dependency health checks).\n- Formatted Kotlin sources with ktfmt and cleaned up Gradle dependency declarations."
+}

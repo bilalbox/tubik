@@ -1,0 +1,4 @@
+Tubik v0.2.0:
+
+- Subscriptions load on first open when the saved feed is empty, and a newly added channel is fetched without waiting a day.
+- Removed in-app update checks, Help, and Donate.

@@ -1,0 +1,22 @@
+name: Deploy website to Cloudflare Pages
+description: Deploy website/ static assets and update manifest to Cloudflare Pages project tubik
+inputs:
+  cloudflare-api-token:
+    description: Cloudflare API token with Pages Edit permission
+    required: true
+  cloudflare-account-id:
+    description: Cloudflare account ID
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Deploy website to Cloudflare Pages
+      shell: bash
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ inputs.cloudflare-api-token }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.cloudflare-account-id }}
+      run: |
+        npx --yes wrangler@4 pages deploy website \
+          --project-name=tubik \
+          --branch=master \
+          --commit-dirty=true

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" width="360" height="720" role="img" aria-label="Tubik Settings showing Allowlist, Music Removal, Screen Pin, and Parent PIN protection dialog">
+  <defs>
+    <clipPath id="screen-clip-3"><rect x="14" y="14" width="332" height="692" rx="28"/></clipPath>
+  </defs>
+  <rect x="6" y="6" width="348" height="708" rx="34" fill="#2A1412" stroke="#61100C" stroke-width="2"/>
+  <g clip-path="url(#screen-clip-3)">
+    <rect x="14" y="14" width="332" height="692" fill="#FFFDF8"/>
+    <!-- Status & Top Bar -->
+    <text x="32" y="33" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#3D0B08">9:41</text>
+    <path d="M38,67 L28,67 M33,62 L28,67 L33,72" fill="none" stroke="#3D0B08" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="52" y="72" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#3D0B08">Settings</text>
+
+    <!-- Category label -->
+    <text x="28" y="106" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#B92237">Tubik</text>
+
+    <!-- Row 1: Allowlist -->
+    <text x="28" y="132" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#3D0B08">Allowlist</text>
+    <text x="28" y="148" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Restrict to Allowed Channels</text>
+    <rect x="286" y="124" width="42" height="24" rx="12" fill="#B92237"/>
+    <circle cx="316" cy="136" r="9" fill="#FFFFFF"/>
+
+    <!-- Row 2: Music Removal -->
+    <text x="28" y="184" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#3D0B08">Music Removal</text>
+    <text x="28" y="200" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Keep speech only (caps speed at 1.5×)</text>
+    <rect x="286" y="176" width="42" height="24" rx="12" fill="#B92237"/>
+    <circle cx="316" cy="188" r="9" fill="#FFFFFF"/>
+
+    <!-- Row 3: Screen Pin -->
+    <text x="28" y="236" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#3D0B08">Screen Pin</text>
+    <text x="28" y="252" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Show pin button in toolbar and player</text>
+    <rect x="286" y="228" width="42" height="24" rx="12" fill="#B92237"/>
+    <circle cx="316" cy="240" r="9" fill="#FFFFFF"/>
+
+    <!-- Row 4: Lock Settings -->
+    <text x="28" y="288" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#3D0B08">Lock Settings</text>
+    <text x="28" y="304" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Require Parent PIN to open Settings</text>
+    <rect x="286" y="280" width="42" height="24" rx="12" fill="#B92237"/>
+    <circle cx="316" cy="292" r="9" fill="#FFFFFF"/>
+
+    <line x1="28" y1="322" x2="332" y2="322" stroke="#E5D3B5" stroke-width="1"/>
+
+    <!-- Dimmed backdrop & Parent PIN modal preview -->
+    <rect x="14" y="336" width="332" height="370" fill="#3D0B08" fill-opacity="0.08"/>
+    <rect x="34" y="366" width="292" height="218" rx="22" fill="#FFFDF8" stroke="#D7BEA0" stroke-width="1.2"/>
+    <text x="56" y="400" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#3D0B08">Enter Parent PIN</text>
+    <text x="56" y="422" font-family="system-ui, sans-serif" font-size="12" fill="#6B3632">Required before opening Settings or</text>
+    <text x="56" y="438" font-family="system-ui, sans-serif" font-size="12" fill="#6B3632">installing verified app updates.</text>
+
+    <rect x="56" y="456" width="248" height="44" rx="10" fill="#FEF6E8" stroke="#B92237" stroke-width="1.6"/>
+    <circle cx="80" cy="478" r="4.5" fill="#3D0B08"/>
+    <circle cx="98" cy="478" r="4.5" fill="#3D0B08"/>
+    <circle cx="116" cy="478" r="4.5" fill="#3D0B08"/>
+    <circle cx="134" cy="478" r="4.5" fill="#3D0B08"/>
+
+    <text x="200" y="554" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#6B3632">Cancel</text>
+    <rect x="252" y="532" width="60" height="34" rx="17" fill="#B92237"/>
+    <text x="282" y="554" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Unlock</text>
+
+    <!-- Bottom pill -->
+    <rect x="136" y="693" width="88" height="4" rx="2" fill="#61100C" fill-opacity="0.45"/>
+  </g>
+</svg>

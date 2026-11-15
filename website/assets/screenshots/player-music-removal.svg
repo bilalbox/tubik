@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" width="360" height="720" role="img" aria-label="Tubik video player showing Music Removal active, Screen Pin control, and related videos hidden">
+  <defs>
+    <clipPath id="screen-clip-2"><rect x="14" y="14" width="332" height="692" rx="28"/></clipPath>
+  </defs>
+  <rect x="6" y="6" width="348" height="708" rx="34" fill="#2A1412" stroke="#61100C" stroke-width="2"/>
+  <g clip-path="url(#screen-clip-2)">
+    <rect x="14" y="14" width="332" height="692" fill="#FFFDF8"/>
+    <!-- Video surface -->
+    <rect x="14" y="14" width="332" height="222" fill="#2A1412"/>
+    <rect x="14" y="40" width="332" height="196" fill="#3D0B08"/>
+    <!-- Status overlay -->
+    <text x="30" y="33" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#FEE0AE">9:41</text>
+    <!-- Top player controls -->
+    <rect x="26" y="54" width="142" height="26" rx="13" fill="#FEE0AE"/>
+    <circle cx="40" cy="67" r="4.5" fill="#B92237"/>
+    <text x="51" y="71" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#3D0B08">Music Removal On</text>
+    <!-- Screen pin icon in player -->
+    <rect x="294" y="54" width="36" height="26" rx="13" fill="#FFFFFF" fill-opacity="0.16"/>
+    <path d="M308,61 L316,61 L315,67 L318,70 L306,70 L309,67 Z M312,70 L312,75" fill="none" stroke="#FEE0AE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Center play/pause -->
+    <circle cx="180" cy="138" r="24" fill="#000000" fill-opacity="0.45"/>
+    <rect x="172" y="128" width="5" height="20" rx="1.5" fill="#FFFFFF"/>
+    <rect x="183" y="128" width="5" height="20" rx="1.5" fill="#FFFFFF"/>
+
+    <!-- Scrubber -->
+    <text x="26" y="218" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#FFFFFF">2:14 / 6:42</text>
+    <text x="274" y="218" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#F7C659">1.5× max</text>
+    <rect x="26" y="226" width="308" height="4" rx="2" fill="#FFFFFF" fill-opacity="0.28"/>
+    <rect x="26" y="226" width="118" height="4" rx="2" fill="#F5632D"/>
+    <circle cx="144" cy="228" r="6" fill="#F7C659"/>
+
+    <!-- Title & metadata -->
+    <text x="26" y="266" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#3D0B08">How Do Volcanoes Make Islands?</text>
+    <text x="26" y="286" font-family="system-ui, sans-serif" font-size="12" fill="#6B3632">184K views · Speech only in mono</text>
+
+    <!-- Action pills -->
+    <rect x="26" y="304" width="68" height="32" rx="16" fill="#F6EAD6"/>
+    <text x="60" y="324" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#61100C">Download</text>
+    <rect x="102" y="304" width="54" height="32" rx="16" fill="#F6EAD6"/>
+    <text x="129" y="324" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#61100C">Save</text>
+    <rect x="164" y="304" width="60" height="32" rx="16" fill="#F6EAD6"/>
+    <text x="194" y="324" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#61100C">Audio</text>
+    <rect x="232" y="304" width="46" height="32" rx="16" fill="#F6EAD6"/>
+    <text x="255" y="324" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#61100C">PiP</text>
+
+    <!-- Channel row -->
+    <rect x="26" y="352" width="308" height="64" rx="14" fill="#F6EAD6"/>
+    <circle cx="52" cy="384" r="16" fill="#F7C659" stroke="#61100C" stroke-width="1.2"/>
+    <text x="52" y="388" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#61100C">SK</text>
+    <text x="78" y="380" font-family="system-ui, sans-serif" font-size="13.5" font-weight="700" fill="#3D0B08">SciShow Kids</text>
+    <text x="78" y="397" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Allowed Channel · Subscribed</text>
+    <rect x="248" y="370" width="74" height="28" rx="14" fill="#FFFDF8" stroke="#D7BEA0" stroke-width="1"/>
+    <text x="285" y="388" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#61100C">Locked</text>
+
+    <!-- Music Removal & Overload Mute status box -->
+    <rect x="26" y="432" width="308" height="104" rx="14" fill="#FEF6E8" stroke="#E5D3B5" stroke-width="1"/>
+    <text x="42" y="458" font-family="system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#3D0B08">On-device audio safety</text>
+    <text x="42" y="479" font-family="system-ui, sans-serif" font-size="11.5" fill="#6B3632">Music Removal removes background music in</text>
+    <text x="42" y="495" font-family="system-ui, sans-serif" font-size="11.5" fill="#6B3632">realtime. Overload Mute silences audio instead</text>
+    <text x="42" y="511" font-family="system-ui, sans-serif" font-size="11.5" fill="#6B3632">of playing music if the device falls behind.</text>
+
+    <!-- Hidden related/comments notice -->
+    <rect x="26" y="552" width="308" height="72" rx="14" fill="#FFFDF8" stroke="#E5D3B5" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="180" y="584" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#61100C">Related videos &amp; comments hidden</text>
+    <text x="180" y="603" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#6B3632">Allowlist keeps focus on this video only</text>
+
+    <rect x="136" y="693" width="88" height="4" rx="2" fill="#61100C" fill-opacity="0.45"/>
+  </g>
+</svg>

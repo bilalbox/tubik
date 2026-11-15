@@ -1,0 +1,5 @@
+Tubik v1.1.1:
+
+- Enforced APK Signature Scheme v2 and v3 (v1 disabled) and enabled R8 obfuscation for release builds.
+- Added native JNI/C++ runtime signature verification coupled to stream and player transport initialization.
+- Added GitHub Actions SLSA build provenance attestations, Obtainium import badge, and Security & Verification docs.

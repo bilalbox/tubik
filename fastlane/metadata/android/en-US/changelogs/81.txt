@@ -1,0 +1,5 @@
+Tubik v1.0.0:
+
+- Added child-safe in-app OTA update checks with SHA-256 and signing-certificate verification, gated behind Parent PIN and Screen Pin.
+- Added the tubik.23p.dev landing page, updated About links, and automated Cloudflare R2 / Pages release publishing.
+- Consolidated Allowlist, Music Removal (Overload Mute), Parent PIN, and playback session architecture.

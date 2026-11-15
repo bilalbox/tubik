@@ -1,0 +1,5 @@
+Tubik v1.1.0:
+
+- Removed LibreTube sync server and Piped integration; all data stays strictly on the device with local backup and import/export support.
+- Removed the first-run sync server setup screen.
+- Updated website and privacy policy verbiage for all ages, and switched release downloads to tubik-releases.23p.dev.

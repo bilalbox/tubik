@@ -1,0 +1,12 @@
+{
+	"version": 1,
+	"findings": [
+		{
+			"id": "app",
+			"score": 11.07,
+			"note": "Legacy adoption baseline for :app"
+		}
+	],
+	"worseWhen": "lower",
+	"floor": 0
+}

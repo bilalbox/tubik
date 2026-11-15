@@ -1,0 +1,19 @@
+name: Setup Android
+description: JDK 21, Android SDK licenses, Gradle (cached, wrapper-validated), Robolectric jars
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: "21"
+
+    - uses: android-actions/setup-android@v4
+
+    - uses: gradle/actions/setup-gradle@v6
+
+    # Robolectric downloads android-all jars (~200 MB per SDK) into ~/.m2 on first run.
+    - uses: actions/cache@v6
+      with:
+        path: ~/.m2/repository/org/robolectric
+        key: robolectric-${{ hashFiles('build-logic/quality/gradle/libs.versions.toml') }}

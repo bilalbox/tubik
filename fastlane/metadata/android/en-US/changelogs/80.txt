@@ -1,0 +1,4 @@
+Tubik v0.7.0:
+
+- Adopted the kotlin-android quality gate (ktfmt formatting, detekt, Android Lint, secret & vulnerability scanning, Roborazzi screenshot checks, Kover coverage ratchet, and dependency health checks).
+- Formatted Kotlin sources with ktfmt and cleaned up Gradle dependency declarations.
