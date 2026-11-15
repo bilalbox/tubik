@@ -100,7 +100,7 @@ object BackgroundHelper {
         Futures.addCallback(
             controllerFuture,
             object : FutureCallback<MediaController> {
-                override fun onSuccess(result: MediaController?) {
+                override fun onSuccess(result: MediaController) {
                     val controller = controllerFuture.get()
                     if (!arguments.isEmpty)
                         controller.sendCustomCommand(
