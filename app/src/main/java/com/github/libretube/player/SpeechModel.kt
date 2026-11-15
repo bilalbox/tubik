@@ -10,6 +10,10 @@ interface SpeechModel : AutoCloseable {
     val hopDurationNs: Long
         get() = if (sampleRate > 0 && hopSize > 0) (hopSize * 1_000_000_000L) / sampleRate else 0L
 
+    /** Samples by which [processHop] output lags its input. */
+    val latencySamples: Int
+        get() = hopSize
+
     fun processHop(hop: FloatArray): FloatArray
 
     fun reset() {}

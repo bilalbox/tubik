@@ -22,7 +22,7 @@ class OrtSpeechRuntimeTest {
 
     @Test
     fun `openSession requests XNNPACK and falls back to CPU provider when registration fails`() {
-        val modelBytes = loadAssetBytes("fastenhancer_s.onnx")
+        val modelBytes = loadAssetBytes("fastenhancer_s_16k.onnx")
 
         val defaultSession = OrtSpeechRuntime.openSession(modelBytes, intraOpThreads = 2)
         try {
@@ -90,7 +90,10 @@ class OrtSpeechRuntimeTest {
     @Test
     fun `speech session reuses persistent direct-buffer input tensors across inference runs without re-allocating`() {
         val speechSession =
-            OrtSpeechRuntime.openSession(loadAssetBytes("fastenhancer_s.onnx"), intraOpThreads = 2)
+            OrtSpeechRuntime.openSession(
+                loadAssetBytes("fastenhancer_s_16k.onnx"),
+                intraOpThreads = 2,
+            )
         try {
             val wavInfo = speechSession.inputInfo["wav_in"]!!.info as TensorInfo
             val wavShape = wavInfo.shape.map { if (it > 0) it else 512L }.toLongArray()
@@ -120,7 +123,7 @@ class OrtSpeechRuntimeTest {
                 writeSine(wavBuf, 0.25f)
                 speechSession.run().use { result ->
                     val outTensor = result.get(0) as OnnxTensor
-                    assertEquals(512, outTensor.floatBuffer.remaining())
+                    assertEquals(wavBuf.capacity(), outTensor.floatBuffer.remaining())
                     for (i in cacheBufs.indices) {
                         val cacheOut = result.get(i + 1) as OnnxTensor
                         val target = cacheBufs[i]
@@ -171,6 +174,25 @@ class OrtSpeechRuntimeTest {
     }
 
     @Test
+    fun `FastEnhancerSpeechModel presents 16 kHz 512-sample hops built from two 256-sample model hops`() {
+        val model = FastEnhancerSpeechModel(loadAssetBytes(OrtSpeechRuntime.ASSET_FILENAME))
+        try {
+            assertTrue(model.isLoaded)
+            assertEquals(16000, model.sampleRate)
+            assertEquals(512, model.hopSize)
+            assertEquals(32_000_000L, model.hopDurationNs)
+            // The model's own hop, which is also how far its output lags its input
+            assertEquals(256, model.latencySamples)
+
+            val out = model.processHop(FloatArray(512) { i -> if (i % 64 == 0) 0.25f else 0f })
+            assertEquals(512, out.size)
+            assertTrue(out.all { it.isFinite() })
+        } finally {
+            model.close()
+        }
+    }
+
+    @Test
     fun `SpeechModel derives hopDurationNs from each model's sampleRate and hopSize`() {
         val model16k =
             object : SpeechModel {
@@ -189,8 +211,8 @@ class OrtSpeechRuntimeTest {
 
     @Test
     fun `shared primary and fallback caches are independent, survive close via reset, and clear on test reset`() {
-        assertEquals("fastenhancer_s.onnx", OrtSpeechRuntime.ASSET_FILENAME)
-        assertEquals("fastenhancer_t.onnx", OrtSpeechRuntime.FALLBACK_ASSET_FILENAME)
+        assertEquals("fastenhancer_s_16k.onnx", OrtSpeechRuntime.ASSET_FILENAME)
+        assertEquals("fastenhancer_t_16k.onnx", OrtSpeechRuntime.FALLBACK_ASSET_FILENAME)
         assertEquals("silero_vad.onnx", OrtSpeechRuntime.VAD_ASSET_FILENAME)
 
         class TrackingSpeechModel(

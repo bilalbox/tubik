@@ -13,8 +13,9 @@ import java.nio.FloatBuffer
 object OrtSpeechRuntime {
 
     private const val TAG = "OrtSpeechRuntime"
-    const val ASSET_FILENAME = "fastenhancer_s.onnx"
-    const val FALLBACK_ASSET_FILENAME = "fastenhancer_t.onnx"
+    // FastEnhancer Small / Tiny, 16 kHz, trained on DNS-Challenge noise (upstream onnx-dns-v1.0.0)
+    const val ASSET_FILENAME = "fastenhancer_s_16k.onnx"
+    const val FALLBACK_ASSET_FILENAME = "fastenhancer_t_16k.onnx"
     const val VAD_ASSET_FILENAME = SileroVadGate.ASSET_FILENAME
 
     private class SharedSpeechModel(
@@ -165,6 +166,9 @@ object OrtSpeechRuntime {
 
         val inputInfo: Map<String, NodeInfo>
             get() = ortSession.inputInfo
+
+        val outputInfo: Map<String, NodeInfo>
+            get() = ortSession.outputInfo
 
         fun bindDirectFloatInput(name: String, shape: LongArray): FloatBuffer {
             val elementCount = shape.fold(1L) { acc, dim -> acc * dim }.toInt()

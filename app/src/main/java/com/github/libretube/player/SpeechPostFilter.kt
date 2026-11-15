@@ -6,7 +6,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 /**
- * Speech band-pass filter (100 Hz – 7200 Hz) + 512-point overlap-add spectral Wiener post-filter.
+ * Speech band-pass filter (100 Hz – 9000 Hz) + 512-point overlap-add spectral Wiener post-filter.
  *
  * Uses pre-allocated scratch buffers and precomputed FFT twiddle/bit-reversal tables so the
  * real-time audio loop performs zero heap allocations per hop. Also supports fast-path delay
@@ -14,6 +14,8 @@ import kotlin.math.sqrt
  */
 class SpeechPostFilter(
     sampleRate: Int = DEFAULT_SAMPLE_RATE,
+    /** Samples by which the enhanced audio lags the input it is compared against. */
+    modelDelaySamples: Int = HOP_SIZE,
 ) {
     private class Biquad(
         private val b0: Float,
@@ -59,16 +61,19 @@ class SpeechPostFilter(
         }
     }
 
-    private val preHighPass = createHighPass(sampleRate, cutoffHz = 100.0)
-    private val postHighPass = createHighPass(sampleRate, cutoffHz = 100.0)
-    private val postLowPass = createLowPass(sampleRate, cutoffHz = 7200.0)
+    private val preHighPass = createHighPass(sampleRate, cutoffHz = BAND_LOW_HZ)
+    private val postHighPass = createHighPass(sampleRate, cutoffHz = BAND_LOW_HZ)
+    private val postLowPass =
+        createLowPass(sampleRate, cutoffHz = minOf(BAND_HIGH_HZ, MAX_NYQUIST_FRACTION * sampleRate))
 
-    private val minBin = ((95.0 * FFT_SIZE) / sampleRate).toInt().coerceAtLeast(1)
-    private val maxBin = ((7500.0 * FFT_SIZE) / sampleRate).toInt().coerceAtMost(NUM_BINS - 1)
+    private val minBin = ((MASK_LOW_HZ * FFT_SIZE) / sampleRate).toInt().coerceAtLeast(1)
+    private val maxBin = ((MASK_HIGH_HZ * FFT_SIZE) / sampleRate).toInt().coerceAtMost(NUM_BINS - 1)
 
-    // 1-hop delay line for input audio to align with FastEnhancer's 512-sample STFT delay
-    private val delayedInputHop = FloatArray(HOP_SIZE)
-    private val prevInputTail = FloatArray(SUB_HOP)
+    // Last three input hops [n-2, n-1, n]. The input frame matching the current enhanced hop
+    // starts modelDelaySamples before hop n.
+    private val inputHistory = FloatArray(HISTORY_HOPS * HOP_SIZE)
+    private val alignedFrameStart =
+        (HISTORY_HOPS - 1) * HOP_SIZE - modelDelaySamples.coerceIn(0, HOP_SIZE + SUB_HOP)
     private val prevEnhancedTail = FloatArray(SUB_HOP)
     private val olaTail = FloatArray(SUB_HOP)
     private val smoothedGain = FloatArray(NUM_BINS) { 1f }
@@ -77,6 +82,7 @@ class SpeechPostFilter(
     private val preFilteredBuf = FloatArray(HOP_SIZE)
     private val outHopBuf = FloatArray(HOP_SIZE)
     private val inFrame0 = FloatArray(FFT_SIZE)
+    private val inFrame1 = FloatArray(FFT_SIZE)
     private val enhFrame0 = FloatArray(FFT_SIZE)
     private val xRe = FloatArray(FFT_SIZE)
     private val xIm = FloatArray(FFT_SIZE)
@@ -97,31 +103,18 @@ class SpeechPostFilter(
     }
 
     /**
-     * Computes the RMS ratio between the aligned input hop and [enhancedHop] without running FFTs.
-     */
-    fun computeFrameRatio(enhancedHop: FloatArray): Float {
-        var inSq = 0.0
-        var outSq = 0.0
-        for (i in 0 until HOP_SIZE) {
-            val x = delayedInputHop[i]
-            val y = enhancedHop[i]
-            inSq += x * x
-            outSq += y * y
-        }
-        val inRms = sqrt(inSq / HOP_SIZE).toFloat()
-        val outRms = sqrt(outSq / HOP_SIZE).toFloat()
-        return (outRms / (inRms + 1e-6f)).coerceIn(0f, 1.5f)
-    }
-
-    /**
      * Fast-path state update when the VAD gate is completely closed (output gain = 0). Advances the
      * delay buffers without running the 6 FFT/IFFT passes.
      */
     fun advanceDelayOnly(currentInputHop: FloatArray, enhancedHop: FloatArray) {
         olaTail.fill(0f)
-        System.arraycopy(delayedInputHop, SUB_HOP, prevInputTail, 0, SUB_HOP)
+        pushInput(currentInputHop)
         System.arraycopy(enhancedHop, SUB_HOP, prevEnhancedTail, 0, SUB_HOP)
-        System.arraycopy(currentInputHop, 0, delayedInputHop, 0, HOP_SIZE)
+    }
+
+    private fun pushInput(hop: FloatArray) {
+        System.arraycopy(inputHistory, HOP_SIZE, inputHistory, 0, (HISTORY_HOPS - 1) * HOP_SIZE)
+        System.arraycopy(hop, 0, inputHistory, (HISTORY_HOPS - 1) * HOP_SIZE, HOP_SIZE)
     }
 
     /**
@@ -133,16 +126,18 @@ class SpeechPostFilter(
      * of 6.
      */
     fun applySpectralFilter(currentInputHop: FloatArray, enhancedHop: FloatArray): FloatArray {
+        pushInput(currentInputHop)
+
         // Sub-frame 0: [prevTail (256), firstHalf (256)]
-        System.arraycopy(prevInputTail, 0, inFrame0, 0, SUB_HOP)
-        System.arraycopy(delayedInputHop, 0, inFrame0, SUB_HOP, SUB_HOP)
+        System.arraycopy(inputHistory, alignedFrameStart - SUB_HOP, inFrame0, 0, FFT_SIZE)
         System.arraycopy(prevEnhancedTail, 0, enhFrame0, 0, SUB_HOP)
         System.arraycopy(enhancedHop, 0, enhFrame0, SUB_HOP, SUB_HOP)
 
         computeMaskedSpectrumInto(inFrame0, enhFrame0, spec0Re, spec0Im)
 
         // Sub-frame 1: [firstHalf (256), secondHalf (256)]
-        computeMaskedSpectrumInto(delayedInputHop, enhancedHop, spec1Re, spec1Im)
+        System.arraycopy(inputHistory, alignedFrameStart, inFrame1, 0, FFT_SIZE)
+        computeMaskedSpectrumInto(inFrame1, enhancedHop, spec1Re, spec1Im)
 
         // Pack W[k] = Y0[k] + j * Y1[k] so one 512-point complex IFFT yields both real sub-frames
         val halfN = FFT_SIZE / 2
@@ -177,20 +172,11 @@ class SpeechPostFilter(
             olaTail[i] = f1Second
         }
 
-        // Save tails and advance 1-hop delay line
-        System.arraycopy(delayedInputHop, SUB_HOP, prevInputTail, 0, SUB_HOP)
         System.arraycopy(enhancedHop, SUB_HOP, prevEnhancedTail, 0, SUB_HOP)
-        System.arraycopy(currentInputHop, 0, delayedInputHop, 0, HOP_SIZE)
 
         postHighPass.processInPlace(outHopBuf)
         postLowPass.processInPlace(outHopBuf)
         return outHopBuf
-    }
-
-    fun postFilter(currentInputHop: FloatArray, enhancedHop: FloatArray): Pair<FloatArray, Float> {
-        val frameRatio = computeFrameRatio(enhancedHop)
-        val filtered = applySpectralFilter(currentInputHop, enhancedHop)
-        return filtered to frameRatio
     }
 
     private fun computeMaskedSpectrumInto(
@@ -279,8 +265,7 @@ class SpeechPostFilter(
         preHighPass.reset()
         postHighPass.reset()
         postLowPass.reset()
-        delayedInputHop.fill(0f)
-        prevInputTail.fill(0f)
+        inputHistory.fill(0f)
         prevEnhancedTail.fill(0f)
         olaTail.fill(0f)
         smoothedGain.fill(1f)
@@ -292,12 +277,27 @@ class SpeechPostFilter(
         private const val DEFAULT_SAMPLE_RATE = 48000
         private const val HOP_SIZE = 512
         private const val SUB_HOP = 256
+        private const val HISTORY_HOPS = 3
         private const val FFT_SIZE = 512
         private const val FFT_STAGES = 9
         private const val NUM_BINS = FFT_SIZE / 2 + 1
 
+        // Sibilants and fricatives (s, sh, f) carry most of their energy at 5-9 kHz; cutting at
+        // 7.2 kHz dropped them, while the music the model leaves above 7 kHz is ~30 dB below what
+        // it leaves under 7 kHz.
+        private const val BAND_LOW_HZ = 100.0
+        private const val BAND_HIGH_HZ = 9000.0
+        private const val MASK_LOW_HZ = 95.0
+        private const val MASK_HIGH_HZ = 9500.0
+
+        // Keeps the low-pass below Nyquist for 16 kHz models (7.2 kHz there)
+        private const val MAX_NYQUIST_FRACTION = 0.45
+
+        // A bin passes untouched once the model kept at least MASK_KNEE of its magnitude and is
+        // zeroed below MASK_FLOOR. The model already attenuated the bin by that ratio, so a high
+        // knee suppresses speech twice wherever speech and music overlap.
         private const val MASK_FLOOR = 0.10f
-        private const val MASK_KNEE = 0.52f
+        private const val MASK_KNEE = 0.30f
 
         private val WINDOW_512 =
             FloatArray(FFT_SIZE) { n ->

@@ -445,8 +445,8 @@ class MusicRemovalAudioProcessorTest {
     fun `FastEnhancerSpeechModel loads fastenhancer_s and silero_vad and gates non-speech musical tones to silence`() {
         val modelFile =
             sequenceOf(
-                    java.io.File("src/main/assets/fastenhancer_s.onnx"),
-                    java.io.File("app/src/main/assets/fastenhancer_s.onnx"),
+                    java.io.File("src/main/assets/fastenhancer_s_16k.onnx"),
+                    java.io.File("app/src/main/assets/fastenhancer_s_16k.onnx"),
                 )
                 .first { it.exists() }
         val vadFile =
@@ -462,8 +462,8 @@ class MusicRemovalAudioProcessorTest {
                 vadGate = SileroVadGate(vadFile.readBytes()),
             )
         try {
-            assertTrue("Expected fastenhancer_s.onnx + silero_vad.onnx to load", model.isLoaded)
-            assertEquals(48000, model.sampleRate)
+            assertTrue("Expected fastenhancer_s_16k.onnx + silero_vad.onnx to load", model.isLoaded)
+            assertEquals(16000, model.sampleRate)
             assertEquals(512, model.hopSize)
 
             // Pure musical chord (A4=440Hz, C#5=554.37Hz, E5=659.25Hz) with no speech
@@ -501,8 +501,8 @@ class MusicRemovalAudioProcessorTest {
     fun `multi-hop streaming preserves speech and gates music without state resets during concurrent warmup or secondary player init`() {
         val modelBytes =
             sequenceOf(
-                    java.io.File("src/main/assets/fastenhancer_s.onnx"),
-                    java.io.File("app/src/main/assets/fastenhancer_s.onnx"),
+                    java.io.File("src/main/assets/fastenhancer_s_16k.onnx"),
+                    java.io.File("app/src/main/assets/fastenhancer_s_16k.onnx"),
                 )
                 .first { it.exists() }
                 .readBytes()
@@ -579,10 +579,11 @@ class MusicRemovalAudioProcessorTest {
                 baselineOutputs[h].all { it == 0f },
             )
         }
-        // Speech-enhanced hop 3 must have non-zero preserved signal and differ if reset mid-stream
+        // The enhancer must produce signal before it has enough context to reject the synthetic
+        // tone (hop 1), and its output must differ if it is reset mid-stream (hop 3)
         assertTrue(
-            "Expected speech enhancement to produce non-zero output on hop 3",
-            baselineSpeechOnlyOutputs[3].any { abs(it) > 1e-4f },
+            "Expected speech enhancement to produce non-zero output on hop 1",
+            baselineSpeechOnlyOutputs[1].any { abs(it) > 1e-4f },
         )
         assertFalse(
             "Expected mid-stream reset at hop 3 to alter output (proving recurrent state sensitivity)",
@@ -773,8 +774,8 @@ class MusicRemovalAudioProcessorTest {
                 rawMask[k] =
                     when {
                         ratio < 0.10f -> 0f
-                        ratio < 0.52f -> {
-                            val norm = (ratio - 0.10f) / (0.52f - 0.10f)
+                        ratio < 0.30f -> {
+                            val norm = (ratio - 0.10f) / (0.30f - 0.10f)
                             norm * norm
                         }
                         else -> 1f
@@ -815,7 +816,7 @@ class MusicRemovalAudioProcessorTest {
         val window = FloatArray(n) { i -> kotlin.math.sin(Math.PI * (i + 0.5) / n).toFloat() }
         val minBin = ((95.0 * n) / FastEnhancerSpeechModel.SAMPLE_RATE).toInt().coerceAtLeast(1)
         val maxBin =
-            ((7500.0 * n) / FastEnhancerSpeechModel.SAMPLE_RATE).toInt().coerceAtMost(n / 2)
+            ((9500.0 * n) / FastEnhancerSpeechModel.SAMPLE_RATE).toInt().coerceAtMost(n / 2)
 
         // Independent reference state (without post-biquads, so we feed biquad-equivalent or
         // compare pre-biquad vs full)
@@ -829,7 +830,8 @@ class MusicRemovalAudioProcessorTest {
         val refOlaTail = FloatArray(subHop)
         val refSmoothedGain = FloatArray(n / 2 + 1) { 1f }
 
-        // Create deterministic Biquad replicas matching SpeechPostFilter's 100 Hz HPF & 7200 Hz LPF
+        // Create deterministic Biquad replicas matching SpeechPostFilter's 100 Hz HPF and its
+        // low-pass (9000 Hz, kept below Nyquist for 16 kHz)
         fun makeHpf(): (FloatArray) -> FloatArray {
             val w0 = 2.0 * Math.PI * 100.0 / FastEnhancerSpeechModel.SAMPLE_RATE
             val cosW0 = kotlin.math.cos(w0)
@@ -857,7 +859,8 @@ class MusicRemovalAudioProcessorTest {
             }
         }
         fun makeLpf(): (FloatArray) -> FloatArray {
-            val w0 = 2.0 * Math.PI * 7200.0 / FastEnhancerSpeechModel.SAMPLE_RATE
+            val cutoffHz = minOf(9000.0, 0.45 * FastEnhancerSpeechModel.SAMPLE_RATE)
+            val w0 = 2.0 * Math.PI * cutoffHz / FastEnhancerSpeechModel.SAMPLE_RATE
             val cosW0 = kotlin.math.cos(w0)
             val alpha = kotlin.math.sin(w0) / kotlin.math.sqrt(2.0)
             val a0 = 1.0 + alpha
@@ -972,7 +975,7 @@ class MusicRemovalAudioProcessorTest {
                 repeat(numHops) { hopIdx ->
                     val hop =
                         FloatArray(FastEnhancerSpeechModel.HOP_SIZE) {
-                            val t = sampleIdx++.toDouble() / FastEnhancerSpeechModel.SAMPLE_RATE
+                            val t = sampleIdx++.toDouble() / 48000.0
                             (0.4 * kotlin.math.sin(2.0 * Math.PI * freqHz * t)).toFloat()
                         }
                     val count = vadGate.decimateHop48kForTest(hop, out16k)
@@ -1596,6 +1599,61 @@ class MusicRemovalAudioProcessorTest {
             processor.flush()
             assertFalse(processor.isMutedForOverload)
             assertEquals(listOf(true, false), muteChanges)
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `48kHz input is low-pass filtered before decimation to a 16kHz model so out-of-band music does not alias into the speech band`() {
+        val model = FakeSpeechModel(sampleRate = 16000, hopSize = 512) { hop -> hop.copyOf() }
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { model },
+                isMusicRemovalEnabled = { true },
+            )
+        val outFormat = processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+        assertEquals(16000, outFormat.sampleRate)
+        assertEquals(1, outFormat.channelCount)
+
+        fun outputRms(freqHz: Double): Double {
+            processor.flush()
+            val hops = 8
+            val inputFrames = hops * 512 * 3
+            val input = ByteBuffer.allocateDirect(inputFrames * 2).order(ByteOrder.nativeOrder())
+            for (n in 0 until inputFrames) {
+                val v = 0.4 * kotlin.math.sin(2.0 * Math.PI * freqHz * n / 48000.0)
+                input.putShort((v * 32767.0).toInt().toShort())
+            }
+            input.flip()
+            processor.queueInput(input)
+
+            val samples = ArrayList<Float>(hops * 512)
+            val deadline = System.nanoTime() + 5_000_000_000L
+            while (samples.size < hops * 512 && System.nanoTime() < deadline) {
+                val out = processor.output
+                while (out.remaining() >= 2) samples.add(out.short / 32768f)
+            }
+            assertEquals(hops * 512, samples.size)
+            // Skip the first two hops while the filter settles
+            val settled = samples.drop(2 * 512)
+            return kotlin.math.sqrt(settled.sumOf { (it * it).toDouble() } / settled.size)
+        }
+
+        try {
+            val inputRms = 0.4 / kotlin.math.sqrt(2.0)
+            val speechBand = outputRms(1000.0)
+            assertTrue(
+                "Expected 1 kHz to pass near $inputRms, got $speechBand",
+                abs(speechBand - inputRms) < 0.02,
+            )
+
+            // Without the filter a 12 kHz tone lands on 4 kHz at full level after 3:1 decimation
+            val aliased = outputRms(12000.0)
+            assertTrue(
+                "Expected 12 kHz to be attenuated >= 30 dB, got rms $aliased",
+                aliased < 0.009,
+            )
         } finally {
             processor.reset()
         }

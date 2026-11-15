@@ -9,6 +9,7 @@ import androidx.media3.common.audio.AudioProcessor.AudioFormat
 import androidx.media3.common.audio.AudioProcessor.UnhandledAudioFormatException
 import androidx.media3.common.audio.BaseAudioProcessor
 import androidx.media3.common.util.UnstableApi
+import com.github.libretube.BuildConfig
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
@@ -97,11 +98,12 @@ class MusicRemovalAudioProcessor(
     private val playbackSpeedProvider: () -> Float = { 1.0f },
     private val fallbackModelProvider: (() -> SpeechModel)? = null,
     private val nanoTimeProvider: () -> Long = { System.nanoTime() },
-    private val overloadSustainHops: Int = DEFAULT_OVERLOAD_SUSTAIN_HOPS,
-    private val downshiftSustainHops: Int = (overloadSustainHops / 2).coerceAtLeast(1),
+    private val overloadSustainHops: Int? = null,
+    private val downshiftSustainHops: Int? = null,
     private val ringBufferCapacityHops: Int = DEFAULT_RING_BUFFER_CAPACITY_HOPS,
     private val outputWaitTimeoutMs: Long = DEFAULT_OUTPUT_WAIT_TIMEOUT_MS,
     private val onOverloadMuteChanged: (Boolean) -> Unit = {},
+    private val logTelemetry: Boolean = BuildConfig.DEBUG,
     private val onOverloadMuted: (device: String, measuredRate: Double) -> Unit = { device, rate ->
         runCatching {
             Log.w(
@@ -143,6 +145,15 @@ class MusicRemovalAudioProcessor(
     private var emaElapsedNs: Double = 0.0
     private var slowHopStreak: Int = 0
     private var recoveryHopStreak: Int = 0
+    private var telemetryHops = 0
+    private var telemetryElapsedNs = 0L
+    private var telemetryWorstHopNs = 0L
+
+    // Overload timing in hops of the current model geometry (see applyOverloadTiming)
+    @Volatile private var sustainHops = DEFAULT_OVERLOAD_SUSTAIN_HOPS
+    @Volatile private var downshiftHops = DEFAULT_OVERLOAD_SUSTAIN_HOPS / 2
+    @Volatile private var recoveryHops = 1
+    @Volatile private var emaAlpha = 1.0
 
     // Producer-owned state (only accessed on the AudioProcessor caller thread)
     @Volatile
@@ -168,6 +179,23 @@ class MusicRemovalAudioProcessor(
     private var hasPrevOutSample = false
     private var hopFill = 0
     private var producerLastEnabledState: Boolean? = null
+    private var inputLowPass: ResamplingLowPass? = null
+    private var outputLowPass: ResamplingLowPass? = null
+
+    init {
+        applyOverloadTiming(DEFAULT_SAMPLE_RATE, DEFAULT_HOP_SIZE)
+    }
+
+    /** Converts the overload timing from milliseconds to hops of the given model geometry. */
+    private fun applyOverloadTiming(sampleRate: Int, hopSize: Int) {
+        val hopMs = MS_PER_SECOND * hopSize / sampleRate
+        fun hopsFor(ms: Double) = Math.ceil(ms / hopMs - HOP_COUNT_EPSILON).toInt().coerceAtLeast(1)
+        val sustain = overloadSustainHops ?: hopsFor(OVERLOAD_SUSTAIN_MS)
+        sustainHops = sustain
+        downshiftHops = downshiftSustainHops ?: (sustain / 2).coerceAtLeast(1)
+        recoveryHops = hopsFor(RECOVERY_MS)
+        emaAlpha = 1.0 - Math.exp(-hopMs / EMA_TIME_CONSTANT_MS)
+    }
 
     private fun ensureWorkerStarted() {
         if (workerRunning.get()) return
@@ -301,6 +329,7 @@ class MusicRemovalAudioProcessor(
     private fun configureGeometry(sampleRate: Int, hopSize: Int) {
         if (sampleRate <= 0 || hopSize <= 0) return
         if (sampleRate == targetSampleRate && hopSize == targetHopSize) return
+        applyOverloadTiming(sampleRate, hopSize)
         targetSampleRate = sampleRate
         if (hopSize != targetHopSize) {
             targetHopSize = hopSize
@@ -724,26 +753,29 @@ class MusicRemovalAudioProcessor(
                 if (emaElapsedNs <= 0.0) {
                     elapsedNs
                 } else {
-                    EMA_KEEP * emaElapsedNs + EMA_ALPHA * elapsedNs
+                    (1.0 - emaAlpha) * emaElapsedNs + emaAlpha * elapsedNs
                 }
             val smoothedRate = hopDurNs / emaElapsedNs
             val requiredRate = requiredProcessingRate(playbackSpeedProvider())
+            if (logTelemetry) {
+                recordTelemetry(elapsedNs.toLong(), hopDurNs)
+            }
 
             if (instantRate < requiredRate && smoothedRate < requiredRate) {
                 slowHopStreak++
                 recoveryHopStreak = 0
                 if (!isUsingFallbackModel && fallbackModelProvider != null) {
-                    if (slowHopStreak >= downshiftSustainHops && !tryDownshiftToFallback()) {
+                    if (slowHopStreak >= downshiftHops && !tryDownshiftToFallback()) {
                         markOverload(smoothedRate, polledGen)
                     }
-                } else if (slowHopStreak >= overloadSustainHops) {
+                } else if (slowHopStreak >= sustainHops) {
                     markOverload(smoothedRate, polledGen)
                 }
             } else {
                 slowHopStreak = (slowHopStreak - 2).coerceAtLeast(0)
                 if (isMutedForOverload) {
                     recoveryHopStreak++
-                    if (recoveryHopStreak >= RECOVERY_HOPS || overloadSustainHops <= 1) {
+                    if (recoveryHopStreak >= recoveryHops || sustainHops <= 1) {
                         clearOverloadForGeneration(polledGen)
                         recoveryHopStreak = 0
                     }
@@ -764,6 +796,36 @@ class MusicRemovalAudioProcessor(
         }
     }
 
+    /** Logs the measured processing rate every few seconds of audio (debug builds only). */
+    private fun recordTelemetry(elapsedNs: Long, hopDurNs: Double) {
+        telemetryHops++
+        telemetryElapsedNs += elapsedNs
+        if (elapsedNs > telemetryWorstHopNs) telemetryWorstHopNs = elapsedNs
+        val audioNs = telemetryHops * hopDurNs
+        if (audioNs < TELEMETRY_INTERVAL_NS) return
+        val rate = audioNs / telemetryElapsedNs.coerceAtLeast(1L)
+        val line =
+            "model=${if (isUsingFallbackModel) "fallback" else "primary"} " +
+                "$targetSampleRate Hz, hop ${"%.1f".format(hopDurNs / NS_PER_MS)} ms: " +
+                "${"%.1f".format(rate)}x realtime, worst hop " +
+                "${"%.2f".format(telemetryWorstHopNs / NS_PER_MS)} ms, " +
+                "dropped input hops $droppedInputHops, muted=$isMutedForOverload"
+        runCatching { Log.d(TAG, line) }
+        telemetryHops = 0
+        telemetryElapsedNs = 0L
+        telemetryWorstHopNs = 0L
+    }
+
+    /** Reuses [current] if it already converts between these two rates, else builds a new one. */
+    private fun lowPassFor(
+        current: ResamplingLowPass?,
+        highRate: Int,
+        lowRate: Int,
+    ): ResamplingLowPass? =
+        current?.takeIf {
+            it.sampleRate == highRate && it.cutoffHz == ResamplingLowPass.CUTOFF_FRACTION * lowRate
+        } ?: ResamplingLowPass.between(highRate, lowRate)
+
     private fun resampleToModelRate(monoInput: FloatArray, inCount: Int, inSampleRate: Int): Int {
         if (inCount <= 0) return 0
         if (inSampleRate == targetSampleRate) {
@@ -772,6 +834,13 @@ class MusicRemovalAudioProcessor(
             }
             System.arraycopy(monoInput, 0, resampledBuf, 0, inCount)
             return inCount
+        }
+
+        if (inSampleRate > targetSampleRate) {
+            // Decimating: remove what would alias into the model's band first
+            val lowPass = lowPassFor(inputLowPass, inSampleRate, targetSampleRate)
+            inputLowPass = lowPass
+            lowPass?.processInPlace(monoInput, inCount)
         }
 
         val step = inSampleRate.toDouble() / targetSampleRate.toDouble()
@@ -829,6 +898,13 @@ class MusicRemovalAudioProcessor(
 
         outResamplePhase -= inCount
         prevOutSample = monoInput[inCount - 1]
+
+        if (outSampleRate > targetSampleRate) {
+            // Interpolating: remove the images linear interpolation leaves above the model band
+            val lowPass = lowPassFor(outputLowPass, outSampleRate, targetSampleRate)
+            outputLowPass = lowPass
+            lowPass?.processInPlace(outResampledBuf, outCount)
+        }
         return outCount
     }
 
@@ -852,6 +928,8 @@ class MusicRemovalAudioProcessor(
         hasPrevOutSample = false
         hopFill = 0
         producerLastEnabledState = null
+        inputLowPass?.reset()
+        outputLowPass?.reset()
         while (outputRing.discardOne()) {
             // Drain stale pre-seek output hops immediately on caller thread
         }
@@ -882,12 +960,19 @@ class MusicRemovalAudioProcessor(
         const val DEFAULT_RING_BUFFER_CAPACITY_HOPS = 64
         const val DEFAULT_OUTPUT_WAIT_TIMEOUT_MS = 100L
 
-        // Require ~480 ms (45 hops) of sustained slow rate before muting for overload,
-        // preventing single-hop GC or scheduler spikes from dropping audio frames.
+        // Require ~480 ms of sustained slow rate before muting for overload, preventing single-hop
+        // GC or scheduler spikes from dropping audio frames. Converted to hops per model geometry:
+        // 45 hops at 48 kHz / 512, 15 hops at 16 kHz / 512.
+        private const val OVERLOAD_SUSTAIN_MS = 480.0
         const val DEFAULT_OVERLOAD_SUSTAIN_HOPS = 45
-        private const val RECOVERY_HOPS = 15
-        private const val EMA_ALPHA = 0.15
-        private const val EMA_KEEP = 1.0 - EMA_ALPHA
+        private const val RECOVERY_MS = 160.0
+        // Keeps an exact multiple (480 ms / 10.667 ms = 45.0) from rounding up to the next hop
+        private const val HOP_COUNT_EPSILON = 1e-6
+        private const val EMA_TIME_CONSTANT_MS = 65.6
+
+        private const val TELEMETRY_INTERVAL_NS = 10_000_000_000.0
+        private const val NS_PER_MS = 1_000_000.0
+        private const val MS_PER_SECOND = 1000.0
 
         fun requiredProcessingRate(playbackSpeed: Float): Double {
             val clampedSpeed =

@@ -3,10 +3,10 @@ package com.github.libretube.player
 class SpeechEnhancementPipeline(
     private val primaryModel: SpeechModel,
     private val fallbackModelProvider: (() -> SpeechModel)? = null,
-    private val vadGate: SileroVadGate? = null,
+    private val vadGate: SpeechGate? = null,
     private val postFilter: SpeechPostFilter? =
         if (primaryModel.sampleRate > 0 && primaryModel.hopSize == POST_FILTER_HOP_SIZE) {
-            SpeechPostFilter(primaryModel.sampleRate)
+            SpeechPostFilter(primaryModel.sampleRate, primaryModel.latencySamples)
         } else {
             null
         },
@@ -31,6 +31,21 @@ class SpeechEnhancementPipeline(
             }
 
     private val silentHopBuf = FloatArray(hopSize.coerceAtLeast(0))
+
+    // The gate decides on hop N while hop N - lookahead is being emitted, so it is already open
+    // when a word starts instead of fading in over the word's first consonant.
+    private val gateLookahead: GateLookahead? =
+        vadGate
+            ?.takeIf { hopSize > 0 && sampleRate > 0 }
+            ?.prepare(sampleRate, hopSize)
+            ?.takeIf { it > 0 }
+            ?.let { GateLookahead(hops = it, hopSize = hopSize) }
+
+    // Previous and current input hop; the span the model output lines up with starts
+    // latencySamples before the current hop.
+    private val inputHistory = FloatArray(2 * hopSize.coerceAtLeast(0))
+    private val alignedInputStart =
+        (hopSize - primaryModel.latencySamples).coerceIn(0, hopSize.coerceAtLeast(0))
 
     fun downshiftToFallback(): Boolean {
         val fallback =
@@ -73,42 +88,58 @@ class SpeechEnhancementPipeline(
                 primaryModel
             }
 
-        val pf = postFilter ?: return processWithoutPostFilter(hop, activeModel)
+        val pf = postFilter
+        return if (pf == null) {
+            processWithoutPostFilter(hop, activeModel)
+        } else {
+            processWithPostFilter(pf, hop, activeModel)
+        }
+    }
 
+    private fun processWithPostFilter(
+        pf: SpeechPostFilter,
+        hop: FloatArray,
+        activeModel: SpeechModel,
+    ): FloatArray {
         val preFiltered = pf.preFilterInput(hop)
         val rawEnhanced = runActiveModel(activeModel, preFiltered)
-        val frameRatio = pf.computeFrameRatio(rawEnhanced)
-        val gate = vadGate
+        val gate = vadGate ?: return pf.applySpectralFilter(preFiltered, rawEnhanced)
 
-        val result =
-            if (gate == null) {
-                pf.applySpectralFilter(preFiltered, rawEnhanced)
-            } else {
-                val (startGain, endGain) = gate.processHop(rawEnhanced, sampleRate, frameRatio)
-                if (startGain == 0f && endGain == 0f) {
-                    pf.advanceDelayOnly(preFiltered, rawEnhanced)
-                    silentHopBuf
-                } else {
-                    val postFiltered = pf.applySpectralFilter(preFiltered, rawEnhanced)
-                    if (startGain != 1f || endGain != 1f) {
-                        applyGainRamp(postFiltered, startGain, endGain)
-                    }
-                    postFiltered
-                }
+        System.arraycopy(inputHistory, hopSize, inputHistory, 0, hopSize)
+        System.arraycopy(preFiltered, 0, inputHistory, hopSize, hopSize)
+        val frameRatio = computeFrameRatio(inputHistory, alignedInputStart, rawEnhanced)
+        val (startGain, endGain) = gate.processHop(rawEnhanced, sampleRate, frameRatio)
+
+        val lookahead = gateLookahead
+        val gatedInput = lookahead?.delayInput(preFiltered) ?: preFiltered
+        val gatedEnhanced = lookahead?.delayEnhanced(rawEnhanced) ?: rawEnhanced
+        lookahead?.advance()
+
+        return if (startGain == 0f && endGain == 0f) {
+            pf.advanceDelayOnly(gatedInput, gatedEnhanced)
+            silentHopBuf
+        } else {
+            val postFiltered = pf.applySpectralFilter(gatedInput, gatedEnhanced)
+            if (startGain != 1f || endGain != 1f) {
+                applyGainRamp(postFiltered, startGain, endGain)
             }
-        return result
+            postFiltered
+        }
     }
 
     private fun processWithoutPostFilter(hop: FloatArray, activeModel: SpeechModel): FloatArray {
         val rawEnhanced = runActiveModel(activeModel, hop)
         val gate = vadGate ?: return rawEnhanced
-        val frameRatio = computeRawFrameRatio(hop, rawEnhanced)
+        val frameRatio = computeFrameRatio(hop, 0, rawEnhanced)
         val (startGain, endGain) = gate.processHop(rawEnhanced, sampleRate, frameRatio)
+        val lookahead = gateLookahead
+        val gatedEnhanced = lookahead?.delayEnhanced(rawEnhanced) ?: rawEnhanced
+        lookahead?.advance()
         return when {
             startGain == 0f && endGain == 0f -> silentHopBuf
             startGain != 1f || endGain != 1f ->
-                rawEnhanced.copyOf().also { applyGainRamp(it, startGain, endGain) }
-            else -> rawEnhanced
+                gatedEnhanced.copyOf().also { applyGainRamp(it, startGain, endGain) }
+            else -> gatedEnhanced
         }
     }
 
@@ -121,14 +152,17 @@ class SpeechEnhancementPipeline(
         }
     }
 
-    private fun computeRawFrameRatio(inputHop: FloatArray, enhancedHop: FloatArray): Float {
-        if (inputHop.isEmpty() || enhancedHop.isEmpty()) return 0f
+    /** RMS of [enhancedHop] over RMS of the equally long span of [input] starting at [start]. */
+    private fun computeFrameRatio(input: FloatArray, start: Int, enhancedHop: FloatArray): Float {
+        val len = minOf(input.size - start, enhancedHop.size)
+        if (len <= 0) return 0f
         var inSq = 0.0
         var outSq = 0.0
-        val len = minOf(inputHop.size, enhancedHop.size)
         for (i in 0 until len) {
-            inSq += inputHop[i] * inputHop[i]
-            outSq += enhancedHop[i] * enhancedHop[i]
+            val x = input[start + i]
+            val y = enhancedHop[i]
+            inSq += x * x
+            outSq += y * y
         }
         val inRms = kotlin.math.sqrt(inSq / len).toFloat()
         val outRms = kotlin.math.sqrt(outSq / len).toFloat()
@@ -150,6 +184,8 @@ class SpeechEnhancementPipeline(
         fallbackAdapter?.reset()
         postFilter?.reset()
         vadGate?.reset()
+        gateLookahead?.reset()
+        inputHistory.fill(0f)
     }
 
     override fun close() {
@@ -158,6 +194,44 @@ class SpeechEnhancementPipeline(
         runCatching { fallbackModel?.close() }
         fallbackModel = null
         fallbackAdapter = null
+    }
+
+    /**
+     * Fixed delay of [hops] hops for the audio the gate is applied to. Each `delay*` call swaps the
+     * newest hop in and returns the hop from [hops] calls ago; [advance] moves to the next slot.
+     */
+    private class GateLookahead(
+        private val hops: Int,
+        private val hopSize: Int,
+    ) {
+        private val inputRing = Array(hops) { FloatArray(hopSize) }
+        private val enhancedRing = Array(hops) { FloatArray(hopSize) }
+        private val delayedInput = FloatArray(hopSize)
+        private val delayedEnhanced = FloatArray(hopSize)
+        private var slot = 0
+
+        fun delayInput(hop: FloatArray): FloatArray = exchange(inputRing[slot], hop, delayedInput)
+
+        fun delayEnhanced(hop: FloatArray): FloatArray =
+            exchange(enhancedRing[slot], hop, delayedEnhanced)
+
+        fun advance() {
+            slot = (slot + 1) % hops
+        }
+
+        private fun exchange(stored: FloatArray, newest: FloatArray, out: FloatArray): FloatArray {
+            System.arraycopy(stored, 0, out, 0, hopSize)
+            System.arraycopy(newest, 0, stored, 0, hopSize)
+            return out
+        }
+
+        fun reset() {
+            for (i in 0 until hops) {
+                inputRing[i].fill(0f)
+                enhancedRing[i].fill(0f)
+            }
+            slot = 0
+        }
     }
 
     internal class FallbackGeometryAdapter(

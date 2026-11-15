@@ -5,15 +5,36 @@ import android.util.Log
 import java.nio.FloatBuffer
 
 /**
- * Streaming Silero VAD v5 gate operating on 48 kHz 512-sample hops.
+ * Streaming Silero VAD v5 gate.
  *
- * Internally decimates 48 kHz hops (3:1) into 16 kHz samples and evaluates Silero VAD every 512
- * samples at 16 kHz (32 ms = 3 hops at 48 kHz), with a 64-sample context window. Uses direct native
- * FloatBuffers and a persistent sample-rate tensor via [OrtSpeechRuntime] for zero-copy JNI calls.
+ * Evaluates Silero VAD every 512 samples at 16 kHz (32 ms) with a 64-sample context window: one
+ * evaluation per hop for the bundled 16 kHz models, or after 3:1 decimation of 48 kHz hops. Gate
+ * timing is defined in milliseconds and converted to hops for the geometry given to [prepare]. Uses
+ * direct native FloatBuffers and a persistent sample-rate tensor via [OrtSpeechRuntime] for
+ * zero-copy JNI calls.
+ *
+ * The bundled model is upstream's 16 kHz-only export (`silero_vad_16k_op15.onnx`): same weights and
+ * identical output at 16 kHz as the dual-rate `silero_vad.onnx`, at about half the size and memory.
  */
 class SileroVadGate(
     vadModelBytes: ByteArray,
-) : AutoCloseable {
+) : SpeechGate {
+
+    /** Gate timing converted from milliseconds to hops of one geometry. */
+    private class Timing(sampleRate: Int, hopSize: Int) {
+        private val hopMs = 1000.0 * hopSize / sampleRate
+
+        // Silero reports speech up to 32 ms after it starts and the gain then needs to ramp up, so
+        // without this lead the first consonant of every word is faded in.
+        val lookaheadHops = Math.round(LOOKAHEAD_MS / hopMs).toInt().coerceAtLeast(1)
+
+        // Decisions lead the audio by lookaheadHops, so the hold has to outlast that lead as well.
+        val hangoverHops = Math.round(HANGOVER_MS / hopMs).toInt().coerceAtLeast(1) + lookaheadHops
+        val attackStep = (hopMs / ATTACK_MS).toFloat().coerceAtMost(1f)
+        val releaseStep = (hopMs / RELEASE_MS).toFloat().coerceAtMost(1f)
+    }
+
+    private var timing = Timing(DEFAULT_SAMPLE_RATE, DEFAULT_HOP_SIZE)
 
     private var ortSession: OrtSpeechRuntime.Session? = null
     private var inputBuffer: FloatBuffer? = null
@@ -48,16 +69,34 @@ class SileroVadGate(
         }
     }
 
+    private class AntiAliasCascade(private val stages: Array<DecimatorBiquad>) {
+        fun process(sample: Float): Float {
+            var y = sample
+            for (stage in stages) {
+                y = stage.processSample(y)
+            }
+            return y
+        }
+
+        fun reset() {
+            for (stage in stages) {
+                stage.reset()
+            }
+        }
+    }
+
     private val context16k = FloatArray(CONTEXT_16K)
     private val frame16kAccumulator = FloatArray(FRAME_16K)
 
     // 6th-order Butterworth low-pass anti-aliasing filter (3 cascaded biquads, fc = 6800 Hz @ 48
     // kHz)
-    private val antiAliasStages =
-        arrayOf(
-            createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q0),
-            createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q1),
-            createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q2),
+    private val antiAlias =
+        AntiAliasCascade(
+            arrayOf(
+                createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q0),
+                createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q1),
+                createButterworthLowPass(SAMPLE_RATE_48K, ANTI_ALIAS_CUTOFF_HZ, BUTTERWORTH_6_Q2),
+            ),
         )
 
     private var frame16kFill = 0
@@ -94,18 +133,17 @@ class SileroVadGate(
             }
     }
 
-    private fun filterSample48k(sample: Float): Float {
-        var y = sample
-        for (stage in antiAliasStages) {
-            y = stage.processSample(y)
+    override fun prepare(sampleRate: Int, hopSize: Int): Int {
+        if (sampleRate > 0 && hopSize > 0) {
+            timing = Timing(sampleRate, hopSize)
         }
-        return y
+        return timing.lookaheadHops
     }
 
     internal fun decimateHop48kForTest(hop48k: FloatArray, out16k: FloatArray): Int {
         var outCount = 0
         for (sample in hop48k) {
-            val filtered = filterSample48k(sample)
+            val filtered = antiAlias.process(sample)
             decimatePhase++
             if (decimatePhase == 3) {
                 decimatePhase = 0
@@ -128,7 +166,7 @@ class SileroVadGate(
         var sumSq = 0.0
         for (sample in hop48k) {
             sumSq += sample * sample
-            val filtered = filterSample48k(sample)
+            val filtered = antiAlias.process(sample)
             decimatePhase++
             if (decimatePhase == 3) {
                 decimatePhase = 0
@@ -169,7 +207,11 @@ class SileroVadGate(
      * Dispatches to native 16 kHz processing, 48 kHz 3:1 decimation, or linear-resampled 16 kHz
      * processing depending on [sampleRate].
      */
-    fun processHop(hop: FloatArray, sampleRate: Int, frameRatio: Float): Pair<Float, Float> {
+    override fun processHop(
+        hop: FloatArray,
+        sampleRate: Int,
+        frameRatio: Float,
+    ): Pair<Float, Float> {
         if (!isLoaded || hop.isEmpty()) return 1f to 1f
         return when (sampleRate) {
             SAMPLE_RATE_16K.toInt() -> processHop16k(hop, frameRatio)
@@ -211,10 +253,11 @@ class SileroVadGate(
         val speechContinuing =
             lastSpeechProb >= SPEECH_CONTINUE_PROB && rms >= MIN_SPEECH_RMS * 0.5f
 
+        val timing = timing
         if (speechActive) {
-            hangoverHops = HANGOVER_HOPS
+            hangoverHops = timing.hangoverHops
         } else if (speechContinuing && hangoverHops > 0) {
-            hangoverHops = maxOf(hangoverHops, HANGOVER_HOPS / 2)
+            hangoverHops = maxOf(hangoverHops, timing.hangoverHops / 2)
         } else if (hangoverHops > 0) {
             hangoverHops--
         }
@@ -227,12 +270,7 @@ class SileroVadGate(
                 else -> 0.0f
             }
 
-        currentGain =
-            if (targetGain > currentGain) {
-                (currentGain + ATTACK_STEP_PER_HOP).coerceAtMost(1.0f)
-            } else {
-                (currentGain - RELEASE_STEP_PER_HOP).coerceAtLeast(0.0f)
-            }
+        currentGain = stepGain(currentGain, targetGain, timing.attackStep, timing.releaseStep)
 
         return startGain to currentGain
     }
@@ -275,13 +313,11 @@ class SileroVadGate(
             }
     }
 
-    fun reset() {
+    override fun reset() {
         context16k.fill(0f)
         frame16kFill = 0
         decimatePhase = 0
-        for (stage in antiAliasStages) {
-            stage.reset()
-        }
+        antiAlias.reset()
         lastSpeechProb = 0f
         hangoverHops = 0
         currentGain = 0f
@@ -298,7 +334,28 @@ class SileroVadGate(
 
     companion object {
         private const val TAG = "SileroVadGate"
+
+        /**
+         * Moves [current] one hop towards [target] and stops there, so an open gate stays at
+         * exactly 1.0 instead of dipping by a release step on every other hop.
+         */
+        internal fun stepGain(
+            current: Float,
+            target: Float,
+            attackStep: Float,
+            releaseStep: Float,
+        ): Float =
+            when {
+                target > current -> (current + attackStep).coerceAtMost(target)
+                target < current -> (current - releaseStep).coerceAtLeast(target)
+                else -> current
+            }
+
         const val ASSET_FILENAME = "silero_vad.onnx"
+
+        // Geometry assumed until prepare() is called
+        private const val DEFAULT_SAMPLE_RATE = 48000
+        private const val DEFAULT_HOP_SIZE = 512
 
         private const val SAMPLE_RATE_48K = 48000
         private const val SAMPLE_RATE_16K = 16000L
@@ -332,10 +389,12 @@ class SileroVadGate(
         private const val MIN_SPEECH_RMS = 0.003f
         private const val MIN_ENHANCEMENT_RATIO_FOR_ONSET = 0.18f
 
-        // 12 hops = ~128 ms hangover to bridge stop consonants (p/t/k) within words
-        private const val HANGOVER_HOPS = 12
-        // Fast attack (2 hops = ~21 ms), smooth release (6 hops = ~64 ms)
-        private const val ATTACK_STEP_PER_HOP = 0.55f
-        private const val RELEASE_STEP_PER_HOP = 0.18f
+        // Audio is held back this long behind the gate decision (rounded to whole hops)
+        private const val LOOKAHEAD_MS = 43.0
+        // Hold after speech to bridge stop consonants (p/t/k) within words
+        private const val HANGOVER_MS = 128.0
+        // Time for the gain to ramp fully open / fully closed
+        private const val ATTACK_MS = 19.4
+        private const val RELEASE_MS = 59.3
     }
 }
