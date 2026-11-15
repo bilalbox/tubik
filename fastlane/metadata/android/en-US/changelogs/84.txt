@@ -1,0 +1,5 @@
+Tubik v1.2.0:
+
+- Music Removal now runs on 16 kHz speech models: voices come through clearer with far fewer clipped word beginnings, music is rejected more strongly, and processing costs less than half as much, so slower devices keep up.
+- Fixed a rapid flutter in speech volume while Music Removal was active, and reduced the feature's memory use.
+- Updated dependencies (Guava, kotlinx-coroutines, Okio, AndroidX RecyclerView, ViewPager2 and others).
