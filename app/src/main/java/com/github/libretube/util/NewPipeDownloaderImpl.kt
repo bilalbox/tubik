@@ -1,5 +1,6 @@
 package com.github.libretube.util
 
+import android.util.Log
 import com.github.libretube.security.NativeTransportBridge
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -30,24 +31,10 @@ class NewPipeDownloaderImpl(
 
     @Throws(IOException::class, ReCaptchaException::class)
     override fun execute(request: Request): Response {
-        val httpMethod = request.httpMethod()
         val url = request.url()
-        val headers = request.headers()
         val dataToSend = request.dataToSend()
 
-        val requestBuilder =
-            okhttp3.Request.Builder()
-                .method(httpMethod, dataToSend?.toRequestBody())
-                .url(url)
-                .addHeader("User-Agent", USER_AGENT)
-
-        for ((headerKey, headerValues) in headers) {
-            requestBuilder.removeHeader(headerKey)
-            for (headerValue in headerValues) {
-                requestBuilder.addHeader(headerKey, headerValue)
-            }
-        }
-        val builtRequest = requestBuilder.build()
+        val builtRequest = buildOkHttpRequest(request)
         val response = client.newCall(builtRequest).execute()
 
         return when (response.code) {
@@ -64,11 +51,25 @@ class NewPipeDownloaderImpl(
                         playerPathToken.isNotEmpty() &&
                         url.contains(playerPathToken)
                 val videoId = if (isPlayerRequest) extractVideoId(dataToSend) else null
+                logYoutubeiRequest(
+                    url,
+                    response.code,
+                    dataToSend != null,
+                    playerPathToken,
+                    isPlayerRequest,
+                )
 
                 if (shouldRetryPlayerWithFallbackClient(url, dataToSend, responseBodyToReturn)) {
-                    retryPlayerWithFallbackClients(url, dataToSend!!, videoId)?.let {
-                        return it
-                    }
+                    retryWithLogging(
+                            url,
+                            dataToSend!!,
+                            videoId,
+                            response.code,
+                            responseBodyToReturn,
+                        )
+                        ?.let {
+                            return it
+                        }
                 } else if (isPlayerRequest) {
                     val primaryUserAgent =
                         resolvePrimaryRequestUserAgent(
@@ -169,6 +170,69 @@ class NewPipeDownloaderImpl(
         return userAgentForClientName(clientName) ?: headerUserAgent ?: USER_AGENT
     }
 
+    private fun buildOkHttpRequest(request: Request): okhttp3.Request {
+        val dataToSend = request.dataToSend()
+        val requestBuilder =
+            okhttp3.Request.Builder()
+                .method(request.httpMethod(), dataToSend?.toRequestBody())
+                .url(request.url())
+                .addHeader("User-Agent", USER_AGENT)
+
+        for ((headerKey, headerValues) in request.headers()) {
+            requestBuilder.removeHeader(headerKey)
+            for (headerValue in headerValues) {
+                requestBuilder.addHeader(headerKey, headerValue)
+            }
+        }
+        return requestBuilder.build()
+    }
+
+    private fun retryWithLogging(
+        url: String,
+        dataToSend: ByteArray,
+        videoId: String?,
+        httpCode: Int,
+        primaryBody: String,
+    ): Response? {
+        logPlayer(
+            "primary client unusable for $videoId (http=$httpCode, " +
+                "${summarizePlayability(primaryBody)}), trying fallback clients",
+        )
+        val fallback = retryPlayerWithFallbackClients(url, dataToSend, videoId)
+        if (fallback == null) logPlayer("all fallback clients failed for $videoId")
+        return fallback
+    }
+
+    private fun logYoutubeiRequest(
+        url: String,
+        httpCode: Int,
+        hasBody: Boolean,
+        playerPathToken: String,
+        isPlayerRequest: Boolean,
+    ) {
+        if (!url.contains("/youtubei/")) return
+        logPlayer(
+            "request path=${url.substringBefore('?').substringAfter("://")} http=$httpCode " +
+                "hasBody=$hasBody tokenLength=${playerPathToken.length} isPlayer=$isPlayerRequest",
+        )
+    }
+
+    private fun logPlayer(message: String) {
+        runCatching { Log.i(LOG_TAG, message) }
+    }
+
+    private fun summarizePlayability(body: String): String =
+        try {
+            val status =
+                Json.parseToJsonElement(body)
+                    .jsonObject[NativeTransportBridge.playabilityStatusKey()]
+                    ?.jsonObject
+            "status=${status?.get("status")?.jsonPrimitive?.contentOrNull}, " +
+                "reason=${status?.get("reason")?.jsonPrimitive?.contentOrNull}"
+        } catch (_: Exception) {
+            "unparseable response"
+        }
+
     private fun retryPlayerWithFallbackClients(
         url: String,
         originalBodyBytes: ByteArray,
@@ -185,7 +249,7 @@ class NewPipeDownloaderImpl(
         originalBodyBytes: ByteArray,
         videoId: String?,
     ): Response? {
-        return try {
+        return runCatching {
             val payload =
                 Json.parseToJsonElement(String(originalBodyBytes, StandardCharsets.UTF_8))
                     .jsonObject
@@ -201,9 +265,11 @@ class NewPipeDownloaderImpl(
 
             val updatedPayload = buildIosClientPayload(payload, visitorData) ?: return null
             executePlayerFallbackRequest(url, updatedPayload, IOS_USER_AGENT, videoId)
-        } catch (_: Exception) {
-            null
         }
+            .onFailure {
+                logPlayer("iOS fallback threw ${it.javaClass.simpleName}: ${it.message}")
+            }
+            .getOrNull()
     }
 
     private fun retryPlayerWithAndroidKidsClient(
@@ -211,15 +277,17 @@ class NewPipeDownloaderImpl(
         originalBodyBytes: ByteArray,
         videoId: String?,
     ): Response? {
-        return try {
+        return runCatching {
             val payload =
                 Json.parseToJsonElement(String(originalBodyBytes, StandardCharsets.UTF_8))
                     .jsonObject
             val updatedPayload = buildAndroidKidsClientPayload(payload) ?: return null
             executePlayerFallbackRequest(url, updatedPayload, ANDROID_KIDS_USER_AGENT, videoId)
-        } catch (_: Exception) {
-            null
         }
+            .onFailure {
+                logPlayer("Android Kids fallback threw ${it.javaClass.simpleName}: ${it.message}")
+            }
+            .getOrNull()
     }
 
     internal fun buildIosClientPayload(payload: JsonObject, visitorData: String?): JsonObject? {
@@ -285,10 +353,20 @@ class NewPipeDownloaderImpl(
                 .build()
 
         return client.newCall(req).execute().use { resp ->
-            if (!resp.isSuccessful) return null
+            if (!resp.isSuccessful) {
+                logPlayer(
+                    "fallback ${userAgent.substringBefore('/')} http=${resp.code} for $videoId",
+                )
+                return null
+            }
             val bodyStr = resp.body.string()
             val json = Json.parseToJsonElement(bodyStr).jsonObject
-            if (hasUsablePlayableStreams(json)) {
+            val usable = hasUsablePlayableStreams(json)
+            logPlayer(
+                "fallback ${userAgent.substringBefore('/')} for $videoId: usable=$usable, " +
+                    summarizePlayability(bodyStr),
+            )
+            if (usable) {
                 val resolvedVideoId = videoId ?: payload["videoId"]?.jsonPrimitive?.contentOrNull
                 userAgentRegistry.record(resolvedVideoId, userAgent)
                 Response(
@@ -349,6 +427,8 @@ class NewPipeDownloaderImpl(
     }
 
     companion object {
+        private const val LOG_TAG = "TubikPlayer"
+
         const val USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0"
 

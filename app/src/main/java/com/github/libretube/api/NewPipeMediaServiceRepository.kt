@@ -27,6 +27,7 @@ import com.github.libretube.extensions.toID
 import com.github.libretube.helpers.NewPipeExtractorInstance
 import com.github.libretube.helpers.PlayerHelper
 import com.github.libretube.player.StreamTransportContext
+import com.github.libretube.security.NativeTransportBridge
 import com.github.libretube.ui.dialogs.ShareDialog.Companion.YOUTUBE_FRONTEND_URL
 import com.github.libretube.util.ClientUserAgentRegistry
 import com.github.libretube.util.NewPipeDownloaderImpl
@@ -44,6 +45,7 @@ import org.schabi.newpipe.extractor.channel.tabs.ChannelTabInfo
 import org.schabi.newpipe.extractor.channel.tabs.ChannelTabs
 import org.schabi.newpipe.extractor.comments.CommentsInfo
 import org.schabi.newpipe.extractor.comments.CommentsInfoItem
+import org.schabi.newpipe.extractor.exceptions.ExtractionException
 import org.schabi.newpipe.extractor.kiosk.KioskInfo
 import org.schabi.newpipe.extractor.linkhandler.ListLinkHandler
 import org.schabi.newpipe.extractor.localization.ContentCountry
@@ -352,7 +354,19 @@ class NewPipeMediaServiceRepository(
             }
 
             val respAsync = async {
-                StreamInfo.getInfo("$YOUTUBE_FRONTEND_URL/watch?v=$videoId")
+                try {
+                    StreamInfo.getInfo("$YOUTUBE_FRONTEND_URL/watch?v=$videoId")
+                } catch (e: ExtractionException) {
+                    // On a build whose signature does not match the pinned certificate the stream
+                    // fallback clients are disabled, so say that instead of a generic failure.
+                    if (!NativeTransportBridge.isIntegrityVerified) {
+                        throw IllegalStateException(
+                            NativeTransportBridge.INTEGRITY_FAILURE_MESSAGE,
+                            e,
+                        )
+                    }
+                    throw e
+                }
             }
             val dislikesAsync = async {
                 if (PlayerHelper.localRYD)

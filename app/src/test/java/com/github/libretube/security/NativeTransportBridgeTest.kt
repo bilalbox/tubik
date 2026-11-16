@@ -1,6 +1,7 @@
 package com.github.libretube.security
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NativeTransportBridgeTest {
@@ -14,5 +15,10 @@ class NativeTransportBridgeTest {
         assertEquals("streamingData", NativeTransportBridge.streamingDataKey())
         assertEquals("playabilityStatus", NativeTransportBridge.playabilityStatusKey())
         assertEquals(0, NativeTransportBridge.umpPartMask())
+    }
+
+    @Test
+    fun `debug fallback reports integrity as verified`() {
+        assertTrue(NativeTransportBridge.isIntegrityVerified)
     }
 }

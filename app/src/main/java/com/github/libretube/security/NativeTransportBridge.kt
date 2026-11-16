@@ -1,6 +1,7 @@
 package com.github.libretube.security
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.Keep
 import com.github.libretube.BuildConfig
 
@@ -10,6 +11,7 @@ import com.github.libretube.BuildConfig
  */
 @Keep
 object NativeTransportBridge {
+    private const val TAG = "NativeTransportBridge"
     private const val LIB_NAME = "tubik_native"
     private const val SLOT_PLAYER_PATH = 0
     private const val SLOT_VISITOR_ENDPOINT = 1
@@ -39,7 +41,37 @@ object NativeTransportBridge {
         if (ensureLoaded() && nativeLoaded) {
             nativeInit(applicationContext)
         }
+        Log.i(
+            TAG,
+            "integrityVerified=$isIntegrityVerified umpMask=${umpPartMask()} " +
+                "playerPathLength=${playerPathToken().length}",
+        )
+        if (!isIntegrityVerified) {
+            Log.w(
+                TAG,
+                "Signing certificate or package identity does not match the pinned official " +
+                    "build (package=${applicationContext.packageName}, " +
+                    "certSha256=${SigningCertificate.describe(applicationContext)}). " +
+                    "Stream fallback clients and SABR parsing are disabled; some videos will " +
+                    "fail as unavailable.",
+            )
+        }
     }
+
+    /**
+     * Whether the running APK matches the pinned signing certificate and package identity. When
+     * false, every native-resolved value is garbage, so the stream fallback and SABR parsing cannot
+     * work.
+     */
+    val isIntegrityVerified: Boolean
+        get() = umpPartMask() == 0
+
+    /**
+     * Message shown when extraction fails on a build that cannot resolve native transport values.
+     */
+    const val INTEGRITY_FAILURE_MESSAGE =
+        "Unofficial build: the APK signature does not match, so some videos cannot be played. " +
+            "Install the official release."
 
     /** Returns the YouTube player endpoint path token required for stream fallback matching. */
     fun playerPathToken(): String =

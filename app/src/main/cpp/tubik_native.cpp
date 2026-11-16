@@ -446,6 +446,10 @@ jstring decodeSlot(JNIEnv* env, const uint8_t* slotData, size_t slotLen, jint sl
     if (slotLen >= sizeof(out)) {
         return env->NewStringUTF("");
     }
+    // Vectorizing this loop miscompiles under NDK r28 clang (see CMakeLists.txt).
+#if defined(__clang__)
+#pragma clang loop vectorize(disable) interleave(disable)
+#endif
     for (size_t i = 0; i < slotLen; ++i) {
         uint8_t dec = slotData[i] ^ gActiveDigest[i % kDigestLen] ^
                       kMask[(i * 7 + static_cast<size_t>(slotIdx) * 11) % kDigestLen];
