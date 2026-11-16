@@ -283,7 +283,7 @@
     <string name="pause">Jeda</string>
     <string name="alternative_pip_controls">Kontrol gambar dalam gambar alternatif</string>
     <string name="alternative_pip_controls_summary">Hanya tampilkan audio dan kontrol lewati dalam mode gambar dalam gambar daripada maju dan mundur</string>
-    <string name="audio_only_mode_summary">Jadikan LibreTube menjadi pemutar musik</string>
+    <string name="audio_only_mode_summary">Jadikan Tubik menjadi pemutar musik</string>
     <string name="audio_only_mode">Mode hanya audio</string>
     <string name="no_subtitle">Tidak ada takarir</string>
     <string name="download_paused">Unduhan dijeda</string>
@@ -442,7 +442,7 @@
     <string name="title">Judul</string>
     <string name="best_quality">Terbaik</string>
     <string name="external_download_provider">Penyedia unduhan eksternal</string>
-    <string name="external_download_provider_summary">Masukkan nama paket apli yang Anda ingin gunakan untuk mengunduh video. Biarkan kosong untuk menggunakan pengunduh bawaan LibreTube.</string>
+    <string name="external_download_provider_summary">Masukkan nama paket apli yang Anda ingin gunakan untuk mengunduh video. Biarkan kosong untuk menggunakan pengunduh bawaan Tubik.</string>
     <string name="import_watch_history">Impor riwayat tontonan</string>
     <string name="local_ryd">Pengekstrak Return YouTube Dislikes lokal</string>
     <string name="local_ryd_summary">Dapatkan informasi tidak suka secara langsung dari https://returnyoutubedislikeapi.com</string>

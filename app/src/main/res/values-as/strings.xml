@@ -318,7 +318,7 @@
     <string name="alternative_pip_controls">বিকল্প পিআইপি নিয়ন্ত্ৰণ</string>
     <string name="alternative_pip_controls_summary">আগুৱাওক আৰু পিছুৱাওকৰ সলনি পিআইপিত কেৱল অডিঅ’ আৰু এৰাই যোৱা নিয়ন্ত্ৰণ দেখুৱাওক</string>
     <string name="audio_only_mode">কেৱল অডিঅ’ মোড</string>
-    <string name="audio_only_mode_summary">লিব্ৰেটিউবক মিউজিক প্লেয়াৰলৈ পৰিণত কৰক</string>
+    <string name="audio_only_mode_summary">Tubikক মিউজিক প্লেয়াৰলৈ পৰিণত কৰক</string>
     <string name="sleep_timer">ঘুমৰ টাইমাৰ</string>
     <string name="skip_silence">নীৰৱতা এৰাই চলক</string>
     <string name="help">সহায়</string>
@@ -422,7 +422,7 @@
     <string name="change">সলনি কৰক</string>
     <string name="gestures">অঙ্গভঙ্গি</string>
     <string name="external_download_provider">বাহ্যিক ডাউনলোড প্ৰদানকাৰী</string>
-    <string name="external_download_provider_summary">ভিডিঅ’ ডাউনলোডৰ বাবে ব্যৱহাৰ কৰিব বিচৰা এপৰ পেকেজ নাম দিয়ক। লিব্ৰেটিউবৰ অন্তৰ্নিৰ্মিত ডাউনলোডাৰ ব্যৱহাৰ কৰিবলৈ খালী এৰি দিয়ক।</string>
+    <string name="external_download_provider_summary">ভিডিঅ’ ডাউনলোডৰ বাবে ব্যৱহাৰ কৰিব বিচৰা এপৰ পেকেজ নাম দিয়ক। Tubikৰ অন্তৰ্নিৰ্মিত ডাউনলোডাৰ ব্যৱহাৰ কৰিবলৈ খালী এৰি দিয়ক।</string>
     <string name="local_stream_extraction">স্থানীয় ষ্ট্ৰীম নিষ্কাশন</string>
     <string name="local_stream_extraction_summary">পাইপড ব্যৱহাৰ নকৰাকৈ ইউটিউবৰ পৰা প্ৰত্যক্ষভাৱে ভিডিঅ’ প্লেবেক তথ্য আনক।</string>
     <string name="local_ryd">স্থানীয় ৰিটাৰ্ন ইউটিউব ডিছলাইক নিষ্কাশক</string>

@@ -108,7 +108,6 @@
     <string name="app_icon">Icon</string>
     <string name="enabled">On</string>
     <string name="disabled">Off</string>
-    <string name="piped" translatable="false">Piped</string>
     <string name="youtube" translatable="false">YouTube</string>
     <string name="playOnBackground">Play in the background</string>
     <string name="appearance">Appearance</string>
@@ -333,7 +332,7 @@
     <string name="alternative_pip_controls">Alternative PiP controls</string>
     <string name="alternative_pip_controls_summary">Show audio only and skip controls in PiP instead of forward and rewind</string>
     <string name="audio_only_mode">Audio only mode</string>
-    <string name="audio_only_mode_summary">Turn LibreTube into a music player</string>
+    <string name="audio_only_mode_summary">Turn Tubik into a music player</string>
     <string name="sleep_timer">Sleep timer</string>
     <string name="skip_silence">Skip silence</string>
     <string name="faq">FAQ</string>
@@ -464,7 +463,7 @@
     <string name="change">Change</string>
     <string name="gestures">Gestures</string>
     <string name="external_download_provider">External download provider</string>
-    <string name="external_download_provider_summary">Enter the package name of the app you want to use for downloading videos. Leave blank to use LibreTube\'s inbuilt downloader.</string>
+    <string name="external_download_provider_summary">Enter the package name of the app you want to use for downloading videos. Leave blank to use Tubik\'s inbuilt downloader.</string>
     <string name="local_stream_extraction">Local stream extraction</string>
     <string name="local_stream_extraction_summary">Directly fetch video playback information from YouTube without using Piped.</string>
     <string name="local_ryd">Local Return Youtube Dislike extractor</string>

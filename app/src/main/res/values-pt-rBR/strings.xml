@@ -289,7 +289,7 @@
     <string name="concurrent_downloads_limit_reached">Limite máximo de downloads simultâneos atingido.</string>
     <string name="unknown">Desconhecido</string>
     <string name="resume">Continuar</string>
-    <string name="audio_only_mode_summary">Usar o LibreTube como player de músicas</string>
+    <string name="audio_only_mode_summary">Usar o Tubik como player de músicas</string>
     <string name="audio_only_mode">Somente áudio</string>
     <string name="sleep_timer">Temporizador</string>
     <string name="skip_silence">Pular silêncio</string>
@@ -444,7 +444,7 @@
     <string name="title">Título</string>
     <string name="best_quality">Melhor qualidade</string>
     <string name="external_download_provider">Provedor de download externo</string>
-    <string name="external_download_provider_summary">Digite o nome do pacote da aplicação que deseja usar para baixar vídeos. Deixe em branco para usar o provedor de download do LibreTube.</string>
+    <string name="external_download_provider_summary">Digite o nome do pacote da aplicação que deseja usar para baixar vídeos. Deixe em branco para usar o provedor de download do Tubik.</string>
     <string name="screenshot">Capturar tela</string>
     <string name="pip">PiP</string>
     <string name="local_stream_extraction">Extrair informações do vídeo localmente</string>

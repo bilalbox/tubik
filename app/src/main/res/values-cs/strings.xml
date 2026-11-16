@@ -290,7 +290,7 @@
     <string name="unknown">Neznámý</string>
     <string name="resume">Pokračovat</string>
     <string name="audio_only_mode">Režim pouze zvuku</string>
-    <string name="audio_only_mode_summary">Proměňte LibreTube v hudební přehrávač</string>
+    <string name="audio_only_mode_summary">Proměňte Tubik v hudební přehrávač</string>
     <string name="sleep_timer">Časovač spánku</string>
     <string name="skip_silence">Přeskočit ticho</string>
     <string name="help">Nápověda</string>
@@ -444,7 +444,7 @@
     <string name="thumbnail_time">Čas miniatury</string>
     <string name="best_quality">Nejlepší</string>
     <string name="external_download_provider">Externí poskytovatel stahování</string>
-    <string name="external_download_provider_summary">Zadejte název balíčku aplikace, kterou chcete použít pro stahování videí. Ponechte prázdné pro použití vestavěné služby stahování LibreTube.</string>
+    <string name="external_download_provider_summary">Zadejte název balíčku aplikace, kterou chcete použít pro stahování videí. Ponechte prázdné pro použití vestavěné služby stahování Tubik.</string>
     <string name="screenshot">Snímek obrazovky</string>
     <string name="pip">PiP</string>
     <string name="local_stream_extraction">Lokální extrakce streamu</string>

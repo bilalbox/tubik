@@ -205,7 +205,7 @@
     <string name="add_to_bookmarks">𐑨𐑛 𐑑 𐑚𐑫𐑒𐑥𐑸𐑒𐑕</string>
     <string name="rewind">𐑮𐑰𐑢𐑲𐑯𐑛</string>
     <string name="audio_only_mode">𐑷𐑛𐑦𐑴 𐑴𐑯𐑤𐑦 𐑥𐑴𐑛</string>
-    <string name="audio_only_mode_summary">𐑑𐑻𐑯 ·𐑤𐑰𐑚𐑮𐑩𐑑𐑿𐑚 𐑦𐑯𐑑𐑵 𐑩 𐑥𐑿𐑟𐑦𐑒 𐑐𐑤𐑱𐑼</string>
+    <string name="audio_only_mode_summary">𐑑𐑻𐑯 Tubik 𐑦𐑯𐑑𐑵 𐑩 𐑥𐑿𐑟𐑦𐑒 𐑐𐑤𐑱𐑼</string>
     <string name="sleep_timer">𐑕𐑤𐑰𐑐 𐑑𐑲𐑥𐑼</string>
     <string name="skip_silence">𐑕𐑒𐑦𐑐 𐑕𐑲𐑤𐑩𐑯𐑕</string>
     <string name="help">𐑣𐑧𐑤𐑐</string>
@@ -431,7 +431,7 @@
     <string name="change">𐑗𐑱𐑯𐑡</string>
     <string name="gestures">𐑡𐑧𐑕𐑗𐑼𐑟</string>
     <string name="external_download_provider">𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑛𐑬𐑯𐑤𐑴𐑛 𐑐𐑮𐑩𐑝𐑲𐑛𐑼</string>
-    <string name="external_download_provider_summary">𐑧𐑯𐑑𐑼 𐑞 𐑐𐑨𐑒𐑦𐑡 𐑯𐑱𐑥 𐑝 𐑞 𐑨𐑐 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑿𐑟 𐑓 𐑛𐑬𐑯𐑤𐑴𐑛𐑦𐑙 𐑝𐑦𐑛𐑦𐑴𐑟. 𐑤𐑰𐑝 𐑚𐑤𐑨𐑙𐑒 𐑑 𐑿𐑟 ·𐑤𐑰𐑚𐑮𐑩𐑑𐑿𐑚\'𐑟 𐑦𐑯𐑚𐑦𐑤𐑑 𐑛𐑬𐑯𐑤𐑴𐑛𐑼.</string>
+    <string name="external_download_provider_summary">𐑧𐑯𐑑𐑼 𐑞 𐑐𐑨𐑒𐑦𐑡 𐑯𐑱𐑥 𐑝 𐑞 𐑨𐑐 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑿𐑟 𐑓 𐑛𐑬𐑯𐑤𐑴𐑛𐑦𐑙 𐑝𐑦𐑛𐑦𐑴𐑟. 𐑤𐑰𐑝 𐑚𐑤𐑨𐑙𐑒 𐑑 𐑿𐑟 Tubik\'𐑟 𐑦𐑯𐑚𐑦𐑤𐑑 𐑛𐑬𐑯𐑤𐑴𐑛𐑼.</string>
     <string name="local_stream_extraction">𐑤𐑴𐑒𐑩𐑤 𐑕𐑑𐑮𐑰𐑥 𐑦𐑒𐑕𐑑𐑮𐑨𐑒𐑖𐑩𐑯</string>
     <string name="local_stream_extraction_summary">𐑛𐑦𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑧𐑗 𐑝𐑦𐑛𐑦𐑴 𐑐𐑤𐑱𐑚𐑨𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 ·𐑿𐑑𐑿𐑚 𐑢𐑦𐑞𐑬𐑑 𐑿𐑟𐑦𐑙 ·𐑐𐑲𐑐𐑑.</string>
     <string name="local_ryd">𐑤𐑴𐑒𐑩𐑤 ·𐑮𐑦𐑑𐑻𐑯 𐑿𐑑𐑿𐑚 𐑛𐑦𐑕𐑤𐑲𐑒 𐑦𐑒𐑕𐑑𐑮𐑨𐑒𐑑𐑼</string>

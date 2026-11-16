@@ -37,7 +37,7 @@ class AboutActivityTest {
     )
 
     @Test
-    fun `about link cards open Tubik website, GitHub, privacy policy, and Piped without LibreTube links`() {
+    fun `about link cards open Tubik website, GitHub, and privacy policy without LibreTube or Piped links`() {
         val actions = RecordingActions()
         val cards = linkedMapOf<AboutCard, RegisteredCard>()
 
@@ -49,7 +49,6 @@ class AboutActivityTest {
             setOf(
                 AboutCard.WEBSITE,
                 AboutCard.GITHUB,
-                AboutCard.PIPED,
                 AboutCard.PRIVACY_POLICY,
                 AboutCard.LICENSE,
                 AboutCard.DEVICE,
@@ -60,23 +59,22 @@ class AboutActivityTest {
         cards.getValue(AboutCard.WEBSITE).onClick()
         cards.getValue(AboutCard.GITHUB).onClick()
         cards.getValue(AboutCard.PRIVACY_POLICY).onClick()
-        cards.getValue(AboutCard.PIPED).onClick()
 
         assertEquals(
             listOf(
                 "https://tubik.23p.dev",
                 "https://github.com/bilalbox/tubik",
                 "https://tubik.23p.dev/privacy",
-                "https://github.com/TeamPiped/Piped",
             ),
             actions.openedLinks,
         )
         assertEquals("https://github.com/bilalbox/tubik", AboutActivity.GITHUB_URL)
         actions.openedLinks.forEach { url ->
             assertFalse(
-                "Unexpected upstream LibreTube/Weblate link: $url",
+                "Unexpected upstream LibreTube link: $url",
                 url.contains("libretube", ignoreCase = true),
             )
+            assertFalse("Unexpected Piped link: $url", url.contains("piped", ignoreCase = true))
             assertFalse("Unexpected Weblate link: $url", url.contains("weblate", ignoreCase = true))
         }
     }
@@ -94,7 +92,6 @@ class AboutActivityTest {
             listOf(
                 AboutCard.WEBSITE,
                 AboutCard.GITHUB,
-                AboutCard.PIPED,
                 AboutCard.PRIVACY_POLICY,
                 AboutCard.LICENSE,
             )
@@ -108,7 +105,6 @@ class AboutActivityTest {
             listOf(
                 "https://tubik.23p.dev",
                 "https://github.com/bilalbox/tubik",
-                "https://github.com/TeamPiped/Piped",
                 "https://tubik.23p.dev/privacy",
                 "https://gnu.org/",
             ),

@@ -291,7 +291,7 @@
     <string name="alternative_pip_controls_summary">Buttons für \"Nur Audio\" und \"Überspringen\" im Bild-im-Bild-Modus anzeigen anstelle von Vor- und Zurückspulen</string>
     <string name="replies">Antworten</string>
     <string name="concurrent_downloads_limit_reached">Maximal Anzahl von Downloads erreicht.</string>
-    <string name="audio_only_mode_summary">LibreTube in einen Musikplayer umwandeln</string>
+    <string name="audio_only_mode_summary">Tubik in einen Musikplayer umwandeln</string>
     <string name="faq">Häufig gestellte Fragen</string>
     <string name="help">Hilfe</string>
     <string name="sleep_timer">Einschlaf-Timer</string>
@@ -443,7 +443,7 @@
     <string name="title">Titel</string>
     <string name="import_temp_playlist">Temporäre Playlist importieren?</string>
     <string name="external_download_provider">Externe Download-App</string>
-    <string name="external_download_provider_summary">Gib den Paketnamen der App ein, die zum Herunterladen von Videos verwendet werden soll. Nichts eintragen, um den eingebauten Downloader von LibreTube zu verwenden.</string>
+    <string name="external_download_provider_summary">Gib den Paketnamen der App ein, die zum Herunterladen von Videos verwendet werden soll. Nichts eintragen, um den eingebauten Downloader von Tubik zu verwenden.</string>
     <string name="screenshot">Screenshot</string>
     <string name="pip">PiP</string>
     <string name="local_stream_extraction">Direkter Abruf von Videos</string>

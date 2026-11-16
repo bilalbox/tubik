@@ -222,7 +222,7 @@ class BackupRestoreSettings : BasePreferenceFragment() {
             val encodedBackupFile = resultBundle.getString(IntentData.backupFile)!!
             backupFile = Json.decodeFromString(encodedBackupFile)
             val timestamp = TextUtils.getFileSafeTimeStampNow()
-            createBackupFile.launch("libretube-backup-${timestamp}.json")
+            createBackupFile.launch("tubik-backup-${timestamp}.json")
         }
         authorizeBackupOrRestoreClick("backup") {
             BackupDialog().show(childFragmentManager, null)

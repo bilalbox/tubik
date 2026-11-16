@@ -359,7 +359,7 @@
     <string name="yt_shorts">குறுக்குகள்</string>
     <string name="color">நிறம்</string>
     <string name="time">நேரம்</string>
-    <string name="audio_only_mode_summary">லிப்ரெட்யூப்பை ஒரு மியூசிக் பிளேயராக மாற்றவும்</string>
+    <string name="audio_only_mode_summary">Tubik-ஐ ஒரு மியூசிக் பிளேயராக மாற்றவும்</string>
     <string name="sleep_timer">தூக்க நேரங்குறிகருவி</string>
     <string name="dubbed_audio_track">டப்பிங்</string>
     <string name="go_to_video">வீடியோவுக்குச் செல்லுங்கள்</string>
@@ -384,7 +384,7 @@
     <string name="theme_monochrome">குறைந்தபட்ச மோனோக்ரோம்</string>
     <string name="forward">முன்னோக்கி</string>
     <string name="alternative_pip_controls">மாற்று குழாய் கட்டுப்பாடுகள்</string>
-    <string name="external_download_provider_summary">வீடியோக்களைப் பதிவிறக்க நீங்கள் பயன்படுத்த விரும்பும் பயன்பாட்டின் தொகுப்பு பெயரை உள்ளிடவும். லிப்ரெட்யூப்பின் உள்ளடிக்கிய பதிவிறக்கத்தைப் பயன்படுத்த காலியாக விடவும்.</string>
+    <string name="external_download_provider_summary">வீடியோக்களைப் பதிவிறக்க நீங்கள் பயன்படுத்த விரும்பும் பயன்பாட்டின் தொகுப்பு பெயரை உள்ளிடவும். Tubik-இன் உள்ளடிக்கிய பதிவிறக்கத்தைப் பயன்படுத்த காலியாக விடவும்.</string>
     <string name="screenshot">திரைக்காட்சி</string>
     <string name="local_stream_extraction">உள்ளக ச்ட்ரீம் பிரித்தெடுத்தல்</string>
     <string name="push_channel_description">புதிய ச்ட்ரீம்கள் கிடைக்கும்போது அறிவிப்பைக் காட்டுகிறது.</string>

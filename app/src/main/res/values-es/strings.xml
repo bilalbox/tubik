@@ -283,7 +283,7 @@
     <string name="alternative_pip_controls_summary">Mostrar boton \"Modo audio\" y Anterior/Siguiente en la ventana flotante en lugar de avance y retroceso</string>
     <string name="rewind">Retroceder</string>
     <string name="alternative_pip_controls">Controles PiP alternativos</string>
-    <string name="audio_only_mode_summary">Convierte LibreTube en un reproductor de música</string>
+    <string name="audio_only_mode_summary">Convierte Tubik en un reproductor de música</string>
     <string name="no_subtitle">Sin subtítulos</string>
     <string name="download_paused">Descarga pausada</string>
     <string name="download_completed">Descarga completa</string>
@@ -443,7 +443,7 @@
     <string name="title">Título</string>
     <string name="thumbnail_time">Duracción de la miniatura</string>
     <string name="best_quality">Mejor</string>
-    <string name="external_download_provider_summary">Introduzca el nombre de la aplicación que desea utilizar para descargar los vídeos. Déjelo en blanco para utilizar el LibreTube.</string>
+    <string name="external_download_provider_summary">Introduzca el nombre de la aplicación que desea utilizar para descargar los vídeos. Déjelo en blanco para utilizar el Tubik.</string>
     <string name="external_download_provider">Proveedor de descargas externo</string>
     <string name="screenshot">Capturas de pantalla</string>
     <string name="pip">PiP</string>

@@ -234,7 +234,7 @@
     <string name="rewind">กรอกลับ</string>
     <string name="forward">กรอข้าม</string>
     <string name="audio_only_mode">โหมดเสียงเท่านั้น</string>
-    <string name="audio_only_mode_summary">เปลี่ยน LibreTube ให้เป็นเครื่องเล่นเพลง</string>
+    <string name="audio_only_mode_summary">เปลี่ยน Tubik ให้เป็นเครื่องเล่นเพลง</string>
     <string name="sleep_timer">ตั้งเวลาปิด</string>
     <string name="skip_silence">ข้ามส่วนที่เงียบ</string>
     <string name="category">หมวดหมู่</string>
@@ -318,7 +318,7 @@
     <string name="change">เปลี่ยน</string>
     <string name="gestures">ท่าทาง</string>
     <string name="external_download_provider">ผู้ให้ดาวน์โหลดจากภายนอก</string>
-    <string name="external_download_provider_summary">ใส่ชื่อแพ็คเกจของแอปที่คุณจะใช้ในการดาวน์โหลดวิดีโอ ปล่อยเว้นว้างเอาไว้เพื่อใช้ตัวดาวน์โหลดของ LibreTube</string>
+    <string name="external_download_provider_summary">ใส่ชื่อแพ็คเกจของแอปที่คุณจะใช้ในการดาวน์โหลดวิดีโอ ปล่อยเว้นว้างเอาไว้เพื่อใช้ตัวดาวน์โหลดของ Tubik</string>
     <string name="local_stream_extraction_summary">โหลดข้อมูลวิดีโอจาก YouTube โดยตรงโดยไม่ต้องผ่าน Piped</string>
     <string name="local_ryd">ใช้ตัวดึงข้อมูล Return Youtube Dislike โดยตรง</string>
     <string name="local_ryd_summary">ดึงข้อมูลไม่ถูกใจวิดีโอผ่านทาง https://returnyoutubedislikeapi.com โดยตรง</string>

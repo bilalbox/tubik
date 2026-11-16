@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 internal enum class AboutCard {
     WEBSITE,
     GITHUB,
-    PIPED,
     PRIVACY_POLICY,
     LICENSE,
     DEVICE,
@@ -40,7 +39,6 @@ private val ABOUT_LINK_CARDS: List<Pair<AboutCard, String>> =
     listOf(
         AboutCard.WEBSITE to AboutActivity.WEBSITE_URL,
         AboutCard.GITHUB to AboutActivity.GITHUB_URL,
-        AboutCard.PIPED to AboutActivity.PIPED_GITHUB_URL,
         AboutCard.PRIVACY_POLICY to AboutActivity.PRIVACY_POLICY_URL,
     )
 
@@ -78,7 +76,6 @@ class AboutActivity : BaseActivity() {
             mapOf(
                 AboutCard.WEBSITE to binding.website,
                 AboutCard.GITHUB to binding.github,
-                AboutCard.PIPED to binding.piped,
                 AboutCard.PRIVACY_POLICY to binding.privacyPolicy,
                 AboutCard.LICENSE to binding.license,
                 AboutCard.DEVICE to binding.device,
@@ -171,7 +168,6 @@ class AboutActivity : BaseActivity() {
     companion object {
         internal const val WEBSITE_URL = "https://tubik.23p.dev"
         const val GITHUB_URL = "https://github.com/bilalbox/tubik"
-        internal const val PIPED_GITHUB_URL = "https://github.com/TeamPiped/Piped"
         internal const val PRIVACY_POLICY_URL = "https://tubik.23p.dev/privacy"
         internal const val LICENSE_URL = "https://gnu.org/"
     }

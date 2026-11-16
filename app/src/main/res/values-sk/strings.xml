@@ -58,7 +58,7 @@
     <string name="startpage">Domov</string>
     <string name="subscriptions">Odbery</string>
     <string name="download">Stiahnuť</string>
-    <string name="about">O LibreTube</string>
+    <string name="about">O Tubik</string>
     <string name="unsubscribe">Zrušiť odber</string>
     <string name="share">Zdieľať</string>
     <string name="error">Niečo sa pokazilo.</string>
@@ -354,7 +354,7 @@
     <string name="color_violet">Univerzálne fialový</string>
     <string name="playlistUrl">Adresa URL zoznamu skladieb</string>
     <string name="shuffle">Náhodný výber</string>
-    <string name="audio_only_mode_summary">Premení LibreTube na prehrávač hudby</string>
+    <string name="audio_only_mode_summary">Premení Tubik na prehrávač hudby</string>
     <string name="skip_silence">Vynechať ticho</string>
     <string name="help">Pomoc</string>
     <string name="category">Kategória</string>
@@ -444,7 +444,7 @@
     <string name="thumbnail_time">Čas miniatúry</string>
     <string name="best_quality">Najlepšia</string>
     <string name="external_download_provider">Externý poskytovateľ sťahovania</string>
-    <string name="external_download_provider_summary">Zadajte názov aplikácie, ktorú chcete používať na sťahovanie videí. Ak chcete použiť vstavaný sťahovač LibreTube, nechajte prázdne miesto.</string>
+    <string name="external_download_provider_summary">Zadajte názov aplikácie, ktorú chcete používať na sťahovanie videí. Ak chcete použiť vstavaný sťahovač Tubik, nechajte prázdne miesto.</string>
     <string name="screenshot">Snímka obrazovky</string>
     <string name="pip">PiP</string>
     <string name="local_stream_extraction">Lokálna extrakcia streamu</string>

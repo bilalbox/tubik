@@ -286,7 +286,7 @@
     <string name="fullscreen_gestures">Cử chỉ vào/thoát toàn màn hình</string>
     <string name="alternative_pip_controls_summary">Chỉ hiển thị âm thanh và bỏ qua các điều khiển trong HtH thay vì tua đi và tua lại</string>
     <string name="home_tab_content">Nội dung thẻ trang chủ</string>
-    <string name="audio_only_mode_summary">Biến LibreTube thành một trình phát nhạc</string>
+    <string name="audio_only_mode_summary">Biến Tubik thành một trình phát nhạc</string>
     <string name="sb_custom_colors">Tùy chỉnh màu phân đoạn</string>
     <string name="app_backup">Sao lưu ứng dụng</string>
     <string name="sleep_timer">Hẹn giờ ngủ</string>
@@ -480,7 +480,7 @@
         <item quantity="other">%d phút</item>
     </plurals>
     <string name="external_download_provider">Dịch vụ tải đoạn phim bên ngoài</string>
-    <string name="external_download_provider_summary">Điền id ứng dụng mà bạn muốn dùng để tải đoạn phim. Bỏ trống để dùng dịch vụ tải đoạn phim có sẵn của LibreTube.</string>
+    <string name="external_download_provider_summary">Điền id ứng dụng mà bạn muốn dùng để tải đoạn phim. Bỏ trống để dùng dịch vụ tải đoạn phim có sẵn của Tubik.</string>
     <string name="local_stream_extraction">Trính xuất đoạn phim từ nguồn</string>
     <string name="local_stream_extraction_summary">Trực tiếp trích xuất thông tin phát lại của đoạn phim từ YouTube mà không dùng đến Piped.</string>
     <string name="local_ryd">Trích xuất từ Return Youtube Dislike</string>

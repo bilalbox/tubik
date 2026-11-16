@@ -28,7 +28,7 @@
     <string name="addToPlaylist">Добавить в плейлист</string>
     <string name="success">Выполнено.</string>
     <string name="fail">Не удалось :(</string>
-    <string name="about">О LibreTube</string>
+    <string name="about">О Tubik</string>
     <string name="subscriptions">Подписки</string>
     <string name="library">Библиотека</string>
     <string name="videos">Видео</string>
@@ -290,7 +290,7 @@
     <string name="unknown">Неизвестно</string>
     <string name="resume">Продолжить</string>
     <string name="audio_only_mode">Режим только аудио</string>
-    <string name="audio_only_mode_summary">Превратите LibreTube в музыкальный проигрыватель</string>
+    <string name="audio_only_mode_summary">Превратите Tubik в музыкальный проигрыватель</string>
     <string name="sleep_timer">Таймер сна</string>
     <string name="skip_silence">Пропускать тишину</string>
     <string name="help">Справка</string>
@@ -445,7 +445,7 @@
     <string name="thumbnail_time">Показывать время на миниатюре</string>
     <string name="best_quality">Наилучшее</string>
     <string name="external_download_provider">Внешний скачиватель</string>
-    <string name="external_download_provider_summary">Название пакета приложения, которое будет использоваться для скачивания видео. Оставьте пустым, чтобы скачивать через LibreTube.</string>
+    <string name="external_download_provider_summary">Название пакета приложения, которое будет использоваться для скачивания видео. Оставьте пустым, чтобы скачивать через Tubik.</string>
     <string name="screenshot">Сохранить кадр</string>
     <string name="pip">КвК</string>
     <string name="local_stream_extraction">Локальное извлечение потока</string>

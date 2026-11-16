@@ -284,7 +284,7 @@
     <string name="alternative_pip_controls_summary">ਸਿਰਫ਼ ਆਡੀਓ ਦਿਖਾਓ ਅਤੇ ਅੱਗੇ ਅਤੇ ਪਿੱਛੇ ਦੀ ਬਜਾਏ PiP ਵਿੱਚ ਕੰਟਰੋਲ ਛੱਡੋ</string>
     <string name="alternative_pip_controls">ਵਿਕਲਪਿਕ PiP ਨਿਯੰਤਰਣ</string>
     <string name="audio_only_mode">ਸਿਰਫ ਆਡੀਓ ਮੋਡ</string>
-    <string name="audio_only_mode_summary">LibreTube ਨੂੰ ਇੱਕ ਸੰਗੀਤ ਪਲੇਅਰ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="audio_only_mode_summary">Tubik ਨੂੰ ਇੱਕ ਸੰਗੀਤ ਪਲੇਅਰ ਵਿੱਚ ਬਦਲੋ</string>
     <string name="no_subtitle">ਕੋਈ ਉਪਸਿਰਲੇਖ ਨਹੀਂ</string>
     <string name="unknown">ਅਗਿਆਤ</string>
     <string name="download_paused">ਡਾਊਨਲੋਡ ਰੋਕਿਆ ਗਿਆ</string>
@@ -442,7 +442,7 @@
     <string name="import_temp_playlist">ਅਸਥਾਈ ਪਲੇਲਿਸਟ ਨੂੰ ਆਯਾਤ ਕਰੋ?</string>
     <string name="import_temp_playlist_summary">ਕੀ ਤੁਸੀਂ \'%1$s\' ਨਾਮ ਦੀ ਇੱਕ ਨਵੀਂ ਪਲੇਲਿਸਟ ਬਣਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਪਲੇਲਿਸਟ ਵਿੱਚ %2$d ਵੀਡੀਓ ਸ਼ਾਮਲ ਹੋਣਗੇ।</string>
     <string name="best_quality">ਉੱਤਮ</string>
-    <string name="external_download_provider_summary">ਉਸ ਐਪ ਦਾ ਪੈਕੇਜ ਨਾਮ ਦਰਜ ਕਰੋ ਜਿਸਦੀ ਵਰਤੋਂ ਤੁਸੀਂ ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ। ਲੀਬਰਟਿਊਬ ਦੇ ਇਨਬਿਲਟ ਡਾਊਨਲੋਡਰ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਖਾਲੀ ਛੱਡੋ।</string>
+    <string name="external_download_provider_summary">ਉਸ ਐਪ ਦਾ ਪੈਕੇਜ ਨਾਮ ਦਰਜ ਕਰੋ ਜਿਸਦੀ ਵਰਤੋਂ ਤੁਸੀਂ ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ। Tubik ਦੇ ਇਨਬਿਲਟ ਡਾਊਨਲੋਡਰ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਖਾਲੀ ਛੱਡੋ।</string>
     <string name="external_download_provider">ਬਾਹਰੀ ਡਾਊਨਲੋਡ ਪ੍ਰੋਵਾਈਡਰ</string>
     <string name="pip">PiP</string>
     <string name="screenshot">ਸਕਰੀਨਸ਼ਾਟ</string>

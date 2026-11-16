@@ -300,7 +300,7 @@
     <string name="rewind">Keri tagasi</string>
     <string name="forward">Keri edasi</string>
     <string name="alternative_pip_controls">Täiendavad võimalused pilt-pildis vaate halduseks</string>
-    <string name="audio_only_mode_summary">Muuda LibreTube muusikamängijaks</string>
+    <string name="audio_only_mode_summary">Muuda Tubik muusikamängijaks</string>
     <string name="sleep_timer">Unetaimer</string>
     <string name="skip_silence">Jäta vaikus vahele</string>
     <string name="faq">Korduma kippuvad küsimused</string>
@@ -443,7 +443,7 @@
     <string name="export_subscriptions_to">Vali rakendus, mille jaoks ekspordid tellimused</string>
     <string name="tooltip_play">Esita</string>
     <string name="external_download_provider">Väline allalaadimisrakendus</string>
-    <string name="external_download_provider_summary">Sisesta välise allalaadimisrakenduse paketi nimi, mida soovid kasutada. Kui eelistad LibreTube\'i oma allalaadimislahendust, siis jäta tühjaks.</string>
+    <string name="external_download_provider_summary">Sisesta välise allalaadimisrakenduse paketi nimi, mida soovid kasutada. Kui eelistad Tubik\'i oma allalaadimislahendust, siis jäta tühjaks.</string>
     <string name="screenshot">Ekraanitõmmis</string>
     <string name="pip">PiP</string>
     <string name="local_stream_extraction">Töötle meediavoogu kohalikus seadmes</string>

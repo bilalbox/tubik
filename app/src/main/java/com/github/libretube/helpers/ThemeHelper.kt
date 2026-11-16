@@ -7,10 +7,9 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.text.Spanned
+import android.text.SpannedString
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.text.HtmlCompat
-import androidx.core.text.parseAsHtml
 import com.github.libretube.R
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.ui.adapters.IconsSheetAdapter
@@ -98,12 +97,8 @@ object ThemeHelper {
         MaterialColors.getColor(context, colorCode, Color.TRANSPARENT)
 
     /** Get the styled app name */
-    fun getStyledAppName(context: Context): Spanned {
-        val colorPrimary = getThemeColor(context, androidx.appcompat.R.attr.colorPrimaryDark)
-        val hexColor = "#%06X".format(0xFFFFFF and colorPrimary)
-        return "Libre<span  style='color:$hexColor';>Tube</span>"
-            .parseAsHtml(HtmlCompat.FROM_HTML_MODE_COMPACT)
-    }
+    fun getStyledAppName(context: Context): Spanned =
+        SpannedString(context.getString(R.string.app_name))
 
     fun isDarkMode(context: Context): Boolean {
         val darkModeFlag =

@@ -311,7 +311,7 @@
     <string name="double_tap_seek_summary">دوبار در سمت چپ یا راست ضربه بزنید تا موقعیت پخش کننده به عقب یا جلو برود</string>
     <string name="all_caught_up">همه چیز انجام شده</string>
     <string name="audio_only_mode">حالت فقط صدا</string>
-    <string name="audio_only_mode_summary">LibreTube را به یک پخش کننده موسیقی تبدیل کنید</string>
+    <string name="audio_only_mode_summary">Tubik را به یک پخش کننده موسیقی تبدیل کنید</string>
     <string name="all_caught_up_summary">همه ویدیوهای جدید را دیده اید</string>
     <string name="add_to_bookmarks">به نشانک ها اضافه کنید</string>
     <string name="mark_as_watched">علامت گذاری به عنوان دیده شده</string>
@@ -447,7 +447,7 @@
     <string name="external_download_provider">ارائه دهنده بارگیری خارجی</string>
     <string name="local_stream_extraction">استخراج جریان محلی</string>
     <string name="local_stream_extraction_summary">واکشی مستقیم اطّلاعات پخش ویدیو از یوتوب بدون استفاده از پایپد.</string>
-    <string name="external_download_provider_summary">ورود نام بستهٔ کاره‌ای که می‌خواهید برای بارگیری ویدیوها استفاده کنید. خالی گذاشتن برای استفاده از بارگیر توکار لیبره‌تیوب.</string>
+    <string name="external_download_provider_summary">ورود نام بستهٔ کاره‌ای که می‌خواهید برای بارگیری ویدیوها استفاده کنید. خالی گذاشتن برای استفاده از بارگیر توکار Tubik.</string>
     <string name="local_ryd">برگردان محلی استخراج کننده نپسندیدن یوتیوب</string>
     <string name="local_ryd_summary">واکشی مستقیم اطّلاعات نپسندیدن از https://returnyoutubedislikeapi.com</string>
     <string name="import_watch_history">درون‌ریزی تاریخچهٔ تماشا</string>

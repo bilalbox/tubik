@@ -271,7 +271,7 @@
     <string name="trends">熱門影片</string>
     <string name="featured">精選影片</string>
     <string name="audio_only_mode">純音訊模式</string>
-    <string name="audio_only_mode_summary">將LibreTube變成音樂播放器</string>
+    <string name="audio_only_mode_summary">將Tubik變成音樂播放器</string>
     <string name="no_subtitle">無字幕</string>
     <string name="download_paused">下載暫停</string>
     <string name="layout">版面</string>
@@ -442,7 +442,7 @@
     <string name="thumbnail_time">縮圖時間</string>
     <string name="best_quality">最佳</string>
     <string name="external_download_provider">外部下載提供者</string>
-    <string name="external_download_provider_summary">輸入您要用於下載影片的應用程式軟體包名稱。留空以使用 LibreTube 的內建下載程式。</string>
+    <string name="external_download_provider_summary">輸入您要用於下載影片的應用程式軟體包名稱。留空以使用 Tubik 的內建下載程式。</string>
     <string name="screenshot">螢幕截圖</string>
     <string name="pip">畫中畫</string>
     <string name="local_stream_extraction">本機串流擷取</string>

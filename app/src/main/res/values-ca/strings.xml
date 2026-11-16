@@ -300,7 +300,7 @@
     <string name="nothing_selected">No hi ha res seleccionat</string>
     <string name="color_violet">Violeta versàtil</string>
     <string name="playlistUrl">URL de la llista de reproducció</string>
-    <string name="audio_only_mode_summary">Converteix LibreTube en un reproductor de música</string>
+    <string name="audio_only_mode_summary">Converteix Tubik en un reproductor de música</string>
     <string name="sleep_timer">Temporitzador</string>
     <string name="skip_silence">Salta el silenci</string>
     <string name="help">Ajuda</string>
@@ -444,7 +444,7 @@
     <string name="title">Títol</string>
     <string name="screenshot">Captura de pantalla</string>
     <string name="external_download_provider">Proveïdor extern de descàrregues</string>
-    <string name="external_download_provider_summary">Introduïu el nom del paquet de l\'app que vulgueu fer servir per a descarregar vídeos. Deixeu-ho en blanc per a fer servir el descarregador integrat de LibreTube.</string>
+    <string name="external_download_provider_summary">Introduïu el nom del paquet de l\'app que vulgueu fer servir per a descarregar vídeos. Deixeu-ho en blanc per a fer servir el descarregador integrat de Tubik.</string>
     <string name="category_exclusive_access">Accés exclusiu</string>
     <string name="createNewPlaylist">Crea nova llista de reproducció</string>
     <string name="upcoming">Pròximament</string>
