@@ -4,5 +4,3 @@
 app/src/main/java/com/github/libretube/api/ExternalApi.kt:gcp-api-key:20
 app/detekt-baseline.xml:gcp-api-key:494
 app/src/main/java/com/github/libretube/api/poToken/PoTokenWebView.kt:generic-api-key:303
-d927dffce4c11b5bfa15b435fca20a5270255999:app/src/main/java/com/github/libretube/api/ExternalApi.kt:gcp-api-key:23
-d927dffce4c11b5bfa15b435fca20a5270255999:app/src/main/java/com/github/libretube/api/poToken/PoTokenWebView.kt:generic-api-key:264
