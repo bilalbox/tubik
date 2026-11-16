@@ -1,0 +1,5 @@
+Tubik v1.2.1:
+
+- Fixed many videos failing with "This video is not available" in release builds. A compiler bug corrupted an internal string used to detect and recover from unplayable responses, so the fallback clients never ran.
+- Release builds now log a clear warning, and show a clear error, when the APK signature doesn't match the official certificate.
+- Added diagnostic logging for player requests (no tokens or personal data).
