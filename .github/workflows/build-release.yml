@@ -2,6 +2,11 @@ name: Build and release app
 
 on:
   workflow_dispatch:
+    inputs:
+      republish_manifest_tag:
+        description: Existing release tag (e.g. v1.2.1) whose update manifest and website metadata should be republished, without rebuilding
+        required: false
+        type: string
   push:
     branches:
       - master
@@ -11,7 +16,10 @@ on:
 jobs:
   build:
     name: Build, sign and release APK
-    if: github.ref_type == 'tag' || github.event_name == 'workflow_dispatch'
+    if: (github.ref_type == 'tag' || github.event_name == 'workflow_dispatch') && inputs.republish_manifest_tag == ''
+    concurrency:
+      group: site-manifest
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -133,6 +141,9 @@ jobs:
   deploy-website:
     name: Deploy website to Cloudflare Pages
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    concurrency:
+      group: site-manifest
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -151,6 +162,40 @@ jobs:
           python3 tools/release/update_website_manifest.py --sync-html-from-manifest
 
       - name: Deploy website to Cloudflare Pages
+        uses: ./.github/actions/deploy-pages
+        with:
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  republish-manifest:
+    name: Republish update manifest for an existing release
+    if: github.event_name == 'workflow_dispatch' && inputs.republish_manifest_tag != ''
+    concurrency:
+      group: site-manifest
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.republish_manifest_tag }}
+
+      - name: Download released APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.republish_manifest_tag }}
+        run: gh release download "$TAG" --pattern '*.apk' --dir /tmp/apk
+
+      - name: Regenerate manifest and download metadata
+        env:
+          TAG: ${{ inputs.republish_manifest_tag }}
+        run: |
+          python3 tools/release/update_website_manifest.py \
+            --tag "$TAG" \
+            --apk "/tmp/apk/tubik-${TAG}.apk"
+
+      - name: Deploy website and manifest to Cloudflare Pages
         uses: ./.github/actions/deploy-pages
         with:
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
