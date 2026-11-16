@@ -28,7 +28,7 @@ Do not declare completion with only piecemeal checks (a single Gradle task, one 
 2. Betterleaks secret scan
 3. `./gradlew qualityFast` — detekt (with Compose rules) + compile main and unit-test sources with warnings as errors
 
-`gate.sh full` = fast + osv-scanner (lockfile vulns) + Android Lint (warnings as errors), unit tests, Roborazzi screenshot verification, Kover XML + coverage ratchet (`baselines/coverage.json`), and dependency analysis (`buildHealth`). CI and pre-push run `full`. Acknowledge a finding only with an `id` + `reason` in `osv-scanner.toml`.
+`gate.sh full` = fast + osv-scanner (lockfile vulns) + Android Lint (warnings as errors), unit tests, Roborazzi screenshot verification, Kover XML + coverage ratchet (`baselines/coverage.json`), dependency analysis (`buildHealth`), and the native decode check (compiles `tubik_native.cpp` with the pinned NDK clang and verifies the decoded transport strings; `tools/quality/kotlin-android/native-decode-check.sh`). CI and pre-push run `full`. Acknowledge a finding only with an `id` + `reason` in `osv-scanner.toml`.
 
 A task is not complete until `gate.sh fast` passes cleanly (and `full` for UI/dependency changes).
 

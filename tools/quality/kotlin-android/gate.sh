@@ -3,7 +3,7 @@
 # Usage: ./tools/quality/kotlin-android/gate.sh [fast|full]
 #   fast — ktfmt + secrets + qualityFast (detekt, compile main + unit tests)
 #   full — ktfmt + secrets + qualityFull (fast + lint, unit/screenshot tests,
-#          Kover, buildHealth). Default for CI / pre-push.
+#          Kover, buildHealth, native decode check). Default for CI / pre-push.
 # Every step runs even after a failure so one invocation reports everything.
 # Local multi-Host Targets use the composed ./tools/quality/gate.sh instead.
 set -euo pipefail
@@ -40,6 +40,8 @@ step gradle quality_gradle -q --continue "${task}"
 if [[ "${mode}" == "full" ]]; then
 	# Kover XML from qualityFull; ratchet replaces the old minLineCoverage floor.
 	step coverage "${SCRIPT_DIR}/../run-coverage-ratchet.sh"
+	# Guards libtubik_native's slot decoding against NDK compiler miscompiles.
+	step native-decode "${SCRIPT_DIR}/native-decode-check.sh"
 fi
 
 if quality_gate_succeeded; then
