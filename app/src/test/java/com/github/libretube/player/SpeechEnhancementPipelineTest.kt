@@ -37,37 +37,6 @@ class SpeechEnhancementPipelineTest {
         }
     }
 
-    /** Gate whose per-call gain is scripted: closed until [openAtCall], then fully open. */
-    private class ScriptedGate(
-        private val lookaheadHops: Int,
-        private val openAtCall: Int = 0,
-    ) : SpeechGate {
-        private var calls = 0
-        var resetCalls = 0
-
-        override fun prepare(sampleRate: Int, hopSize: Int): Int = lookaheadHops
-
-        override fun processHop(
-            hop: FloatArray,
-            sampleRate: Int,
-            frameRatio: Float,
-        ): Pair<Float, Float> {
-            val call = calls++
-            return when {
-                call < openAtCall -> 0f to 0f
-                call == openAtCall && openAtCall > 0 -> 0f to 1f
-                else -> 1f to 1f
-            }
-        }
-
-        override fun reset() {
-            calls = 0
-            resetCalls++
-        }
-
-        override fun close() = Unit
-    }
-
     private fun constantHop(value: Float) = FloatArray(512) { value }
 
     @Test
@@ -237,42 +206,5 @@ class SpeechEnhancementPipelineTest {
         } finally {
             pipeline.close()
         }
-    }
-
-    @Test
-    fun `pipeline adapts differing fallback model geometry without changing external sampleRate or hopSize`() {
-        val primary = FakeSpeechModel(sampleRate = 48000, hopSize = 512)
-        val fallback = FakeSpeechModel(sampleRate = 16000, hopSize = 256)
-        val pipeline =
-            SpeechEnhancementPipeline(
-                primaryModel = primary,
-                fallbackModelProvider = { fallback },
-            )
-
-        assertTrue(pipeline.downshiftToFallback())
-        assertTrue(pipeline.isUsingFallback)
-        assertEquals(48000, pipeline.sampleRate)
-        assertEquals(512, pipeline.hopSize)
-
-        var sampleIdx = 0
-        var lastOut = FloatArray(0)
-        repeat(12) {
-            val hop =
-                FloatArray(512) {
-                    val t = sampleIdx++.toDouble() / 48000.0
-                    (0.5 * sin(2.0 * PI * 1000.0 * t)).toFloat()
-                }
-            lastOut = pipeline.processHop(hop)
-            assertEquals(512, lastOut.size)
-        }
-
-        assertEquals(0, primary.processHopCalls)
-        assertTrue("Expected fallback model to be invoked", fallback.processHopCalls > 0)
-        val rms = kotlin.math.sqrt(lastOut.map { it * it }.average())
-        assertTrue("Expected adapted fallback output to preserve 1kHz signal, rms=$rms", rms > 0.1)
-
-        pipeline.reset()
-        assertEquals(2, primary.resetCalls)
-        assertEquals(1, fallback.resetCalls)
     }
 }

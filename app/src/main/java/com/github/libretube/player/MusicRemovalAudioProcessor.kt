@@ -16,18 +16,31 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.LockSupport
 
+/** One hop of audio plus what the producer, worker and drain need to know about it. */
+private class HopSlot(hopSize: Int) {
+    val samples = FloatArray(hopSize)
+    var enabled: Boolean = true
+    var previousEnabled: Boolean? = null
+    var generation: Long = 0L
+
+    /** Leading samples of [samples] that are played; the rest is internal end-of-stream padding. */
+    var validSamples: Int = hopSize
+
+    /** Input only: the zero-padded partial hop queued at end of stream. */
+    var isEndOfStream: Boolean = false
+
+    /** Output only: the hop is Overload Mute silence. */
+    var isMuted: Boolean = false
+
+    /** Output only: the hop fades in from silence, so no earlier audio may bleed into it. */
+    var startsFromSilence: Boolean = false
+}
+
 private class SpscHopRingBuffer(
     val capacity: Int,
     hopSize: Int,
 ) {
-    private class Slot(hopSize: Int) {
-        val samples = FloatArray(hopSize)
-        var enabled: Boolean = true
-        var previousEnabled: Boolean? = null
-        var generation: Long = 0L
-    }
-
-    private val slots = Array(capacity) { Slot(hopSize) }
+    private val slots = Array(capacity) { HopSlot(hopSize) }
     private val writeIdx = AtomicLong(0L)
     private val readIdx = AtomicLong(0L)
 
@@ -37,20 +50,18 @@ private class SpscHopRingBuffer(
     val size: Int
         get() = (writeIdx.get() - readIdx.get()).toInt().coerceAtLeast(0)
 
-    fun offer(
-        samples: FloatArray,
-        enabled: Boolean,
-        previousEnabled: Boolean?,
-        generation: Long,
-    ): Boolean {
+    /** Copies [samples] into the next free slot, letting [describe] set its metadata. */
+    inline fun offer(samples: FloatArray, describe: HopSlot.() -> Unit): Boolean {
         val w = writeIdx.get()
         val r = readIdx.get()
         if (w - r >= capacity) return false
         val slot = slots[(w % capacity).toInt()]
         System.arraycopy(samples, 0, slot.samples, 0, samples.size.coerceAtMost(slot.samples.size))
-        slot.enabled = enabled
-        slot.previousEnabled = previousEnabled
-        slot.generation = generation
+        slot.validSamples = slot.samples.size
+        slot.isEndOfStream = false
+        slot.isMuted = false
+        slot.startsFromSilence = false
+        slot.describe()
         writeIdx.set(w + 1L)
         return true
     }
@@ -62,10 +73,8 @@ private class SpscHopRingBuffer(
         return slots[(r % capacity).toInt()].generation
     }
 
-    fun pollInto(
-        destSamples: FloatArray,
-        onMeta: (enabled: Boolean, previousEnabled: Boolean?, generation: Long) -> Unit,
-    ): Boolean {
+    /** Copies the oldest hop into [destSamples] and hands its metadata to [read]. */
+    inline fun pollInto(destSamples: FloatArray, read: HopSlot.() -> Unit): Boolean {
         val r = readIdx.get()
         val w = writeIdx.get()
         if (r >= w) return false
@@ -77,7 +86,7 @@ private class SpscHopRingBuffer(
             0,
             destSamples.size.coerceAtMost(slot.samples.size),
         )
-        onMeta(slot.enabled, slot.previousEnabled, slot.generation)
+        slot.read()
         readIdx.set(r + 1L)
         return true
     }
@@ -126,7 +135,8 @@ class MusicRemovalAudioProcessor(
     private val outputWaiterThread = AtomicReference<Thread?>(null)
     private val workerThreadRef = AtomicReference<Thread?>(null)
 
-    @Volatile private var endOfStreamQueued = false
+    // Producer-owned: the final partial hop still has to be queued for the end-of-stream drain
+    @Volatile private var endOfStreamHopPending = false
 
     @Volatile
     var droppedInputHops: Long = 0L
@@ -135,9 +145,17 @@ class MusicRemovalAudioProcessor(
     // Worker-owned state (only accessed on the worker thread once started)
     @Volatile private var speechModel: SpeechModel? = null
     private var fallbackSpeechModel: SpeechModel? = null
-    private var fallbackGeometryAdapter: SpeechEnhancementPipeline.FallbackGeometryAdapter? = null
+    private var fallbackGeometryAdapter: ModelGeometryAdapter? = null
     private var workerInHop = FloatArray(DEFAULT_HOP_SIZE)
+    private var endOfStreamPadding = FloatArray(DEFAULT_HOP_SIZE)
     private var workerLastProcessedSample: Float = 0f
+
+    // Set by processSingleHop for the hop it just produced
+    private var workerHopMuted = false
+    private var workerHopStartsFromSilence = false
+
+    // Whether the last Music Removal hop emitted was Overload Mute silence
+    private var workerEmittedMute = false
     private var workerHasProcessedHops = false
     private var pendingFallbackCrossfade = false
     private var silentHop = FloatArray(DEFAULT_HOP_SIZE)
@@ -235,11 +253,15 @@ class MusicRemovalAudioProcessor(
                 var polledEnabled = true
                 var polledPrevEnabled: Boolean? = null
                 var polledGen = 0L
+                var polledValid = 0
+                var polledEndOfStream = false
                 val polled =
-                    inputRing.pollInto(workerInHop) { enabled, prevEnabled, gen ->
+                    inputRing.pollInto(workerInHop) {
                         polledEnabled = enabled
-                        polledPrevEnabled = prevEnabled
-                        polledGen = gen
+                        polledPrevEnabled = previousEnabled
+                        polledGen = generation
+                        polledValid = validSamples
+                        polledEndOfStream = isEndOfStream
                     }
 
                 if (!polled) {
@@ -255,29 +277,26 @@ class MusicRemovalAudioProcessor(
                     continue
                 }
 
-                val currentGen = flushGeneration.get()
-                if (polledGen != currentGen) {
+                if (!isCurrentGeneration(polledGen)) {
                     handlePendingWorkerFlush()
+                    continue
+                }
+
+                if (polledEndOfStream) {
+                    drainEndOfStream(polledEnabled, polledPrevEnabled, polledGen, polledValid)
                     continue
                 }
 
                 val processed =
                     processSingleHop(workerInHop, polledEnabled, polledPrevEnabled, polledGen)
 
-                val postGen = flushGeneration.get()
-                if (postGen != polledGen || !workerRunning.get()) {
+                if (!isCurrentGeneration(polledGen)) {
                     // Discard stale hop from before seek/flush/reset
                     handlePendingWorkerFlush()
                     continue
                 }
 
-                while (workerRunning.get() && flushGeneration.get() == polledGen) {
-                    if (outputRing.offer(processed, polledEnabled, polledPrevEnabled, polledGen)) {
-                        LockSupport.unpark(outputWaiterThread.get())
-                        break
-                    }
-                    LockSupport.parkNanos(1_000_000L)
-                }
+                offerOutput(processed, polledEnabled, polledPrevEnabled, polledGen, processed.size)
             }
         } finally {
             workerInFlight.set(false)
@@ -296,6 +315,79 @@ class MusicRemovalAudioProcessor(
         }
     }
 
+    private fun isCurrentGeneration(gen: Long): Boolean =
+        workerRunning.get() && flushGeneration.get() == gen
+
+    /** Waits for room in the output ring; false if a flush made the hop stale first. */
+    private fun offerOutput(
+        processed: FloatArray,
+        enabled: Boolean,
+        previousEnabled: Boolean?,
+        gen: Long,
+        validSamples: Int,
+    ): Boolean {
+        val muted = workerHopMuted
+        val fadesIn = workerHopStartsFromSilence
+        while (isCurrentGeneration(gen)) {
+            val offered =
+                outputRing.offer(processed) {
+                    this.enabled = enabled
+                    this.previousEnabled = previousEnabled
+                    generation = gen
+                    this.validSamples = validSamples
+                    isMuted = muted
+                    startsFromSilence = fadesIn
+                }
+            if (offered) {
+                LockSupport.unpark(outputWaiterThread.get())
+                return true
+            }
+            LockSupport.parkNanos(1_000_000L)
+        }
+        return false
+    }
+
+    /**
+     * Processes the zero-padded final hop, then feeds silence through the model and speech gate
+     * until the speech they still hold has been emitted. Only [validSamples] plus that pending
+     * speech is played; the padding itself never reaches the output. A flush abandons the drain.
+     */
+    private fun drainEndOfStream(
+        enabled: Boolean,
+        previousEnabled: Boolean?,
+        gen: Long,
+        validSamples: Int,
+    ) {
+        // Nothing accepted and nothing held back: running the model would only advance padding
+        if (validSamples == 0 && (!enabled || pendingSpeechSamples() == 0)) return
+        var output = processSingleHop(workerInHop, enabled, previousEnabled, gen)
+        var prevEnabled = previousEnabled
+        var remaining = validSamples + if (enabled) pendingSpeechSamples() else 0
+        while (remaining > 0 && isCurrentGeneration(gen)) {
+            val emit = remaining.coerceAtMost(output.size)
+            if (!offerOutput(output, enabled, prevEnabled, gen, emit)) return
+            remaining -= emit
+            if (remaining > 0) {
+                endOfStreamPadding.fill(0f)
+                output = processSingleHop(endOfStreamPadding, enabled, enabled, gen)
+                prevEnabled = enabled
+            }
+        }
+    }
+
+    /** Samples, at the processor's model rate, by which the active model's output lags input. */
+    private fun pendingSpeechSamples(): Int {
+        val model = if (isUsingFallbackModel) fallbackSpeechModel else speechModel
+        val adapter = if (isUsingFallbackModel) fallbackGeometryAdapter else null
+        return when {
+            model == null || !model.isLoaded -> 0
+            adapter == null || model.sampleRate <= 0 -> model.latencySamples
+            else ->
+                (model.latencySamples.toLong() * targetSampleRate / model.sampleRate).toInt() +
+                    adapter.latencySamples
+        }
+    }
+
     private fun handlePendingWorkerFlush() {
         val currentGen = flushGeneration.get()
         if (workerHandledFlushGen.get() == currentGen) return
@@ -309,6 +401,7 @@ class MusicRemovalAudioProcessor(
             }
         }
         workerLastProcessedSample = 0f
+        workerEmittedMute = false
         pendingFallbackCrossfade = false
         emaElapsedNs = 0.0
         slowHopStreak = 0
@@ -336,6 +429,7 @@ class MusicRemovalAudioProcessor(
             inputRing = SpscHopRingBuffer(effectiveRingCapacity, hopSize)
             outputRing = SpscHopRingBuffer(effectiveRingCapacity, hopSize)
             workerInHop = FloatArray(hopSize)
+            endOfStreamPadding = FloatArray(hopSize)
             silentHop = FloatArray(hopSize)
             crossfadeBuf = FloatArray(hopSize)
             hopAccumulator = FloatArray(hopSize)
@@ -402,7 +496,7 @@ class MusicRemovalAudioProcessor(
         runCatching { speechModel?.reset() }
         fallbackGeometryAdapter =
             if (fallback.differsInGeometry(targetSampleRate, targetHopSize)) {
-                SpeechEnhancementPipeline.FallbackGeometryAdapter(
+                ModelGeometryAdapter(
                     externalRate = targetSampleRate,
                     externalHopSize = targetHopSize,
                     internalRate = fallback.sampleRate,
@@ -501,7 +595,13 @@ class MusicRemovalAudioProcessor(
                 hopFill = 0
                 val prevEnabled = producerLastEnabledState
                 producerLastEnabledState = isEnabled
-                if (inputRing.offer(hopAccumulator, isEnabled, prevEnabled, gen)) {
+                val offered =
+                    inputRing.offer(hopAccumulator) {
+                        enabled = isEnabled
+                        previousEnabled = prevEnabled
+                        generation = gen
+                    }
+                if (offered) {
                     pushedAny = true
                 } else {
                     droppedInputHops++
@@ -518,6 +618,7 @@ class MusicRemovalAudioProcessor(
         if (hasPendingOutput()) {
             return super.getOutput()
         }
+        offerEndOfStreamHop()
 
         if (outputRing.isEmpty && outputWaitTimeoutMs > 0L && hasPendingAsyncWork()) {
             val deadlineNs = System.nanoTime() + outputWaitTimeoutMs * 1_000_000L
@@ -557,21 +658,36 @@ class MusicRemovalAudioProcessor(
         var drained = 0
         while (drained < readyHops) {
             var hopGen = 0L
-            if (!outputRing.pollInto(drainHopBuf) { _, _, gen -> hopGen = gen }) {
-                break
-            }
+            var hopValid = 0
+            var hopMuted = false
+            var hopFadesIn = false
+            val polled =
+                outputRing.pollInto(drainHopBuf) {
+                    hopGen = generation
+                    hopValid = validSamples.coerceAtMost(hopLen)
+                    hopMuted = isMuted
+                    hopFadesIn = startsFromSilence
+                }
+            if (!polled) break
             drained++
             if (hopGen != currentGen) continue
 
+            if (hopMuted || hopFadesIn) {
+                // Interpolation and low-pass history would carry the preceding block into this one
+                prevOutSample = 0f
+                hasPrevOutSample = true
+                outputLowPass?.reset()
+            }
             val outFrames: FloatArray
             val outFrameCount: Int
             if (outSampleRate == targetSampleRate) {
                 outFrames = drainHopBuf
-                outFrameCount = hopLen
+                outFrameCount = hopValid
             } else {
-                outFrameCount = resampleFromModelRate(drainHopBuf, hopLen, outSampleRate)
+                outFrameCount = resampleFromModelRate(drainHopBuf, hopValid, outSampleRate)
                 outFrames = outResampledBuf
             }
+            if (hopMuted) outFrames.fill(0f, 0, outFrameCount)
 
             if (outEncoding == C.ENCODING_PCM_FLOAT) {
                 for (j in 0 until outFrameCount) {
@@ -601,12 +717,42 @@ class MusicRemovalAudioProcessor(
     }
 
     override fun onQueueEndOfStream() {
-        endOfStreamQueued = true
+        // Accepted input in the partial hop, and speech the model and gate still hold, play out
+        endOfStreamHopPending = hopFill > 0 || producerLastEnabledState == true
+        offerEndOfStreamHop()
         LockSupport.unpark(workerThreadRef.get())
     }
 
+    private fun offerEndOfStreamHop() {
+        if (!endOfStreamHopPending) return
+        ensureWorkerStarted()
+        val validSamples = hopFill
+        hopAccumulator.fill(0f, validSamples, hopAccumulator.size)
+        val isEnabled = isMusicRemovalEnabled()
+        val prevEnabled = producerLastEnabledState
+        val gen = flushGeneration.get()
+        val offered =
+            inputRing.offer(hopAccumulator) {
+                enabled = isEnabled
+                previousEnabled = prevEnabled
+                generation = gen
+                this.validSamples = validSamples
+                isEndOfStream = true
+            }
+        if (offered) {
+            endOfStreamHopPending = false
+            hopFill = 0
+            producerLastEnabledState = isEnabled
+            LockSupport.unpark(workerThreadRef.get())
+        }
+    }
+
     override fun isEnded(): Boolean {
-        return super.isEnded() && !hasPendingAsyncWork() && outputRing.isEmpty
+        offerEndOfStreamHop()
+        return super.isEnded() &&
+            !endOfStreamHopPending &&
+            !hasPendingAsyncWork() &&
+            outputRing.isEmpty
     }
 
     private fun processSingleHop(
@@ -615,9 +761,12 @@ class MusicRemovalAudioProcessor(
         previousEnabled: Boolean?,
         polledGen: Long,
     ): FloatArray {
+        workerHopMuted = false
+        workerHopStartsFromSilence = false
         if (!enabled) {
             clearOverloadForGeneration(polledGen)
             slowHopStreak = 0
+            workerEmittedMute = false
             if (previousEnabled == true) {
                 // Fading from ON (last processed sample) to OFF (passthrough hop) without invoking
                 // model
@@ -633,14 +782,23 @@ class MusicRemovalAudioProcessor(
             return hop
         }
 
+        val fadesIn = previousEnabled == false || workerEmittedMute
+        if (fadesIn) {
+            // A fallback crossfade in this hop must also start from silence, not the original
+            workerLastProcessedSample = 0f
+        }
         val processed = runModelOnHop(hop, polledGen)
         val result =
-            if (previousEnabled == false) {
-                // Fading from OFF (passthrough hop) to ON (processed)
-                crossfade(from = hop, to = processed)
-            } else {
-                processed
+            when {
+                workerHopMuted -> processed
+                // Switching on or recovering from Overload Mute: only processed speech fades in
+                fadesIn -> {
+                    workerHopStartsFromSilence = true
+                    fadeInFromSilence(processed)
+                }
+                else -> processed
             }
+        workerEmittedMute = workerHopMuted
         if (result.isNotEmpty()) {
             workerLastProcessedSample = result[result.size - 1]
         }
@@ -660,8 +818,8 @@ class MusicRemovalAudioProcessor(
         return crossfadeBuf
     }
 
-    private fun crossfade(from: FloatArray, to: FloatArray): FloatArray =
-        crossfadeIntoBuffer(from.size, { i -> from[i] }, to)
+    private fun fadeInFromSilence(to: FloatArray): FloatArray =
+        crossfadeIntoBuffer(to.size, { 0f }, to)
 
     private fun crossfadeFromLastSample(to: FloatArray): FloatArray {
         val startSample = workerLastProcessedSample
@@ -716,6 +874,7 @@ class MusicRemovalAudioProcessor(
             }
             if (model == null || !model.isLoaded) {
                 markOverload(0.0, polledGen)
+                workerHopMuted = true
                 return silentHop
             }
         }
@@ -783,6 +942,7 @@ class MusicRemovalAudioProcessor(
             }
 
             if (isMutedForOverload) {
+                workerHopMuted = true
                 silentHop
             } else {
                 processed
@@ -792,6 +952,7 @@ class MusicRemovalAudioProcessor(
                 return runModelOnHop(hop, polledGen)
             }
             markOverload(0.0, polledGen)
+            workerHopMuted = true
             silentHop
         }
     }
@@ -921,7 +1082,7 @@ class MusicRemovalAudioProcessor(
         if (notifyClear) {
             onOverloadMuteChanged(false)
         }
-        endOfStreamQueued = false
+        endOfStreamHopPending = false
         resamplePhase = 0.0
         hasPrevMonoSample = false
         outResamplePhase = 0.0

@@ -16,6 +16,8 @@ class MusicRemovalAudioProcessorTest {
         override val isLoaded: Boolean = true,
         override val sampleRate: Int = TEST_SAMPLE_RATE,
         override val hopSize: Int = TEST_HOP_SIZE,
+        // A pure per-sample transform: output lines up with input
+        override val latencySamples: Int = 0,
         private val transform: (FloatArray) -> FloatArray = { hop ->
             FloatArray(hop.size) { i -> hop[i] * 0.5f }
         },
@@ -323,16 +325,18 @@ class MusicRemovalAudioProcessorTest {
         )
         assertTrue("Expected end near 10000, got $lastSampleOff", lastSampleOff in 9500..10000)
 
-        // Toggle ON again -> Hop 3 fades smoothly from ~10000 back toward ~2000
+        // Toggle ON again -> Hop 3 fades processed speech in from silence; the original never
+        // re-enters the fade
         enabled = true
         val hopTransitionOn = queueConstantHop(10000)
         val firstSampleOn = hopTransitionOn.first().toInt()
         val lastSampleOn = hopTransitionOn.last().toInt()
+        assertEquals("Expected the fade to start from silence", 0, firstSampleOn)
+        assertTrue("Expected end near 2000, got $lastSampleOn", lastSampleOn in 1900..2010)
         assertTrue(
-            "Expected smooth start near 10000, got $firstSampleOn",
-            firstSampleOn in 9500..10000,
+            "Expected no original signal in the switch-on fade",
+            hopTransitionOn.all { it in 0..2010 },
         )
-        assertTrue("Expected end near 2000, got $lastSampleOn", lastSampleOn in 1900..2500)
     }
 
     @Test
@@ -373,18 +377,20 @@ class MusicRemovalAudioProcessorTest {
         assertEquals(6000.toShort(), offPassthrough[1])
         assertEquals(0, model.hopsProcessed)
 
-        // 2. Toggle ON mid-stream: crossfades from ~10000 toward ~2000 across 512 stereo frames
+        // 2. Toggle ON mid-stream: fades processed speech (~2000) in from silence across 512
+        // stereo frames
         enabled = true
         val transitionOn = queueStereoHop(10000, 10000)
         assertEquals(512 * 2, transitionOn.size)
         assertEquals(1, model.hopsProcessed)
         val firstFrameOn = transitionOn[0].toInt()
         val lastFrameOn = transitionOn[transitionOn.size - 2].toInt()
+        assertEquals("Expected the fade to start from silence", 0, firstFrameOn)
+        assertTrue("Expected smooth end near 2000, got $lastFrameOn", lastFrameOn in 1900..2010)
         assertTrue(
-            "Expected smooth start near 10000, got $firstFrameOn",
-            firstFrameOn in 9500..10000,
+            "Expected no original signal in the switch-on fade",
+            transitionOn.all { it in 0..2010 },
         )
-        assertTrue("Expected smooth end near 2000, got $lastFrameOn", lastFrameOn in 1900..2500)
 
         // Steady ON hop -> ~2000
         val steadyOn = queueStereoHop(10000, 10000)
@@ -1657,6 +1663,429 @@ class MusicRemovalAudioProcessorTest {
         } finally {
             processor.reset()
         }
+    }
+
+    @Test
+    fun `audio queued while Music Removal was off finishes before processed speech fades in`() {
+        var enabled = true
+        val model = FakeSpeechModel { hop -> FloatArray(hop.size) { i -> hop[i] * 0.2f } }
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { model },
+                isMusicRemovalEnabled = { enabled },
+                outputWaitTimeoutMs = 0L,
+            )
+        processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+        processor.flush()
+
+        try {
+            processor.queueInput(monoBuffer(512) { 10000 })
+            enabled = false
+            processor.queueInput(monoBuffer(2 * 512) { 10000 })
+            enabled = true
+            processor.queueInput(monoBuffer(512) { 10000 })
+            val out = processor.readShorts(4 * 512)
+
+            assertTrue(
+                "Expected processed ON hop",
+                out.copyOfRange(0, 512).all { it in 1990..2010 },
+            )
+            assertTrue(
+                "Expected the OFF fade to end on the original",
+                out[2 * 512 - 1] in 9990..10000,
+            )
+            assertTrue(
+                "Expected the second queued OFF hop to finish as the original",
+                out.copyOfRange(2 * 512, 3 * 512).all { it in 9990..10000 },
+            )
+            val switchOn = out.copyOfRange(3 * 512, 4 * 512)
+            assertEquals(0, switchOn.first().toInt())
+            assertTrue(switchOn.last() in 1990..2010)
+            assertTrue("Expected only faded speech", switchOn.all { it in 0..2010 })
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `switching Music Removal on while speech is gated or no model can run emits only silence`() {
+        fun switchOnBlock(
+            processor: MusicRemovalAudioProcessor,
+            enabled: BooleanArray,
+        ): ShortArray {
+            processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+            processor.flush()
+            processor.queueInput(monoBuffer(512) { 12000 })
+            assertTrue(
+                "Expected passthrough while OFF",
+                processor.readShorts(512).all { it == 12000.toShort() },
+            )
+            enabled[0] = true
+            processor.queueInput(monoBuffer(512) { 12000 })
+            return processor.readShorts(512)
+        }
+
+        val gatedEnabled = booleanArrayOf(false)
+        val gated =
+            MusicRemovalAudioProcessor(
+                modelProvider = { FakeSpeechModel { hop -> FloatArray(hop.size) } },
+                isMusicRemovalEnabled = { gatedEnabled[0] },
+            )
+        try {
+            assertTrue(
+                "Expected gated speech to stay silent through the switch-on fade",
+                switchOnBlock(gated, gatedEnabled).all { it.toInt() == 0 },
+            )
+        } finally {
+            gated.reset()
+        }
+
+        val unavailableEnabled = booleanArrayOf(false)
+        val muteChanges = mutableListOf<Boolean>()
+        val unavailable =
+            MusicRemovalAudioProcessor(
+                modelProvider = { FakeSpeechModel(isLoaded = false) },
+                fallbackModelProvider = { throw IllegalStateException("Tiny failed to load") },
+                isMusicRemovalEnabled = { unavailableEnabled[0] },
+                onOverloadMuteChanged = { muteChanges.add(it) },
+            )
+        try {
+            assertTrue(
+                "Expected every sample of the first block to be silent when no model can run",
+                switchOnBlock(unavailable, unavailableEnabled).all { it.toInt() == 0 },
+            )
+            assertTrue(unavailable.isMutedForOverload)
+            assertEquals(listOf(true), muteChanges)
+        } finally {
+            unavailable.reset()
+        }
+    }
+
+    @Test
+    fun `Overload Mute silences every emitted sample across output resampling and recovery fades in from silence`() {
+        var clockNs = 0L
+        var slow = false
+        // 16 kHz model behind a 48 kHz output, so every emitted block goes through the output
+        // resampler and its low-pass history
+        val model =
+            FakeSpeechModel(sampleRate = 16000, hopSize = 512) { hop ->
+                clockNs += if (slow) 40_000_000L else 2_000_000L
+                FloatArray(hop.size) { i -> hop[i] * 0.5f }
+            }
+        var enabled = false
+        val muteChanges = mutableListOf<Boolean>()
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { model },
+                isMusicRemovalEnabled = { enabled },
+                nanoTimeProvider = { clockNs },
+                overloadSustainHops = 2,
+                onOverloadMuteChanged = { muteChanges.add(it) },
+            )
+        assertEquals(
+            48000,
+            processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT)).sampleRate,
+        )
+        processor.flush()
+        fun block() = processor.processOneResampledBlock(inputFrames = 3 * 512, sample = 10000)
+
+        try {
+            enabled = true
+            repeat(4) { block() }
+            assertTrue("Expected steady processed speech", block().all { it in 4900..5100 })
+
+            slow = true
+            var mutedBlocks = 0
+            repeat(12) {
+                val out = block()
+                if (processor.isMutedForOverload) {
+                    mutedBlocks++
+                    assertTrue(
+                        "Expected muted block $it to be silent at every sample, " +
+                            "max=${out.maxOf { s -> abs(s.toInt()) }}",
+                        out.all { s -> s.toInt() == 0 },
+                    )
+                }
+            }
+            assertTrue("Expected sustained overload to mute", mutedBlocks >= 8)
+
+            slow = false
+            var recovered: ShortArray? = null
+            for (i in 0 until 20) {
+                val out = block()
+                if (!processor.isMutedForOverload) {
+                    recovered = out
+                    break
+                }
+                assertTrue("Expected silence until recovery", out.all { s -> s.toInt() == 0 })
+            }
+            assertFadesInFromSilence(
+                checkNotNull(recovered) { "Expected recovery once processing keeps up" },
+                speechLevel = 5000,
+            )
+            assertEquals(listOf(true, false), muteChanges)
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `switching on when Small starts failing fades only Tiny speech in from silence`() {
+        var enabled = true
+        var smallFails = false
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = {
+                    FakeSpeechModel { hop ->
+                        check(!smallFails) { "Small inference failed" }
+                        FloatArray(hop.size) { i -> hop[i] * 0.2f }
+                    }
+                },
+                fallbackModelProvider = {
+                    FakeSpeechModel { hop -> FloatArray(hop.size) { i -> hop[i] * 0.2f } }
+                },
+                isMusicRemovalEnabled = { enabled },
+            )
+        processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+        processor.flush()
+
+        try {
+            processor.queueInput(monoBuffer(512) { 10000 })
+            processor.readShorts(512)
+            enabled = false
+            processor.queueInput(monoBuffer(2 * 512) { 10000 })
+            assertTrue(processor.readShorts(2 * 512).last() in 9990..10000)
+            enabled = true
+            smallFails = true
+            processor.queueInput(monoBuffer(512) { 10000 })
+            val switchOn = processor.readShorts(512)
+
+            assertTrue(processor.isUsingFallbackModel)
+            assertEquals(0, switchOn.first().toInt())
+            assertTrue(
+                "Expected no original signal in the switch-on fade, max=${switchOn.max()}",
+                switchOn.all { it in 0..2010 },
+            )
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `Music Removal falls back to Tiny with a different geometry when Small cannot run`() {
+        val tiny = FakeSpeechModel(sampleRate = 16000, hopSize = 256) { hop -> hop.copyOf() }
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { FakeSpeechModel(isLoaded = false) },
+                fallbackModelProvider = { tiny },
+                isMusicRemovalEnabled = { true },
+            )
+        assertEquals(
+            48000,
+            processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT)).sampleRate,
+        )
+        processor.flush()
+
+        try {
+            val hops = 16
+            var n = 0
+            processor.queueInput(
+                monoBuffer(hops * 512) {
+                    (0.5 * 32767 * kotlin.math.sin(2.0 * Math.PI * 1000.0 * n++ / 48000.0))
+                        .toInt()
+                        .toShort()
+                },
+            )
+            val out = processor.readShorts(hops * 512)
+            val settled = out.copyOfRange(4 * 512, out.size)
+            val rms =
+                kotlin.math.sqrt(settled.sumOf { (it / 32768.0) * (it / 32768.0) } / settled.size)
+
+            assertTrue(processor.isUsingFallbackModel)
+            assertFalse(processor.isMutedForOverload)
+            // 16 hops of 512 at 48 kHz are 2730 samples at 16 kHz: ten 256-sample Tiny hops
+            assertEquals(10, tiny.hopsProcessed)
+            assertTrue("Expected adapted Tiny output to keep the 1 kHz tone, rms=$rms", rms > 0.3)
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `natural ending plays the partial final block and speech held by the gate lookahead before reporting ended`() {
+        val lookaheadHops = 2
+        val speech =
+            SpeechEnhancementPipeline(
+                primaryModel = FakeSpeechModel { hop -> hop.copyOf() },
+                vadGate = ScriptedGate(lookaheadHops = lookaheadHops),
+                postFilter = null,
+            )
+        assertEquals(lookaheadHops * 512, speech.latencySamples)
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { speech },
+                isMusicRemovalEnabled = { true },
+                outputWaitTimeoutMs = 0L,
+            )
+        processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+        processor.flush()
+
+        // Three full hops and a 200-sample partial final block of a recognizable ramp
+        val inputFrames = 3 * 512 + 200
+        fun source(i: Int): Short = (((i % 1000) + 1) * 10).toShort()
+
+        try {
+            processor.queueInput(monoBuffer(inputFrames, ::source))
+            processor.queueEndOfStream()
+            val out = ArrayList<Short>()
+            val deadline = System.nanoTime() + 2_000_000_000L
+            while (!processor.isEnded && System.nanoTime() < deadline) {
+                val buf = processor.output
+                if (!buf.hasRemaining()) Thread.sleep(1)
+                while (buf.remaining() >= 2) out.add(buf.short)
+            }
+
+            assertTrue("Expected the processor to report ended", processor.isEnded)
+            assertEquals(0, processor.output.remaining())
+            // Only accepted input, delayed by the lookahead; the padding adds no frames
+            val delay = lookaheadHops * 512
+            assertEquals(inputFrames + delay, out.size)
+            assertTrue(
+                "Expected the lookahead pre-roll to be silent",
+                out.take(delay).all { it.toInt() == 0 },
+            )
+            for (i in 0 until inputFrames) {
+                assertTrue(
+                    "Expected sample $i to be ${source(i)}, got ${out[delay + i]}",
+                    abs(out[delay + i] - source(i)) <= 1,
+                )
+            }
+        } finally {
+            processor.reset()
+        }
+    }
+
+    @Test
+    fun `seek during the end-of-stream drain discards audio from the old position`() {
+        val drainEntered = java.util.concurrent.CountDownLatch(1)
+        val releaseDrain = java.util.concurrent.CountDownLatch(1)
+        val calls = java.util.concurrent.atomic.AtomicInteger(0)
+        val speech =
+            SpeechEnhancementPipeline(
+                primaryModel =
+                    FakeSpeechModel { hop ->
+                        // Call 0 is the full hop, 1 the padded final block, 2 the first padding hop
+                        if (calls.getAndIncrement() == 2) {
+                            drainEntered.countDown()
+                            releaseDrain.await(2, java.util.concurrent.TimeUnit.SECONDS)
+                        }
+                        hop.copyOf()
+                    },
+                vadGate = ScriptedGate(lookaheadHops = 3),
+                postFilter = null,
+            )
+        val processor =
+            MusicRemovalAudioProcessor(
+                modelProvider = { speech },
+                isMusicRemovalEnabled = { true },
+                outputWaitTimeoutMs = 0L,
+            )
+        processor.configure(AudioFormat(48000, 1, C.ENCODING_PCM_16BIT))
+        processor.flush()
+
+        try {
+            processor.queueInput(monoBuffer(512 + 100) { 7000 })
+            processor.queueEndOfStream()
+            assertTrue(
+                "Expected the drain to reach a padding hop",
+                drainEntered.await(1, java.util.concurrent.TimeUnit.SECONDS),
+            )
+
+            processor.flush()
+            releaseDrain.countDown()
+            Thread.sleep(30)
+            assertEquals(
+                "Expected no old-position audio after the seek",
+                0,
+                processor.output.remaining(),
+            )
+            assertFalse(processor.isEnded)
+
+            processor.queueInput(monoBuffer(5 * 512) { 20000 })
+            val out = processor.readShorts(5 * 512)
+            assertTrue(
+                "Expected only silence or new-position audio",
+                out.all { it.toInt() == 0 || abs(it - 20000) <= 2 },
+            )
+            assertTrue(
+                "Expected new-position audio to play",
+                out.takeLast(512).all { abs(it - 20000) <= 2 },
+            )
+        } finally {
+            releaseDrain.countDown()
+            processor.reset()
+        }
+    }
+
+    private fun assertFadesInFromSilence(block: ShortArray, speechLevel: Int) {
+        val tolerance = 20
+        assertTrue(
+            "Expected the fade to start from silence, got ${block.first()}",
+            abs(block.first().toInt()) <= tolerance,
+        )
+        assertTrue(
+            "Expected the fade to reach processed speech, got ${block.last()}",
+            abs(block.last() - speechLevel) <= 4 * tolerance,
+        )
+        assertTrue(
+            "Expected a fade with no overshoot",
+            block.all { it in -tolerance..speechLevel + 4 * tolerance },
+        )
+    }
+
+    /**
+     * Queues one model hop of constant input and reads its output in one call; a 16 to 48 kHz
+     * output step may yield one frame more or fewer than [inputFrames].
+     */
+    private fun MusicRemovalAudioProcessor.processOneResampledBlock(
+        inputFrames: Int,
+        sample: Short,
+    ): ShortArray {
+        queueInput(monoBuffer(inputFrames) { sample })
+        val buf = output
+        val out = ShortArray(buf.remaining() / 2) { buf.short }
+        assertTrue(
+            "Expected one block, got ${out.size} frames",
+            out.size in inputFrames - 1..inputFrames + 1,
+        )
+        return out
+    }
+
+    private fun monoBuffer(frames: Int, sample: (Int) -> Short): ByteBuffer {
+        val buf = ByteBuffer.allocateDirect(frames * 2).order(ByteOrder.nativeOrder())
+        for (i in 0 until frames) buf.putShort(sample(i))
+        buf.flip()
+        return buf
+    }
+
+    /** Reads mono 16-bit output until [count] samples arrived. */
+    private fun MusicRemovalAudioProcessor.readShorts(
+        count: Int,
+        timeoutMs: Long = 2000L,
+    ): ShortArray {
+        val out = ShortArray(count)
+        var filled = 0
+        val deadline = System.nanoTime() + timeoutMs * 1_000_000L
+        while (filled < count && System.nanoTime() < deadline) {
+            val buf = output
+            if (!buf.hasRemaining()) Thread.sleep(1)
+            while (buf.remaining() >= 2) {
+                check(filled < count) { "Got more than $count samples" }
+                out[filled++] = buf.short
+            }
+        }
+        assertEquals("Expected $count output samples", count, filled)
+        return out
     }
 
     private companion object {

@@ -25,7 +25,7 @@ _Avoid_: kiosk mode, lock mode, app lock
 ### Music Removal & Playback
 
 **Music Removal**:
-A switch that removes music from all playback audio in realtime, keeping speech only in mono and muting on failure.
+A switch that removes music from all playback audio in realtime, keeping speech only in mono and muting on failure. When switched on during playback, only processed speech fades in from silence.
 _Avoid_: noise suppression, enhancement, filtering, vocal isolation
 
 **Channel Opt-Out**:
@@ -33,7 +33,7 @@ A per-channel override that turns off **Music Removal** for one channel while th
 _Avoid_: channel whitelist, music bypass
 
 **Overload Mute**:
-Silencing playback audio whenever **Music Removal** cannot load its speech model or falls below the required realtime throughput, rather than playing unprocessed audio.
+Silencing playback audio when **Music Removal** cannot run its speech model or sustain the required realtime throughput. When playback recovers, processed speech fades in from silence.
 _Avoid_: fallback passthrough, audio dropout
 
 **Preferred Speed**:

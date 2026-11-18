@@ -277,6 +277,9 @@ class SpeechPostFilter(
         private const val DEFAULT_SAMPLE_RATE = 48000
         private const val HOP_SIZE = 512
         private const val SUB_HOP = 256
+
+        /** Samples by which the overlap-added output lags the enhanced hop it is built from. */
+        const val OUTPUT_DELAY_SAMPLES = SUB_HOP
         private const val HISTORY_HOPS = 3
         private const val FFT_SIZE = 512
         private const val FFT_STAGES = 9
