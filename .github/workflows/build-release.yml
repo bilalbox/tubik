@@ -150,16 +150,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Preserve live update manifest and sync download metadata
+      # The live manifest is the source of truth for the published release. If it cannot be
+      # fetched or validated the deploy stops; the checked-in manifest is never substituted.
+      - name: Fetch live update manifest
         run: |
-          if curl -fsSL "https://tubik.23p.dev/updates/latest.json" -o /tmp/live-latest.json && \
-             python3 -c 'import json, sys; data = json.load(open(sys.argv[1])); assert data.get("schemaVersion") == 1 and data.get("apkUrl")' /tmp/live-latest.json; then
-            mv /tmp/live-latest.json website/updates/latest.json
-            echo "Preserved live /updates/latest.json from https://tubik.23p.dev/updates/latest.json"
-          else
-            echo "Using repository website/updates/latest.json (live manifest unavailable)"
-          fi
-          python3 tools/release/update_website_manifest.py --sync-html-from-manifest
+          curl -fsSL --retry 3 --retry-all-errors \
+            "https://tubik.23p.dev/updates/latest.json" \
+            -o "${RUNNER_TEMP}/live-latest.json"
+
+      - name: Render website from the live release
+        run: |
+          python3 tools/release/update_website_manifest.py \
+            --live-manifest "${RUNNER_TEMP}/live-latest.json"
 
       - name: Deploy website to Cloudflare Pages
         uses: ./.github/actions/deploy-pages
@@ -177,15 +179,29 @@ jobs:
     permissions:
       contents: read
     steps:
+      # The website comes from the revision that ran this workflow; only the APK and its release
+      # metadata (version, changelog, publish date) come from the selected tag.
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ inputs.republish_manifest_tag }}
+
+      - name: Extract release metadata from the selected tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.republish_manifest_tag }}
+        run: |
+          git fetch --depth=1 origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          meta_dir="${RUNNER_TEMP}/release-meta"
+          mkdir -p "$meta_dir"
+          git archive "refs/tags/${TAG}" app/build.gradle.kts fastlane/metadata/android/en-US/changelogs \
+            | tar -x -C "$meta_dir"
+          published_at=$(gh release view "$TAG" --json publishedAt --jq .publishedAt)
+          echo "RELEASE_META_DIR=$meta_dir" >> "$GITHUB_ENV"
+          echo "RELEASE_PUBLISHED_AT=$published_at" >> "$GITHUB_ENV"
 
       - name: Download released APK
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.republish_manifest_tag }}
-        run: gh release download "$TAG" --pattern '*.apk' --dir /tmp/apk
+        run: gh release download "$TAG" --pattern "tubik-${TAG}.apk" --dir "${RUNNER_TEMP}/apk"
 
       - name: Regenerate manifest and download metadata
         env:
@@ -193,7 +209,10 @@ jobs:
         run: |
           python3 tools/release/update_website_manifest.py \
             --tag "$TAG" \
-            --apk "/tmp/apk/tubik-${TAG}.apk"
+            --apk "${RUNNER_TEMP}/apk/tubik-${TAG}.apk" \
+            --gradle "${RELEASE_META_DIR}/app/build.gradle.kts" \
+            --changelog-dir "${RELEASE_META_DIR}/fastlane/metadata/android/en-US/changelogs" \
+            --published-at "$RELEASE_PUBLISHED_AT"
 
       - name: Deploy website and manifest to Cloudflare Pages
         uses: ./.github/actions/deploy-pages
