@@ -1,0 +1,6 @@
+Tubik v1.2.2:
+
+- Turning on Music Removal during playback no longer lets the original audio through: speech now fades in from silence, and stays silent if it can't be processed.
+- When Music Removal is muted because the device can't keep up, the audio is now fully silent, and speech fades back in smoothly once it recovers.
+- The last words of a video are no longer cut off at the end with Music Removal on.
+- Website updates now always keep the current release's download link, version and checksum.
