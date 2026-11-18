@@ -91,12 +91,13 @@ fun TextView.setupSubscriptionButton(
             notificationBell?.isVisible = false
             return@setOnClickListener
         }
+        val subscribe = !subscribed
         store.authorize(
-            ProtectedAction.ChangeSubscription(subscribe = !subscribed),
+            ProtectedAction.ChangeSubscription(subscribe),
             ParentPinDialogs.promptAdapter(context),
         ) {
             CoroutineScope(Dispatchers.Main).launch {
-                if (subscribed) {
+                if (!subscribe) {
                     Snackbar.make(
                             context,
                             rootView,
@@ -111,7 +112,7 @@ fun TextView.setupSubscriptionButton(
                         )
                         .show()
                 }
-                setSubscriptionState(!subscribed)
+                setSubscriptionState(subscribe)
             }
         }
     }

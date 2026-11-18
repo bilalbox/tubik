@@ -27,12 +27,14 @@ class ParentPinStoreTest {
         }
     }
 
-    private class FakeScreenLockTaskAdapter : ScreenLockTaskAdapter {
+    private class FakeScreenLockTaskAdapter(private val canStart: Boolean = true) :
+        ScreenLockTaskAdapter {
         var startCount: Int = 0
             private set
 
-        override fun startLockTask() {
+        override fun startLockTask(): Boolean {
             startCount++
+            return canStart
         }
     }
 
@@ -499,8 +501,21 @@ class ParentPinStoreTest {
         assertFalse(store.startScreenPin(lockTask))
         assertEquals(0, lockTask.startCount)
 
-        storage.screenPinEnabled = true
-        assertTrue(store.startScreenPin(lockTask))
+        store.setScreenPinEnabled(true)
+        assertTrue(ParentPinStore(storage).startScreenPin(lockTask))
+        assertEquals(1, lockTask.startCount)
+
+        store.setScreenPinEnabled(false)
+        assertFalse(ParentPinStore(storage).startScreenPin(lockTask))
+        assertEquals(1, lockTask.startCount)
+    }
+
+    @Test
+    fun `startScreenPin reports when Android cannot start lock task`() {
+        val store = ParentPinStore(FakePinStorage(screenPinEnabled = true))
+        val lockTask = FakeScreenLockTaskAdapter(canStart = false)
+
+        assertFalse(store.startScreenPin(lockTask))
         assertEquals(1, lockTask.startCount)
     }
 }

@@ -173,8 +173,7 @@ class BackupRestoreSettings : BasePreferenceFragment() {
             }
         }
 
-        val importPlaylists = findPreference<Preference>("import_playlists")
-        importPlaylists?.setOnPreferenceClickListener {
+        authorizeBackupOrRestoreClick("import_playlists") {
             createImportFormatDialog(
                 requireContext(),
                 R.string.import_playlists_from,
@@ -183,11 +182,9 @@ class BackupRestoreSettings : BasePreferenceFragment() {
                 importFormat = format
                 getPlaylistsFile.launch(arrayOf("*/*"))
             }
-            true
         }
 
-        val exportPlaylists = findPreference<Preference>("export_playlists")
-        exportPlaylists?.setOnPreferenceClickListener {
+        authorizeBackupOrRestoreClick("export_playlists") {
             createImportFormatDialog(
                 requireContext(),
                 R.string.export_playlists_to,
@@ -199,11 +196,9 @@ class BackupRestoreSettings : BasePreferenceFragment() {
                     getExportFileName(requireContext(), format, "playlists", includeTimestamp),
                 )
             }
-            true
         }
 
-        val importWatchHistory = findPreference<Preference>("import_watch_history")
-        importWatchHistory?.setOnPreferenceClickListener {
+        authorizeBackupOrRestoreClick("import_watch_history") {
             createImportFormatDialog(
                 requireContext(),
                 R.string.import_watch_history,
@@ -212,7 +207,6 @@ class BackupRestoreSettings : BasePreferenceFragment() {
                 importFormat = format
                 getWatchHistoryFile.launch(arrayOf("*/*"))
             }
-            true
         }
 
         childFragmentManager.setFragmentResultListener(

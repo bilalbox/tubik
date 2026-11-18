@@ -38,7 +38,7 @@ fun interface PinPromptAdapter {
 }
 
 fun interface ScreenLockTaskAdapter {
-    fun startLockTask()
+    fun startLockTask(): Boolean
 }
 
 class ParentPinStore(
@@ -120,10 +120,13 @@ class ParentPinStore(
 
     fun isScreenPinEnabled(): Boolean = storage.screenPinEnabled
 
+    fun setScreenPinEnabled(enabled: Boolean) {
+        storage.screenPinEnabled = enabled
+    }
+
+    /** Returns whether the lock-task request was issued successfully. */
     fun startScreenPin(lockTaskAdapter: ScreenLockTaskAdapter): Boolean {
-        if (!isScreenPinEnabled()) return false
-        lockTaskAdapter.startLockTask()
-        return true
+        return isScreenPinEnabled() && lockTaskAdapter.startLockTask()
     }
 
     fun isSettingsPinLockEnabled(): Boolean {

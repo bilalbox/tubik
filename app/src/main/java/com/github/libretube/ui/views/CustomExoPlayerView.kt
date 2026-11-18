@@ -74,6 +74,7 @@ import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.controllers.FullscreenGestureAnimationController
 import com.github.libretube.ui.dialogs.SubmitDeArrowDialog
 import com.github.libretube.ui.dialogs.SubmitSegmentDialog
+import com.github.libretube.ui.extensions.requestScreenPin
 import com.github.libretube.ui.extensions.toggleSystemBars
 import com.github.libretube.ui.interfaces.CustomPlayerCallback
 import com.github.libretube.ui.interfaces.PlayerGestureOptions
@@ -325,10 +326,7 @@ class CustomExoPlayerView(
 
         updateScreenPinButton()
         binding.screenPinButton.setOnClickListener {
-            ParentPinStore.instance.startScreenPin(
-                ScreenPinHelper.lockTaskAdapter(activity) { updateScreenPinButton() },
-            )
-            updateScreenPinButton()
+            activity.requestScreenPin { updateScreenPinButton() }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

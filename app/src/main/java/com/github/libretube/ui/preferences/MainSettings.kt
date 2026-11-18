@@ -28,6 +28,7 @@ class MainSettings : BasePreferenceFragment() {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
         val store = ParentPinStore.instance
+        bindScreenPinPreference(store)
         val allowlistPref = findPreference<SwitchPreferenceCompat>(PreferenceKeys.ALLOWLIST_ENABLED)
         val lockSettingsPref =
             findPreference<SwitchPreferenceCompat>(PreferenceKeys.SETTINGS_PIN_LOCK_ENABLED)
@@ -155,7 +156,18 @@ class MainSettings : BasePreferenceFragment() {
 
     override fun onResume() {
         super.onResume()
+        findPreference<SwitchPreferenceCompat>(PreferenceKeys.SCREEN_PIN_ENABLED)?.isChecked =
+            ParentPinStore.instance.isScreenPinEnabled()
         refreshUpdateSummary(findPreference(KEY_APP_UPDATE_CHECK))
+    }
+
+    private fun bindScreenPinPreference(store: ParentPinStore) {
+        val preference =
+            findPreference<SwitchPreferenceCompat>(PreferenceKeys.SCREEN_PIN_ENABLED) ?: return
+        preference.setOnPreferenceChangeListener { _, newValue ->
+            store.setScreenPinEnabled(newValue as Boolean)
+            true
+        }
     }
 
     private fun openAppUpdateDialog(appUpdatePref: Preference?) {

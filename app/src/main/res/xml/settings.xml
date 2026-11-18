@@ -19,9 +19,9 @@
             app:title="@string/music_removal_title" />
 
         <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:icon="@drawable/ic_locked"
             app:key="screen_pin_enabled"
+            app:persistent="false"
             app:summary="@string/screen_pin_summary"
             app:title="@string/screen_pin_title" />
 
