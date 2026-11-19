@@ -60,6 +60,7 @@ import com.github.libretube.extensions.seekBy
 import com.github.libretube.extensions.togglePlayPauseState
 import com.github.libretube.obj.VideoStats
 import com.github.libretube.player.MusicRemovalAudioProcessor
+import com.github.libretube.player.MusicRemovalEngine
 import com.github.libretube.player.OkHttpMediaDataSource
 import com.github.libretube.player.OrtSpeechRuntime
 import com.github.libretube.player.PlaybackSession
@@ -523,19 +524,24 @@ object PlayerHelper {
                     enableFloatOutput: Boolean,
                     enableAudioTrackPlaybackParams: Boolean,
                 ): AudioSink {
-                    val processor =
-                        MusicRemovalAudioProcessor(
+                    val engine =
+                        MusicRemovalEngine(
                             modelProvider = { OrtSpeechRuntime.fromAssets(context) },
                             fallbackModelProvider = {
                                 OrtSpeechRuntime.fallbackFromAssets(context)
                             },
+                            gateProvider = { OrtSpeechRuntime.vadFromAssets(context) },
+                            playbackSpeedProvider = {
+                                playbackSession.effectiveSpeedForSession(sessionTokenProvider())
+                            },
+                        )
+                    val processor =
+                        MusicRemovalAudioProcessor(
+                            engine = engine,
                             isMusicRemovalEnabled = {
                                 playbackSession.isMusicRemovalEnabledForSession(
                                     sessionTokenProvider(),
                                 )
-                            },
-                            playbackSpeedProvider = {
-                                playbackSession.effectiveSpeedForSession(sessionTokenProvider())
                             },
                             outputWaitTimeoutMs = 0L,
                             onOverloadMuteChanged = { muted ->

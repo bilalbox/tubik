@@ -19,7 +19,7 @@ import com.github.libretube.databinding.PlaybackBottomSheetBinding
 import com.github.libretube.enums.PlayerCommand
 import com.github.libretube.extensions.round
 import com.github.libretube.helpers.PreferenceHelper
-import com.github.libretube.player.MusicRemovalAudioProcessor
+import com.github.libretube.player.MusicRemovalEngine
 import com.github.libretube.player.PlaybackSession
 import com.github.libretube.services.AbstractPlayerService
 import com.github.libretube.ui.adapters.SliderLabelsAdapter
@@ -43,7 +43,7 @@ class PlaybackOptionsSheet(
         binding.speedShortcuts.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        val maxSpeed = MusicRemovalAudioProcessor.MAX_SPEED_WITH_MUSIC_REMOVAL
+        val maxSpeed = MusicRemovalEngine.MAX_SPEED_WITH_MUSIC_REMOVAL
         var lastMusicRemovalEnabled: Boolean? = null
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

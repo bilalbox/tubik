@@ -12,7 +12,7 @@ import kotlin.math.sqrt
  * real-time audio loop performs zero heap allocations per hop. Also supports fast-path delay
  * advancement when the downstream VAD gate is closed, bypassing all 6 FFT/IFFT passes.
  */
-class SpeechPostFilter(
+internal class SpeechPostFilter(
     sampleRate: Int = DEFAULT_SAMPLE_RATE,
     /** Samples by which the enhanced audio lags the input it is compared against. */
     modelDelaySamples: Int = HOP_SIZE,
@@ -94,9 +94,6 @@ class SpeechPostFilter(
     private val spec1Im = FloatArray(NUM_BINS)
     private val rawMask = FloatArray(NUM_BINS)
 
-    internal var fftPassCount: Long = 0L
-        private set
-
     fun preFilterInput(hop: FloatArray): FloatArray {
         preHighPass.processInto(hop, preFilteredBuf)
         return preFilteredBuf
@@ -158,7 +155,6 @@ class SpeechPostFilter(
         }
 
         fft512(yRe, yIm, invert = true)
-        fftPassCount++
 
         for (i in 0 until SUB_HOP) {
             val w0 = WINDOW_512[i]
@@ -192,7 +188,6 @@ class SpeechPostFilter(
         }
 
         fft512(xRe, xIm, invert = false)
-        fftPassCount++
 
         val halfN = FFT_SIZE / 2
         // Unpack DC (k=0) and Nyquist (k=N/2)
@@ -270,7 +265,6 @@ class SpeechPostFilter(
         olaTail.fill(0f)
         smoothedGain.fill(1f)
         rawMask.fill(0f)
-        fftPassCount = 0L
     }
 
     companion object {

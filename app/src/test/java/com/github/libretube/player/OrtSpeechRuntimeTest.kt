@@ -218,6 +218,7 @@ class OrtSpeechRuntimeTest {
         class TrackingSpeechModel(
             override val sampleRate: Int = 16000,
             override val hopSize: Int = 160,
+            override val latencySamples: Int = 256,
         ) : SpeechModel {
             override var isLoaded: Boolean = true
                 private set
@@ -253,6 +254,7 @@ class OrtSpeechRuntimeTest {
             }
             assertTrue(primary1 === primary2)
             assertEquals(1, primaryBuilds)
+            assertEquals(256, primary1.latencySamples)
 
             var fallbackBuilds = 0
             val fallbackUnderlying = TrackingSpeechModel()
@@ -275,6 +277,61 @@ class OrtSpeechRuntimeTest {
             OrtSpeechRuntime.clearSharedInstancesForTests()
             assertEquals(1, primaryUnderlying.closeCalls)
             assertEquals(1, fallbackUnderlying.closeCalls)
+        } finally {
+            OrtSpeechRuntime.clearSharedInstancesForTests()
+        }
+    }
+
+    @Test
+    fun `shared VAD gate cache reuses one gate, survives close via reset, and fails closed on load error`() {
+        class TrackingGate : SpeechGate {
+            override var isLoaded: Boolean = true
+                private set
+
+            var resetCalls = 0
+            var closeCalls = 0
+
+            override fun prepare(sampleRate: Int, hopSize: Int): Int = 1
+
+            override fun processHop(
+                hop: FloatArray,
+                sampleRate: Int,
+                frameRatio: Float,
+            ): Pair<Float, Float> = 1f to 1f
+
+            override fun reset() {
+                resetCalls++
+            }
+
+            override fun close() {
+                closeCalls++
+                isLoaded = false
+            }
+        }
+
+        OrtSpeechRuntime.clearSharedInstancesForTests()
+        try {
+            val failedGate = OrtSpeechRuntime.getOrCreateSharedGate { error("Simulated VAD error") }
+            assertFalse(failedGate.isLoaded)
+
+            var builds = 0
+            val underlying = TrackingGate()
+            val gate1 = OrtSpeechRuntime.getOrCreateSharedGate {
+                builds++
+                underlying
+            }
+            val gate2 = OrtSpeechRuntime.getOrCreateSharedGate { error("Should reuse cached gate") }
+            assertTrue(gate1 === gate2)
+            assertEquals(1, builds)
+            assertTrue(gate1.isLoaded)
+
+            gate1.close()
+            assertEquals(1, underlying.resetCalls)
+            assertEquals(0, underlying.closeCalls)
+            assertTrue(gate1.isLoaded)
+
+            OrtSpeechRuntime.clearSharedInstancesForTests()
+            assertEquals(1, underlying.closeCalls)
         } finally {
             OrtSpeechRuntime.clearSharedInstancesForTests()
         }

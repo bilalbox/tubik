@@ -2,6 +2,9 @@ package com.github.libretube.player
 
 /** Decides, hop by hop, how much of the enhanced audio is let through. */
 interface SpeechGate : AutoCloseable {
+    val isLoaded: Boolean
+        get() = true
+
     /**
      * Tells the gate the hop geometry it will be fed and returns the number of hops by which the
      * caller delays the gated audio behind this gate's decisions, so the gate is already open when

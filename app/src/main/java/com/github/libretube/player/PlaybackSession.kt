@@ -215,7 +215,7 @@ class PlaybackSession(
                 trackSpeedOverride ?: preferredSpeed
             }
         val effectiveSpeed =
-            MusicRemovalAudioProcessor.clampPlaybackSpeed(unclampedSpeed, musicRemovalEnabled)
+            MusicRemovalEngine.clampPlaybackSpeed(unclampedSpeed, musicRemovalEnabled)
         _state.value =
             PlaybackSessionState(
                 sessionToken = activeSessionToken,

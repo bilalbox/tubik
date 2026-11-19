@@ -20,23 +20,17 @@ object OrtSpeechRuntime {
 
     private class SharedSpeechModel(
         private val delegate: SpeechModel,
-    ) : SpeechModel {
-        override val isLoaded: Boolean
-            get() = delegate.isLoaded
+    ) : SpeechModel by delegate {
+        override fun close() = delegate.reset()
 
-        override val sampleRate: Int
-            get() = delegate.sampleRate
+        fun closeUnderlying() {
+            runCatching { delegate.close() }
+        }
+    }
 
-        override val hopSize: Int
-            get() = delegate.hopSize
-
-        override val hopDurationNs: Long
-            get() = delegate.hopDurationNs
-
-        override fun processHop(hop: FloatArray): FloatArray = delegate.processHop(hop)
-
-        override fun reset() = delegate.reset()
-
+    private class SharedSpeechGate(
+        private val delegate: SpeechGate,
+    ) : SpeechGate by delegate {
         override fun close() = delegate.reset()
 
         fun closeUnderlying() {
@@ -73,14 +67,52 @@ object OrtSpeechRuntime {
                         }
                     },
                     onFailure = { t ->
-                        runCatching {
-                            Log.e(
-                                TAG,
-                                "Unable to read $assetLabel or $VAD_ASSET_FILENAME from assets",
-                                t,
-                            )
+                        runCatching { Log.e(TAG, "Unable to read $assetLabel from assets", t) }
+                        UnloadedSpeechModel
+                    },
+                )
+        }
+
+        fun clear() {
+            synchronized(lock) {
+                val existing = instance
+                instance = null
+                existing?.closeUnderlying()
+            }
+        }
+    }
+
+    private class GateSlot(
+        private val assetLabel: String,
+    ) {
+        @Volatile private var instance: SharedSpeechGate? = null
+        private val lock = Any()
+
+        fun getOrCreate(loader: () -> SpeechGate): SpeechGate {
+            instance
+                ?.takeIf { it.isLoaded }
+                ?.let { cached ->
+                    return cached
+                }
+            return synchronized(lock) {
+                val existing = instance?.takeIf { it.isLoaded }
+                existing ?: loadAndCache(loader)
+            }
+        }
+
+        private fun loadAndCache(loader: () -> SpeechGate): SpeechGate {
+            return runCatching { loader() }
+                .fold(
+                    onSuccess = { loaded ->
+                        if (loaded.isLoaded) {
+                            SharedSpeechGate(loaded).also { instance = it }
+                        } else {
+                            loaded
                         }
-                        unloadedSpeechModel()
+                    },
+                    onFailure = { t ->
+                        runCatching { Log.e(TAG, "Unable to read $assetLabel from assets", t) }
+                        UnloadedSpeechGate
                     },
                 )
         }
@@ -96,18 +128,12 @@ object OrtSpeechRuntime {
 
     private val primarySlot = ModelSlot(ASSET_FILENAME)
     private val fallbackSlot = ModelSlot(FALLBACK_ASSET_FILENAME)
+    private val vadSlot = GateSlot(VAD_ASSET_FILENAME)
 
-    private fun unloadedSpeechModel(): SpeechModel =
-        object : SpeechModel {
-            override val isLoaded: Boolean = false
-            override val sampleRate: Int = 0
-            override val hopSize: Int = 0
-            override val hopDurationNs: Long = 0L
-
-            override fun processHop(hop: FloatArray): FloatArray = FloatArray(0)
-        }
-
-    fun warmup(context: Context): SpeechModel = fromAssets(context)
+    fun warmup(context: Context): SpeechModel {
+        vadFromAssets(context)
+        return fromAssets(context)
+    }
 
     fun warmup(loader: () -> SpeechModel): SpeechModel = getOrCreateShared(loader)
 
@@ -115,6 +141,8 @@ object OrtSpeechRuntime {
 
     fun getOrCreateSharedFallback(loader: () -> SpeechModel): SpeechModel =
         fallbackSlot.getOrCreate(loader)
+
+    fun getOrCreateSharedGate(loader: () -> SpeechGate): SpeechGate = vadSlot.getOrCreate(loader)
 
     fun fromAssets(context: Context): SpeechModel = getOrCreateShared {
         loadAssetModel(context, ASSET_FILENAME)
@@ -124,31 +152,16 @@ object OrtSpeechRuntime {
         loadAssetModel(context, FALLBACK_ASSET_FILENAME)
     }
 
+    fun vadFromAssets(context: Context): SpeechGate = getOrCreateSharedGate {
+        val appContext = context.applicationContext ?: context
+        val vadBytes = appContext.assets.open(VAD_ASSET_FILENAME).use { it.readBytes() }
+        SileroVadGate(vadBytes)
+    }
+
     internal fun clearSharedInstancesForTests() {
         primarySlot.clear()
         fallbackSlot.clear()
-    }
-
-    private fun loadAssetModel(context: Context, assetFilename: String): SpeechModel {
-        val appContext = context.applicationContext ?: context
-        val modelBytes = appContext.assets.open(assetFilename).use { it.readBytes() }
-        val vadBytes = appContext.assets.open(VAD_ASSET_FILENAME).use { it.readBytes() }
-        val neuralModel = FastEnhancerSpeechModel(modelBytes = modelBytes)
-        if (!neuralModel.isLoaded) {
-            neuralModel.close()
-            return neuralModel
-        }
-        val vadGate =
-            SileroVadGate(vadBytes).also {
-                if (!it.isLoaded) {
-                    neuralModel.close()
-                    throw IllegalStateException("Silero VAD model failed to load")
-                }
-            }
-        return SpeechEnhancementPipeline(
-            primaryModel = neuralModel,
-            vadGate = vadGate,
-        )
+        vadSlot.clear()
     }
 
     class Session
@@ -229,35 +242,68 @@ object OrtSpeechRuntime {
             isXnnpackEnabled = xnnpackEnabled,
         )
     }
+}
 
-    private fun createSessionWithXnnpackFallback(
-        ortEnv: OrtEnvironment,
-        modelBytes: ByteArray,
-        intraOpThreads: Int,
-        xnnpackRegistrar: (OrtSession.SessionOptions) -> Unit,
-    ): Pair<OrtSession, Boolean> {
-        fun buildBaseOptions(): OrtSession.SessionOptions {
-            return OrtSession.SessionOptions().apply {
-                setIntraOpNumThreads(intraOpThreads)
-                setInterOpNumThreads(1)
-                setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
-                runCatching { setMemoryPatternOptimization(true) }
-                runCatching { setCPUArenaAllocator(true) }
-                runCatching { addConfigEntry("session.intra_op.allow_spinning", "0") }
-            }
-        }
+private val UnloadedSpeechModel: SpeechModel =
+    object : SpeechModel {
+        override val isLoaded: Boolean = false
+        override val sampleRate: Int = 0
+        override val hopSize: Int = 0
+        override val hopDurationNs: Long = 0L
 
-        val xnnpackAttempt = runCatching {
-            buildBaseOptions().use { options ->
-                xnnpackRegistrar(options)
-                ortEnv.createSession(modelBytes, options) to true
-            }
-        }
-        if (xnnpackAttempt.isSuccess) {
-            return xnnpackAttempt.getOrThrow()
-        }
+        override fun processHop(hop: FloatArray): FloatArray = FloatArray(0)
+    }
 
-        return buildBaseOptions().use { cpuOptions ->
+private val UnloadedSpeechGate: SpeechGate =
+    object : SpeechGate {
+        override val isLoaded: Boolean = false
+
+        override fun prepare(sampleRate: Int, hopSize: Int): Int = 0
+
+        override fun processHop(
+            hop: FloatArray,
+            sampleRate: Int,
+            frameRatio: Float,
+        ): Pair<Float, Float> = 0f to 0f
+
+        override fun reset() = Unit
+
+        override fun close() = Unit
+    }
+
+private fun loadAssetModel(context: Context, assetFilename: String): SpeechModel {
+    val appContext = context.applicationContext ?: context
+    val modelBytes = appContext.assets.open(assetFilename).use { it.readBytes() }
+    return FastEnhancerSpeechModel(modelBytes = modelBytes)
+}
+
+private fun createSessionWithXnnpackFallback(
+    ortEnv: OrtEnvironment,
+    modelBytes: ByteArray,
+    intraOpThreads: Int,
+    xnnpackRegistrar: (OrtSession.SessionOptions) -> Unit,
+): Pair<OrtSession, Boolean> {
+    fun buildBaseOptions(): OrtSession.SessionOptions {
+        return OrtSession.SessionOptions().apply {
+            setIntraOpNumThreads(intraOpThreads)
+            setInterOpNumThreads(1)
+            setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
+            runCatching { setMemoryPatternOptimization(true) }
+            runCatching { setCPUArenaAllocator(true) }
+            runCatching { addConfigEntry("session.intra_op.allow_spinning", "0") }
+        }
+    }
+
+    val xnnpackAttempt = runCatching {
+        buildBaseOptions().use { options ->
+            xnnpackRegistrar(options)
+            ortEnv.createSession(modelBytes, options) to true
+        }
+    }
+    return if (xnnpackAttempt.isSuccess) {
+        xnnpackAttempt.getOrThrow()
+    } else {
+        buildBaseOptions().use { cpuOptions ->
             ortEnv.createSession(modelBytes, cpuOptions) to false
         }
     }
