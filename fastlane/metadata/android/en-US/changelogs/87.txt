@@ -1,0 +1,7 @@
+Tubik v1.2.3:
+
+- Fixed the last ~32 ms of speech still being clipped at the end of videos when Music Removal is on.
+- Turning off Screen Pin now requires the Parent PIN when one is set, matching Allowlist and Music Removal.
+- Unverified update downloads are now cleaned up immediately on verification failure.
+- Simplified Appearance settings by removing the unused Home tab content option and legacy app icon picker.
+- Consolidated Music Removal, Access Control, OTA updates, and YouTube stream recovery internals for reliability.
