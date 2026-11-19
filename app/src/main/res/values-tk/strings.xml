@@ -17,7 +17,6 @@
     <string name="license">Ygtyýarnama</string>
     <string name="color_accent">Tema renkleri</string>
     <string name="sponsorblock_notifications">Bildirişler</string>
-    <string name="app_icon">Nyşan</string>
     <string name="enabled">Aç</string>
     <string name="disabled">Öçürilen</string>
     <string name="playOnBackground">Arka tarapynda dowam et</string>
@@ -32,7 +31,6 @@
     <string name="appearance_summary">Programmany öz islegiňize görä sazlaň</string>
     <string name="live">Göni ýaýlym</string>
     <string name="shareTo">URL-i paýlaşyň</string>
-    <string name="defaultIcon">Deslapky</string>
     <string name="customInstance_summary">Goş…</string>
     <string name="version">V %1$s</string>
     <string name="related_streams">Degişli mazmun</string>

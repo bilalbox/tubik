@@ -45,7 +45,6 @@
     <string name="segment_skipped">Praleistas segmentas</string>
     <string name="license">Licencija</string>
     <string name="color_accent">Akcentai</string>
-    <string name="app_icon">Piktograma</string>
     <string name="enabled">Įjungta</string>
     <string name="playOnBackground">Groti fone</string>
     <string name="update_available">Yra galima versija %1$s</string>
@@ -56,7 +55,6 @@
     <string name="advanced">Išplėstiniai</string>
     <string name="appearance_summary">Pritaikykite programėlę pagal savo skonį</string>
     <string name="live">Tiesiogiai</string>
-    <string name="defaultIcon">Numatyta</string>
     <string name="customInstance_summary">Pridėti…</string>
     <string name="invalid_url">Įveskite veikiantį URL</string>
     <string name="version">Versija %1$s</string>
@@ -201,13 +199,6 @@
     <string name="sponsorblock_notifications">Pranešimai</string>
     <string name="downloads">Atsiuntimai</string>
     <string name="shareTo">Bendrinti URL su</string>
-    <string name="legacyIcon">Prarastas palikimas</string>
-    <string name="gradientIcon">Gilus gradientas</string>
-    <string name="fireIcon">Užgožianti ugnis</string>
-    <string name="torchIcon">Dirglus deglas</string>
-    <string name="shapedIcon">Fiktyvi forma</string>
-    <string name="flameIcon">Linguojanti liepsna</string>
-    <string name="birdIcon">Pasipūtęs paukštis</string>
     <string name="related_streams_summary">Rodyti panašias transliacijas šalia to, ką žiūrite</string>
     <string name="buffering_goal_summary">Didžiausias užkrauto vaizdo įrašo sekundžių skaičius atmintyje</string>
     <string name="player_summary">Numatyti nustatymai ir elgsena</string>
@@ -232,7 +223,6 @@
     <string name="color_purple">Viliojanti violetinė</string>
     <string name="aspect_ratio">Vaizdo įrašo rezoliucija</string>
     <string name="livestreams">Tiesioginės transliacijos</string>
-    <string name="defaultIconLight">Numatyta šviesi</string>
     <string name="playlistCloned">Grojaraštis klonuotas</string>
     <string name="play_all">Groti viską</string>
     <string name="start_time">Pradžios laikas</string>
@@ -415,7 +405,6 @@
     <string name="import_playlists_from">Importuoti grojaraščius iš</string>
     <string name="export_playlists_to">Eksportuoti grojaraščius į</string>
     <string name="import_format_list_of_urls">Importuoti formatu: URL sąrašas</string>
-    <string name="home_tab_content">Pagrindinio skirtuko turinys</string>
     <string name="show_search_suggestions">Rodyti paieškos pasiūlymus</string>
     <string name="audio_track_format">Garso takelio formatas</string>
     <string name="unknown_audio_language">Nežinoma garso kalba</string>

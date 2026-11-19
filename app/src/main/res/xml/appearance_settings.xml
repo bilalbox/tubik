@@ -29,11 +29,6 @@
             app:title="@string/color_accent"
             app:useSimpleSummaryProvider="true" />
 
-        <Preference
-            android:icon="@drawable/ic_frame"
-            app:key="icon_change"
-            app:title="@string/app_icon" />
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/layout">
@@ -42,14 +37,6 @@
             android:icon="@drawable/ic_home"
             app:key="navbar_items"
             app:title="@string/navigation_bar" />
-
-        <MultiSelectListPreference
-            android:entries="@array/homeTabItems"
-            android:entryValues="@array/homeTabItemsValues"
-            android:icon="@drawable/ic_awesome"
-            android:key="home_tab_content"
-            android:title="@string/home_tab_content"
-            app:defaultValue="@array/homeTabItemsValues" />
 
         <ListPreference
             android:icon="@drawable/ic_grid"

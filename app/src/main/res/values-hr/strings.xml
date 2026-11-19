@@ -100,7 +100,6 @@
     <string name="color_purple">Ugodna ljubičasta</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Obavijesti</string>
-    <string name="app_icon">Ikona</string>
     <string name="enabled">Uključeno</string>
     <string name="disabled">Isključeno</string>
     <string name="playOnBackground">Reproduciraj u pozadini</string>
@@ -116,8 +115,6 @@
     <string name="upcoming">Predstojeće</string>
     <string name="shareTo">Podijeli URL na</string>
     <string name="normal_views">%1$s pregleda%2$s</string>
-    <string name="defaultIcon">Zadano</string>
-    <string name="gradientIcon">Glib gradijent</string>
     <string name="customInstance_summary">Dodati…</string>
     <string name="invalid_url">Molimo unesite valjanu URL adresu</string>
     <string name="version">Verzija %1$s</string>

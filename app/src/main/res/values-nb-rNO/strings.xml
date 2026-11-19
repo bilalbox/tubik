@@ -65,7 +65,6 @@
     <string name="videoCount">%1$d videoer</string>
     <string name="retry">Prøv igjen</string>
     <string name="comments">Kommentarer</string>
-    <string name="app_icon">Ikon</string>
     <string name="update_available">Oppgradering tilgjengelig</string>
     <string name="appearance">Utseende</string>
     <string name="live">Direkte</string>
@@ -77,18 +76,11 @@
     <string name="category_selfpromo">Ubetalt/selvpromotering</string>
     <string name="category_intro">Pausesegment/introduksjonsanimasjon</string>
     <string name="shareTo">Del nettadresse til …</string>
-    <string name="defaultIcon">Forvalg</string>
-    <string name="legacyIcon">God gammeldags</string>
-    <string name="gradientIcon">Glidende gradient</string>
     <string name="enabled">På</string>
     <string name="material_you">Materiell du</string>
     <string name="update_summary">Klikk for å sjekke at du har siste versjon.</string>
     <string name="app_uptodate">Kjører siste versjon.</string>
     <string name="appearance_summary">Tilpass programmet til din smak</string>
-    <string name="fireIcon">Fasjonabel flamme</string>
-    <string name="torchIcon">Finskodd fakkel</string>
-    <string name="shapedIcon">Formodentlig formet</string>
-    <string name="flameIcon">Flyende flamme</string>
     <string name="noInternet">Koble til Internett først.</string>
     <string name="music_playlists">YT Musikk-spillelister</string>
     <string name="category_outro">Sluttinfo og rulletekst</string>
@@ -96,7 +88,6 @@
     <string name="category_interaction">Interaksjonspåminnelse</string>
     <string name="category_outro_summary">Info etter slutten av videoen. Ikke for oppsummeringer med info</string>
     <string name="playOnBackground">Spill i bakgrunnen</string>
-    <string name="birdIcon">Framhevet fugl</string>
     <string name="category_selfpromo_summary">Ligner på «Sponsor», bortsett fra at det er ubetalt eller selv-promotering. Dette inkluderer segmenter om ting, donasjoner, eller info om samarbeidspartnere</string>
     <string name="category_sponsor_summary">Betalt promosjon, betalt videresending og direkte reklame. Ikke for selvpromotering eller sannferdig gratis nevning av tiltak, skapere, nettsider, eller produkter</string>
     <string name="category_interaction_summary">Når det er en kort påminnelse om å like, abonnere, eller følge midt i innhold. Hvis det er lagt eller om noe spesifikt bør du heller velge selvpromotering</string>
@@ -234,7 +225,6 @@
     <string name="playlistCloned">Spilleliste klonet</string>
     <string name="play_all">Spill alle</string>
     <string name="livestreams">Sanntidsstrømmer</string>
-    <string name="defaultIconLight">Forvalgt lys</string>
     <string name="time">Tid</string>
     <string name="end_time">Slutt-tid</string>
     <string name="start_time">Start-tid</string>
@@ -322,7 +312,6 @@
     <string name="mark_as_unwatched">Marker som usett</string>
     <string name="change_playlist_description">Endre spillelistebeskrivelse</string>
     <string name="playlist_description">Spillelistebeskrivelse</string>
-    <string name="home_tab_content">Hjemmefaneinnhold</string>
     <string name="duration">Varighet</string>
     <string name="alphabetic_reversed">Alfabetisk Å-A</string>
     <string name="shorts_notifications">Merknader for kortvideoer</string>

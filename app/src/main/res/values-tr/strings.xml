@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">Bildirimler</string>
     <string name="enabled">Açık</string>
     <string name="disabled">Kapalı</string>
-    <string name="app_icon">Simge</string>
     <string name="playOnBackground">Arka planda oynat</string>
     <string name="update_available">Güncelleme var</string>
     <string name="appearance">Görünüm</string>
@@ -99,14 +98,6 @@
     <string name="appearance_summary">Uygulamayı zevkinize göre ayarlayın</string>
     <string name="live">Canlı</string>
     <string name="shareTo">URL\'yi şuraya paylaş</string>
-    <string name="defaultIcon">Varsayılan</string>
-    <string name="gradientIcon">Akıcı değişim</string>
-    <string name="fireIcon">Moda ateş</string>
-    <string name="torchIcon">Şık fener</string>
-    <string name="birdIcon">Hızlandırılmış kuş</string>
-    <string name="legacyIcon">Kayıp miras</string>
-    <string name="shapedIcon">Aptal şekilli</string>
-    <string name="flameIcon">Uçan alev</string>
     <string name="customInstance_summary">Ekle…</string>
     <string name="invalid_url">Lütfen, çalışan bir URL girin</string>
     <string name="version">Sürüm %1$s</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Oynatma listesine eklendi %1$s</string>
     <string name="queue">Sıra</string>
     <string name="livestreams">Canlı yayınlar</string>
-    <string name="defaultIconLight">Varsayılan aydınlık</string>
     <string name="playlistCloned">Oynatma listesi kopyalandı</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="time">Zaman</string>
@@ -326,7 +316,6 @@
     <string name="import_playlists_from">Oynatma listelerini içe aktar</string>
     <string name="export_subscriptions_to">Abonelikleri dışa aktar</string>
     <string name="import_subscriptions_from">Abonelikleri şuradan içe aktar</string>
-    <string name="home_tab_content">Giriş sekmesi içeriği</string>
     <string name="stop">Durdur</string>
     <string name="sb_custom_colors">Özelleştirilmiş kısım renkleri</string>
     <string name="color">Renk</string>

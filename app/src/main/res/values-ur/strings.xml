@@ -84,7 +84,6 @@
     <string name="color_purple">خوشگوار جامنی</string>
     <string name="material_you">میٹریل یو</string>
     <string name="sponsorblock_notifications">اطلاعات</string>
-    <string name="app_icon">آئیکن</string>
     <string name="enabled">چالو</string>
     <string name="disabled">بند</string>
     <string name="playOnBackground">پس منظر میں چلائیں</string>
@@ -135,16 +134,8 @@
     <string name="player">پلیئر</string>
     <string name="live">لائیو</string>
     <string name="shareTo">اس کے ساتھ URL کا اشتراک کریں</string>
-    <string name="defaultIcon">ڈیفالٹ</string>
-    <string name="legacyIcon">گم شدہ میراث</string>
-    <string name="gradientIcon">Glib میلان</string>
-    <string name="fireIcon">فیشن ایبل آگ</string>
-    <string name="torchIcon">جدید ٹارچ</string>
-    <string name="shapedIcon">بے وقوف شکل</string>
-    <string name="flameIcon">اڑتا ہوا شعلہ</string>
     <string name="customInstance_summary">شامل کریں…</string>
     <string name="appearance_summary">ایپ کو اپنی پسند کے مطابق ایڈجسٹ کریں</string>
-    <string name="birdIcon">بڑھا ہوا پرندہ</string>
     <string name="version">ورژن %1$s</string>
     <string name="related_streams">متعلقہ مواد</string>
     <string name="related_streams_summary">آپ جو دیکھتے ہیں اس کے ساتھ ملتے جلتے سلسلے دکھائیں</string>

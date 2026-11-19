@@ -81,7 +81,6 @@
     <string name="video">วิดีโอ</string>
     <string name="license">ลิขสิทธิ์</string>
     <string name="start_time">เริ่ม</string>
-    <string name="app_icon">ไอคอน</string>
     <string name="trends">เทรนด์</string>
     <string name="import_watch_history">นำเข้าประวัติการดู</string>
     <string name="brightness">ความสว่าง</string>
@@ -216,7 +215,6 @@
     <string name="color">สี</string>
     <string name="invalid_color">ค่าสีที่ใส่ไม่ถูกต้อง!</string>
     <string name="livestreams">ไลฟ์สตรีม</string>
-    <string name="defaultIconLight">สว่างปกติ</string>
     <string name="playlistCloned">โคลนเพลย์ลิสต์แล้ว</string>
     <string name="unsupported_file_format">รูปแบบไฟล์ไม่รองรับ: %1$s</string>
     <string name="featured">แนะนำ</string>
@@ -258,7 +256,6 @@
     <string name="normal_views">%1$s วิว %2$s</string>
     <string name="shareTo">แชร์ URL ไปยัง</string>
     <string name="upcoming">เร็วๆ นี้</string>
-    <string name="defaultIcon">ค่าเริ่มต้น</string>
     <string name="appearance">รูปแบบ</string>
     <string name="downloads">ดาวน์โหลด</string>
     <string name="update_summary">ตรวจสอบการอัปเดต</string>
@@ -288,7 +285,6 @@
     <string name="import_playlists_from">นำเข้าเพลย์ลิสต์จาก</string>
     <string name="export_playlists_to">ส่งเพลย์ลิสต์ออกสู่</string>
     <string name="import_format_list_of_urls">รายการ URL หรือวิดีโอ ID</string>
-    <string name="home_tab_content">เนื้อหาหน้าต่างแรก</string>
     <string name="show_search_suggestions">แสดงการค้นหาที่แนะนำ</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="unknown_audio_language">ภาษาเสียงที่ไม่ทราบ</string>

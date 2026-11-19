@@ -84,18 +84,11 @@
     <string name="category_sponsor_summary">ترويج مدفوع و إحالات مدفوعة و إعلانات مباشرة. ليس للترويج الذاتي أو الترويج المجاني لأهداف أو منشئي محتوى أو مواقع ويب أو منتجات</string>
     <string name="category_outro">شارة النهاية / أسماء المساهمين في العمل</string>
     <string name="sponsorblock_notifications">الإشعارات</string>
-    <string name="app_icon">أيقونة</string>
     <string name="enabled">مفعل</string>
     <string name="disabled">ايقاف</string>
     <string name="playOnBackground">شغِّل في الخلفية</string>
-    <string name="defaultIcon">الإفتراضي</string>
     <string name="update_summary">التحقق من وجود تحديث</string>
     <string name="app_uptodate">تُشغِّل أحدث إصدار.</string>
-    <string name="fireIcon">حريق عصري</string>
-    <string name="torchIcon">الشعلة العصرية</string>
-    <string name="shapedIcon">شكل سخيف</string>
-    <string name="flameIcon">اللهب الطائر</string>
-    <string name="birdIcon">الطيور المعززة</string>
     <string name="invalid_url">الرجاء إدخال عنوان URL يعمل</string>
     <string name="version">الإصدار %1$s</string>
     <string name="related_streams">المحتويات ذات الصلة</string>
@@ -110,8 +103,6 @@
     <string name="buffering_goal_summary">الحد الأقصى لعدد ثواني الفيديو للتخزين المؤقت</string>
     <string name="update_available">التحديث متاح</string>
     <string name="downloads">التنزيلات</string>
-    <string name="legacyIcon">الإرث الضائع</string>
-    <string name="gradientIcon">التدرج اللوني</string>
     <string name="live">مباشر</string>
     <string name="player_autoplay">التشغيل التلقائي</string>
     <string name="appearance">المظهر</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">أُضيف إلى قائمة التشغيل %1$s</string>
     <string name="queue">الانتظار</string>
     <string name="livestreams">البث المباشر</string>
-    <string name="defaultIconLight">الافتراضي ابيض</string>
     <string name="playlistCloned">استُنسخ قائمة التشغيل</string>
     <string name="play_all">تشغيل الكل</string>
     <string name="notification_time_summary">حدد الفترة الزمنية التي تظهر فيها إشعارات البث</string>
@@ -335,7 +325,6 @@
     <string name="import_subscriptions_from">استيراد الاشتراكات من</string>
     <string name="import_playlists_from">استيراد قوائم التشغيل من</string>
     <string name="export_playlists_to">تصدير قوائم التشغيل إلى</string>
-    <string name="home_tab_content">محتوى تبويب \"الصفحة الرئيسية\"</string>
     <string name="mark_as_unwatched">علّم لم اشاهده</string>
     <string name="emptyPlaylistDescription">لا يمكن أن يكون وصف قائمة التشغيل فارغا</string>
     <string name="playlist_description">وصف قائمة التشغيل</string>

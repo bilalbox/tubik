@@ -55,7 +55,6 @@
     <string name="color_yellow">ହଳଦିଆ</string>
     <string name="color_green">ସବୁଜ</string>
     <string name="color_purple">ପାତଳୀ</string>
-    <string name="app_icon">ଆଇକନ</string>
     <string name="enabled">ଅନ୍</string>
     <string name="disabled">ବନ୍ଦ ଅଛି</string>
     <string name="playOnBackground">ପୃଷ୍ଠଭୂମି ରେ ପ୍ଲେ କରନ୍ତୁ</string>
@@ -98,20 +97,12 @@
     <string name="downloads">ଡାଉନଲୋଡ୍ ଗୁଡିକ</string>
     <string name="player">ଚାଳକ</string>
     <string name="appearance_summary">ଆପକୁ ନିଜ ଇଚ୍ଛାରେ ଆଡଜଷ୍ଟ କରନ୍ତୁ</string>
-    <string name="gradientIcon">ଗ୍ଲିବ୍ ଗ୍ରେଡିଏଣ୍ଟ୍</string>
-    <string name="legacyIcon">ହଜିଯାଇଥିବା ଉତ୍ତରାଧିକାରୀ</string>
-    <string name="fireIcon">ଫ୍ୟାଶନେବଲ୍ ଅଗ୍ନି</string>
     <string name="update_summary">ଅପଡେଟ ପାଇଁ ଚେକ୍ କର</string>
     <string name="app_uptodate">ସର୍ବଶେଷ ସଂସ୍କରଣ ଚାଲୁଅଛି ।</string>
     <string name="playback_speed">ପ୍ଲେବେକ୍ ବେଗ</string>
     <string name="advanced">ଵିକଶିତ</string>
     <string name="live">ସିଧା ପ୍ରସାରଣ</string>
     <string name="shareTo">URL ଅଂଶୀଦାର କରନ୍ତୁ</string>
-    <string name="defaultIcon">ଡିଫଲ୍ଟ</string>
-    <string name="torchIcon">ଟ୍ରେଣ୍ଡି ମଶାଲ</string>
-    <string name="shapedIcon">ନିର୍ବୋଧ ଆକୃତିର</string>
-    <string name="flameIcon">ଉଡ଼ୁଥିବା ନିଆଁ</string>
-    <string name="birdIcon">ପକ୍ଷୀ</string>
     <string name="customInstance_summary">ମିଶାନ୍ତୁ …</string>
     <string name="invalid_url">ଦୟାକରି ଏକ URL ପ୍ରବେଶ କରନ୍ତୁ ଯାହା କାମ କରେ</string>
     <string name="version">ସଂସ୍କରଣ %1$s</string>
@@ -228,7 +219,6 @@
     <string name="backup_restore">ନକଲ ଓ ସଂରକ୍ଷଣ</string>
     <string name="subscriptions">ସଦସ୍ୟତା ଗୁଡ଼ିକ</string>
     <string name="livestreams">ସିଧପ୍ରସାରଣ ଷ୍ଟ୍ରୀମ ଗୁଡ଼ିକ</string>
-    <string name="defaultIconLight">ଡିଫଲ୍ଟ ଉଜ୍ଜଳ</string>
     <string name="download_channel_name">ଡାଉନଲୋଡ୍ ସେବା</string>
     <string name="download_channel_description">ମିଡିଆ ଡାଉନଲୋଡ୍ କରିବା ସମୟରେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାଏ ।</string>
     <string name="push_channel_name">ବିଜ୍ଞପ୍ତି କର୍ମୀ</string>
@@ -331,7 +321,6 @@
     <string name="import_subscriptions_from">ଏଥିରୁ ସଦସ୍ୟତା ଆମଦାନୀ କରନ୍ତୁ</string>
     <string name="import_playlists_from">ଏଥିରୁ ପ୍ଲେଲିଷ୍ଟ ଆମଦାନୀ କରନ୍ତୁ</string>
     <string name="export_playlists_to">ଏଥିକୁ ପ୍ଲେଲିଷ୍ଟଗୁଡିକ ରପ୍ତାନି କରନ୍ତୁ</string>
-    <string name="home_tab_content">ହୋମ୍ ଟ୍ୟାବ୍ ବିଷୟବସ୍ତୁ</string>
     <string name="mark_as_unwatched">ଅଦୃଶ୍ୟ ଭାବରେ ଚିହ୍ନିତ କରନ୍ତୁ</string>
     <string name="emptyPlaylistDescription">ପ୍ଲେଲିଷ୍ଟ ବର୍ଣ୍ଣନା ଖାଲି ହୋଇପାରିବ ନାହିଁ</string>
     <string name="change_playlist_description">ପ୍ଲେଲିଷ୍ଟ ବର୍ଣ୍ଣନା ପରିବର୍ତ୍ତନ କରନ୍ତୁ</string>

@@ -83,21 +83,12 @@
     <string name="color_green">Groovy green</string>
     <string name="color_purple">Pleasurable purple</string>
     <string name="material_you">Material You</string>
-    <string name="app_icon">Иконка</string>
     <string name="sponsorblock_notifications">Уведомления</string>
     <string name="enabled">Вкл.</string>
     <string name="playOnBackground">Воспроизвести в фоновом режиме</string>
     <string name="disabled">Откл.</string>
     <string name="update_available">Доступно обновление</string>
-    <string name="defaultIcon">По умолчанию</string>
-    <string name="shapedIcon">Формальная форма</string>
     <string name="shareTo">Поделиться URL с</string>
-    <string name="legacyIcon">Утраченное наследие</string>
-    <string name="gradientIcon">Гладкий градиент</string>
-    <string name="birdIcon">Прикольная птица</string>
-    <string name="fireIcon">Огненный огонь</string>
-    <string name="torchIcon">Модный факел</string>
-    <string name="flameIcon">Порхающее пламя</string>
     <string name="version">Версия %1$s</string>
     <string name="category_filler">Заполнители/шутки</string>
     <string name="category_music_offtopic">Музыка: Немузыкальный раздел</string>
@@ -232,7 +223,6 @@
     <string name="time_code">Временной код (секунды)</string>
     <string name="queue">Очередь</string>
     <string name="livestreams">Прямые трансляции</string>
-    <string name="defaultIconLight">Светлый по умолчанию</string>
     <string name="playlistCloned">Плейлист клонирован</string>
     <string name="play_all">Играть все</string>
     <string name="time">Время</string>
@@ -333,7 +323,6 @@
     <string name="export_subscriptions_to">Экспорт подписок в</string>
     <string name="import_playlists_from">Импорт плейлистов из</string>
     <string name="export_playlists_to">Экспорт плейлистов в</string>
-    <string name="home_tab_content">Содержимое главной вкладки</string>
     <string name="mark_as_unwatched">Пометить как непросмотренное</string>
     <string name="change_playlist_description">Изменить описание плейлиста</string>
     <string name="playlist_description">Описание плейлиста</string>

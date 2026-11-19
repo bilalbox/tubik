@@ -15,7 +15,6 @@ import com.github.libretube.api.TrendingCategory
 import com.github.libretube.api.obj.Playlists
 import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.constants.PreferenceKeys
-import com.github.libretube.constants.PreferenceKeys.HOME_TAB_CONTENT
 import com.github.libretube.databinding.FragmentHomeBinding
 import com.github.libretube.db.obj.PlaylistBookmark
 import com.github.libretube.enums.PlaylistType
@@ -183,13 +182,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun fetchHomeFeed() {
         binding.nothingHere.isGone = true
-        val defaultItems = resources.getStringArray(R.array.homeTabItemsValues)
-        val visibleItems = PreferenceHelper.getStringSet(HOME_TAB_CONTENT, defaultItems.toSet())
 
         homeViewModel.loadHomeFeed(
-            context = requireContext(),
             subscriptionsViewModel = subscriptionsViewModel,
-            visibleItems = visibleItems,
             onUnusualLoadTime = ::showChangeInstanceSnackBar,
         )
     }

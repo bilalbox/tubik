@@ -82,7 +82,6 @@
     <string name="category_intro_summary">Un interval fără conținut propriu-zis. Poate fi o pauză, un cadru static, o animație care se repetă. Nu ar trebui să fie utilizat pentru tranziții care conțin informații</string>
     <string name="category_outro">Carduri de final și credite</string>
     <string name="category_outro_summary">Informații care urmează după încheiere. Nu pentru concluzii cu informații</string>
-    <string name="app_icon">Pictogramă</string>
     <string name="enabled">Pornit</string>
     <string name="disabled">Oprit</string>
     <string name="playOnBackground">Redă în fundal</string>
@@ -95,20 +94,12 @@
     <string name="player">Player</string>
     <string name="appearance_summary">Ajustarea aplicației după bunul plac</string>
     <string name="shareTo">Distribuie URL-ul către</string>
-    <string name="defaultIcon">Implicită</string>
-    <string name="legacyIcon">Moștenire pierdută</string>
-    <string name="gradientIcon">Gradient neted</string>
-    <string name="fireIcon">Foc la modă</string>
-    <string name="torchIcon">Lanternă la modă</string>
-    <string name="birdIcon">Pasăre stimulată</string>
     <string name="customInstance_summary">Adaugă…</string>
     <string name="related_streams_summary">Afișează videoclipuri similare alături de ceea ce vizionezi</string>
     <string name="sponsorblock_notifications">Notificări</string>
     <string name="material_you">Material You</string>
     <string name="downloads">Descărcări</string>
     <string name="live">În direct</string>
-    <string name="flameIcon">Flacără zburătoare</string>
-    <string name="shapedIcon">Formă caraghioasă</string>
     <string name="invalid_url">Te rog să introduci un URL care funcționează</string>
     <string name="version">Versiune %1$s</string>
     <string name="related_streams">Conținut asociat</string>
@@ -284,7 +275,6 @@
     <string name="faq">Întrebări frecvente</string>
     <string name="mark_as_watched">Marchează ca vizionat</string>
     <string name="download_channel_description">Afișează o notificare în timpul descărcării fișierelor media.</string>
-    <string name="defaultIconLight">Lumina implicită</string>
     <string name="pinch_control_summary">Folosește gestul de ciupire pentru a mări/micșora</string>
     <string name="comments_disabled">Comentariile sunt dezactivate de către autor.</string>
     <string name="no_comments_available">Acest videoclip nu are comentarii.</string>
@@ -333,7 +323,6 @@
     <string name="import_playlists_from">Importă liste de redare din</string>
     <string name="export_playlists_to">Exportă liste de redare în</string>
     <string name="mark_as_unwatched">Marchează ca nevizionat</string>
-    <string name="home_tab_content">Conținutul filei Acasă</string>
     <string name="off">Oprit</string>
     <string name="automatic">Automat</string>
     <string name="stop">Opreşte</string>

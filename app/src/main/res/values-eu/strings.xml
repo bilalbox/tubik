@@ -69,7 +69,6 @@
     <string name="color_purple">Morea</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Jakinarazpenak</string>
-    <string name="app_icon">Ikonoa</string>
     <string name="enabled">Piztuta</string>
     <string name="disabled">Itzalita</string>
     <string name="playOnBackground">Erreproduzitu atzeko planoan</string>
@@ -80,14 +79,6 @@
     <string name="player">Erreproduzitzailea</string>
     <string name="appearance_summary">Egokitu aplikazioa zure gustura</string>
     <string name="shareTo">Partekatu URLa honekin</string>
-    <string name="gradientIcon">Glib gradientea</string>
-    <string name="defaultIcon">Lehenetsia</string>
-    <string name="legacyIcon">Galdutako ondarea</string>
-    <string name="fireIcon">Modako sua</string>
-    <string name="torchIcon">Moda-zuzia</string>
-    <string name="shapedIcon">Forma ergela</string>
-    <string name="flameIcon">Sugar hegalaria</string>
-    <string name="birdIcon">Hegazti indartua</string>
     <string name="search_hint">Bilaketa</string>
     <string name="unsubscribe">Kendu harpidetza</string>
     <string name="createPlaylist">Sortu erreprodukzio zerrenda</string>
@@ -230,7 +221,6 @@
     <string name="queue">Ilara</string>
     <string name="added_to_playlist">Gehitu erreprodukzio zerrendara %1$s</string>
     <string name="livestreams">Zuzeneko transmisioak</string>
-    <string name="defaultIconLight">Lehenetsitako argia</string>
     <string name="time_code">Denbora-kodea (segundoak)</string>
     <string name="playlistCloned">Erreprodukzio-zerrenda klonatu da</string>
     <string name="play_all">Erreproduzitu dena</string>

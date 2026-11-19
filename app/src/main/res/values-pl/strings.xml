@@ -79,7 +79,6 @@
     <string name="color_purple">Fantastyczny fiolet</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Powiadomienia</string>
-    <string name="app_icon">Ikona</string>
     <string name="music_songs">Muzyka (YT Music)</string>
     <string name="music_videos">Teledyski (YT Music)</string>
     <string name="music_albums">Albumy (YT Music)</string>
@@ -88,7 +87,6 @@
     <string name="enabled">Wł.</string>
     <string name="disabled">Wył.</string>
     <string name="update_available">Dostępna aktualizacja</string>
-    <string name="defaultIcon">Domyślna</string>
     <string name="app_uptodate">Uruchomiona jest najnowsza wersja.</string>
     <string name="appearance_summary">Dostosuj aplikację do swoich potrzeb</string>
     <string name="shareTo">Udostępnij link do</string>
@@ -104,8 +102,6 @@
     <string name="live">Na żywo</string>
     <string name="related_streams">Sugerowane treści</string>
     <string name="related_streams_summary">Proponuj powiązane materiały do oglądanego filmu</string>
-    <string name="legacyIcon">Zaginione dziedzictwo</string>
-    <string name="fireIcon">Zniewalający żar</string>
     <string name="category_filler">Zapychacze/Żarty</string>
     <string name="category_filler_summary">Za sceny poboczne dodane tylko jako wypełniacz lub w ramach humoru, które nie są potrzebne do zrozumienia głównej treści filmu</string>
     <string name="category_music_offtopic">Muzyka: Sekcja bez muzyki</string>
@@ -125,8 +121,6 @@
     <string name="notify_new_streams_summary">Wyświetlaj powiadomienia o nowych treściach od twórców, których śledzisz</string>
     <string name="irreversible">Czy na pewno\? Tego nie da się cofnąć!</string>
     <string name="require_restart">Wymagany restart aplikacji</string>
-    <string name="gradientIcon">Gładki gradient</string>
-    <string name="birdIcon">Wzmocniony ptak</string>
     <string name="network_metered">Taryfowe</string>
     <string name="error_occurred">Błąd</string>
     <string name="copied">Skopiowano</string>
@@ -142,8 +136,6 @@
     <string name="landscape">Wymuś tryb poziomy</string>
     <string name="add_to_queue">Dodaj do kolejki</string>
     <string name="misc">Różne</string>
-    <string name="shapedIcon">Głupawy stos</string>
-    <string name="flameIcon">Latający płomień</string>
     <string name="no_audio">Bez dźwięku</string>
     <string name="no_video">Bez obrazu</string>
     <string name="audio">Dźwięk</string>
@@ -204,7 +196,6 @@
     <string name="delete">Usuń z pobranych</string>
     <string name="playerAudioQuality">Jakość dźwięku</string>
     <string name="worst_quality">Najgorsza</string>
-    <string name="torchIcon">Modna lampka</string>
     <string name="aspect_ratio">Użyj proporcji obrazu wideo</string>
     <string name="pauseOnScreenOff_summary">Zatrzymaj odtwarzanie, gdy ekran jest wyłączony</string>
     <string name="auto_rotation">Auto-obracanie</string>
@@ -231,7 +222,6 @@
     <string name="added_to_playlist">Dodano do playlisty %1$s</string>
     <string name="queue">Kolejka</string>
     <string name="livestreams">Na żywo</string>
-    <string name="defaultIconLight">Jasna (domyślnie)</string>
     <string name="playlistCloned">Sklonowano playlistę</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="time">Czas</string>
@@ -349,7 +339,6 @@
     <string name="import_playlists_from">Importuj playlisty z</string>
     <string name="export_playlists_to">Eksportuj playlisty do</string>
     <string name="playlist_description">Opis playlisty</string>
-    <string name="home_tab_content">Zawartość strony głównej</string>
     <string name="category_highlight_summary">Może to być reklamowany tytuł, miniatura lub najciekawsza część filmu. Możesz przejść do niego, dotykając go w sekcji rozdziałów</string>
     <string name="show_search_suggestions">Pokaż sugestie wyszukiwania</string>
     <string name="stop">Zatrzymaj</string>

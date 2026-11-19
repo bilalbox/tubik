@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">Benachrichtigungen</string>
     <string name="enabled">Ein</string>
     <string name="disabled">Aus</string>
-    <string name="app_icon">App-Symbol</string>
     <string name="playOnBackground">Im Hintergrund abspielen</string>
     <string name="update_available">Update verfügbar</string>
     <string name="appearance">Design</string>
@@ -99,7 +98,6 @@
     <string name="appearance_summary">Aussehen, Anordnung und Layout</string>
     <string name="live">Live</string>
     <string name="shareTo">URL teilen an</string>
-    <string name="defaultIcon">Standard</string>
     <string name="invalid_url">Bitte eine funktionierende URL angeben</string>
     <string name="customInstance_summary">Hinzufügen…</string>
     <string name="category_music_offtopic">Musik: Nicht-Musik-Abschnitt</string>
@@ -142,18 +140,12 @@
     <string name="auto_rotation">Automatisch drehen</string>
     <string name="landscape">Landschaft</string>
     <string name="portrait">Porträt</string>
-    <string name="legacyIcon">Verlorenes Vermächtnis</string>
     <string name="category_filler">Füller/Witze</string>
     <string name="none">Keine</string>
     <string name="category_filler_summary">Nebensächliche Szenen, die nur als Füller oder für den Humor dienen und für das Verständnis des Hauptinhalts des Videos nicht erforderlich sind. Bezieht sich nicht auf Abschnitte, die Kontext oder Hintergrunddetails liefern. Dies ist eine sehr aggressive Kategorie, die dafür gedacht ist, wenn du nicht in der Stimmung für \"Spaß und Humor\" bist</string>
     <string name="autoRotatePlayer">Automatischer Vollbildmodus</string>
     <string name="never">Nie</string>
     <string name="autoRotatePlayer_summary">Vollbild-Modus des Players wird aktiviert, wenn das Gerät gedreht wird</string>
-    <string name="fireIcon">Fancy Flammen</string>
-    <string name="torchIcon">Fetzige Fackel</string>
-    <string name="shapedIcon">Flauschige Form</string>
-    <string name="flameIcon">Fliegende Flamme</string>
-    <string name="birdIcon">Verstärkter Vogel</string>
     <string name="always">Immer</string>
     <string name="pure_theme">Reines Farbschema</string>
     <string name="pure_theme_summary">Reines weißes/schwarzes Farbschema</string>
@@ -170,7 +162,6 @@
     <string name="captions">Untertitel-Systemeinstellungen</string>
     <string name="seek_increment">Vorspul-Länge</string>
     <string name="watch_positions_title">Gespeicherte Wiedergabepositionen</string>
-    <string name="gradientIcon">Verspielter Verlauf</string>
     <string name="playerAudioQuality">Audio-Qualität</string>
     <string name="worst_quality">Schlechteste Qualität</string>
     <string name="system_caption_style">Untertitel-Stil des Systems nutzen</string>
@@ -229,7 +220,6 @@
     <string name="player_resize_mode">Skalierungsmodus</string>
     <string name="renamePlaylist">Playlist umbenennen</string>
     <string name="playlistCloned">Playlist dupliziert</string>
-    <string name="defaultIconLight">Standard hell</string>
     <string name="local_playlists">Lokale Playlists</string>
     <string name="play_all">Alles abspielen</string>
     <string name="queue">Warteschlange</string>
@@ -331,7 +321,6 @@
     <string name="import_subscriptions_from">Abos importieren von</string>
     <string name="export_playlists_to">Playlists exportieren nach</string>
     <string name="import_playlists_from">Playlists importieren aus</string>
-    <string name="home_tab_content">Inhalt der Startseite</string>
     <string name="mark_as_unwatched">Als ungesehen markieren</string>
     <string name="change_playlist_description">Playlist-Beschreibung ändern</string>
     <string name="playlist_description">Playlist-Beschreibung</string>

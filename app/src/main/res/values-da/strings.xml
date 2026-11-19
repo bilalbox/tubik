@@ -42,7 +42,6 @@
     <string name="category_selfpromo_summary">Magen til \"Sponsor\", bortset fra ubetalt eller selvpromovering. Dette inkluderer segmenter om merchandise, donationer, eller info om samarbejdspartnere</string>
     <string name="category_intro_summary">Et interval uden egentligt indhold. Kan være en pause, statisk billede, gentagende animation. Bør ikke bruges til overgange, der indeholder info</string>
     <string name="sponsorblock_notifications">Notifikationer</string>
-    <string name="app_icon">Ikon</string>
     <string name="playOnBackground">Afspil i baggrunden</string>
     <string name="update_available">Opdatering tilgængelig</string>
     <string name="appearance">Udseende</string>
@@ -56,12 +55,6 @@
     <string name="appearance_summary">Tilpas appen efter din smag</string>
     <string name="live">Direkte</string>
     <string name="shareTo">Del URL til</string>
-    <string name="defaultIcon">Standard</string>
-    <string name="fireIcon">Fashionabel flamme</string>
-    <string name="torchIcon">Trendy fakkel</string>
-    <string name="shapedIcon">Fjollet formet</string>
-    <string name="flameIcon">Flyvende flamme</string>
-    <string name="birdIcon">Forstærket fugl</string>
     <string name="startpage">Hjem</string>
     <string name="subscriptions">Abonnementer</string>
     <string name="instances">Vælg…</string>
@@ -96,8 +89,6 @@
     <string name="update_summary">Tjek for opdatering</string>
     <string name="app_uptodate">Kører den seneste version.</string>
     <string name="player">Afspiller</string>
-    <string name="gradientIcon">Glidende gradient</string>
-    <string name="legacyIcon">Tabt arv</string>
     <string name="color_yellow">Gallisk gul</string>
     <string name="color_green">Gesten grøn</string>
     <string name="category_sponsor_summary">Betalt promovering, betalte henvisninger og direkte reklamer. Ikke for selvpromovering, eller reelle shoutouts af tiltag, skabere, hjemmesider og produkter</string>
@@ -249,7 +240,6 @@
     <string name="suggest_change_instance">Indlæsning tager længere tid end normalt. Overvej at ændre instans</string>
     <string name="invalid_color">Ugyldig farveværdi indtastet!</string>
     <string name="livestreams">Livestreams</string>
-    <string name="defaultIconLight">Standard lys</string>
     <string name="time">Tid</string>
     <string name="start_time">Starttid</string>
     <string name="notification_time_summary">Begræns tidsperiode, hvor streamnotifikationer er vist</string>
@@ -365,7 +355,6 @@
     <string name="auto_generated">autogenereret</string>
     <string name="import_playlists_from">Importér playlister fra</string>
     <string name="resolution_limited">begrænset</string>
-    <string name="home_tab_content">Indhold i hjem-fane</string>
     <string name="sponsorblock_user_id">SponsorBlock BrugerID</string>
     <string name="successfully_removed_from_playlist">\"%1$s\" blev fjernet fra playlisten.</string>
     <string name="no_segments_found">Der er ingen segmenter for denne video endnu.</string>

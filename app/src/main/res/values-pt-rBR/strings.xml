@@ -83,17 +83,11 @@
     <string name="color_green">Verde daora</string>
     <string name="color_purple">Roxo prazeroso</string>
     <string name="material_you">Material You</string>
-    <string name="app_icon">Estilo de ícone (app)</string>
     <string name="sponsorblock_notifications">Notificações</string>
     <string name="enabled">Habilitado</string>
     <string name="playOnBackground">Reproduzir em segundo plano</string>
     <string name="disabled">Desabilitado</string>
-    <string name="defaultIcon">Padrão</string>
     <string name="app_uptodate">Você já possui a atualização mais recente.</string>
-    <string name="fireIcon">Fogo elegante</string>
-    <string name="shapedIcon">Forma boba</string>
-    <string name="gradientIcon">Gradiente suave</string>
-    <string name="torchIcon">Tocha moderna</string>
     <string name="customInstance_summary">Adicionar…</string>
     <string name="version">Versão %1$s</string>
     <string name="category_filler">Enrolação/Piadas</string>
@@ -107,10 +101,7 @@
     <string name="advanced">Avançado</string>
     <string name="player">Reprodução</string>
     <string name="appearance_summary">Ajuste o aplicativo ao seu gosto</string>
-    <string name="birdIcon">Pássaro impulsionado</string>
     <string name="shareTo">Compartilhar URL</string>
-    <string name="legacyIcon">Legado perdido</string>
-    <string name="flameIcon">Chama voadora</string>
     <string name="invalid_url">Insira um URL que funcione</string>
     <string name="related_streams">Conteúdo relacionado</string>
     <string name="category_filler_summary">Para cenas tangenciais adicionadas apenas para preenchimento ou humor, não é necessário entender o conteúdo principal do vídeo</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Adicionado à playlist %1$s</string>
     <string name="livestreams">Transmissões ao vivo</string>
     <string name="time_code">Momento atual (em segundos)</string>
-    <string name="defaultIconLight">Claro padrão</string>
     <string name="playlistCloned">Playlist clonada</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="time">Tempo</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Exportar inscrições para</string>
     <string name="import_playlists_from">Importar playlists de</string>
     <string name="export_playlists_to">Exportar playlists para</string>
-    <string name="home_tab_content">Conteúdo da tela inicial</string>
     <string name="mark_as_unwatched">Marcar como não assistido</string>
     <string name="change_playlist_description">Alterar descrição da playlist</string>
     <string name="playlist_description">Descrição da playlist</string>

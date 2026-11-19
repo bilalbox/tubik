@@ -43,7 +43,6 @@
     <string name="sponsorblock">SponsorBlock</string>
     <string name="category_sponsor">Спонсор</string>
     <string name="color_accent">Акценти</string>
-    <string name="app_icon">Икона</string>
     <string name="disabled">Изключено</string>
     <string name="update_available">Налична актуализация</string>
     <string name="appearance">Външен вид</string>
@@ -77,7 +76,6 @@
     <string name="enabled">Включено</string>
     <string name="sponsorblock_notifications">Известия</string>
     <string name="live">На живо</string>
-    <string name="defaultIcon">По подразбиране</string>
     <string name="version">Версия %1$s</string>
     <string name="no_audio">Няма звук</string>
     <string name="no_video">Няма видео</string>
@@ -147,7 +145,6 @@
     <string name="color_blue">Син</string>
     <string name="resolution_limited">ограничена</string>
     <string name="player_resize_mode">Режим на преоразмеряване</string>
-    <string name="birdIcon">Подсилена птица</string>
     <string name="appearance_summary">Настройте приложението според вашите предпочитания</string>
     <string name="pure_theme_summary">Чисто бяла/черна тема</string>
     <string name="normal_views">%1$s изгледи%2$s</string>
@@ -215,13 +212,11 @@
     <string name="category_interaction_summary">Когато има кратко напомняне да харесате, да се абонирате или да следвате в средата на съдържанието. Ако е дълго или за нещо конкретно, вместо това трябва да е самореклама</string>
     <string name="import_from_yt_summary">От YouTube или NewPipe</string>
     <string name="skip_silence">Пропусни тишината</string>
-    <string name="torchIcon">Модерна факла</string>
     <string name="change_playlist_description">Промени описание на плейлиста</string>
     <string name="alphabetic">Азбучен</string>
     <string name="comments_disabled">Коментарите са деактивирани от качващия.</string>
     <string name="chapters">Епизоди</string>
     <string name="no_fullscreen_resolution">Без резолюция на цял екран</string>
-    <string name="home_tab_content">Съдържание на началния раздел</string>
     <string name="alternative_pip_controls_summary">Покажи само аудио и контролите за прескачане в PiP вместо напред и назад</string>
     <string name="category_outro_summary">Информация след края. Не за изводи с инфо</string>
     <string name="material_you">Материален</string>
@@ -277,7 +272,6 @@
     <string name="export_subscriptions">Изнеси абонаменти</string>
     <string name="local_subscriptions">Локални абонаменти</string>
     <string name="segment_type">Тип сегмент</string>
-    <string name="defaultIconLight">Светлина по подразбиране</string>
     <string name="visibility_public">Обществен</string>
     <string name="areYouSure">Изтрий плейлистът?</string>
     <string name="download_paused">Изтеглянето е на пауза</string>
@@ -318,8 +312,6 @@
     <string name="related_streams_summary">Покажи подобни потоци заедно с това, което гледате</string>
     <string name="sb_custom_colors_summary">Превключва персонализирани цветови сегменти за сегменти на SponsorBlock</string>
     <string name="playlistCloned">Клониран плейлист</string>
-    <string name="shapedIcon">Глупава форма</string>
-    <string name="legacyIcon">Изгубено наследство</string>
     <string name="instances">Изберете…</string>
     <string name="background_mode">Фонов режим</string>
     <string name="tooltip_reverse">Обръщане</string>
@@ -339,7 +331,6 @@
     <string name="download_channel_description">Покажи известие при изтегляне на медия.</string>
     <string name="segment_submitted">Подаден сегмент</string>
     <string name="unknown_audio_track_type">Неизвестен тип аудио запис</string>
-    <string name="gradientIcon">Плъзгав наклон</string>
     <string name="resize_mode_fill">Пълен</string>
     <string name="error">Нещо се обърка.</string>
     <string name="sponsorblock_summary">Използва https://sponsor.ajay.app API</string>
@@ -374,7 +365,6 @@
     <string name="export_playlists_to">Изнеси плейлисти в</string>
     <string name="duration_span">Продължителност: %1$s</string>
     <string name="category">Категории</string>
-    <string name="flameIcon">Летящ пламък</string>
     <string name="play_automatically">Изпални автоматично</string>
     <string name="audio_only_mode_summary">Превърнете Tubik в музикален плейър</string>
     <string name="unknown_audio_language">Неизвестен аудио език</string>
@@ -406,7 +396,6 @@
     <string name="duration_reversed">Продължителност (обърната)</string>
     <string name="new_videos_badge_summary">Покажи значка с количеството нови видеоклипове, ако има такива</string>
     <string name="backup_restore_summary">Внасяне и изнасяне на абонаменти, плейлисти,…</string>
-    <string name="fireIcon">Моден огън</string>
     <string name="repeat_mode">Режим на повторение</string>
     <string name="add_to_group">Добави към група</string>
     <string name="time_in_minutes">Време в минути</string>

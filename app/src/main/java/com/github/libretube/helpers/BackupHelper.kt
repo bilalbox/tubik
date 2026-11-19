@@ -103,10 +103,7 @@ object BackupHelper {
                     }
 
                     is String -> {
-                        if (
-                            key == PreferenceKeys.HOME_TAB_CONTENT ||
-                                key == PreferenceKeys.SELECTED_FEED_FILTERS
-                        ) {
+                        if (key == PreferenceKeys.SELECTED_FEED_FILTERS) {
                             putStringSet(key, value.split(",").toSet())
                         } else {
                             putString(key, value)

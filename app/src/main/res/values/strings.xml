@@ -105,7 +105,6 @@
     <string name="color_purple">Pleasurable purple</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Notifications</string>
-    <string name="app_icon">Icon</string>
     <string name="enabled">On</string>
     <string name="disabled">Off</string>
     <string name="youtube" translatable="false">YouTube</string>
@@ -120,14 +119,6 @@
     <string name="upcoming">Upcoming</string>
     <string name="shareTo">Share URL to</string>
     <string name="normal_views">%1$s views%2$s</string>
-    <string name="defaultIcon">Default</string>
-    <string name="legacyIcon">Lost legacy</string>
-    <string name="gradientIcon">Glib gradient</string>
-    <string name="fireIcon">Fashionable fire</string>
-    <string name="torchIcon">Trendy torch</string>
-    <string name="shapedIcon">Silly shaped</string>
-    <string name="flameIcon">Flying flame</string>
-    <string name="birdIcon">Boosted bird</string>
     <string name="customInstance_summary">Add…</string>
     <string name="invalid_url">Please enter a URL that works</string>
     <string name="version">Version %1$s</string>
@@ -277,7 +268,6 @@
     <string name="invalid_color">Invalid color value entered!</string>
     <string name="livestreams">Livestreams</string>
     <string name="courses">Courses</string>
-    <string name="defaultIconLight">Default light</string>
     <string name="playlistCloned">Playlist cloned</string>
     <string name="unsubscribe_snackbar_message">Successfully unsubscribed from %1$s</string>
     <string name="play_all">Play all</string>
@@ -423,7 +413,6 @@
     <string name="import_format_freetube" translatable="false">FreeTube</string>
     <string name="import_format_youtube_csv" translatable="false">YouTube (CSV)</string>
     <string name="import_format_list_of_urls">List of URLs or video IDs</string>
-    <string name="home_tab_content">Home tab content</string>
     <string name="show_search_suggestions">Show search suggestions</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="unknown_audio_language">Unknown audio language</string>

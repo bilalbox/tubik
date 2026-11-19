@@ -96,13 +96,6 @@
     <string name="upcoming">Akan datang</string>
     <string name="shareTo">Kongsi URL ke</string>
     <string name="normal_views">%1$spaparan%2$s</string>
-    <string name="defaultIcon">Lalai</string>
-    <string name="legacyIcon">Legasi hilang</string>
-    <string name="gradientIcon">Gradien glib</string>
-    <string name="fireIcon">Api Bergaya</string>
-    <string name="torchIcon">Obor trendy</string>
-    <string name="shapedIcon">Bentuk lucu</string>
-    <string name="flameIcon">Api terbang</string>
     <string name="disabled">Opf</string>
     <string name="customInstance_summary">Tmbh…</string>
     <string name="resume">Sambung</string>

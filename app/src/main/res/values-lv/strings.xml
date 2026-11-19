@@ -86,17 +86,8 @@
     <string name="sponsorblock_notifications">Paziņojumi</string>
     <string name="enabled">Ieslēgts</string>
     <string name="disabled">Izslēgts</string>
-    <string name="app_icon">Ikona</string>
     <string name="playOnBackground">Atskaņot fonā</string>
     <string name="shareTo">Kopīgot URL ar</string>
-    <string name="defaultIcon">Noklusējuma</string>
-    <string name="gradientIcon">Gradienta</string>
-    <string name="fireIcon">Uguns</string>
-    <string name="torchIcon">Lāpas</string>
-    <string name="flameIcon">Liesmas</string>
-    <string name="shapedIcon">Formu</string>
-    <string name="birdIcon">Putna</string>
-    <string name="legacyIcon">Vecā</string>
     <string name="update_available">Pieejams atjauninājums</string>
     <string name="appearance">Izskats</string>
     <string name="downloads">Lejupielādes</string>
@@ -252,7 +243,6 @@
     <string name="time_code">sekundes</string>
     <string name="queue">Rinda</string>
     <string name="livestreams">Tiešraides</string>
-    <string name="defaultIconLight">Gaišs (noklusējuma)</string>
     <string name="playlistCloned">Atskaņošanas saraksts ir noklonēts</string>
     <string name="double_tap_seek_summary">Pieskarities divreiz labajā vai kreisajā pusē, lai attītu vai ietu uz priekšu</string>
     <string name="color_violet">Universāli violets</string>
@@ -330,7 +320,6 @@
     <string name="export_subscriptions_to">Izgūt abonementus uz</string>
     <string name="play_automatically">Atskaņot automātiski</string>
     <string name="play_automatically_summary">Sākt automātiski atskaņot video, kad to atlasa</string>
-    <string name="home_tab_content">Sākuma cilnes saturs</string>
     <string name="off">Izslēgts</string>
     <string name="manual">Manuāli</string>
     <string name="automatic">Automātiski</string>

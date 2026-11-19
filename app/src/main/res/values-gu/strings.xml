@@ -31,7 +31,6 @@
     <string name="category_outro_summary">અંતને અનુસરતી માહિતી. માહિતી સાથેના તારણો માટે નહીં</string>
     <string name="category_intro_summary">વાસ્તવિક સામગ્રી વિનાનો અંતરાલ. વિરામ, સ્થિર ફ્રેમ, એનિમેશનનું પુનરાવર્તન થઈ શકે છે. માહિતી ધરાવતા સંક્રમણો માટે તેનો ઉપયોગ થવો જોઈએ નહીં</string>
     <string name="playOnBackground">પાશ્વ ભાગમાં વગાડો</string>
-    <string name="defaultIcon">મૂળભૂત</string>
     <string name="customization">ગોઠવણીઓ</string>
     <string name="noInternet">પહેલા ઈન્ટરનેટ સાથે કનેક્ટ કરો.</string>
     <string name="sponsorblock_summary">https://sponsor.ajay.app API નો ઉપયોગ કરે છે</string>
@@ -56,13 +55,6 @@
     <string name="notification_time_summary">સમયગાળો જેમાં સૂચનાઓ બતાવવાની મંજૂરી છે</string>
     <string name="download_channel_description">જ્યારે મીડિયાને ડાઉનલોડ કરી રહ્યા હોય ત્યારે સૂચના બતાવે છે</string>
     <string name="push_channel_description">જ્યારે નવી સ્ટ્રીમો ઉપલબ્ધ હોય ત્યારે સૂચનને બતાવે છે.</string>
-    <string name="legacyIcon">ગુમ થયેલ વારસો</string>
-    <string name="gradientIcon">ગ્લિબ ઢાળ</string>
-    <string name="fireIcon">ફેશનેબલ ફાયર</string>
-    <string name="torchIcon">ટ્રેન્ડી મશાલ</string>
-    <string name="shapedIcon">મૂર્ખ આકારનું</string>
-    <string name="flameIcon">ઉડતી જ્યોત</string>
-    <string name="birdIcon">બુસ્ટેડ પક્ષી</string>
     <string name="audio">ઓડિયો</string>
     <string name="video">વિડિયો</string>
     <string name="player_autoplay">ઑટોપ્લે</string>
@@ -131,7 +123,6 @@
     <string name="color_green">ગ્રુવી લીલો</string>
     <string name="color_purple">આનંદદાયક જાંબલી</string>
     <string name="sponsorblock_notifications">સૂચનાઓ</string>
-    <string name="app_icon">ચિહ્ન</string>
     <string name="appearance">દેખાવ</string>
     <string name="related_streams">સંબંધિત સામગ્રી</string>
     <string name="related_streams_summary">તમે જે જુઓ છો તેની સાથે સમાન સ્ટ્રીમો બતાવો</string>
@@ -257,7 +248,6 @@
     <string name="start_time">પ્રારંભ સમય</string>
     <string name="new_videos_badge">નવી વિડિયો માટે સૂચક</string>
     <string name="play_next">આગળનું વગાડો</string>
-    <string name="defaultIconLight">મૂળભૂત પ્રકાશ</string>
     <string name="end_time">સમાપ્તિ સમય</string>
     <string name="audio_track">ઓડિયો ટ્રેક</string>
     <string name="double_tap_seek_summary">ખેલાડીની િસ્થતિને બદલવા કે આગળ ધપાવવા માટે ડાબી કે જમણી બાજુએ બે વખત ટૅપ કરો</string>

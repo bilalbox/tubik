@@ -90,15 +90,12 @@
     <string name="color_purple">ਅਨੰਦਦਾਇਕ ਜਾਮਣੀ</string>
     <string name="material_you">ਮਟੀਰੀਅਲ ਯੂ</string>
     <string name="sponsorblock_notifications">ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
-    <string name="app_icon">ਆਈਕੌਨ</string>
     <string name="enabled">ਚਾਲੂ</string>
     <string name="disabled">ਬੰਦ</string>
     <string name="playOnBackground">ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਚਲਾਓ</string>
     <string name="update_available">ਨਵਾਂ ਸੰਸਕਰਣ ਉਪਲੱਬਧ ਹੈ</string>
     <string name="appearance">ਦਿੱਖ</string>
     <string name="hide_watched_from_feed">ਪਹਿਲਾਂ ਤੋਂ ਵੇਖੇ ਗਏ ਵੀਡੀਓ ਲੁਕਾਓ</string>
-    <string name="shapedIcon">ਮੂਰਖ ਆਕਾਰ</string>
-    <string name="flameIcon">ਉੱਡਦੀ ਲਾਟ</string>
     <string name="pauseOnScreenOff_summary">ਜਦੋਂ ਸਕ੍ਰੀਨ ਬੰਦ ਹੋ ਜਾਵੇ ਤਾਂ ਪਲੇਬੈਕ ਨੂੰ ਰੋਕੋ</string>
     <string name="reset_message">ਕੀ ਸਾਰੀਆਂ ਸੈਟਿੰਗਾਂ ਰੀਸੈਟ ਕਰਕੇ ਲੌਗ ਆਊਟ ਕਰਨਾ ਹੈ\?</string>
     <string name="downloads">ਡਾਊਨਲੋਡਸ</string>
@@ -110,12 +107,6 @@
     <string name="appearance_summary">ਐਪ ਨੂੰ ਆਪਣੀ ਪਸੰਦ ਅਨੁਸਾਰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
     <string name="live">ਲਾਈਵ</string>
     <string name="shareTo">URL ਨੂੰ ਸਾਂਝਾ ਕਰੋ</string>
-    <string name="defaultIcon">ਡੀਫ਼ਾਲਟ</string>
-    <string name="legacyIcon">ਗੁਆਚੀ ਵਿਰਾਸਤ</string>
-    <string name="gradientIcon">ਲਾਜਵਾਬ ਗਰੇਡੀਐਂਟ</string>
-    <string name="fireIcon">ਫੈਸ਼ਨੇਬਲ ਅੱਗ-ਰੰਗਾ</string>
-    <string name="torchIcon">ਟਰੈਡੀ ਟਾਰਚ</string>
-    <string name="birdIcon">ਬੂਸਟਡ ਪੰਛੀ</string>
     <string name="customInstance_summary">ਸ਼ਾਮਲ ਕਰੋ…</string>
     <string name="invalid_url">ਕਿਰਪਾ ਕਰਕੇ ਕੰਮ ਕਰਨ ਵਾਲਾ URL ਦਾਖਲ ਕਰੋ</string>
     <string name="version">ਸੰਸਕਰਣ %1$s</string>
@@ -255,7 +246,6 @@
     <string name="audio_video_summary">ਕੁਆਲਿਟੀ ਅਤੇ ਫਾਰਮੈਟ</string>
     <string name="play_next">ਅਗਲਾ ਚਲਾਓ</string>
     <string name="livestreams">ਲਾਈਵ ਸਟ੍ਰੀਮਾਂ</string>
-    <string name="defaultIconLight">ਡਿਫ਼ਾਲਟ ਸਫ਼ੈਦ</string>
     <string name="clear_bookmarks">ਬੁੱਕਮਾਰਕਸ ਸਾਫ਼ ਕਰੋ</string>
     <string name="auto_quality">ਆਟੋ</string>
     <string name="notification_time">ਨੋਟੀਫਿਕੇਸ਼ਨ ਸਮਾਂ ਸੀਮਿਤ ਕਰੋ</string>
@@ -319,7 +309,6 @@
     <string name="channel_groups">ਚੈਨਲ ਗਰੁੱਪ</string>
     <string name="play_automatically">ਆਪਣੇ-ਆਪ ਚਲਾਓ</string>
     <string name="play_automatically_summary">ਚੁਣਨ \'ਤੇ ਆਪਣੇ ਆਪ ਵੀਡੀਓ ਚਲਾਉਣਾ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="home_tab_content">ਹੋਮ ਟੈਬ ਸਮੱਗਰੀ</string>
     <string name="mark_as_unwatched">ਅਣਡਿੱਠੀ ਵਜੋਂ ਨਿਸ਼ਾਨਦੇਹ ਕਰੋ</string>
     <string name="export_playlists_to">ਇਸ ਥਾਂ ਤੇ ਪਲੇਲਿਸਟਾਂ ਨਿਰਯਾਤ ਕਰੋ</string>
     <string name="import_playlists_from">ਪਲੇਲਿਸਟਾਂ ਆਯਾਤ ਕਰੋ</string>

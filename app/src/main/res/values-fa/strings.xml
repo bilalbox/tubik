@@ -94,10 +94,8 @@
     <string name="live">زنده</string>
     <string name="sponsorblock_notifications">آگاهی‌ها</string>
     <string name="category_selfpromo">تبلیغ بدون پرداخت یا تبلیغ خود</string>
-    <string name="app_icon">آیکون</string>
     <string name="update_summary">بررسی برای بروزرسانی</string>
     <string name="uploaderAndVideoCount">%1$s • %2$d ویدیو ها</string>
-    <string name="defaultIcon">پیش‌گزیده</string>
     <string name="video">ویدیو</string>
     <string name="player_autoplay">پخش خودکار</string>
     <string name="subscriberAndVideoCounts">%1$s مشترک • %2$d ویدیو</string>
@@ -160,13 +158,7 @@
     <string name="backup">پشتیبان</string>
     <string name="repeat_mode">حالت تکرار</string>
     <string name="backup_restore">پشتیبان و بازگردانی</string>
-    <string name="legacyIcon">میراث گم‌گشته</string>
     <string name="normal_views">%1$s مشاهده%2$s</string>
-    <string name="fireIcon">آتش مد</string>
-    <string name="torchIcon">مشعل داغ</string>
-    <string name="shapedIcon">شکل احمقانه</string>
-    <string name="flameIcon">پرواز آتش</string>
-    <string name="birdIcon">پروندهٔ تقویت شده</string>
     <string name="buffering_goal">پیش‌بار کردن</string>
     <string name="unknown">ناشناخته</string>
     <string name="reset_message">بازنشانی تمامی تنظیمات و خروج؟</string>
@@ -208,7 +200,6 @@
     <string name="customInstance_summary">افزودن…</string>
     <string name="chapters">فصل‌ها</string>
     <string name="network_all">همه</string>
-    <string name="gradientIcon">گرادیان Glib</string>
     <string name="quality">کیفیت</string>
     <string name="behavior">رفتار</string>
     <string name="never">هرگز</string>
@@ -218,7 +209,6 @@
     <string name="featured">پیشنهادی</string>
     <string name="auto">خودکار</string>
     <string name="category">دسته</string>
-    <string name="defaultIconLight">روشن پیش‌گزیده</string>
     <string name="material_you">متریال یو</string>
     <string name="reset">بازگردانی پیش‌گزیده‌ها</string>
     <string name="no_search_result">بدون نتیجه.</string>
@@ -322,7 +312,6 @@
     <string name="play_latest_videos">پخش آخرین ویدیوها</string>
     <string name="alternative_pip_controls_summary">فقط نمایش صدا و به جای جلو و عقب، از کنترل‌ها در PiP استفاده کنید</string>
     <string name="stats_for_nerds">آمار برای خوره‌ها</string>
-    <string name="home_tab_content">محتوای تب خانه</string>
     <string name="export_playlists_to">برون‌ریزی سیاهه‌های پخش به</string>
     <string name="shorts_notifications">اطلاع رسانی برای ویدیوهای کوتاه</string>
     <string name="creation_date">تاریخ ساخت</string>

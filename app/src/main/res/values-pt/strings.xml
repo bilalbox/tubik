@@ -69,7 +69,6 @@
     <string name="category_sponsor">Patrocínio</string>
     <string name="category_selfpromo">Autopromoção/Gratuita</string>
     <string name="category_intro">Intromissão/Animação inicial</string>
-    <string name="defaultIcon">Padrão</string>
     <string name="category_selfpromo_summary">Similar a \"Patrocínio\", com exceção de autopromoção ou promoção gratuita. Inclui secções de marketing, donativos e/ou informações acerca dos diversos participantes</string>
     <string name="category_interaction">Lembrete de interação</string>
     <string name="category_interaction_summary">É quando existe uma mensagem para votar, subscrever ou seguir algo durante a reprodução do conteúdo. Se for extenso ou acerca de algo em concreto, cai na categoria de autopromoção</string>
@@ -77,15 +76,8 @@
     <string name="category_outro">Ecrã final e créditos</string>
     <string name="color_accent">Destaque</string>
     <string name="color_red">Vermelho</string>
-    <string name="app_icon">Ícone</string>
     <string name="playOnBackground">Reproduzir em segundo plano</string>
     <string name="shareTo">Partilhar URL</string>
-    <string name="legacyIcon">Legado</string>
-    <string name="gradientIcon">Gradiente</string>
-    <string name="fireIcon">Fogo</string>
-    <string name="torchIcon">Tocha</string>
-    <string name="flameIcon">Chama</string>
-    <string name="birdIcon">Pássaro</string>
     <string name="color_yellow">Amarelo</string>
     <string name="sponsorblock_notifications">Notificações</string>
     <string name="enabled">Ligado</string>
@@ -98,7 +90,6 @@
     <string name="appearance">Aparência</string>
     <string name="update_summary">Procurar atualizações</string>
     <string name="app_uptodate">A sua versão está atualizada.</string>
-    <string name="shapedIcon">Forma</string>
     <string name="customInstance_summary">Adicionar…</string>
     <string name="update_available">Atualização disponível</string>
     <string name="downloads">Descargas</string>
@@ -229,7 +220,6 @@
     <string name="category_filler">Tangente/Piadas</string>
     <string name="category_preview_summary">Segmentos que detalham o conteúdo futuro sem informações adicionais. Se incluir clipes que aparecem apenas aqui, é muito provável que esta seja a categoria errada</string>
     <string name="livestreams">Emissões em direto</string>
-    <string name="defaultIconLight">Claro</string>
     <string name="time_code">Código de tempo (segundos)</string>
     <string name="category_filler_summary">Para cenas tangenciais adicionadas apenas para preencher ou humor não necessário para compreender o conteúdo do vídeo</string>
     <string name="category_music_offtopic_summary">Apenas para utilização em vídeos musicais. Deve abranger partes do vídeo que não façam parte das misturas oficiais. No final, o vídeo deve-se assemelhar ao Spotify ou a qualquer outra versão mista o mais próximo possível ou reduzir a conversa e outras distrações</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Exportar subscrições para</string>
     <string name="import_playlists_from">Importar listas de reprodução de</string>
     <string name="export_playlists_to">Exportar listas de reprodução para</string>
-    <string name="home_tab_content">Conteúdo do separador inicial</string>
     <string name="mark_as_unwatched">Marcar como não visto</string>
     <string name="show_search_suggestions">Mostrar sugestões de pesquisa</string>
     <string name="change_playlist_description">Alterar descrição da lista de reprodução</string>

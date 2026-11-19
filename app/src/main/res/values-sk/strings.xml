@@ -47,7 +47,6 @@
     <string name="color_blue">Blažene modrý</string>
     <string name="color_yellow">Neskutočne žltý</string>
     <string name="color_green">Fajn zelený</string>
-    <string name="app_icon">Ikona</string>
     <string name="enabled">Zapnuté</string>
     <string name="disabled">Vypnuté</string>
     <string name="app_theme">Téma</string>
@@ -82,12 +81,6 @@
     <string name="category_intro">Animácia v prestávke/úvode</string>
     <string name="category_preview">Náhľad/Zhrnutie</string>
     <string name="appearance">Vzhľad</string>
-    <string name="defaultIcon">Predvolená</string>
-    <string name="fireIcon">Śtýlový oheň</string>
-    <string name="torchIcon">Trendová pochodeň</string>
-    <string name="shapedIcon">Hlúpy tvar</string>
-    <string name="flameIcon">Lietajúci plameň</string>
-    <string name="birdIcon">Posilnený vták</string>
     <string name="version">Verzia %1$s</string>
     <string name="related_streams">Súvisiaci obsah</string>
     <string name="player">Prehrávač</string>
@@ -112,8 +105,6 @@
     <string name="related_streams_summary">Zobrazí podobné streamy vedľa tých, ktoré sledujete</string>
     <string name="customInstance_summary">Pridať…</string>
     <string name="buffering_goal_summary">Maximálny počet sekúnd videa vo vyrovnávacej pamäti</string>
-    <string name="legacyIcon">Stratený odkaz</string>
-    <string name="gradientIcon">Glib prechod</string>
     <string name="update_available">K dispozícii je aktualizácia</string>
     <string name="category_interaction_summary">Keď sa uprostred obsahu nachádza krátke pripomenutie, aby ste sa prihlásili k odberu alebo sledovaniu. Ak je dlhé alebo o niečom konkrétnom, bude to sebapropagácia</string>
     <string name="buffering_goal">Prednačítanie</string>
@@ -216,7 +207,6 @@
     <string name="creation_date_reversed">Dátum vzniku (v opačnom poradí)</string>
     <string name="alphabetic">Abecedne</string>
     <string name="alphabetic_reversed">Abecedne (v opačnom poradí)</string>
-    <string name="home_tab_content">Obsah karty Domov</string>
     <string name="original_or_main_audio_track">Pôvodná</string>
     <string name="unknown_audio_track_type">Neznámy typ zvukovej stopy</string>
     <string name="finished">Dokončené</string>
@@ -295,7 +285,6 @@
     <string name="contribute_to_sponsorblock">Prispejte do SponsorBlock</string>
     <string name="no_segments_found">Pre toto video zatiaľ nie sú žiadne segmenty.</string>
     <string name="unlimited_search_history">Neobmedzená história vyhľadávania</string>
-    <string name="defaultIconLight">Predvolená svetlá</string>
     <string name="color">Farba</string>
     <string name="brightness">Jas</string>
     <string name="rewind">Pretočiť</string>

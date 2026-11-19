@@ -83,7 +83,6 @@
     <string name="color_purple">Purpuro</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Atentigoj</string>
-    <string name="app_icon">Apa bildsimbolo</string>
     <string name="enabled">Ebligita</string>
     <string name="disabled">Malebligita</string>
     <string name="playOnBackground">Ludi en fono</string>
@@ -122,8 +121,6 @@
     <string name="upcoming">Venontaj</string>
     <string name="shareTo">Kunhavigi la URL-on al</string>
     <string name="normal_views">%1$s rigardoj%2$s</string>
-    <string name="defaultIcon">Normala</string>
-    <string name="legacyIcon">Perdita heredaĵo</string>
     <string name="customInstance_summary">Aldoni…</string>
     <string name="import_temp_playlist">Ĉu importi provizoran ludliston?</string>
 </resources>

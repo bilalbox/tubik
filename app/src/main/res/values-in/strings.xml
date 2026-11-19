@@ -68,7 +68,6 @@
     <string name="category_segments">Segmen</string>
     <string name="category_sponsor_summary">Promosi dibayar, tautan dibayar dan iklan langsung. Tidak untuk promosi diri sendiri atau dukungan gratis untuk gerakan, kreator, situs</string>
     <string name="category_selfpromo">Promosi Diri Sendiri/Tidak Dibayar</string>
-    <string name="app_icon">Ikon</string>
     <string name="category_selfpromo_summary">Mirip dengan \"sponsor\" kecuali ini tidak dibayar atau promosi diri sendiri. Ini termasuk merchandise, donasi, atau informasi tentang siapa yang berkolaborasi dengan mereka</string>
     <string name="category_interaction">Pengingat interaksi</string>
     <string name="category_intro">Jeda/Animasi Intro</string>
@@ -92,8 +91,6 @@
     <string name="open">Buka…</string>
     <string name="new_videos_badge">Indikator untuk video baru</string>
     <string name="new_videos_badge_summary">Tampilkan sebuah lencana dengan jumlah video baru jika ada</string>
-    <string name="legacyIcon">Lawas tertinggal</string>
-    <string name="gradientIcon">Gradien glib</string>
     <string name="player_autoplay">Mainkan secara otomatis</string>
     <string name="reset">Atur ulang ke bawaan</string>
     <string name="watch_history">Riwayat tontonan</string>
@@ -112,10 +109,6 @@
     <string name="most_recent">Paling baru</string>
     <string name="most_views">Paling banyak tampilan</string>
     <string name="least_views">Paling sedikit tontonan</string>
-    <string name="defaultIcon">Bawaan</string>
-    <string name="torchIcon">Obor kece</string>
-    <string name="shapedIcon">Berbentuk aneh</string>
-    <string name="flameIcon">Api terbang</string>
     <string name="network_all">Semua</string>
     <string name="network_metered">Terbatas</string>
     <string name="version">Versi %1$s</string>
@@ -162,8 +155,6 @@
     <string name="appearance_summary">Atur aplikasi sesuai rasa Anda</string>
     <string name="backup_restore">Cadangkan dan pulihkan</string>
     <string name="backup">Cadangkan</string>
-    <string name="fireIcon">Api modis</string>
-    <string name="birdIcon">Burung berdaya</string>
     <string name="customInstance_summary">Tambahkan…</string>
     <string name="invalid_url">Mohon masukkan URL yang dapat digunakan</string>
     <string name="related_streams">Konten terkait</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Ditambahkan ke daftar putar %1$s</string>
     <string name="queue">Antrean</string>
     <string name="livestreams">Siaran Langsung</string>
-    <string name="defaultIconLight">Terang bawaan</string>
     <string name="playlistCloned">Daftar luter digandakan</string>
     <string name="play_all">Mainkan semua</string>
     <string name="time">Waktu</string>
@@ -330,7 +320,6 @@
     <string name="export_subscriptions_to">Ekspor langganan ke</string>
     <string name="import_playlists_from">Impor daftar putar dari</string>
     <string name="export_playlists_to">Ekspor daftar putar ke</string>
-    <string name="home_tab_content">Konten tab beranda</string>
     <string name="mark_as_unwatched">Tandai sebagai belum ditonton</string>
     <string name="playlist_description">Deskripsi daftar putar</string>
     <string name="emptyPlaylistDescription">Deskripsi daftar putar tidak bisa kosong</string>

@@ -73,7 +73,6 @@
     <string name="player">Trình phát</string>
     <string name="appearance_summary">Tinh chỉnh ứng dụng theo ý thích của bạn</string>
     <string name="live">Trực tiếp</string>
-    <string name="defaultIcon">Mặc định</string>
     <string name="notgmail">Dành cho tài khoản Piped</string>
     <string name="playlistCreated">Danh sách phát đã được tạo.</string>
     <string name="playlistName">Tên danh sách phát</string>
@@ -97,7 +96,6 @@
     <string name="category_preview">Xem trước/Tóm tắt</string>
     <string name="category_preview_summary">Đối với các phân đoạn nêu chi tiết nội dung trong tương lai mà không có thông tin bổ sung. Nếu nó bao gồm các clip chỉ xuất hiện ở đây, thì rất có thể đây là danh mục sai</string>
     <string name="material_you">Cá nhân sắc</string>
-    <string name="app_icon">Biểu tượng</string>
     <string name="enabled">Kích hoạt</string>
     <string name="disabled">Tắt</string>
     <string name="playOnBackground">Chơi trong nền</string>
@@ -110,15 +108,8 @@
     <string name="category_music_offtopic_summary">Chỉ sử dụng cho các đoạn phim âm nhạc. Nó bao gồm các phần không phải là một phần của bản phối chính thức trong đoạn phim. Chung quy lại, đoạn phim phải giống với Spotify hoặc bất kỳ bản phối khác càng nhiều càng tốt, giảm nói chuyện hoặc các yếu tố gây xao nhãng khác</string>
     <string name="buffering_goal">Tải trước</string>
     <string name="shareTo">Chia sẻ URL tới</string>
-    <string name="legacyIcon">Di sản thất lạc</string>
-    <string name="gradientIcon">Gradient</string>
-    <string name="flameIcon">Ngọn lửa bay</string>
-    <string name="fireIcon">Ngọn lửa thời thượng</string>
     <string name="related_streams_summary">Hiển thị các đoạn phim tương tự cùng với nội dung bạn xem</string>
-    <string name="torchIcon">Ngọn đuốc thời thượng</string>
-    <string name="shapedIcon">Hình dạng ngớ ngẩn</string>
     <string name="customInstance_summary">Thêm…</string>
-    <string name="birdIcon">Chim cách điệu</string>
     <string name="related_streams">Các nội dung liên quan</string>
     <string name="reset">Khôi phục mặc định</string>
     <string name="reset_message">Đăng xuất bạn ra và đặt lại\?</string>
@@ -241,7 +232,6 @@
     <string name="added_to_playlist">Đã thêm vào danh sách phát %1$s</string>
     <string name="audio_track">Bản ghi âm thanh</string>
     <string name="livestreams">Trực tiếp</string>
-    <string name="defaultIconLight">Light mặc định</string>
     <string name="auto_quality">Tự động</string>
     <string name="trends">Xu hướng</string>
     <string name="featured">Tính năng</string>
@@ -285,7 +275,6 @@
     <string name="off">Tắt</string>
     <string name="fullscreen_gestures">Cử chỉ vào/thoát toàn màn hình</string>
     <string name="alternative_pip_controls_summary">Chỉ hiển thị âm thanh và bỏ qua các điều khiển trong HtH thay vì tua đi và tua lại</string>
-    <string name="home_tab_content">Nội dung thẻ trang chủ</string>
     <string name="audio_only_mode_summary">Biến Tubik thành một trình phát nhạc</string>
     <string name="sb_custom_colors">Tùy chỉnh màu phân đoạn</string>
     <string name="app_backup">Sao lưu ứng dụng</string>

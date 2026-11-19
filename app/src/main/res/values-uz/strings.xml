@@ -105,7 +105,6 @@
     <string name="color_purple">Yoqimli binafsha</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Bildirishnomalar</string>
-    <string name="app_icon">Belgi</string>
     <string name="enabled">Yoqilgan</string>
     <string name="disabled">O‘chirilgan</string>
     <string name="playOnBackground">Orqa fonda ijro etish</string>
@@ -159,14 +158,6 @@
     <string name="upcoming">Kutilayotgan</string>
     <string name="shareTo">URL’ni ulashish</string>
     <string name="normal_views">%1$s marta ko‘rilgan%2$s</string>
-    <string name="defaultIcon">Standart</string>
-    <string name="legacyIcon">Yo‘qolgan meros</string>
-    <string name="gradientIcon">Silliq gradient</string>
-    <string name="fireIcon">Zamonaviy olov</string>
-    <string name="torchIcon">Uslubli mash’al</string>
-    <string name="shapedIcon">Qiziq shaklli</string>
-    <string name="flameIcon">Uchayotgan alanga</string>
-    <string name="birdIcon">Kuchaytirilgan qush</string>
     <string name="customInstance_summary">Qo‘shish…</string>
     <string name="invalid_url">Iltimos, ishlaydigan URL kiriting</string>
     <string name="version">Versiya %1$s</string>
@@ -274,7 +265,6 @@
     <string name="color">Rang</string>
     <string name="invalid_color">Noto‘g‘ri rang qiymati kiritildi!</string>
     <string name="livestreams">Jonli efirlar</string>
-    <string name="defaultIconLight">Standart yorqin</string>
     <string name="playlistCloned">Pleylist nusxalandi</string>
     <string name="play_all">Hammasini ko\'rish</string>
     <string name="time">Vaqt</string>
@@ -408,7 +398,6 @@
     <string name="import_playlists_from">Pleylistlarni import qilish manbai</string>
     <string name="export_playlists_to">Pleylistlarni eksport qilish manzili</string>
     <string name="import_format_list_of_urls">URL manzillari yoki video ID’lar ro‘yxati</string>
-    <string name="home_tab_content">Bosh sahifa yorlig‘i mazmuni</string>
     <string name="show_search_suggestions">Qidiruv takliflarini ko‘rsatish</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="unknown_audio_language">Noma’lum audio tili</string>

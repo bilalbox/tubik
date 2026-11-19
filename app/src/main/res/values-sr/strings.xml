@@ -67,7 +67,6 @@
     <string name="color_red">Одмарајућа црвена</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Обавештења</string>
-    <string name="app_icon">Иконица</string>
     <string name="enabled">Укључено</string>
     <string name="disabled">Искључено</string>
     <string name="playOnBackground">Пусти у позадини</string>
@@ -78,9 +77,6 @@
     <string name="playback_speed">Брзина репродукције</string>
     <string name="advanced">Напредно</string>
     <string name="appearance_summary">Прилагодите апликацију по свом укусу</string>
-    <string name="shapedIcon">Глупо обликовано</string>
-    <string name="flameIcon">Летећи пламен</string>
-    <string name="birdIcon">Појачана птица</string>
     <string name="customInstance_summary">Додајте…</string>
     <string name="invalid_url">Унесите исправну URL адресу</string>
     <string name="version">Верзија %1$s</string>
@@ -154,12 +150,7 @@
     <string name="update_summary">Провери ажурирање</string>
     <string name="player">Плејер</string>
     <string name="live">Уживо</string>
-    <string name="gradientIcon">Glib градијент</string>
-    <string name="fireIcon">Модна ватра</string>
     <string name="shareTo">Дели URL адресу са</string>
-    <string name="legacyIcon">Изгубљено застарело</string>
-    <string name="defaultIcon">Подразумевано</string>
-    <string name="torchIcon">Бакља у тренду</string>
     <string name="deleteAccount_summary">Избришите свој Piped налог</string>
     <string name="downloading">Преузимање…</string>
     <string name="player_autoplay">Аутоплеј</string>
@@ -241,7 +232,6 @@
     <string name="layout">Изглед</string>
     <string name="audio_track">Аудио трака</string>
     <string name="livestreams">Стримови уживо</string>
-    <string name="defaultIconLight">Подразумевано светло</string>
     <string name="auto_quality">Аутоматски</string>
     <string name="trends">Трендови</string>
     <string name="featured">Истакнуто</string>
@@ -348,7 +338,6 @@
     <string name="change_playlist_description">Промени опис плејлисте</string>
     <string name="alphabetic">Абецедно</string>
     <string name="no_fullscreen_resolution">Без резолуције преко целог екрана</string>
-    <string name="home_tab_content">Садржај почетне картице</string>
     <string name="uploader_name">Име отпремаоца</string>
     <string name="tooltip_filter">Филтер</string>
     <string name="off">Искључено</string>

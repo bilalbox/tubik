@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">Upozornění</string>
     <string name="enabled">Zap</string>
     <string name="disabled">Vyp</string>
-    <string name="app_icon">Ikona</string>
     <string name="playOnBackground">Přehrát na pozadí</string>
     <string name="open">Otevřít…</string>
     <string name="reset">Obnovit výchozí</string>
@@ -96,21 +95,14 @@
     <string name="turnInternetOn">Zapněte Wi-Fi nebo mobilní data pro připojení se k internetu.</string>
     <string name="require_restart_message">Restartujte aplikaci pro použití nových změn.</string>
     <string name="shareTo">Sdílet URL s</string>
-    <string name="defaultIcon">Výchozí</string>
     <string name="update_summary">Vyhledat aktualizace</string>
     <string name="app_uptodate">Používáte nejnovější verzi.</string>
-    <string name="legacyIcon">Ztracená minulost</string>
-    <string name="gradientIcon">Přechod Glib</string>
-    <string name="fireIcon">Módní oheň</string>
-    <string name="flameIcon">Létající plamen</string>
-    <string name="birdIcon">Posílený pták</string>
     <string name="customInstance_summary">Přidat…</string>
     <string name="version">Verze %1$s</string>
     <string name="category_filler">Výplň / vtipy</string>
     <string name="category_music_offtopic">Hudba: nehudební sekce</string>
     <string name="category_preview">Náhled / shrnutí</string>
     <string name="playback_speed">Rychlost přehrávání</string>
-    <string name="shapedIcon">Hloupý tvar</string>
     <string name="watch_history">Historie sledování</string>
     <string name="watch_positions">Pamatovat si pozici</string>
     <string name="auth_instance_summary">Použít jinou instanci pro autentifikační volání</string>
@@ -141,7 +133,6 @@
     <string name="captions">Titulky</string>
     <string name="general_summary">Stahování a úspora dat</string>
     <string name="restore">Obnovit</string>
-    <string name="torchIcon">Módní pochodeň</string>
     <string name="behavior">Chování</string>
     <string name="player_summary">Výchozí hodnoty a chování</string>
     <string name="deleteAccount_summary">Odstranit účet Piped</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Přidáno do playlistu %1$s</string>
     <string name="queue">Fronta</string>
     <string name="livestreams">Živé přenosy</string>
-    <string name="defaultIconLight">Výchozí světlá</string>
     <string name="playlistCloned">Playlist duplikován</string>
     <string name="play_all">Přehrát vše</string>
     <string name="time">Čas</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Exportovat odběry do</string>
     <string name="export_playlists_to">Exportovat playlisty do</string>
     <string name="import_playlists_from">Importovat playlisty z</string>
-    <string name="home_tab_content">Obsah domovské stránky</string>
     <string name="mark_as_unwatched">Označit jako nezhlédnuté</string>
     <string name="playlist_description">Popis playlistu</string>
     <string name="emptyPlaylistDescription">Popis playlistu nemůže být prázdný</string>

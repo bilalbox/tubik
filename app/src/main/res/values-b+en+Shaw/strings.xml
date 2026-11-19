@@ -77,7 +77,6 @@
     <string name="color_red">𐑮𐑧𐑕𐑑𐑦𐑙 𐑮𐑧𐑛</string>
     <string name="color_blue">𐑚𐑤𐑦𐑕𐑓𐑩𐑤 𐑚𐑤𐑵</string>
     <string name="sponsorblock_notifications">𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯𐑟</string>
-    <string name="app_icon">𐑲𐑒𐑪𐑯</string>
     <string name="disabled">𐑪𐑓</string>
     <string name="material_you">𐑥𐑩𐑑𐑽𐑾𐑤 𐑿</string>
     <string name="appearance">𐑩𐑐𐑽𐑩𐑯𐑕</string>
@@ -88,11 +87,6 @@
     <string name="live">𐑤𐑲𐑝</string>
     <string name="shareTo">𐑖𐑺 ⸰𐑿𐑮𐑤 𐑑</string>
     <string name="normal_views">%1$s 𐑝𐑿𐑟%2$s</string>
-    <string name="defaultIcon">𐑛𐑦𐑓𐑷𐑤𐑑</string>
-    <string name="legacyIcon">𐑤𐑪𐑕𐑑 𐑤𐑧𐑜𐑩𐑕𐑦</string>
-    <string name="gradientIcon">𐑜𐑤𐑦𐑚 𐑜𐑮𐑱𐑛𐑾𐑯𐑑</string>
-    <string name="torchIcon">𐑑𐑮𐑧𐑯𐑛𐑦 𐑑𐑹𐑗</string>
-    <string name="shapedIcon">𐑕𐑦𐑤𐑦 𐑖𐑱𐑐𐑑</string>
     <string name="customInstance_summary">𐑨𐑛…</string>
     <string name="invalid_url">𐑐𐑤𐑰𐑟 𐑧𐑯𐑑𐑼 𐑩 ⸰𐑿𐑮𐑤 𐑞𐑨𐑑 𐑢𐑻𐑒𐑕</string>
     <string name="show_updates">𐑗𐑧𐑒 𐑳𐑐𐑛𐑱𐑑𐑕 𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦</string>
@@ -170,7 +164,6 @@
     <string name="sb_custom_colors_summary">𐑑𐑪𐑜𐑩𐑤𐑟 𐑒𐑳𐑕𐑑𐑩𐑥 𐑒𐑳𐑤𐑼 𐑕𐑧𐑜𐑥𐑩𐑯𐑑𐑕 𐑓 ·𐑕𐑐𐑪𐑯𐑕𐑼𐑚𐑤𐑪𐑒 𐑕𐑧𐑜𐑥𐑩𐑯𐑑𐑕</string>
     <string name="color">𐑒𐑳𐑤𐑼</string>
     <string name="invalid_color">¡𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑒𐑳𐑤𐑼 𐑝𐑨𐑤𐑿 𐑧𐑯𐑑𐑼𐑛!</string>
-    <string name="defaultIconLight">𐑛𐑦𐑓𐑷𐑤𐑑 𐑤𐑲𐑑</string>
     <string name="playlistCloned">𐑐𐑤𐑱𐑤𐑦𐑕𐑑</string>
     <string name="play_all">𐑐𐑤𐑱 𐑷𐑤</string>
     <string name="time">𐑑𐑲𐑥</string>
@@ -250,9 +243,6 @@
     <string name="player">𐑐𐑤𐑱𐑼</string>
     <string name="playback_speed">𐑐𐑤𐑱𐑚𐑨𐑒 𐑕𐑐𐑰𐑛</string>
     <string name="advanced">𐑩𐑛𐑝𐑭𐑯𐑕𐑑</string>
-    <string name="fireIcon">𐑓𐑨𐑖𐑩𐑯𐑩𐑚𐑩𐑤 𐑓𐑲𐑼</string>
-    <string name="flameIcon">𐑓𐑤𐑲𐑦𐑙 𐑓𐑤𐑱𐑥</string>
-    <string name="birdIcon">𐑚𐑵𐑕𐑑𐑩𐑛 𐑚𐑻𐑛</string>
     <string name="version">𐑝𐑻𐑠𐑩𐑯 %1$s</string>
     <string name="related_streams">𐑮𐑦𐑤𐑱𐑑𐑩𐑛 𐑒𐑩𐑯𐑑𐑧𐑯𐑑</string>
     <string name="behavior">𐑚𐑦𐑣𐑱𐑝𐑘𐑼</string>
@@ -403,7 +393,6 @@
     <string name="screenshot">𐑕𐑒𐑮𐑰𐑯𐑖𐑪𐑑</string>
     <string name="import_subscriptions_from">𐑦𐑥𐑐𐑹𐑑 𐑕𐑩𐑚𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯𐑟 𐑓𐑮𐑪𐑥</string>
     <string name="import_playlists_from">𐑦𐑥𐑐𐑹𐑑 𐑐𐑤𐑱𐑤𐑦𐑕𐑑𐑕 𐑓𐑮𐑪𐑥</string>
-    <string name="home_tab_content">𐑣𐑴𐑥 𐑑𐑨𐑚 𐑒𐑩𐑯𐑑𐑧𐑯𐑑</string>
     <string name="show_search_suggestions">𐑖𐑴 𐑕𐑻𐑗 𐑕𐑩𐑡𐑧𐑕𐑗𐑩𐑯𐑟</string>
     <string name="audio_track_format">%1$s – %2$s</string>
     <string name="unknown_audio_language">𐑳𐑯𐑯𐑴𐑯 𐑷𐑛𐑦𐑴 𐑤𐑨𐑙𐑜𐑢𐑦𐑡</string>

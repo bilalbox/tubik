@@ -34,10 +34,7 @@
     <string name="update_summary">Athuga með uppfærslu</string>
     <string name="player">Spilari</string>
     <string name="appearance_summary">Aðlagaðu forritið að smekk þínum</string>
-    <string name="shapedIcon">Fáránlega formað</string>
     <string name="live">Í beinni</string>
-    <string name="flameIcon">Fljúgandi eldur</string>
-    <string name="birdIcon">Endurbirt tíst</string>
     <string name="invalid_url">Settu inn slóð sem virkar</string>
     <string name="download_completed">Niðurhali lokið</string>
     <string name="player_summary">Sjálfgefin gildi og hegðun</string>
@@ -139,7 +136,6 @@
     <string name="category_selfpromo_summary">Ekki ósvipað \"kynningaraðila\" nema án greiðslu eða kynning á sjálfum sér. Þetta á einnig við um hluta um vörur, gjafir eða upplýsingar um hverja viðkomandi eigi í samstarfi við</string>
     <string name="category_filler_summary">Fyrir lauslega tengdar senur sem bætt er við til uppfyllingar eða með húmor sem ekki eru nauðsynlegar til að skilja meginefni myndskeiðsins</string>
     <string name="best_quality">Best</string>
-    <string name="defaultIconLight">Sjálfgefið ljóst</string>
     <string name="time">Tími</string>
     <string name="notification_time">Takmarka tíma tilkynninga</string>
     <string name="double_tap_seek">Tvípikkaðu til að hoppa</string>
@@ -180,7 +176,6 @@
     <string name="category_music_offtopic">Tónlist: Bútur án tónlistar</string>
     <string name="category_preview">Forskoðun/Upprifjun</string>
     <string name="license">Notkunarleyfi</string>
-    <string name="app_icon">Táknmynd</string>
     <string name="enabled">Virkt</string>
     <string name="disabled">Slökkt</string>
     <string name="color_accent">Áherslulitir</string>
@@ -195,7 +190,6 @@
     <string name="no_video">Ekkert myndmerki</string>
     <string name="no_subtitle">Enginn skjátexti</string>
     <string name="related_streams">Tengt efni</string>
-    <string name="gradientIcon">Glib-litstigull</string>
     <string name="audio">Hljóð</string>
     <string name="video">Myndskeið</string>
     <string name="behavior">Hegðun</string>
@@ -233,7 +227,6 @@
     <string name="visibility_unlisted">Óskráður</string>
     <string name="thumbnail_time">Tími á smámynd</string>
     <string name="duration_span">Tímalengd: %1$s</string>
-    <string name="home_tab_content">Efni á forsíðuflipa</string>
     <string name="add_to_group">Bæta í hóp</string>
     <string name="start_sleep_timer">Ræsa niðurtalningu í svæfingu</string>
     <string name="disable_sleep_timer">Gera niðurtalningu í svæfingu óvirka</string>
@@ -387,7 +380,6 @@
     <string name="category_filler">Uppfylling/Brandarar</string>
     <string name="shareTo">Deila slóð til</string>
     <string name="normal_views">%1$s áhorf%2$s</string>
-    <string name="defaultIcon">Sjálfgefið</string>
     <string name="aspect_ratio">Stærðarhlutföll myndskeiðs</string>
     <string name="data_saver_mode_summary">Sleppa smámyndum og öðrum myndum</string>
     <string name="renamePlaylist">Endurnefna spilunarlista</string>
@@ -429,14 +421,11 @@
     <string name="player_channel_description">Birtir tilkynningu við afspilun</string>
     <string name="download_channel_description">Birtir tilkynningu við niðurhal efnis.</string>
     <string name="also_clear_watch_positions">Einnig hreinsa áhorfsstaðsetningar</string>
-    <string name="torchIcon">Trendý kastari</string>
     <string name="system_caption_style">Skýringartextar í stíl kerfis</string>
     <string name="category_preview_summary">Fyrir hluta sem útlista væntanlegt efni en án viðbótarupplýsinga. Ef þetta inniheldur myndefni sem einungis birtist hér, þá er þetta væntanlega röng flokkun</string>
     <string name="change_region">Upplýsingar um tilhneigingu virðast ekki vera aðgengilegar á fyrirliggjandi svæði. Veldu eitthvað annað í stillingunum.</string>
     <string name="category_music_offtopic_summary">Eingöngu fyrir tónlistarmyndbönd. Þetta ætti að ná yfir þá hluta myndskeiðs sem ekki eru hlutar opinberra samsetninga. Á endanum ætti myndskeiðið að líkjast sem mest útgáfunni á Spotify eða einhverjum öðrum samsetningum, eða minnka tal eða annað afvegaleiðandi</string>
     <string name="category_highlight_summary">Gæti annað hvort verið auglýstur titill, smámyndin eða áhugaverðasti hluti myndskeiðsins. Þú getur hoppað yfir á þetta með því að pikka á kaflahlutann</string>
-    <string name="legacyIcon">Eldra vandfundið</string>
-    <string name="fireIcon">Glæstur eldur</string>
     <string name="dearrow_summary">Sýna nákvæmari og minna áberandi titla og smámyndir. Eykur hleðslutíma</string>
     <string name="rich_caption_rendering">Flókin myndgerð skýringartexta</string>
     <string name="rich_caption_rendering_summary">Myndgera skýringartexta í vefstíl fyrir ríkulegri og sérsníðanlega framsetningu</string>

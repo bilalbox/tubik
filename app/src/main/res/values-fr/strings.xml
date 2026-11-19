@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">Notifications</string>
     <string name="enabled">Activé</string>
     <string name="disabled">Désactivé</string>
-    <string name="app_icon">Icône</string>
     <string name="playOnBackground">Lire en arrière-plan</string>
     <string name="update_available">Mise à jour disponible</string>
     <string name="appearance">Apparence</string>
@@ -99,16 +98,8 @@
     <string name="appearance_summary">Ajustez l’application à votre convenance</string>
     <string name="live">En direct</string>
     <string name="shareTo">Partager l’URL vers</string>
-    <string name="defaultIcon">Par défaut</string>
-    <string name="legacyIcon">Héritage perdu</string>
-    <string name="fireIcon">Feu à la mode</string>
-    <string name="birdIcon">Oiseau boosté</string>
-    <string name="torchIcon">Torche à tendances</string>
     <string name="invalid_url">Veuillez saisir une URL qui fonctionne</string>
     <string name="customInstance_summary">Ajouter…</string>
-    <string name="flameIcon">Flamme volante</string>
-    <string name="shapedIcon">Forme idiote</string>
-    <string name="gradientIcon">Dégradé désinvolte</string>
     <string name="version">Version %1$s</string>
     <string name="related_streams">Contenu associé</string>
     <string name="related_streams_summary">Afficher des flux similaires à côté de ce que vous regardez</string>
@@ -230,7 +221,6 @@
     <string name="playback_pitch">Hauteur</string>
     <string name="queue">File d’attente</string>
     <string name="added_to_playlist">Ajouté à la playlist %1$s</string>
-    <string name="defaultIconLight">Par défaut clair</string>
     <string name="time_code">Horodatage (secondes)</string>
     <string name="livestreams">Diffusions en direct</string>
     <string name="playlistCloned">Playlist dupliquée</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Exporter les abonnements vers</string>
     <string name="import_playlists_from">Importer des playlists depuis</string>
     <string name="export_playlists_to">Exporter les playlists vers</string>
-    <string name="home_tab_content">Contenu de la page d’accueil</string>
     <string name="mark_as_unwatched">Marquer comme non-vu</string>
     <string name="playlist_description">Description de la playlist</string>
     <string name="emptyPlaylistDescription">La description de la playlist ne peut pas être vide</string>

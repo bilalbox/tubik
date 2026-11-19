@@ -28,7 +28,6 @@
     <string name="color_yellow">Yster gul</string>
     <string name="color_green">Svängig grön</string>
     <string name="material_you">Material You</string>
-    <string name="app_icon">Appikon</string>
     <string name="enabled">På</string>
     <string name="disabled">Av</string>
     <string name="update_available">Uppdatering tillgänglig</string>
@@ -39,15 +38,9 @@
     <string name="all">Alla</string>
     <string name="playOnBackground">Spela upp i bakgrunden</string>
     <string name="app_theme">Tema</string>
-    <string name="flameIcon">Flygande flamma</string>
-    <string name="birdIcon">Förstärkt fågel</string>
     <string name="advanced">Avancerat</string>
     <string name="live">Live</string>
-    <string name="legacyIcon">Förlorat arv</string>
     <string name="shareTo">Dela länk med</string>
-    <string name="gradientIcon">Elegant övertoning</string>
-    <string name="defaultIcon">Standard</string>
-    <string name="fireIcon">Moderiktig eld</string>
     <string name="appearance_summary">Anpassa appens utseende</string>
     <string name="search_hint">Sök</string>
     <string name="import_from_yt">Importera prenumerationer</string>
@@ -100,8 +93,6 @@
     <string name="update_summary">Sök efter uppdateringar</string>
     <string name="playback_speed">Uppspelningshastighet</string>
     <string name="player">Spelare</string>
-    <string name="shapedIcon">Tokigt formad</string>
-    <string name="torchIcon">Trendig fackla</string>
     <string name="invalid_url">Ange en giltig URL.</string>
     <string name="related_streams_summary">Visa relaterade videor tillsammans med videon du tittar på</string>
     <string name="import_from_yt_summary">Från YouTube eller NewPipe</string>
@@ -269,7 +260,6 @@
     <string name="open_copied">Öppna</string>
     <string name="comments_disabled">Uppladdaren har inaktiverat kommentarer.</string>
     <string name="no_fullscreen_resolution">Ingen helskärmsupplösning</string>
-    <string name="home_tab_content">Innehåll i fliken Hem</string>
     <string name="alternative_pip_controls_summary">Visa knappar för ”endast ljud” och ”nästa/föregående” i bild-i-bild-läget i stället för knappar för att spola framåt eller bakåt.</string>
     <string name="preferences">Inställningar</string>
     <string name="uploader_name">Uppladdarens namn</string>
@@ -301,7 +291,6 @@
     <string name="captions_size">Textningsstorlek</string>
     <string name="dearrow">Aktivera DeArrow</string>
     <string name="local_subscriptions">Lokala prenumerationer</string>
-    <string name="defaultIconLight">Standard – ljus</string>
     <string name="visibility_public">Offentlig</string>
     <string name="sleep_timer">Insomningstimer</string>
     <string name="original_or_main_audio_track">original eller huvudspår</string>

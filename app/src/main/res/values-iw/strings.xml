@@ -47,7 +47,6 @@
     <string name="color_green">ירוק יוקד</string>
     <string name="color_purple">סגול סובלני</string>
     <string name="sponsorblock_notifications">התראות</string>
-    <string name="app_icon">סמל</string>
     <string name="enabled">פעיל</string>
     <string name="playOnBackground">ניגון ברקע</string>
     <string name="appearance">מראה</string>
@@ -99,17 +98,9 @@
     <string name="category_selfpromo_summary">דומה ל„נותן חסות” למעט קידום עצמי ללא תשלום. לרבות סעיפים על אביזרים ממותגים, תרומות או מידע על שיתופי פעולה</string>
     <string name="category_intro">הפוגה/הנפשת הקדמה</string>
     <string name="shareTo">שיתוף כתובת אל</string>
-    <string name="defaultIcon">ברירת מחדל</string>
-    <string name="legacyIcon">מורשת שאבדה</string>
-    <string name="gradientIcon">מדרג של Glib</string>
-    <string name="fireIcon">אש אופנתית</string>
-    <string name="flameIcon">להבה מעופפת</string>
-    <string name="birdIcon">ציפור מוגברת</string>
-    <string name="torchIcon">לפיד בוער</string>
     <string name="customInstance_summary">הוספה…</string>
     <string name="invalid_url">נא למלא כתובת שעובדת</string>
     <string name="version">גרסה %1$s</string>
-    <string name="shapedIcon">צורה טיפשית</string>
     <string name="related_streams">תוכן קשור</string>
     <string name="related_streams_summary">הצגת תזרימים דומים לצד הסרטון שמתנגן</string>
     <string name="category_filler">בדיחות/משיקים למילוי</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">נוסף לרשימת הנגינה %1$s</string>
     <string name="queue">תור</string>
     <string name="livestreams">שידורים חיים</string>
-    <string name="defaultIconLight">בהיר כברירת מחדל</string>
     <string name="playlistCloned">רשימת הנגינה שוכפלה</string>
     <string name="time">זמן</string>
     <string name="start_time">זמן התחלה</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">ייצוא מינויים אל</string>
     <string name="import_playlists_from">ייבוא רשימות נגינה מתוך</string>
     <string name="export_playlists_to">ייצוא רשימות נגינה אל</string>
-    <string name="home_tab_content">תוכן לשונית בית</string>
     <string name="mark_as_unwatched">סימון כלא נצפה</string>
     <string name="change_playlist_description">עריכת תיאור רשימת נגינה</string>
     <string name="playlist_description">תיאור רשימת נגינה</string>

@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">Bildirişlər</string>
     <string name="enabled">Aç</string>
     <string name="disabled">Bağla</string>
-    <string name="app_icon">Nişan</string>
     <string name="playOnBackground">Arxa planda oynat</string>
     <string name="update_available">Yeniləmə mövcuddur</string>
     <string name="appearance">Görünüş</string>
@@ -99,14 +98,6 @@
     <string name="update_summary">Yeniləmə üçün yoxla</string>
     <string name="live">Canlı</string>
     <string name="shareTo">URL-ni Paylaş</string>
-    <string name="defaultIcon">Standart</string>
-    <string name="legacyIcon">İtmiş miras</string>
-    <string name="fireIcon">Şıq od</string>
-    <string name="gradientIcon">Pərgar meyli</string>
-    <string name="shapedIcon">Axmaq formalı</string>
-    <string name="flameIcon">Uçan alov</string>
-    <string name="birdIcon">Qaldırılan quş</string>
-    <string name="torchIcon">Dəbli məşəl</string>
     <string name="invalid_url">Zəhmət olmasa, işləyən URL\'ni daxil et</string>
     <string name="customInstance_summary">Əlavə et…</string>
     <string name="version">Versiya %1$s</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">%1$s oynatma siyahısına əlavə edildi</string>
     <string name="queue">Növbə</string>
     <string name="livestreams">Canlı yayımlar</string>
-    <string name="defaultIconLight">Standart işıq</string>
     <string name="playlistCloned">Oynatma siyahısı fərdiləşdi</string>
     <string name="play_all">Hamısın oynat</string>
     <string name="time">Vaxt</string>
@@ -331,7 +321,6 @@
     <string name="import_subscriptions_from">Abunəlikləri burdan idxal et</string>
     <string name="import_playlists_from">Oynatma siyahısın buradan idxal et</string>
     <string name="export_playlists_to">Oynatma siyahısın ixrac et</string>
-    <string name="home_tab_content">Əsas səhifə məzmunu</string>
     <string name="mark_as_unwatched">Baxılmamış kimi işarələ</string>
     <string name="playlist_description">Oynatma siyahısı təsviri</string>
     <string name="emptyPlaylistDescription">Oynatma siyahısı təsviri boş ola bilməz</string>

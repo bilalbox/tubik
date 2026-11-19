@@ -93,14 +93,11 @@
     <string name="default_subtitle_language">字幕の言語</string>
     <string name="update_available">最新版があります</string>
     <string name="chapters">チャプター</string>
-    <string name="birdIcon">小鳥</string>
     <string name="pauseOnScreenOff_summary">画面が消えた際に一時停止します</string>
     <string name="deleteAccount_summary">このPipedアカウントを削除します</string>
     <string name="restore">復元</string>
     <string name="require_restart_message">アプリを再起動して変更を反映します。</string>
     <string name="playOnBackground">バックグラウンドで再生</string>
-    <string name="defaultIcon">標準</string>
-    <string name="app_icon">アイコン</string>
     <string name="disabled">オフ</string>
     <string name="customInstance_summary">追加…</string>
     <string name="invalid_url">有効な URL を入力してください</string>
@@ -115,12 +112,6 @@
     <string name="app_uptodate">最新版を使用中です。</string>
     <string name="live">ライブ</string>
     <string name="shareTo">URL を共有</string>
-    <string name="legacyIcon">自由</string>
-    <string name="gradientIcon">階調</string>
-    <string name="fireIcon">火影</string>
-    <string name="torchIcon">松明</string>
-    <string name="shapedIcon">檜扇</string>
-    <string name="flameIcon">火球</string>
     <string name="watch_history">再生履歴</string>
     <string name="watch_positions">位置を記憶</string>
     <string name="auth_instance_summary">認証に別のインスタンスを使用します</string>
@@ -229,7 +220,6 @@
     <string name="download_channel_name">ダウンロードサービス</string>
     <string name="push_channel_name">通知の実行</string>
     <string name="push_channel_description">新着動画があれば通知を表示します。</string>
-    <string name="defaultIconLight">標準 (ライト)</string>
     <string name="most_views">再生回数が多い</string>
     <string name="backup_restore">バックアップと復元</string>
     <string name="backup">バックアップ</string>
@@ -330,7 +320,6 @@
     <string name="import_playlists_from">以下から再生リストをインポート</string>
     <string name="export_playlists_to">以下へ再生リストをエクスポート</string>
     <string name="unlimited_search_history">無制限の検索履歴</string>
-    <string name="home_tab_content">ホームタブに表示するコンテンツ</string>
     <string name="mark_as_unwatched">未視聴にする</string>
     <string name="change_playlist_description">再生リストの説明を変更</string>
     <string name="playlist_description">再生リストの説明</string>

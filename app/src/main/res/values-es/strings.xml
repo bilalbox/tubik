@@ -83,7 +83,6 @@
     <string name="color_blue">Azul a full</string>
     <string name="color_purple">Púrpura pura</string>
     <string name="material_you">Material You</string>
-    <string name="app_icon">Icono</string>
     <string name="sponsorblock_notifications">Notificaciones</string>
     <string name="enabled">Activado</string>
     <string name="disabled">Desactivado</string>
@@ -91,20 +90,12 @@
     <string name="update_available">Actualización disponible</string>
     <string name="appearance">Apariencia</string>
     <string name="shareTo">Enviar URL a</string>
-    <string name="defaultIcon">Predeterminado</string>
     <string name="update_summary">Buscar actualizaciones</string>
     <string name="app_uptodate">Tienes la última versión.</string>
-    <string name="shapedIcon">Forma redondeada</string>
-    <string name="flameIcon">Llama volando</string>
-    <string name="birdIcon">Pájaro</string>
     <string name="invalid_url">Por favor, introduce una URL que funcione</string>
     <string name="version">Versión %1$s</string>
     <string name="related_streams">Contenido relacionado</string>
     <string name="related_streams_summary">Mostrar transmisiones similares a lo que ves</string>
-    <string name="legacyIcon">Antiguo</string>
-    <string name="gradientIcon">Difuminado</string>
-    <string name="fireIcon">Fuego moderno</string>
-    <string name="torchIcon">Antorcha</string>
     <string name="customInstance_summary">Añadir…</string>
     <string name="downloads">Descargas</string>
     <string name="advanced">Avanzado</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Añadido a la lista %1$s</string>
     <string name="queue">Cola</string>
     <string name="livestreams">Directos</string>
-    <string name="defaultIconLight">Predeterminado claro</string>
     <string name="playlistCloned">Lista clonada</string>
     <string name="play_all">Reproducir todo</string>
     <string name="time">Horario</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Exportar suscripciones para</string>
     <string name="export_playlists_to">Exportar listas para</string>
     <string name="import_playlists_from">Importar listas desde</string>
-    <string name="home_tab_content">Contenido de pestaña \"Inicio\"</string>
     <string name="mark_as_unwatched">Marcar como no visto</string>
     <string name="playlist_description">Descripción de la lista</string>
     <string name="change_playlist_description">Cambiar descripción de la lista</string>

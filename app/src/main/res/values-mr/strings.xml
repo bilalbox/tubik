@@ -76,7 +76,6 @@
     <string name="noInternet">इंटरनेट कनेक्शन नाही.</string>
     <string name="retry">पुन्हा प्रयत्न करा</string>
     <string name="comments">टिप्पण्या</string>
-    <string name="app_icon">आयकॉन</string>
     <string name="disabled">बंद</string>
     <string name="restore">पुनर्संचयित करा</string>
     <string name="notifications">अधिसूचना</string>
@@ -93,7 +92,6 @@
     <string name="history_empty">अजून इतिहास नाही.</string>
     <string name="most_recent">सर्वात नवीन</string>
     <string name="least_recent">सर्वात जुनी</string>
-    <string name="shapedIcon">मूर्ख आकाराचा</string>
     <string name="color_accent">उच्चार</string>
     <string name="color_red">लाल</string>
     <string name="color_yellow">पिवळा समारोह</string>
@@ -111,7 +109,6 @@
     <string name="player">प्लेअर</string>
     <string name="appearance_summary">आपल्या आवडीनुसार ॲप ॲडजेस्ट करा</string>
     <string name="customInstance_summary">ॲड…</string>
-    <string name="torchIcon">ट्रेंडी टॉर्च</string>
     <string name="version">व्हर्जन %1$s</string>
     <string name="category_preview_summary">अतिरिक्त माहितीशिवाय भविष्यातील सामग्री तपशीलवार विभागांसाठी. त्यात फक्त येथे दिसणार्‍या क्लिपचा समावेश असल्यास, ही बहुधा चुकीची श्रेणी आहे</string>
     <string name="color_blue">आनंदी निळा</string>
@@ -125,7 +122,6 @@
     <string name="autoRotatePlayer_summary">डिव्हाइस फिरवल्यास पूर्णस्क्रीन प्लेबॅक</string>
     <string name="history_summary">पाहिलेल्या आणि शोध घेतलेल्या व्हिडिओजचा इतिहास</string>
     <string name="watch_positions_title">लक्षात ठेवलेल्या प्लेबॅक पोझिशन्स</string>
-    <string name="defaultIcon">डीफॉल्ट</string>
     <string name="uploaderAndVideoCount">%1$s • %2$d व्हिडिओस</string>
     <string name="sponsorblock_notifications">सूचना</string>
     <string name="color_green">खोबणी हिरवी</string>
@@ -135,10 +131,6 @@
     <string name="downloads">डाउनलोड</string>
     <string name="update_summary">अपडेट साठी तपासा</string>
     <string name="live">लाइव्ह</string>
-    <string name="legacyIcon">हरवलेला वारसा</string>
-    <string name="gradientIcon">ग्लिब ग्रेडियंट</string>
-    <string name="fireIcon">फॅशनेबल फायर</string>
-    <string name="birdIcon">वाढवलेला पक्षी</string>
     <string name="related_streams">संबंधित कंटेंट</string>
     <string name="buffering_goal">प्रीलोडिंग</string>
     <string name="no_audio">ऑडिओ नाही</string>
@@ -173,7 +165,6 @@
     <string name="concurrent_downloads_limit_reached">कमाल समवर्ती डाउनलोड मर्यादा गाठली</string>
     <string name="pauseOnScreenOff_summary">स्क्रीन बंद केल्यावर प्लेबॅकला थांबवा.</string>
     <string name="auth_instance_summary">प्रमाणीकृत कॉलसाठी भिन्न instance वापरा</string>
-    <string name="flameIcon">उडणारी ज्योत</string>
     <string name="require_restart_message">नवीन बदल वापरण्यासाठी ॲप रीस्टार्ट करा.</string>
     <string name="watch_history_summary">स्थानिक पातळीवर पाहिलेल्या व्हिडिओंचा मागोवा ठेवा</string>
     <string name="reset_watch_positions">रीसेट करा</string>
@@ -252,7 +243,6 @@
     <string name="local_subscriptions">स्थानिक सदस्यता</string>
     <string name="change_region">सध्याच्या क्षेत्रासाठी ट्रेंडिंग अनुपलब्ध असल्याचे दिसते. कृपया सेटिंग्जमध्ये दुसरा निवडा.</string>
     <string name="time_code">वेळ कोड (सेकंद)</string>
-    <string name="defaultIconLight">डीफॉल्ट प्रकाश</string>
     <string name="time">वेळ</string>
     <string name="start_time">सुरवातीची वेळ</string>
     <string name="notification_time">सूचना वेळ</string>

@@ -62,7 +62,6 @@
     <string name="license">බලපත්රය</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">දැනුම්දීම්</string>
-    <string name="app_icon">නිරූපකය</string>
     <string name="enabled">සක්‍රිය</string>
     <string name="disabled">අක්‍රිය</string>
     <string name="update_available">නිකුතු අංකය %1$s ඇත</string>
@@ -75,7 +74,6 @@
     <string name="appearance_summary">ඔබගේ අභිමතය පරිදි යෙදුම සකසන්න</string>
     <string name="live">සජීවි</string>
     <string name="shareTo">URL එක බෙදාගන්න</string>
-    <string name="defaultIcon">පෙරනිමිය</string>
     <string name="color_accent">අවධාරණ</string>
     <string name="color_yellow">කහ පාට</string>
     <string name="color_green">කොළ පාට</string>
@@ -83,13 +81,8 @@
     <string name="color_blue">නිල් පාට</string>
     <string name="color_red">රතු පාට</string>
     <string name="playback_speed">වාදන වේගය</string>
-    <string name="fireIcon">විලාසිතාමය ගින්න</string>
-    <string name="torchIcon">නවීන පන්දම</string>
-    <string name="flameIcon">පියාඹන දැල්ල</string>
     <string name="version">අනුවාදය %1$s</string>
     <string name="related_streams">අදාළ අන්තර්ගත</string>
-    <string name="gradientIcon">Glib ශ්‍රේණියේ වර්ණය</string>
-    <string name="birdIcon">පියාඹන කුරුල්ලා</string>
     <string name="buffering_goal">පූර්ව ප්‍රෙව්ශය වෙමින්</string>
     <string name="no_audio">ශ්‍රව්‍ය නැත</string>
     <string name="no_subtitle">උපසිරැසි නැත</string>
@@ -171,7 +164,6 @@
     <string name="added_to_playlist">වාදන ලැයිස්තුවට එක් කරන ලදී</string>
     <string name="queue">පෝලිම</string>
     <string name="livestreams">සජීවී ප්‍රවාහ</string>
-    <string name="defaultIconLight">පෙරනිමි එළිය</string>
     <string name="time">කාලය</string>
     <string name="notification_time">දැනුම්දීමේ කාලය සීමා කරන්න</string>
     <string name="notification_time_summary">ප්‍රවාහ දැනුම්දීම් පෙන්වන කාල පරාසය සීමා කරන්න</string>
@@ -227,8 +219,6 @@
     <string name="category_music_offtopic_summary">සංගීත වීඩියෝවල භාවිතය සඳහා පමණි. එය නිල මිශ්‍රණවල කොටසක් නොව වීඩියෝවේ කොටස් ආවරණය කළ යුතුය. අවසානයේදී, වීඩියෝව Spotify හෝ වෙනත් ඕනෑම මිශ්‍ර අනුවාදයක් හැකිතාක් සමීපව සමාන විය යුතුය, නැතහොත් කතා කිරීම හෝ වෙනත් අවධානය වෙනතකට යොමු කිරීම අඩු කළ යුතුය</string>
     <string name="category_filler_summary">වීඩියෝවේ ප්‍රධාන අන්තර්ගතය තේරුම් ගැනීමට අවශ්‍ය නොවන ෆිලර් හෝ හාස්‍යය සඳහා පමණක් එක් කළ කොටස් සඳහා</string>
     <string name="category_music_offtopic">ගීත: ගීතය නොවන කොටස</string>
-    <string name="legacyIcon">අහිමි වූ උරුමය</string>
-    <string name="shapedIcon">මෝඩ හැඩැති</string>
     <string name="customInstance_summary">එකතු කරන්න…</string>
     <string name="playOnBackground">පසුබිමේ වාදනය කරන්න</string>
     <string name="invalid_url">කරුණාකර වැඩ කරන URL එකක් ඇතුළු කරන්න</string>

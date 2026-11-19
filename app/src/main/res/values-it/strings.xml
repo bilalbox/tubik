@@ -86,7 +86,6 @@
     <string name="disabled">Disattivato</string>
     <string name="category_outro">Titoli di coda e crediti</string>
     <string name="category_outro_summary">Informazioni dopo la fine. Non deve essere usato se contengono informazioni rilevanti</string>
-    <string name="app_icon">Icona</string>
     <string name="playOnBackground">Riproduci in sottofondo</string>
     <string name="downloads">Scaricati</string>
     <string name="update_available">Aggiornamento disponibile</string>
@@ -99,14 +98,6 @@
     <string name="appearance_summary">Regola l\'app a tuo piacimento</string>
     <string name="live">In diretta</string>
     <string name="shareTo">Condividi l\'URL a</string>
-    <string name="torchIcon">Torcia di tendenza</string>
-    <string name="legacyIcon">Eredità perduta</string>
-    <string name="gradientIcon">Gradiente disinvolto</string>
-    <string name="fireIcon">Fuoco alla moda</string>
-    <string name="birdIcon">Uccello potenziato</string>
-    <string name="defaultIcon">Predefinita</string>
-    <string name="shapedIcon">Sagomato sciocco</string>
-    <string name="flameIcon">Fiamma volante</string>
     <string name="customInstance_summary">Aggiungi…</string>
     <string name="invalid_url">Si prega di inserire un URL che funzioni</string>
     <string name="version">Versione %1$s</string>
@@ -231,7 +222,6 @@
     <string name="added_to_playlist">Aggiunto alla playlist %1$s</string>
     <string name="queue">Coda</string>
     <string name="livestreams">Trasmissioni in diretta</string>
-    <string name="defaultIconLight">Chiara predefinita</string>
     <string name="time_code">Codice temporale (secondi)</string>
     <string name="playlistCloned">Playlist clonata</string>
     <string name="play_all">Riproduci tutti</string>
@@ -332,7 +322,6 @@
     <string name="export_subscriptions_to">Esporta iscrizioni in</string>
     <string name="import_playlists_from">Importa playlist da</string>
     <string name="export_playlists_to">Esporta playlist su</string>
-    <string name="home_tab_content">Contenuto della scheda principale</string>
     <string name="mark_as_unwatched">Segna come non visto</string>
     <string name="change_playlist_description">Modifica descrizione playlist</string>
     <string name="playlist_description">Descrizione playlist</string>

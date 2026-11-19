@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="shareTo">分享URL到</string>
-    <string name="defaultIcon">預設</string>
     <string name="buffering_goal_summary">最多預先載入幾秒鐘的影片</string>
     <string name="startpage">首頁</string>
     <string name="history">歷史</string>
@@ -78,7 +77,6 @@
     <string name="color_purple">愉快紫</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">通知</string>
-    <string name="app_icon">圖示</string>
     <string name="enabled">開啟</string>
     <string name="playOnBackground">背景播放</string>
     <string name="update_available">可用更新</string>
@@ -88,13 +86,6 @@
     <string name="app_uptodate">現在是最新版本。</string>
     <string name="playback_speed">播放速度</string>
     <string name="live">直播</string>
-    <string name="legacyIcon">舊版圖示</string>
-    <string name="gradientIcon">Glib漸層</string>
-    <string name="fireIcon">時尚火焰</string>
-    <string name="torchIcon">時髦火把</string>
-    <string name="shapedIcon">不規則裁切</string>
-    <string name="flameIcon">飛馳烈焰</string>
-    <string name="birdIcon">加速鳥兒</string>
     <string name="customInstance_summary">新增…</string>
     <string name="invalid_url">請填入有效的網址</string>
     <string name="version">版本%1$s</string>
@@ -261,7 +252,6 @@
     <string name="no_search_result">無結果。</string>
     <string name="error_occurred">錯誤</string>
     <string name="copied">已複製</string>
-    <string name="defaultIconLight">預設亮色</string>
     <string name="open_copied">開啟</string>
     <string name="general">一般</string>
     <string name="playlistUrl">播放清單網址</string>
@@ -330,7 +320,6 @@
     <string name="export_subscriptions_to">匯出訂閱至</string>
     <string name="import_playlists_from">匯入播放清單</string>
     <string name="export_playlists_to">匯出播放清單</string>
-    <string name="home_tab_content">首頁分頁內容</string>
     <string name="mark_as_unwatched">標記為尚未觀看</string>
     <string name="playlist_description">播放清單描述</string>
     <string name="change_playlist_description">變更播放清單描述</string>

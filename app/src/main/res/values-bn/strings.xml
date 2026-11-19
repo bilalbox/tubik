@@ -65,7 +65,6 @@
     <string name="category_outro">ইতিকথা ও কৃতিত্ব</string>
     <string name="category_outro_summary">ভিডিওর সমাপ্তিতে উল্লেখ করা হয়েছে এমন অংশ। প্রয়োজনীয় তথ্য আছে এমন উপসংহারের জন্য অপ্রযোজ্য</string>
     <string name="material_you">ম্যাটেরিয়াল ইউ</string>
-    <string name="app_icon">আইকন</string>
     <string name="enabled">চালু</string>
     <string name="disabled">বন্ধ</string>
     <string name="playOnBackground">ব্যাকগ্রাউন্ডে প্লে করুন</string>
@@ -77,15 +76,10 @@
     <string name="advanced">অগ্রবর্তী</string>
     <string name="appearance_summary">অ্যাপটি আপনার মনমতো সাজিয়ে তুলুন</string>
     <string name="shareTo">লিংক শেয়ার করুন</string>
-    <string name="legacyIcon">হারানো লিগ্যাসি</string>
-    <string name="gradientIcon">গ্লিব গ্রেডিয়েন্ট</string>
-    <string name="fireIcon">ফ্যাশনেবল আগুন</string>
-    <string name="flameIcon">জ্বলন্ত শিখা</string>
     <string name="customInstance_summary">যোগ করুন…</string>
     <string name="invalid_url">কাজ করে এমন একটি লিংক উল্লেখ করুন</string>
     <string name="version">সংস্করণ %1$s</string>
     <string name="related_streams">সম্পর্কিত কন্টেন্ট</string>
-    <string name="birdIcon">শক্তিশালী পাখি</string>
     <string name="buffering_goal">প্রিলোডিং</string>
     <string name="buffering_goal_summary">ভিডিও বাফারিংয়ের জন্য সর্বোচ্চ সময় (সেকেন্ডে)</string>
     <string name="no_audio">কোনো অডিও নেই</string>
@@ -120,10 +114,7 @@
     <string name="player">প্লেয়ার</string>
     <string name="update_summary">আপডেট চেক করুন</string>
     <string name="live">সরাসরি</string>
-    <string name="torchIcon">ট্রেন্ডি টর্চ</string>
-    <string name="shapedIcon">কিম্ভুতকিমাকার</string>
     <string name="related_streams_summary">আপনার দেখতে থাকা ভিডিওর অনুরুপ ভিডিও প্রদর্শন করুন</string>
-    <string name="defaultIcon">ডিফল্ট</string>
     <string name="reset_message">সব সেটিংস রিসেট এবং লগ-আউট করুন\?</string>
     <string name="notgmail">এটি একটি পাইপড অ্যাকাউন্টের জন্য</string>
     <string name="noInternet">প্রথমে ইন্টারনেট চালু করুন।</string>
@@ -232,7 +223,6 @@
     <string name="time_code">সময় কোড (সেকেন্ড)</string>
     <string name="queue">কিউ</string>
     <string name="livestreams">লাইভস্ট্রিমগুলো</string>
-    <string name="defaultIconLight">ডিফল্ট লাইট</string>
     <string name="play_all">সবগুলোতে চালান</string>
     <string name="playlistCloned">প্লেলিস্ট ক্লোন করা হয়েছে</string>
     <string name="time">সময়</string>

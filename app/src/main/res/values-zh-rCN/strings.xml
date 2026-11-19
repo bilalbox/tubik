@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">通知</string>
     <string name="enabled">开</string>
     <string name="disabled">关</string>
-    <string name="app_icon">图标</string>
     <string name="playOnBackground">后台播放</string>
     <string name="update_available">更新可用</string>
     <string name="update_summary">检查更新</string>
@@ -99,13 +98,6 @@
     <string name="appearance_summary">根据您自己的喜好调整应用程序</string>
     <string name="app_uptodate">正在使用最新的版本。</string>
     <string name="live">直播</string>
-    <string name="defaultIcon">默认</string>
-    <string name="shapedIcon">简约图形</string>
-    <string name="flameIcon">飞舞的火焰</string>
-    <string name="birdIcon">小鸟</string>
-    <string name="gradientIcon">渐变</string>
-    <string name="torchIcon">时尚火炬</string>
-    <string name="fireIcon">简约火焰</string>
     <string name="invalid_url">请输入有效的URL</string>
     <string name="related_streams">相关内容</string>
     <string name="related_streams_summary">在您观看的内容旁边显示相似的影音流</string>
@@ -115,7 +107,6 @@
     <string name="buffering_goal_summary">缓冲视频的最长时间</string>
     <string name="no_audio">没有音频</string>
     <string name="no_video">没有视频</string>
-    <string name="legacyIcon">遗失的遗产</string>
     <string name="shareTo">分享链接到</string>
     <string name="category_filler">填充 切线/笑话</string>
     <string name="category_filler_summary">对于只为填充或幽默而添加的切身场景，不需要理解视频的主要内容</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">已添加到播放列表 %1$s</string>
     <string name="queue">队列</string>
     <string name="livestreams">直播</string>
-    <string name="defaultIconLight">默认浅色</string>
     <string name="playlistCloned">已复制播放列表</string>
     <string name="play_all">播放全部</string>
     <string name="time">时间</string>
@@ -330,7 +320,6 @@
     <string name="export_subscriptions_to">将订阅导出到</string>
     <string name="import_playlists_from">自以下位置导入播放列表</string>
     <string name="export_playlists_to">将播放列表导出到</string>
-    <string name="home_tab_content">首页内容</string>
     <string name="mark_as_unwatched">标记为尚未观看</string>
     <string name="change_playlist_description">更改播放列表描述</string>
     <string name="playlist_description">播放列表描述</string>

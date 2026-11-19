@@ -1,10 +1,8 @@
 package com.github.libretube.ui.models
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.libretube.api.MediaServiceRepository
 import com.github.libretube.api.PlaylistsHelper
 import com.github.libretube.api.TrendingCategory
 import com.github.libretube.api.obj.Playlists
@@ -56,9 +54,7 @@ class HomeViewModel : ViewModel() {
     private var loadHomeJob: Job? = null
 
     fun loadHomeFeed(
-        context: Context,
         subscriptionsViewModel: SubscriptionsViewModel,
-        visibleItems: Set<String>,
         onUnusualLoadTime: () -> Unit,
     ) {
         isLoading.value = true
@@ -67,10 +63,10 @@ class HomeViewModel : ViewModel() {
         loadHomeJob = viewModelScope.launch {
             val result = async {
                 awaitAll(
-                    async { if (visibleItems.contains(FEATURED)) loadFeed(subscriptionsViewModel) },
-                    async { if (visibleItems.contains(BOOKMARKS)) loadBookmarks() },
-                    async { if (visibleItems.contains(PLAYLISTS)) loadPlaylists() },
-                    async { if (visibleItems.contains(WATCHING)) loadVideosToContinueWatching() },
+                    async { loadFeed(subscriptionsViewModel) },
+                    async { loadBookmarks() },
+                    async { loadPlaylists() },
+                    async { loadVideosToContinueWatching() },
                 )
                 loadedSuccessfully.value = sections.any { it.value != null }
                 isLoading.value = false
@@ -83,30 +79,6 @@ class HomeViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    private suspend fun loadTrending(context: Context) {
-        val region = PreferenceHelper.getTrendingRegion(context)
-        val category =
-            PreferenceHelper.getString(
-                    PreferenceKeys.TRENDING_CATEGORY,
-                    TrendingCategory.GAMING.name,
-                )
-                .let { TrendingCategory.valueOf(it) }
-
-        runSafely(
-            onSuccess = { videos ->
-                trending.updateIfChanged(
-                    Pair(
-                        category,
-                        TrendsViewModel.TrendingStreams(region, videos),
-                    ),
-                )
-            },
-            ioBlock = {
-                MediaServiceRepository.instance.getTrending(region, category)
-            },
-        )
     }
 
     private suspend fun loadFeed(subscriptionsViewModel: SubscriptionsViewModel) {
@@ -165,10 +137,5 @@ class HomeViewModel : ViewModel() {
 
     companion object {
         private const val UNUSUAL_LOAD_TIME_MS = 10000L
-        private const val FEATURED = "featured"
-        private const val WATCHING = "watching"
-        private const val TRENDING = "trending"
-        private const val BOOKMARKS = "bookmarks"
-        private const val PLAYLISTS = "playlists"
     }
 }

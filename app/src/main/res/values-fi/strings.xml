@@ -50,7 +50,6 @@
     <string name="settings">Asetukset</string>
     <string name="instance">Instanssi</string>
     <string name="website">Verkkosivusto</string>
-    <string name="app_icon">Kuvake</string>
     <string name="enabled">Päällä</string>
     <string name="disabled">Pois päältä</string>
     <string name="channels">Kanavat</string>
@@ -87,7 +86,6 @@
     <string name="music_songs">YT Music Kappaleet</string>
     <string name="music_videos">YT Music Videot</string>
     <string name="category_sponsor_summary">Maksettu mainostaminen, maksetut vittaukset ja suorat mainokset. Ei itsensä mainostamiselle tai ilmaisille maininnoille kampanjoista, luojista, sivustoista ja tuotteista</string>
-    <string name="defaultIcon">Oletus</string>
     <string name="sponsorblock_summary">Käyttää https://sponsor.ajay.app ohjelmointirajapintaa</string>
     <string name="category_intro_summary">Aikaväli ilman mitään todellista sisältöä. Voi olla tauko, staattinen freimi tai toistuva animaatio. Ei tule käyttää siirroksiin, jotka sisältävät tietoa</string>
     <string name="category_interaction_summary">Kun on lyhyt muistutus tykätä, tilata tai seurata sisällön keskellä. Jos se on pitkä tai jotain erityistä, sen tulisi olla itsensä mainostamista</string>
@@ -95,8 +93,6 @@
     <string name="color_accent">Aksentit</string>
     <string name="category_outro_summary">Tiedot lopun jälkeen. Ei johtopäätöksille, jotka sisältävät tietoa</string>
     <string name="material_you">Material You</string>
-    <string name="torchIcon">Trendikäs soihtu</string>
-    <string name="fireIcon">Muodikas tuli</string>
     <string name="music_albums">YT Music Albumit</string>
     <string name="category_filler">Täytesisältö/Vitsit</string>
     <string name="category_music_offtopic">Musiikki: Ei musiikkiosio</string>
@@ -111,13 +107,8 @@
     <string name="update_summary">Tarkista päivitykset</string>
     <string name="player">Toistin</string>
     <string name="shareTo">Jaa linkki kohteeseen</string>
-    <string name="legacyIcon">Kadotettu perintö</string>
-    <string name="shapedIcon">Hölmösti muotoiltu</string>
-    <string name="flameIcon">Lentävä liekki</string>
     <string name="customInstance_summary">Lisää…</string>
     <string name="version">Versio %1$s</string>
-    <string name="gradientIcon">Lipevä liukuväri</string>
-    <string name="birdIcon">Tehostettu lintu</string>
     <string name="invalid_url">Anna toimiva linkki</string>
     <string name="related_streams">Asiaan liittyvä sisältö</string>
     <string name="related_streams_summary">Näytä samankaltaisia streameja katsomasi ohella</string>
@@ -301,7 +292,6 @@
     <string name="required_network">Vaadittu yhteys</string>
     <string name="network_all">Kaikki</string>
     <string name="livestreams">Suorat lähetykset</string>
-    <string name="defaultIconLight">Oletus vaalea</string>
     <string name="category">Kategoria</string>
     <string name="clear_bookmarks">Tyhjennä kirjanmerkit</string>
     <string name="new_group">Uusi</string>
@@ -408,7 +398,6 @@
     <string name="export_subscriptions_to">Vie tilaukset kohteeseen</string>
     <string name="import_playlists_from">Tuo soittolistat kohteesta</string>
     <string name="export_playlists_to">Vie soittolistat kohteeseen</string>
-    <string name="home_tab_content">Koti-välilehden sisältö</string>
     <string name="mark_as_unwatched">Merkitse katsomattomaksi</string>
     <string name="change_playlist_description">Muuta soittolistan kuvausta</string>
     <string name="show_search_suggestions">Näytä hakuehdotukset</string>

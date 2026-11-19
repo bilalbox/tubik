@@ -103,7 +103,6 @@
     <string name="color_purple">বেঙুনীয়া</string>
     <string name="material_you">মেটেৰিয়েল ইউ</string>
     <string name="sponsorblock_notifications">জাননী</string>
-    <string name="app_icon">আইকন</string>
     <string name="enabled">চালু</string>
     <string name="disabled">নিষ্ক্ৰিয়</string>
     <string name="playOnBackground">পটভূমিত চলাওক</string>
@@ -120,14 +119,6 @@
     <string name="upcoming">আগন্তুক</string>
     <string name="shareTo">URL ভাগ-বতৰা কৰক</string>
     <string name="normal_views">%1$s দৰ্শন%2$s</string>
-    <string name="defaultIcon">মূল</string>
-    <string name="legacyIcon">লষ্ট লিগেচি</string>
-    <string name="gradientIcon">গ্লিব গ্ৰেডিয়েণ্ট</string>
-    <string name="fireIcon">ফেশ্বনেবল ফায়াৰ</string>
-    <string name="torchIcon">ট্ৰেণ্ডি টৰ্চ</string>
-    <string name="shapedIcon">চিলি শ্বেপড</string>
-    <string name="flameIcon">ফ্লাইং ফ্লেম</string>
-    <string name="birdIcon">বুষ্টেড বাৰ্ড</string>
     <string name="customInstance_summary">যোগ কৰক…</string>
     <string name="invalid_url">বৈধ URL দিয়ক</string>
     <string name="version">সংস্কৰণ %1$s</string>
@@ -264,7 +255,6 @@
     <string name="color">ৰং</string>
     <string name="invalid_color">অবৈধ ৰংৰ মান দিয়া হৈছে!</string>
     <string name="livestreams">লাইভষ্ট্ৰীম</string>
-    <string name="defaultIconLight">মূল পোহৰ</string>
     <string name="playlistCloned">প্লেলিষ্ট ক্ল’ন কৰা হৈছে</string>
     <string name="play_all">সকলো চলাওক</string>
     <string name="time">সময়</string>
@@ -393,7 +383,6 @@
     <string name="import_playlists_from">প্লেলিষ্ট আমদানিৰ উৎস</string>
     <string name="export_playlists_to">প্লেলিষ্ট এক্সপ’ৰ্টৰ গন্তব্য</string>
     <string name="import_format_list_of_urls">URL বা ভিডিঅ’ আইডিৰ তালিকা</string>
-    <string name="home_tab_content">মুখ্যপৃষ্ঠাৰ টেবৰ সামগ্ৰী</string>
     <string name="show_search_suggestions">সন্ধানৰ পৰামৰ্শ দেখুৱাওক</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="unknown_audio_language">অজ্ঞাত অডিঅ’ ভাষা</string>

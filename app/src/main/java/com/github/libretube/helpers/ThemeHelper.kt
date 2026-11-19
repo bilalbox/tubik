@@ -1,9 +1,7 @@
 package com.github.libretube.helpers
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.text.Spanned
@@ -12,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.libretube.R
 import com.github.libretube.constants.PreferenceKeys
-import com.github.libretube.ui.adapters.IconsSheetAdapter
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
 
@@ -64,32 +61,6 @@ object ThemeHelper {
             "D" -> AppCompatDelegate.MODE_NIGHT_YES
             else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
-    }
-
-    /** change the app icon */
-    fun changeIcon(context: Context, newLogoActivityAlias: String) {
-        // Disable Old Icon(s)
-        for (appIcon in IconsSheetAdapter.availableIcons) {
-            val activityClass =
-                context.packageName.removeSuffix(".debug") + "." + appIcon.activityAlias
-
-            // remove old icons
-            context.packageManager.setComponentEnabledSetting(
-                ComponentName(context.packageName, activityClass),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP,
-            )
-        }
-
-        // set the class name for the activity alias
-        val newLogoActivityClass =
-            context.packageName.removeSuffix(".debug") + "." + newLogoActivityAlias
-        // Enable New Icon
-        context.packageManager.setComponentEnabledSetting(
-            ComponentName(context.packageName, newLogoActivityClass),
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP,
-        )
     }
 
     /** Get a color by a color resource attr */

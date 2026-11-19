@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_icon">Іконка</string>
     <string name="playOnBackground">Відтворювати у фоновому режимі</string>
     <string name="server_error">Схоже, виникла проблема з вибраним сервером. Спробуйте інший приклад.</string>
     <string name="share">Поділитися</string>
@@ -98,18 +97,10 @@
     <string name="appearance_summary">Змініть застосунок, так, як вам до вподоби</string>
     <string name="live">Трансляція</string>
     <string name="advanced">Розширені</string>
-    <string name="defaultIcon">За замовчуванням</string>
-    <string name="legacyIcon">Втрачений спадок</string>
-    <string name="gradientIcon">Плавний градієнт</string>
-    <string name="flameIcon">Летючий вогонь</string>
-    <string name="birdIcon">Посилений птах</string>
     <string name="category_filler">Катсцени/Жарти</string>
     <string name="category_filler_summary">Для побічних сцен, доданих лише для наповнювача або гумору, не обов\'язкових для розуміння основного змісту відео</string>
     <string name="category_music_offtopic">Музика: Немузичний розділ</string>
     <string name="category_preview">Перед огляд/Короткий огляд</string>
-    <string name="fireIcon">Гарний вогонь</string>
-    <string name="torchIcon">Популярний факел</string>
-    <string name="shapedIcon">Безглузда форма</string>
     <string name="category_music_offtopic_summary">Тільки для використання у музичних кліпах. Він повинен охоплювати частини відео, а не частину офіційних міксів. Зрештою, відео має максимально нагадувати Spotify або будь-яку іншу версію або зменшувати розмови чи інші відволікання</string>
     <string name="category_preview_summary">Для сегментів із детальним описом майбутнього вмісту без додаткової інформації. Якщо вона включає кліпи, які з’являються лише тут, це, швидше за все, неправильна категорія</string>
     <string name="appearance">Зовнішній вигляд</string>
@@ -232,7 +223,6 @@
     <string name="added_to_playlist">Додано в добірку %1$s</string>
     <string name="queue">Черга</string>
     <string name="livestreams">Прямі трансляції</string>
-    <string name="defaultIconLight">Звичайна світла</string>
     <string name="playlistCloned">Добірку клоновано</string>
     <string name="play_all">Відтворити все</string>
     <string name="notification_time_summary">Обмежте проміжок часу, впродовж якого показуються сповіщення про трансляції</string>
@@ -333,7 +323,6 @@
     <string name="import_subscriptions_from">Імпорт підписок із</string>
     <string name="import_playlists_from">Імпорт списків відтворення з</string>
     <string name="export_playlists_to">Експорт списків відтворення в</string>
-    <string name="home_tab_content">Вміст головної вкладки</string>
     <string name="mark_as_unwatched">Позначити як непереглянуте</string>
     <string name="change_playlist_description">Змінити опис добірки</string>
     <string name="emptyPlaylistDescription">Опис добірки обов\'язковий</string>

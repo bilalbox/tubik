@@ -104,7 +104,6 @@
     <string name="color_purple">Porpra agradable</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Notificacions</string>
-    <string name="app_icon">Icona</string>
     <string name="enabled">Activat</string>
     <string name="disabled">Desactivat</string>
     <string name="playOnBackground">Reprodueix en segon pla</string>
@@ -112,19 +111,11 @@
     <string name="appearance">Aparença</string>
     <string name="downloads">Descàrregues</string>
     <string name="shareTo">Comparteix l\'URL a</string>
-    <string name="defaultIcon">Predefinit</string>
-    <string name="legacyIcon">Antic</string>
-    <string name="gradientIcon">Difuminat</string>
-    <string name="fireIcon">Foc modern</string>
     <string name="update_summary">Cercar actualitzacions</string>
     <string name="app_uptodate">Ja tens l\'última versió.</string>
     <string name="player">Reproductor</string>
     <string name="appearance_summary">Ajusteu l\'aplicació al vostre gust</string>
     <string name="live">En directe</string>
-    <string name="torchIcon">Torxa</string>
-    <string name="shapedIcon">Forma ximple</string>
-    <string name="flameIcon">Flama viva</string>
-    <string name="birdIcon">Ocell</string>
     <string name="invalid_url">Introduïu un URL que funcioni</string>
     <string name="behavior">Comportament</string>
     <string name="subscriberAndVideoCounts">%1$s subscriptors • %2$d vídeos</string>
@@ -268,9 +259,7 @@
     <string name="tooltip_fullscreen">Pantalla completa</string>
     <string name="tooltip_close">Tanca</string>
     <string name="sort_by">Ordena per</string>
-    <string name="home_tab_content">Contingut de la pestanya d\'inici</string>
     <string name="duration_span">Durada: %1$s</string>
-    <string name="defaultIconLight">Llum per defecte</string>
     <string name="livestreams">Transmissions en viu</string>
     <string name="start_time">Hora d\'inici</string>
     <string name="layout">Disseny</string>

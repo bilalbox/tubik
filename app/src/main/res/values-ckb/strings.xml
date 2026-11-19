@@ -52,7 +52,6 @@
     <string name="category_intro">ناساندن/کورتەی جوڵاو</string>
     <string name="shareTo">ناردنی ناونیشان بۆ</string>
     <string name="playOnBackground">لێدان لە پشت شاشە</string>
-    <string name="defaultIcon">بنەڕەتی</string>
     <string name="customization">دەستکاریکردن</string>
     <string name="noInternet">سەرەتا پێویستە پەیوەستی ئینتەرنێت بیت.</string>
     <string name="category_selfpromo_summary">هاوشێوەی \"سپۆنسەر\" بەڵام بەبێ پارەدان بۆ خۆ بەرزکردنەوە، ئەمەش بەشەکانی کاڵا، بەخشین، یان زانیاری دەربارەی ئەوەی کە کێ هاوکاری کردوون دەگرێتەوە</string>
@@ -64,13 +63,8 @@
     <string name="color_yellow">زەرد</string>
     <string name="color_blue">شین</string>
     <string name="color_green">سەوز</string>
-    <string name="legacyIcon">ئایکۆنی ١</string>
     <string name="license">مۆڵەت</string>
     <string name="invalid_url">تکایە ناونیشناێک بنووسە کە کار بکات</string>
-    <string name="gradientIcon">ئایکۆنی ٢</string>
-    <string name="torchIcon">ئایکۆنی ٤</string>
-    <string name="flameIcon">ئایکۆنی ٦</string>
-    <string name="birdIcon">ئایکۆنی ٧</string>
     <string name="related_streams_summary">پیشاندانی ناوەڕۆکە هاوشێوەکان لەکاتی سەیرکردندا</string>
     <string name="player_summary">فرمانە بنەڕەتییەکان</string>
     <string name="customInstance_summary">زیادکردن…</string>
@@ -79,7 +73,6 @@
     <string name="category_filler_summary">ڕێگریکردن لەو دیمەنانەی کە بۆ گاڵتەجاری یان بۆ خۆشی دانراوە، وەک گاڵتە پێکردن و نوکتەی ناپێویست نییە کە هیچ پەیوەندی بە ناوەڕۆکی سەرەکی ڤیدیۆکەوە نییە</string>
     <string name="category_music_offtopic_summary">تەنها بۆ بەکارهێنان لە کلیپەکاندا، پێویستە بەشێک لە ڤیدیۆکە بگرێتەوە نەک بەشی سەرەکی تێکەڵکردنی بنەڕەتی، لە کۆتاییدا پێویستە ڤیدیۆکە تا دەتوانرێت لە سپۆتیفای یان هەر وەشانی تێکەڵاوی تر بچێت، بەدەر لە قسەکردن یان سەرقاڵکردن</string>
     <string name="sponsorblock_notifications">ئاگادارکردنەوەکان</string>
-    <string name="app_icon">ئایکۆن</string>
     <string name="disabled">نا چالاک</string>
     <string name="update_summary">گەڕان بۆ نوێکردنەوە</string>
     <string name="app_uptodate">ئەمە نوێترین وەشانی بەرنامەکەیە.</string>
@@ -137,8 +130,6 @@
     <string name="material_you">ماتریاڵی نوێ</string>
     <string name="enabled">چالاک</string>
     <string name="normal_views">%1$s بینین%2$s</string>
-    <string name="fireIcon">ئایکۆنی ٣</string>
-    <string name="shapedIcon">ئایکۆنی ٥</string>
     <string name="version">وەشانی %1$s</string>
     <string name="related_streams">بابەتی هاوشێوە</string>
     <string name="buffering_goal">ماوەی چاوەڕوانی</string>
@@ -285,7 +276,6 @@
     <string name="hide_watched_from_feed">شاردنەوەی ڤیدیۆ بینراوەکان</string>
     <string name="faq">کراوە بە کوردی لەلایەن: گۆران غەریب</string>
     <string name="playing_next">ڤیدیۆیی دواتر لێدەدەرێت لەدوای %1$s</string>
-    <string name="defaultIconLight">سپی</string>
     <string name="category">بەشەکان</string>
     <string name="download_channel_name">خزمەتگوزاری دابەزاندن</string>
     <string name="push_channel_name">شێوازی ئاگادارکردنەوە</string>
@@ -328,7 +318,6 @@
     <string name="alphabetic">ئەلفبێ</string>
     <string name="alphabetic_reversed">ئەلفبێ (پێچەوانە)</string>
     <string name="mark_as_unwatched">نیشانەکردن وەک نەبینراو</string>
-    <string name="home_tab_content">بابەتەکانی سەرەتا</string>
     <string name="change_playlist_description">گۆڕینی زانیاری لیستی لێدان</string>
     <string name="playlist_description">زانیاری لیستی لێدان</string>
     <string name="emptyPlaylistDescription">زانیاری لیستی لێدان نابێ بەتاڵ بێت</string>

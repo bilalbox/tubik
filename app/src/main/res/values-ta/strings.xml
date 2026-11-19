@@ -31,9 +31,6 @@
     <string name="appearance">தோற்றம்</string>
     <string name="appearance_summary">உங்கள் விருப்பப்படி பயன்பாட்டை சரிசெய்யவும்</string>
     <string name="normal_views">%1$s காட்சிகள்%2$s</string>
-    <string name="defaultIcon">இயல்புநிலை</string>
-    <string name="fireIcon">நாகரீகமான தீ</string>
-    <string name="torchIcon">நவநாகரீக டார்ச்</string>
     <string name="no_subtitle">வசன வரிகள் இல்லை</string>
     <string name="audio">ஆடியோ</string>
     <string name="pause">இடைநிறுத்தம்</string>
@@ -97,7 +94,6 @@
     <string name="color_purple">மகிழ்ச்சிகரமான ஊதா</string>
     <string name="material_you">பொருள் நீங்கள்</string>
     <string name="sponsorblock_notifications">அறிவிப்புகள்</string>
-    <string name="app_icon">படவுரு</string>
     <string name="playOnBackground">பின்னணியில் விளையாடுங்கள்</string>
     <string name="update_available">புதுப்பிப்பு கிடைக்கிறது</string>
     <string name="update_summary">புதுப்பிப்புக்கு சரிபார்க்கவும்</string>
@@ -106,7 +102,6 @@
     <string name="live">வாழ</string>
     <string name="upcoming">வரவிருக்கும்</string>
     <string name="shareTo">முகவரி ஐ பகிரவும்</string>
-    <string name="legacyIcon">இழந்த மரபு</string>
     <string name="customInstance_summary">சேர்க்கவும்…</string>
     <string name="invalid_url">வேலை செய்யும் முகவரி ஐ உள்ளிடவும்</string>
     <string name="version">பதிப்பு %1$s</string>
@@ -153,7 +148,6 @@
     <string name="new_videos_badge_summary">சில இருந்தால் புதிய வீடியோக்களின் அளவைக் கொண்டு பேட்சைக் காட்டு</string>
     <string name="navigation_bar">வழிசெலுத்தல் பட்டி</string>
     <string name="livestreams">லைவ்ச்ட்ரீம்கள்</string>
-    <string name="defaultIconLight">இயல்புநிலை ஒளி</string>
     <string name="playlistCloned">பிளேலிச்ட் நகலி</string>
     <string name="play_all">அனைத்தையும் விளையாடுங்கள்</string>
     <string name="start_time">தொடக்க நேரம்</string>
@@ -251,7 +245,6 @@
     <string name="category_outro">அட்டைகள் மற்றும் வரவுகளை இறுதி</string>
     <string name="category_highlight">வீடியோ சிறப்பம்சத்தைக் காட்டு</string>
     <string name="license">உரிமம்</string>
-    <string name="gradientIcon">கிளிப் சாய்வு</string>
     <string name="related_streams_summary">நீங்கள் பார்ப்பதைக் கொண்டு ஒத்த நீரோடைகளைக் காட்டுங்கள்</string>
     <string name="buffering_goal">முன்பே ஏற்றுதல்</string>
     <string name="quality">தகுதி</string>
@@ -274,7 +267,6 @@
     <string name="player_channel_description">விளையாடும்போது அறிவிப்பைக் காட்டுகிறது</string>
     <string name="tooltip_sponsorblock">ஒப்புரவாளர் பிளாக் மாற்று</string>
     <string name="category_selfpromo">செலுத்தப்படாத/சுய பதவி உயர்வு</string>
-    <string name="birdIcon">பறவை உயர்த்தப்பட்டது</string>
     <string name="pauseOnScreenOff">சுய-சரிவு</string>
     <string name="title">தலைப்பு</string>
     <string name="creation_date_reversed">உருவாக்கும் தேதி (தலைகீழ்)</string>
@@ -325,7 +317,6 @@
     <string name="default_language">இயல்புநிலை</string>
     <string name="external_player">வெளிப்புற பிளேயர்</string>
     <string name="import_playlists_from">இருந்து பிளேலிச்ட்களை இறக்குமதி செய்யுங்கள்</string>
-    <string name="home_tab_content">முகப்பு தாவல் உள்ளடக்கம்</string>
     <string name="show_search_suggestions">தேடல் பரிந்துரைகளைக் காட்டு</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="unknown_audio_language">தெரியாத ஆடியோ மொழி</string>
@@ -447,8 +438,6 @@
     <string name="no_audio">ஆடியோ இல்லை</string>
     <string name="play_automatically">தானாக விளையாடுங்கள்</string>
     <string name="crashlog">ரெட்லாக்</string>
-    <string name="shapedIcon">வேடிக்கையான வடிவம்</string>
-    <string name="flameIcon">பறக்கும் சுடர்</string>
     <string name="auth_instance_summary">அங்கீகரிக்கப்பட்ட அழைப்புகளுக்கு வேறு நிகழ்வைப் பயன்படுத்தவும்</string>
     <string name="network_metered">அளவிடப்பட்ட</string>
     <string name="background_mode">பின்னணி முறை</string>

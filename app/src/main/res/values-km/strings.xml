@@ -32,7 +32,6 @@
     <string name="downloads">ទាញយក</string>
     <string name="defres">កម្រិតបង្ហាញវីដេអូ</string>
     <string name="material_you">សំភារៈអ្នក</string>
-    <string name="app_icon">អាយខន</string>
     <string name="server_error">វាហាក់ដូចជាមានបញ្ហាជាមួយសេវូបករណ៍ ដែលបានជ្រើស។ សាកល្បងឧទាហរណ៍ផ្សេងទៀត។</string>
     <string name="yes">បាទ/ចាស</string>
     <string name="channels">ឆាណែល</string>
@@ -102,7 +101,6 @@
     <string name="notify_new_streams">បង្ហាញការជូនដំណឹងសម្រាប់ស្ទ្រីមថ្មី</string>
     <string name="least_views">មើលតិចបំផុត</string>
     <string name="shareTo">ចែករំលែក URL ទៅ</string>
-    <string name="birdIcon">បក្សីដែលបានជំរុញ</string>
     <string name="appearance_summary">កែតម្រូវកម្មវិធីតាមការចូលចិត្តរបស់អ្នក</string>
     <string name="no_audio">គ្មានភ្លេង</string>
     <string name="pure_theme_summary">ស្បែកស/ខ្មៅសុទ្ធ</string>
@@ -132,8 +130,6 @@
     <string name="restore">ស្ដារឡើងវិញ</string>
     <string name="none">គ្មាន</string>
     <string name="buffering_goal_summary">ចំនួនវិនាទីអតិបរមានៃវីដេអូ ដើម្បីបាហ្វ័រ</string>
-    <string name="torchIcon">ពិលទាន់សម័យ</string>
-    <string name="defaultIcon">បុរេជម្រើស</string>
     <string name="chapters">ជំពូក</string>
     <string name="resume">ចាក់បន្ត</string>
     <string name="advanced">កម្រិតខ្ពស់</string>
@@ -171,8 +167,6 @@
     <string name="player_autoplay">ស្វ័យចាក់</string>
     <string name="related_streams_summary">បង្ហាញស្ទ្រីមស្រដៀងគ្នាជាមួយនឹងអ្វីដែលអ្នកមើល</string>
     <string name="landscape">ផ្ដេក</string>
-    <string name="shapedIcon">រាងឆ្កួត</string>
-    <string name="legacyIcon">កេរ្តិ៍ដំណែលបាត់បង់</string>
     <string name="background_mode">របៀបផ្ទៃខាងក្រោយ</string>
     <string name="least_recent">ចាស់បំផុត</string>
     <string name="open">បើក…</string>
@@ -182,7 +176,6 @@
     <string name="player_summary">បុរេជម្រើស និងឥរិយាបថ</string>
     <string name="auth_instance_summary">ប្រើតាមឧបមាផ្សេងសម្រាប់ហៅយថាភូតកម្ម។</string>
     <string name="require_restart">តម្រូវឱ្យរីស្តាតកម្មវិធី</string>
-    <string name="gradientIcon">ជម្រាល</string>
     <string name="most_views">ពេញនិយមមើល</string>
     <string name="video">វីដេអូ</string>
     <string name="clonePlaylist">ក្លូនកម្រងវីដេអូ</string>
@@ -193,13 +186,11 @@
     <string name="worst_quality">អាក្រក់បំផុត</string>
     <string name="general_summary">ភាសា និងតំបន់</string>
     <string name="player">ការីចាក់</string>
-    <string name="flameIcon">អណ្តាតភ្លើងហោះ</string>
     <string name="playerAudioQuality">គុណភាពអូឌីយោ</string>
     <string name="seek_increment">ការបង្កើនស្វែងរក</string>
     <string name="audio">អូឌីយោ</string>
     <string name="pauseOnScreenOff_summary">ផ្អាកការចាក់សារថ្មី ខណៈអេក្រង់រលត់បិទ</string>
     <string name="watch_positions">ចងចាំទីតាំង</string>
-    <string name="fireIcon">ភ្លើងទាន់សម័យ</string>
     <string name="player_resize_mode">ម៉ូតប្ដូរទំហំ</string>
     <string name="renamePlaylist">ប្ដូរឈ្មោះបញ្ជីចាក់</string>
     <string name="copied_to_clipboard">បានចម្លងទៅក្ដារតម្រៀប</string>

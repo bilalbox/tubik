@@ -86,7 +86,6 @@
     <string name="sponsorblock_notifications">알림</string>
     <string name="enabled">켬</string>
     <string name="disabled">끔</string>
-    <string name="app_icon">아이콘</string>
     <string name="playOnBackground">백그라운드에서 재생</string>
     <string name="appearance_summary">원하는 대로 앱을 조정하세요</string>
     <string name="update_available">업데이트 가능</string>
@@ -99,7 +98,6 @@
     <string name="player">플레이어</string>
     <string name="live">실시간</string>
     <string name="shareTo">URL 공유</string>
-    <string name="defaultIcon">기본</string>
     <string name="customInstance_summary">추가…</string>
     <string name="invalid_url">작동하는 URL을 입력하세요</string>
     <string name="related_streams">관련된 컨텐츠</string>
@@ -111,13 +109,8 @@
     <string name="category_music_offtopic_summary">뮤직 비디오에서만 사용합니다. 영상 중 공식 음원에 포함되지 않은 부분이 해당합니다. 최종적으로 영상은 Spotify 또는 기타 믹스와 최대한 유사하거나, 대화 또는 기타 방해 요소를 줄여야 합니다</string>
     <string name="buffering_goal_summary">최대 버퍼링할 비디오의 시간(초)입니다</string>
     <string name="buffering_goal">사전 로딩</string>
-    <string name="legacyIcon">잃어버린 유산</string>
-    <string name="torchIcon">세련된 등불</string>
-    <string name="fireIcon">멋진 불</string>
     <string name="category_filler">사족/농담</string>
     <string name="category_filler_summary">분량을 채우기 위한 사족 씬이나 동영상의 메인 컨텐츠를 이해하는데 필요하지 않은 유머가 해당됩니다</string>
-    <string name="birdIcon">돌진하는 새</string>
-    <string name="flameIcon">휘날리는 화염</string>
     <string name="reset">기본값 복원</string>
     <string name="reset_message">모든 설정을 초기화하고 로그아웃하시겠습니까?</string>
     <string name="no_audio">오디오 없음</string>
@@ -234,12 +227,9 @@
     <string name="notification_time">알림 시간 제한</string>
     <string name="end_time">종료 시간</string>
     <string name="livestreams">라이브 방송</string>
-    <string name="defaultIconLight">기본 조명</string>
     <string name="time_code">시간 코드(초)</string>
     <string name="local_playlists">기기 재생목록</string>
-    <string name="shapedIcon">웃긴 모양</string>
     <string name="captions_size">캡션 크기</string>
-    <string name="gradientIcon">Glib 기울기</string>
     <string name="open">열기…</string>
     <string name="seek_increment">건너뛰기</string>
     <string name="backup_restore_summary">구독, 재생 목록 가져오기 및 내보내기, …</string>
@@ -415,7 +405,6 @@
     <string name="grid_landscape">격자 열 (가로)</string>
     <string name="duration_reversed">길이 (반전됨)</string>
     <string name="export_playlists_to">다음으로 재생목록 내보내기</string>
-    <string name="home_tab_content">홈 탭 콘텐츠</string>
     <string name="audio_track_format">%1$s - %2$s</string>
     <string name="tooltip_create_playlist">재생목록 만들기</string>
     <string name="tooltip_scroll_to_top">맨 위로 스크롤</string>

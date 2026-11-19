@@ -98,10 +98,6 @@
     <string name="least_views">Legkevesebb megtekintés</string>
     <string name="shareTo">Webcím megosztása ide</string>
     <string name="playOnBackground">Lejátszás a háttérben</string>
-    <string name="defaultIcon">Alapértelmezett</string>
-    <string name="gradientIcon">Sima átmenet</string>
-    <string name="fireIcon">Divatos tűz</string>
-    <string name="torchIcon">Trendi fáklya</string>
     <string name="network_metered">Forgalomkorlátos</string>
     <string name="version">Verzió: %1$s</string>
     <string name="error_occurred">Hiba</string>
@@ -134,10 +130,6 @@
     <string name="player">Lejátszó</string>
     <string name="appearance_summary">Szabja személyre az alkalmazást a kedve szerint</string>
     <string name="live">Élő</string>
-    <string name="legacyIcon">Elveszett örökség</string>
-    <string name="shapedIcon">Hülye alakú</string>
-    <string name="flameIcon">Repülő láng</string>
-    <string name="birdIcon">Felgyorsított madár</string>
     <string name="buffering_goal">Előtöltés</string>
     <string name="video">Videó</string>
     <string name="player_autoplay">Automatikus lejátszás</string>
@@ -193,7 +185,6 @@
     <string name="caption_settings">Feliratok</string>
     <string name="playerAudioQuality">Hangminőség</string>
     <string name="update_available">Frissítés érhető el</string>
-    <string name="app_icon">Ikon</string>
     <string name="downloads">Letöltések</string>
     <string name="network_wifi">Csak Wi-Fi</string>
     <string name="update_summary">Frissítések ellenőrzése</string>
@@ -232,7 +223,6 @@
     <string name="time_code">Időkód (másodperc)</string>
     <string name="queue">Várólista</string>
     <string name="livestreams">Élő közvetítések</string>
-    <string name="defaultIconLight">Alapértelmezett világos</string>
     <string name="playlistCloned">Lejátszási lista klónozva</string>
     <string name="play_all">Összes lejátszása</string>
     <string name="time">Idő</string>
@@ -332,7 +322,6 @@
     <string name="import_playlists_from">Lejátszási listák importálása innen</string>
     <string name="export_playlists_to">Lejátszási listák exportálása ide</string>
     <string name="mark_as_unwatched">Megjelölés nem megtekintettnek</string>
-    <string name="home_tab_content">Kezdőlap tartalma</string>
     <string name="stop">Leállítás</string>
     <string name="change_playlist_description">Lejátszási lista leírásának módosítása</string>
     <string name="playlist_description">Lejátszási lista leírása</string>

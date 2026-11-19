@@ -93,7 +93,6 @@
     <string name="color_purple">Meeldiv lilla</string>
     <string name="material_you">Material You</string>
     <string name="sponsorblock_notifications">Teavitused</string>
-    <string name="app_icon">Ikoon</string>
     <string name="enabled">Sisse lülitatud</string>
     <string name="disabled">Välja lülitatud</string>
     <string name="advanced">Lisaseadistused</string>
@@ -102,7 +101,6 @@
     <string name="normal_views">%1$s vaatamist%2$s</string>
     <string name="live">Otseeeter</string>
     <string name="shareTo">Jaga URL\'i</string>
-    <string name="defaultIcon">Vaikimisi</string>
     <string name="category_intro_summary">Vahelõik ilma tegeliku sisuta. Võib olla paus, staatiline vahekaader või korduv vaheklipp. Seda ei peaks kasutama vaheklippideks, kus on tegelikku sisu</string>
     <string name="category_interaction">Suhtluse meeldetuletus</string>
     <string name="category_intro">Vahelõik või sissejuhatus</string>
@@ -137,15 +135,8 @@
     <string name="category_interaction_summary">Lühike meeldetuletus video keskel tema meeldivaks märkimiseks või kanali tellimiseks. Kui meeldetuletus on pikem või midagi täpsemat, siis ta peaks olema märgitud enesereklaamiks</string>
     <string name="category_outro">Lõpukaadrid ja -tiitrid</string>
     <string name="category_outro_summary">Teave peale sisu lõppemist. Ei sisalda järeldusi, mis on sisu osa</string>
-    <string name="gradientIcon">Pealiskaudne kallak</string>
-    <string name="fireIcon">Moodne tuli</string>
-    <string name="torchIcon">Trendikas tõrvik</string>
-    <string name="shapedIcon">Totakas kuju</string>
-    <string name="flameIcon">Lendav leek</string>
-    <string name="birdIcon">Tõhustatud lind</string>
     <string name="related_streams_summary">Näita hetkel vaatamisel oleva sisu kõrval samalaadset sisu</string>
     <string name="related_streams">Teemakohane sisu</string>
-    <string name="legacyIcon">Kadunud pärand</string>
     <string name="pause">Peata</string>
     <string name="portrait">Püstvaade</string>
     <string name="landscape">Rõhtvaade</string>
@@ -279,7 +270,6 @@
     <string name="queue">Esitusjärjekord</string>
     <string name="sb_custom_colors_summary">Selle valikuga saad SponsorBlock\'i lõikudes lülitada kohandatud värvisegmendid sisse/välja</string>
     <string name="livestreams">Otseetrid</string>
-    <string name="defaultIconLight">Vaikimisi hele</string>
     <string name="playlistCloned">Esitusloendi koopia on tehtud</string>
     <string name="start_time">Algusaeg</string>
     <string name="end_time">Lõpuaeg</string>
@@ -380,7 +370,6 @@
     <string name="audio_language">Heliriba keel</string>
     <string name="external_player">Väline meediamängija</string>
     <string name="export_playlists_to">Vali rakendus, mille jaoks ekspordid esitusloendid</string>
-    <string name="home_tab_content">Avalehe sisu</string>
     <string name="show_search_suggestions">Näita otsingusoovitusi</string>
     <string name="original_or_main_audio_track">Algne</string>
     <string name="unknown_or_no_audio">teadmata või heliriba puudub</string>
