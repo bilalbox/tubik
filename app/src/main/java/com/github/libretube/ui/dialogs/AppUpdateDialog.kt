@@ -14,19 +14,12 @@ import com.github.libretube.BuildConfig
 import com.github.libretube.R
 import com.github.libretube.extensions.dpToPx
 import com.github.libretube.helpers.IntentHelper
-import com.github.libretube.helpers.ScreenPinHelper
-import com.github.libretube.helpers.UpdateCheckHelper
-import com.github.libretube.updater.AndroidApkSignatureReader
-import com.github.libretube.updater.ApkInstaller
-import com.github.libretube.updater.ApkVerifier
-import com.github.libretube.updater.InstallPrecondition
-import com.github.libretube.updater.PreferenceUpdateStorage
+import com.github.libretube.updater.AppUpdater
+import com.github.libretube.updater.DownloadAndInstallOutcome
+import com.github.libretube.updater.DownloadAndInstallStage
 import com.github.libretube.updater.UpdateCheckResult
-import com.github.libretube.updater.UpdateInstallGate
 import com.github.libretube.updater.UpdateInstallStatus
 import com.github.libretube.updater.UpdateManifest
-import com.github.libretube.updater.UpdateRepository
-import com.github.libretube.updater.VerificationResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,16 +29,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Settings-only dialog for checking, previewing release notes, downloading, verifying, and
- * installing Tubik OTA updates while enforcing Screen Pin and Unknown Sources guards.
+ * Thin Settings dialog presenting [AppUpdater] check results, download/verification progress, and
+ * install outcomes without duplicating OTA security orchestration.
  */
 class AppUpdateDialog(
     private val context: Context,
     private val fragmentManager: FragmentManager,
     private val scope: CoroutineScope,
     private val onStateUpdated: () -> Unit,
+    private val updater: AppUpdater = AppUpdater.getInstance(context),
 ) {
-    private val repository = UpdateRepository(storage = PreferenceUpdateStorage)
     private var activeJob: Job? = null
     private var installStatusJob: Job? = null
     private var availableManifest: UpdateManifest? = null
@@ -84,7 +77,7 @@ class AppUpdateDialog(
         dialog.setOnShowListener {
             val views = DialogViews(dialog, statusView, detailsView, progressBar)
             bindInstallEvents(views)
-            val cached = repository.getCachedState().result
+            val cached = updater.cachedState().result
             if (cached != null) {
                 renderCheckResult(views, cached)
             } else {
@@ -99,7 +92,7 @@ class AppUpdateDialog(
 
     private fun bindInstallEvents(views: DialogViews) {
         installStatusJob = scope.launch {
-            ApkInstaller.events.collectLatest { event ->
+            updater.installEvents.collectLatest { event ->
                 views.progressBar.isVisible = false
                 when (event) {
                     UpdateInstallStatus.BlockedByScreenPin -> {
@@ -109,15 +102,10 @@ class AppUpdateDialog(
                         views.statusView.setText(R.string.update_install_success)
                         views.dialog.dismiss()
                     }
-                    UpdateInstallStatus.Aborted -> {
-                        renderActionButtons(views)
-                    }
+                    UpdateInstallStatus.Aborted -> renderActionButtons(views)
                     is UpdateInstallStatus.Failed -> {
                         views.statusView.text =
-                            context.getString(
-                                R.string.update_install_failed,
-                                event.message ?: "",
-                            )
+                            context.getString(R.string.update_install_failed, event.message ?: "")
                         renderActionButtons(views)
                     }
                 }
@@ -174,35 +162,29 @@ class AppUpdateDialog(
         if (manifest != null) {
             positive.setText(R.string.update_download_and_install)
             positive.isEnabled = true
-            positive.setOnClickListener {
-                beginDownloadAndInstall(views, manifest)
-            }
+            positive.setOnClickListener { beginDownloadAndInstall(views, manifest) }
 
             val notesUrl = manifest.releaseNotesUrl
             val hasHttpsNotes = UpdateManifest.isHttpsUrl(notesUrl)
             neutral.isVisible = hasHttpsNotes
             if (hasHttpsNotes) {
                 neutral.setOnClickListener {
-                    if (ScreenPinHelper.isPinned(context)) {
-                        views.statusView.setText(R.string.update_unpin_before_install)
-                    } else {
+                    if (updater.canOpenExternalLink()) {
                         IntentHelper.openLinkFromHref(context, fragmentManager, notesUrl)
+                    } else {
+                        views.statusView.setText(R.string.update_unpin_before_install)
                     }
                 }
             }
         } else {
             positive.setText(R.string.update_check_now)
             positive.isEnabled = true
-            positive.setOnClickListener {
-                startCheck(views)
-            }
+            positive.setOnClickListener { startCheck(views) }
             neutral.isVisible = false
         }
     }
 
     private fun beginDownloadAndInstall(views: DialogViews, manifest: UpdateManifest) {
-        if (!ensureInstallPreconditions(views.statusView)) return
-
         val positive = views.dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         positive.isEnabled = false
         views.progressBar.isVisible = true
@@ -213,48 +195,69 @@ class AppUpdateDialog(
 
         activeJob?.cancel()
         activeJob = scope.launch {
-            val apkFile = downloadApkWithProgress(views, manifest)
-            if (apkFile == null) {
-                views.progressBar.isVisible = false
-                positive.isEnabled = true
-                return@launch
-            }
-
-            views.progressBar.isIndeterminate = true
-            views.statusView.setText(R.string.update_verifying)
-            val verified =
+            val outcome =
                 withContext(Dispatchers.IO) {
-                    ApkVerifier.verify(
-                        apkFile = apkFile,
-                        expectedSha256 = manifest.sha256,
-                        expectedPackageName = context.packageName,
-                        signatureReader = AndroidApkSignatureReader(context),
-                    ) == VerificationResult.Success
+                    updater.downloadAndInstall(manifest) { stage ->
+                        views.progressBar.post { renderStage(views, stage) }
+                    }
                 }
-            if (!verified) {
-                views.progressBar.isVisible = false
-                positive.isEnabled = true
-                views.statusView.setText(R.string.update_verification_failed)
-                return@launch
-            }
+            renderInstallOutcome(views, positive, outcome)
+        }
+    }
 
-            if (!ensureInstallPreconditions(views.statusView)) {
-                apkFile.delete()
-                views.progressBar.isVisible = false
-                positive.isEnabled = true
-                return@launch
+    private fun renderStage(views: DialogViews, stage: DownloadAndInstallStage) {
+        when (stage) {
+            is DownloadAndInstallStage.Downloading -> {
+                if (stage.totalBytes > 0L) {
+                    val percent =
+                        ((stage.bytesRead * PERCENT_SCALE) / stage.totalBytes)
+                            .toInt()
+                            .coerceIn(0, PERCENT_SCALE)
+                    views.progressBar.isIndeterminate = false
+                    views.progressBar.progress = percent
+                    views.statusView.text =
+                        context.getString(R.string.update_downloading_progress, percent)
+                }
             }
+            DownloadAndInstallStage.Verifying -> {
+                views.progressBar.isIndeterminate = true
+                views.statusView.setText(R.string.update_verifying)
+            }
+            DownloadAndInstallStage.Installing -> {
+                views.progressBar.isIndeterminate = true
+                views.statusView.setText(R.string.update_install_starting)
+            }
+        }
+    }
 
-            views.statusView.setText(R.string.update_install_starting)
-            val installResult =
-                withContext(Dispatchers.IO) { ApkInstaller.install(context, apkFile) }
-            installResult.onFailure { error ->
-                apkFile.delete()
-                views.progressBar.isVisible = false
-                positive.isEnabled = true
+    private fun renderInstallOutcome(
+        views: DialogViews,
+        positive: android.widget.Button,
+        outcome: DownloadAndInstallOutcome,
+    ) {
+        if (outcome == DownloadAndInstallOutcome.InstallCommitted) return
+        views.progressBar.isVisible = false
+        positive.isEnabled = true
+        when (outcome) {
+            DownloadAndInstallOutcome.BlockedByScreenPin ->
+                views.statusView.setText(R.string.update_unpin_before_install)
+            DownloadAndInstallOutcome.NeedsUnknownSourcesPermission ->
+                showUnknownSourcesGuideDialog(views.statusView)
+            is DownloadAndInstallOutcome.DownloadFailed ->
                 views.statusView.text =
-                    context.getString(R.string.update_install_failed, error.displayMessage())
-            }
+                    context.getString(
+                        R.string.update_download_failed,
+                        outcome.error.displayMessage(),
+                    )
+            is DownloadAndInstallOutcome.VerificationFailed ->
+                views.statusView.setText(R.string.update_verification_failed)
+            is DownloadAndInstallOutcome.InstallFailed ->
+                views.statusView.text =
+                    context.getString(
+                        R.string.update_install_failed,
+                        outcome.error.displayMessage(),
+                    )
+            DownloadAndInstallOutcome.InstallCommitted -> Unit
         }
     }
 
@@ -269,7 +272,7 @@ class AppUpdateDialog(
         }
 
         activeJob = scope.launch {
-            val result = withContext(Dispatchers.IO) { repository.checkForUpdate() }
+            val result = withContext(Dispatchers.IO) { updater.checkForUpdate() }
             views.progressBar.isVisible = false
             positive.isEnabled = true
             onStateUpdated()
@@ -284,51 +287,24 @@ class AppUpdateDialog(
         }
     }
 
-    private fun ensureInstallPreconditions(statusView: TextView): Boolean {
-        return when (
-            UpdateInstallGate.evaluate(
-                isScreenPinned = ScreenPinHelper.isPinned(context),
-                canRequestPackageInstalls = context.packageManager.canRequestPackageInstalls(),
-            )
-        ) {
-            InstallPrecondition.BlockedByScreenPin -> {
-                statusView.setText(R.string.update_unpin_before_install)
-                false
-            }
-            InstallPrecondition.NeedsUnknownSourcesPermission -> {
-                showUnknownSourcesGuideDialog(statusView)
-                false
-            }
-            InstallPrecondition.ReadyToInstall -> true
-        }
-    }
-
-    private suspend fun downloadApkWithProgress(
-        views: DialogViews,
-        manifest: UpdateManifest,
-    ): java.io.File? {
-        val updatesDir = UpdateCheckHelper.updatesCacheDir(context)
-        val result =
-            withContext(Dispatchers.IO) {
-                repository.downloadApk(manifest, updatesDir) { bytesRead, totalBytes ->
-                    if (totalBytes > 0L) {
-                        val percent =
-                            ((bytesRead * PERCENT_SCALE) / totalBytes)
-                                .toInt()
-                                .coerceIn(0, PERCENT_SCALE)
-                        views.progressBar.post {
-                            views.progressBar.progress = percent
-                            views.statusView.text =
-                                context.getString(R.string.update_downloading_progress, percent)
-                        }
-                    }
+    private fun showUnknownSourcesGuideDialog(statusView: TextView) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.update_unknown_sources_title)
+            .setMessage(R.string.update_unknown_sources_message)
+            .setPositiveButton(R.string.update_open_install_permission) { _, _ ->
+                if (updater.canOpenExternalLink()) {
+                    val intent =
+                        Intent(
+                            Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                            "package:${context.packageName}".toUri(),
+                        )
+                    context.startActivity(intent)
+                } else {
+                    statusView.setText(R.string.update_unpin_before_install)
                 }
             }
-        return result.getOrElse { error ->
-            views.statusView.text =
-                context.getString(R.string.update_download_failed, error.displayMessage())
-            null
-        }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private class DialogViews(
@@ -339,26 +315,6 @@ class AppUpdateDialog(
     )
 
     private fun Throwable.displayMessage(): String = localizedMessage ?: javaClass.simpleName
-
-    private fun showUnknownSourcesGuideDialog(statusView: TextView) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.update_unknown_sources_title)
-            .setMessage(R.string.update_unknown_sources_message)
-            .setPositiveButton(R.string.update_open_install_permission) { _, _ ->
-                if (ScreenPinHelper.isPinned(context)) {
-                    statusView.setText(R.string.update_unpin_before_install)
-                } else {
-                    val intent =
-                        Intent(
-                            Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                            "package:${context.packageName}".toUri(),
-                        )
-                    context.startActivity(intent)
-                }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
 
     companion object {
         private const val CONTAINER_PADDING_DP = 24

@@ -10,15 +10,13 @@ import com.github.libretube.BuildConfig
 import com.github.libretube.R
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.helpers.PreferenceHelper
-import com.github.libretube.helpers.UpdateCheckHelper
 import com.github.libretube.ui.activities.SettingsActivity
 import com.github.libretube.ui.base.BasePreferenceFragment
 import com.github.libretube.ui.dialogs.AppUpdateDialog
 import com.github.libretube.ui.dialogs.ErrorDialog
 import com.github.libretube.ui.dialogs.ParentPinDialogs
-import com.github.libretube.updater.PreferenceUpdateStorage
+import com.github.libretube.updater.AppUpdater
 import com.github.libretube.updater.UpdateCheckResult
-import com.github.libretube.updater.UpdateRepository
 import com.github.libretube.util.AccessControl
 import com.github.libretube.util.PolicyChange
 
@@ -43,7 +41,7 @@ class MainSettings : BasePreferenceFragment() {
             findPreference<SwitchPreferenceCompat>(PreferenceKeys.AUTO_UPDATE_CHECK_ENABLED)
         autoUpdatePref?.setOnPreferenceChangeListener { _, newValue ->
             val enabled = newValue as? Boolean ?: true
-            UpdateCheckHelper.createCoordinator(requireContext()).setAutoUpdateEnabled(enabled)
+            AppUpdater.getInstance(requireContext()).setAutoUpdateEnabled(enabled)
             true
         }
 
@@ -205,7 +203,7 @@ class MainSettings : BasePreferenceFragment() {
 
     private fun refreshUpdateSummary(appUpdatePref: Preference?) {
         appUpdatePref ?: return
-        val cached = UpdateRepository(storage = PreferenceUpdateStorage).getCachedState()
+        val cached = AppUpdater.getInstance(requireContext()).cachedState()
         appUpdatePref.summary =
             when (val result = cached.result) {
                 is UpdateCheckResult.UpdateAvailable ->

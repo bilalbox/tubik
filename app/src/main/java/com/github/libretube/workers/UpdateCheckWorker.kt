@@ -3,7 +3,7 @@ package com.github.libretube.workers
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.github.libretube.helpers.UpdateCheckHelper
+import com.github.libretube.updater.AppUpdater
 import com.github.libretube.updater.BackgroundCheckOutcome
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +15,7 @@ class UpdateCheckWorker(appContext: Context, parameters: WorkerParameters) :
     override suspend fun doWork(): Result {
         val outcome =
             withContext(Dispatchers.IO) {
-                UpdateCheckHelper.createCoordinator(applicationContext).runBackgroundCheck()
+                AppUpdater.getInstance(applicationContext).runBackgroundCheck()
             }
         return when (outcome) {
             is BackgroundCheckOutcome.Failed -> Result.retry()

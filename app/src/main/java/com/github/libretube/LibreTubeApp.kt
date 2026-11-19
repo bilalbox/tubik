@@ -9,8 +9,8 @@ import com.github.libretube.helpers.NewPipeExtractorInstance
 import com.github.libretube.helpers.NotificationHelper
 import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.helpers.ShortcutHelper
-import com.github.libretube.helpers.UpdateCheckHelper
 import com.github.libretube.security.NativeTransportBridge
+import com.github.libretube.updater.AppUpdater
 import com.github.libretube.util.ExceptionHandler
 
 class LibreTubeApp : Application() {
@@ -35,10 +35,7 @@ class LibreTubeApp : Application() {
         )
 
         /** Schedule periodic OTA update checks when enabled */
-        UpdateCheckHelper.enqueueWork(
-            context = this,
-            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
-        )
+        AppUpdater.getInstance(this).syncSchedule(replaceExisting = false)
 
         /** Handler for uncaught exceptions */
         val defaultExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
