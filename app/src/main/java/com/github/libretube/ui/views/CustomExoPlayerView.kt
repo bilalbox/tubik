@@ -90,7 +90,7 @@ import com.github.libretube.ui.sheets.PlayingQueueSheet
 import com.github.libretube.ui.sheets.SleepTimerSheet
 import com.github.libretube.ui.sheets.StatsSheet
 import com.github.libretube.ui.tools.SleepTimer
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.PlayingQueue
 import java.util.Locale
 import kotlin.math.ceil
@@ -622,7 +622,7 @@ class CustomExoPlayerView(
     }
 
     private fun updateScreenPinButton() {
-        val enabled = ParentPinStore.instance.isScreenPinEnabled()
+        val enabled = AccessControl.instance.policy.screenPinEnabled
         binding.screenPinButton.isVisible = enabled
         if (enabled) {
             val pinned = ScreenPinHelper.isPinned(context)

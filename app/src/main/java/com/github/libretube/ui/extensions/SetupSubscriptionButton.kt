@@ -8,8 +8,7 @@ import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.ui.dialogs.ParentPinDialogs
-import com.github.libretube.util.AllowedCatalog
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.ProtectedAction
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -31,9 +30,8 @@ fun TextView.setupSubscriptionButton(
 ) {
     if (channelId == null) return
 
-    val store = ParentPinStore.instance
-    val allowedCatalog = AllowedCatalog.instance
-    if (!allowedCatalog.canModifySubscriptions()) {
+    val accessControl = AccessControl.instance
+    if (!accessControl.policy.canModifySubscriptions) {
         this@setupSubscriptionButton.isVisible = false
         notificationBell?.isVisible = false
         return
@@ -86,13 +84,13 @@ fun TextView.setupSubscriptionButton(
     }
 
     setOnClickListener {
-        if (!allowedCatalog.canModifySubscriptions()) {
+        if (!accessControl.policy.canModifySubscriptions) {
             this@setupSubscriptionButton.isVisible = false
             notificationBell?.isVisible = false
             return@setOnClickListener
         }
         val subscribe = !subscribed
-        store.authorize(
+        accessControl.authorize(
             ProtectedAction.ChangeSubscription(subscribe),
             ParentPinDialogs.promptAdapter(context),
         ) {

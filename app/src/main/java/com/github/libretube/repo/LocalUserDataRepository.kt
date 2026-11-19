@@ -15,7 +15,7 @@ import com.github.libretube.db.obj.PlaylistBookmark
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.db.obj.WatchPosition
 import com.github.libretube.enums.WatchHistoryStatus
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 
 /**
  * Read seam for local playlists, watch history, and bookmarks used by [LocalUserDataRepository].
@@ -59,7 +59,7 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
 }
 
 class LocalUserDataRepository(
-    private val allowedCatalog: AllowedCatalog = AllowedCatalog.instance,
+    private val accessControl: AccessControl = AccessControl.instance,
     private val localDataSource: LocalUserDataSource = RoomLocalUserDataSource,
 ) : UserDataRepository {
     private val WATCH_HISTORY_PAGE_SIZE = 30
@@ -67,7 +67,7 @@ class LocalUserDataRepository(
     override suspend fun getPlaylist(playlistId: String): Playlist {
         val relation =
             localDataSource.getLocalPlaylists().first { it.playlist.id.toString() == playlistId }
-        val filteredVideos = allowedCatalog.snapshot().filterLocalPlaylistItems(relation.videos)
+        val filteredVideos = accessControl.snapshot().filterLocalPlaylistItems(relation.videos)
 
         return Playlist(
             name = relation.playlist.name,
@@ -79,7 +79,7 @@ class LocalUserDataRepository(
     }
 
     override suspend fun getPlaylists(): List<Playlists> {
-        val snapshot = allowedCatalog.snapshot()
+        val snapshot = accessControl.snapshot()
         return localDataSource.getLocalPlaylists().map {
             val filteredVideos = snapshot.filterLocalPlaylistItems(it.videos)
             Playlists(
@@ -331,7 +331,7 @@ class LocalUserDataRepository(
 
         val nextCursor = rows.lastOrNull()?.rowId?.minus(1)?.takeIf { rows.size == pageSize }
         val entries =
-            allowedCatalog
+            accessControl
                 .snapshot()
                 .filterWatchHistoryEntries(rows.map { it.toWatchHistoryEntry() })
         return entries to nextCursor
@@ -347,7 +347,7 @@ class LocalUserDataRepository(
     }
 
     override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
-        allowedCatalog.snapshot().filterPlaylistBookmarks(localDataSource.getPlaylistBookmarks())
+        accessControl.snapshot().filterPlaylistBookmarks(localDataSource.getPlaylistBookmarks())
 
     override suspend fun getPlaylistBookmark(playlistId: String): PlaylistBookmark? {
         return Database.playlistBookmarkDao().findById(playlistId)

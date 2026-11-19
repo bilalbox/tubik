@@ -10,10 +10,9 @@ import com.github.libretube.api.obj.PipedStream
 import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.api.obj.Streams
 import com.github.libretube.player.parser.SabrStreamException
-import com.github.libretube.util.AllowedCatalog
-import com.github.libretube.util.AllowedSnapshot
-import com.github.libretube.util.AllowedSnapshotProvider
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.ClientUserAgentRegistry
+import com.github.libretube.util.InMemoryAccessControlStorage
 import com.github.libretube.util.NewPipeDownloaderImpl
 import com.github.libretube.util.PlayingQueue
 import java.io.IOException
@@ -36,16 +35,8 @@ import org.schabi.newpipe.extractor.services.youtube.PoTokenResult
 
 class StreamRefreshRecoveryTest {
 
-    private fun disabledAllowedCatalog(): AllowedCatalog =
-        AllowedCatalog(
-            snapshotProvider =
-                object : AllowedSnapshotProvider {
-                    override fun isAllowlistEnabled(): Boolean = false
-
-                    override suspend fun snapshot(): AllowedSnapshot =
-                        AllowedSnapshot(allowlistEnabled = false)
-                },
-        )
+    private fun disabledAccessControl(): AccessControl =
+        AccessControl(storage = InMemoryAccessControlStorage(allowlistEnabled = false))
 
     @Test
     fun `invalidateStreamsCache evicts cached streams so next getStreams fetches fresh data`() =
@@ -63,7 +54,7 @@ class StreamRefreshRecoveryTest {
             val repo: MediaServiceRepository =
                 AllowlistMediaServiceRepository(
                     delegate = newPipeRepo,
-                    allowedCatalog = disabledAllowedCatalog(),
+                    accessControl = disabledAccessControl(),
                 )
 
             val first = repo.getStreams(videoId)
@@ -134,7 +125,7 @@ class StreamRefreshRecoveryTest {
             val wrappedRepo: MediaServiceRepository =
                 AllowlistMediaServiceRepository(
                     delegate = repoA,
-                    allowedCatalog = disabledAllowedCatalog(),
+                    accessControl = disabledAccessControl(),
                 )
             val transportContext = wrappedRepo.getStreamTransportContext(sharedVideoId)
             assertEquals(sharedVideoId, transportContext.videoId)
@@ -158,7 +149,7 @@ class StreamRefreshRecoveryTest {
             val repo: MediaServiceRepository =
                 AllowlistMediaServiceRepository(
                     delegate = newPipeRepo,
-                    allowedCatalog = disabledAllowedCatalog(),
+                    accessControl = disabledAccessControl(),
                 )
 
             // Warm cache with initial fetch

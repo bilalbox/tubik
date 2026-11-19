@@ -59,7 +59,7 @@ import com.github.libretube.ui.models.CommonPlayerViewModel
 import com.github.libretube.ui.models.DownloadsViewModel
 import com.github.libretube.ui.sheets.BaseBottomSheet
 import com.github.libretube.ui.viewholders.DownloadsViewHolder
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlin.io.path.fileSize
@@ -292,7 +292,9 @@ class DownloadsFragmentPage : DynamicLayoutManagerFragment(R.layout.fragment_dow
 
             val downloads =
                 withContext(Dispatchers.IO) {
-                        AllowedCatalog.instance.filterDownloads(Database.downloadDao().getAll())
+                        AccessControl.instance
+                            .snapshot()
+                            .filterDownloads(Database.downloadDao().getAll())
                     }
                     .let { downloads ->
                         if (downloadTab != DownloadTab.PLAYLIST) downloads.filterByTab(downloadTab)

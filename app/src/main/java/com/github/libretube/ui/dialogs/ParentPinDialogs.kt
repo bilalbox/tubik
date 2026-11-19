@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.github.libretube.R
 import com.github.libretube.extensions.dpToPx
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.PinPromptAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -65,7 +65,7 @@ object ParentPinDialogs {
                     confirmLayout.error = context.getString(R.string.parent_pin_mismatch)
                     return@setOnClickListener
                 }
-                if (ParentPinStore.instance.setPin(pin)) {
+                if (AccessControl.instance.setPin(pin)) {
                     pinSaved = true
                     dialog.dismiss()
                     onPinSet()
@@ -103,7 +103,7 @@ object ParentPinDialogs {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 pinLayout.error = null
                 val pin = pinInput.text?.toString()?.trim().orEmpty()
-                if (ParentPinStore.instance.checkPin(pin)) {
+                if (AccessControl.instance.checkPin(pin)) {
                     verified = true
                     dialog.dismiss()
                     onVerified()
@@ -152,7 +152,7 @@ object ParentPinDialogs {
                     confirmLayout.error = context.getString(R.string.parent_pin_mismatch)
                     return@setOnClickListener
                 }
-                if (ParentPinStore.instance.changePin(currentPin, newPin)) {
+                if (AccessControl.instance.changePin(currentPin, newPin)) {
                     Toast.makeText(context, R.string.parent_pin_updated, Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } else {

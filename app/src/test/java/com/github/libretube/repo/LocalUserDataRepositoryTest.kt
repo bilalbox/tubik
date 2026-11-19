@@ -7,9 +7,8 @@ import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.PlaylistBookmark
 import com.github.libretube.db.obj.WatchHistoryItem
 import com.github.libretube.enums.WatchHistoryStatus
-import com.github.libretube.util.AllowedCatalog
-import com.github.libretube.util.AllowedSnapshot
-import com.github.libretube.util.AllowedSnapshotProvider
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.InMemoryAccessControlStorage
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -56,28 +55,34 @@ class LocalUserDataRepositoryTest {
                 },
         )
 
-    private fun catalog(
+    private fun accessControl(
         isAllowlistEnabled: () -> Boolean,
         onSnapshot: () -> Unit = {},
-    ): AllowedCatalog =
-        AllowedCatalog(
-            snapshotProvider =
-                object : AllowedSnapshotProvider {
-                    override fun isAllowlistEnabled(): Boolean = isAllowlistEnabled()
-
-                    override suspend fun snapshot(): AllowedSnapshot {
-                        onSnapshot()
-                        return AllowedSnapshot(isAllowlistEnabled(), setOf("UC_ALLOWED_1"))
-                    }
+    ): AccessControl {
+        val storage = InMemoryAccessControlStorage()
+        return AccessControl(
+            storage =
+                object : com.github.libretube.util.AccessControlStorage by storage {
+                    override var allowlistEnabled: Boolean
+                        get() = isAllowlistEnabled()
+                        set(value) {
+                            storage.allowlistEnabled = value
+                        }
                 },
+            getAllowedChannelIds = {
+                onSnapshot()
+                setOf("UC_ALLOWED_1")
+            },
         )
+    }
 
     @Test
-    fun `getPlaylist and getPlaylists resolve fresh AllowedCatalog snapshot and recount videos`() =
+    fun `getPlaylist and getPlaylists resolve fresh AccessControl snapshot and recount videos`() =
         runBlocking {
             var allowlistEnabled = true
             var snapshotCalls = 0
-            val catalog = catalog(isAllowlistEnabled = { allowlistEnabled }) { snapshotCalls++ }
+            val catalog =
+                accessControl(isAllowlistEnabled = { allowlistEnabled }) { snapshotCalls++ }
             val dataSource =
                 FakeLocalUserDataSource(
                     playlists =
@@ -92,7 +97,7 @@ class LocalUserDataRepositoryTest {
                         ),
                 )
             val repo =
-                LocalUserDataRepository(allowedCatalog = catalog, localDataSource = dataSource)
+                LocalUserDataRepository(accessControl = catalog, localDataSource = dataSource)
 
             val playlist = repo.getPlaylist("1")
             assertEquals(1, playlist.videos)
@@ -109,10 +114,10 @@ class LocalUserDataRepositoryTest {
         }
 
     @Test
-    fun `getWatchHistory and getPlaylistBookmarks filter by AllowedCatalog while preserving history cursor`() =
+    fun `getWatchHistory and getPlaylistBookmarks filter by AccessControl while preserving history cursor`() =
         runBlocking {
             var allowlistEnabled = true
-            val catalog = catalog(isAllowlistEnabled = { allowlistEnabled })
+            val catalog = accessControl(isAllowlistEnabled = { allowlistEnabled })
             val dataSource =
                 FakeLocalUserDataSource(
                     watchHistoryRows =
@@ -146,7 +151,7 @@ class LocalUserDataRepositoryTest {
                         ),
                 )
             val repo =
-                LocalUserDataRepository(allowedCatalog = catalog, localDataSource = dataSource)
+                LocalUserDataRepository(accessControl = catalog, localDataSource = dataSource)
 
             val (historyPage, nextCursor) = repo.getWatchHistory(2, null, WatchHistoryStatus.ALL)
             assertEquals(listOf("h_allowed"), historyPage.map { it.metadata.videoId })

@@ -66,7 +66,7 @@ import com.github.libretube.ui.models.SearchViewModel
 import com.github.libretube.ui.models.SubscriptionsViewModel
 import com.github.libretube.ui.preferences.BackupRestoreSettings
 import com.github.libretube.ui.preferences.BackupRestoreSettings.Companion.FILETYPE_ANY
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarMenuView
 import kotlinx.coroutines.Dispatchers
@@ -358,7 +358,7 @@ class MainActivity : AbstractPlayerHostActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.action_screen_pin)?.apply {
-            isVisible = ParentPinStore.instance.isScreenPinEnabled()
+            isVisible = AccessControl.instance.policy.screenPinEnabled
             val pinned = ScreenPinHelper.isPinned(this@MainActivity)
             setIcon(if (pinned) R.drawable.ic_pinned else R.drawable.ic_pin)
             setTitle(if (pinned) R.string.screen_pinned else R.string.screen_pin)

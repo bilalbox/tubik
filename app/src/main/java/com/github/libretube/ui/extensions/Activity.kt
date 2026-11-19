@@ -10,12 +10,12 @@ import androidx.core.view.WindowInsetsCompat.Type.InsetsType
 import androidx.core.view.WindowInsetsControllerCompat
 import com.github.libretube.R
 import com.github.libretube.helpers.ScreenPinHelper
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 
 private const val ScreenPinRefreshDelayMs = 300L
 
 fun Activity.requestScreenPin(refreshControls: () -> Unit) {
-    if (ParentPinStore.instance.startScreenPin { ScreenPinHelper.startLockTask(this) }) {
+    if (AccessControl.instance.policy.screenPinEnabled && ScreenPinHelper.startLockTask(this)) {
         Toast.makeText(this, R.string.screen_pin_unpin_hint, Toast.LENGTH_SHORT).show()
         // Android can update lock-task state after the request returns.
         Handler(Looper.getMainLooper()).postDelayed(refreshControls, ScreenPinRefreshDelayMs)

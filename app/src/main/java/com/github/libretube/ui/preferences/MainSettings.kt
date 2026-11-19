@@ -19,92 +19,17 @@ import com.github.libretube.ui.dialogs.ParentPinDialogs
 import com.github.libretube.updater.PreferenceUpdateStorage
 import com.github.libretube.updater.UpdateCheckResult
 import com.github.libretube.updater.UpdateRepository
-import com.github.libretube.util.ParentPinStore
-import com.github.libretube.util.ProtectedAction
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.PolicyChange
 
 class MainSettings : BasePreferenceFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
-        val store = ParentPinStore.instance
-        bindScreenPinPreference(store)
-        val allowlistPref = findPreference<SwitchPreferenceCompat>(PreferenceKeys.ALLOWLIST_ENABLED)
-        val lockSettingsPref =
-            findPreference<SwitchPreferenceCompat>(PreferenceKeys.SETTINGS_PIN_LOCK_ENABLED)
-        val parentPinPref = findPreference<Preference>(PreferenceKeys.CHANGE_PARENT_PIN)
-
-        if (!store.isPinSet() && lockSettingsPref?.isChecked == true) {
-            lockSettingsPref.isChecked = false
-        }
-
-        fun updateParentPinPreference() {
-            if (store.isPinSet()) {
-                parentPinPref?.setTitle(R.string.change_parent_pin_title)
-                parentPinPref?.setSummary(R.string.change_parent_pin_summary)
-            } else {
-                parentPinPref?.setTitle(R.string.set_parent_pin_title)
-                parentPinPref?.setSummary(R.string.set_parent_pin_summary)
-            }
-        }
-        updateParentPinPreference()
-
-        allowlistPref?.setOnPreferenceChangeListener { _, newValue ->
-            val enableAllowlist = newValue as? Boolean ?: false
-            store.authorize(
-                ProtectedAction.SetAllowlistEnabled(enableAllowlist),
-                ParentPinDialogs.promptAdapter(requireContext()),
-                onAuthorized = {
-                    allowlistPref.isChecked = enableAllowlist
-                },
-            )
-            false
-        }
-
-        val musicRemovalPref =
-            findPreference<SwitchPreferenceCompat>(PreferenceKeys.MUSIC_REMOVAL_ENABLED)
-        musicRemovalPref?.setOnPreferenceChangeListener { _, newValue ->
-            val enabled = newValue as? Boolean ?: true
-            store.authorize(
-                ProtectedAction.SetMusicRemovalEnabled(enabled),
-                ParentPinDialogs.promptAdapter(requireContext()),
-                onAuthorized = {
-                    store.setMusicRemovalEnabled(enabled)
-                    musicRemovalPref.isChecked = enabled
-                },
-            )
-            false
-        }
-
-        lockSettingsPref?.setOnPreferenceChangeListener { _, newValue ->
-            val enableLock = newValue as? Boolean ?: false
-            if (enableLock && !store.isPinSet()) {
-                ParentPinDialogs.showSetupPinDialog(
-                    requireContext(),
-                    onPinSet = {
-                        lockSettingsPref.isChecked = true
-                        updateParentPinPreference()
-                    },
-                )
-                false
-            } else {
-                true
-            }
-        }
-
-        parentPinPref?.setOnPreferenceClickListener {
-            if (store.isPinSet()) {
-                ParentPinDialogs.showChangePinDialog(requireContext())
-            } else {
-                ParentPinDialogs.showSetupPinDialog(
-                    requireContext(),
-                    onPinSet = {
-                        updateParentPinPreference()
-                    },
-                )
-            }
-            true
-        }
+        val accessControl = AccessControl.instance
+        bindScreenPinPreference(accessControl)
+        bindAccessControlPreferences(accessControl)
 
         val crashlog = findPreference<Preference>("crashlog")
         crashlog?.isVisible = PreferenceHelper.getErrorLog().isNotEmpty() && BuildConfig.DEBUG
@@ -157,16 +82,114 @@ class MainSettings : BasePreferenceFragment() {
     override fun onResume() {
         super.onResume()
         findPreference<SwitchPreferenceCompat>(PreferenceKeys.SCREEN_PIN_ENABLED)?.isChecked =
-            ParentPinStore.instance.isScreenPinEnabled()
+            AccessControl.instance.policy.screenPinEnabled
         refreshUpdateSummary(findPreference(KEY_APP_UPDATE_CHECK))
     }
 
-    private fun bindScreenPinPreference(store: ParentPinStore) {
+    private fun bindAccessControlPreferences(accessControl: AccessControl) {
+        val allowlistPref = findPreference<SwitchPreferenceCompat>(PreferenceKeys.ALLOWLIST_ENABLED)
+        val musicRemovalPref =
+            findPreference<SwitchPreferenceCompat>(PreferenceKeys.MUSIC_REMOVAL_ENABLED)
+        val lockSettingsPref =
+            findPreference<SwitchPreferenceCompat>(PreferenceKeys.SETTINGS_PIN_LOCK_ENABLED)
+        val parentPinPref = findPreference<Preference>(PreferenceKeys.CHANGE_PARENT_PIN)
+
+        if (!accessControl.policy.isPinSet && lockSettingsPref?.isChecked == true) {
+            lockSettingsPref.isChecked = false
+        }
+
+        fun updateParentPinPreference() {
+            val hasPin = accessControl.policy.isPinSet
+            parentPinPref?.setTitle(
+                if (hasPin) R.string.change_parent_pin_title else R.string.set_parent_pin_title,
+            )
+            parentPinPref?.setSummary(
+                if (hasPin) R.string.change_parent_pin_summary else R.string.set_parent_pin_summary,
+            )
+        }
+        updateParentPinPreference()
+
+        allowlistPref?.setOnPreferenceChangeListener { _, newValue ->
+            val enableAllowlist = newValue as? Boolean ?: false
+            accessControl.apply(
+                PolicyChange.SetAllowlist(enableAllowlist),
+                ParentPinDialogs.promptAdapter(requireContext()),
+            ) { updated ->
+                allowlistPref.isChecked = updated.allowlistEnabled
+            }
+            false
+        }
+
+        musicRemovalPref?.setOnPreferenceChangeListener { _, newValue ->
+            val enabled = newValue as? Boolean ?: true
+            accessControl.apply(
+                PolicyChange.SetMusicRemoval(enabled),
+                ParentPinDialogs.promptAdapter(requireContext()),
+            ) { updated ->
+                musicRemovalPref.isChecked = updated.musicRemovalEnabled
+            }
+            false
+        }
+
+        bindSettingsPinLockPreference(accessControl, lockSettingsPref, ::updateParentPinPreference)
+
+        parentPinPref?.setOnPreferenceClickListener {
+            if (accessControl.policy.isPinSet) {
+                ParentPinDialogs.showChangePinDialog(requireContext())
+            } else {
+                ParentPinDialogs.showSetupPinDialog(
+                    requireContext(),
+                    onPinSet = ::updateParentPinPreference,
+                )
+            }
+            true
+        }
+    }
+
+    private fun bindSettingsPinLockPreference(
+        accessControl: AccessControl,
+        lockSettingsPref: SwitchPreferenceCompat?,
+        onPinConfigured: () -> Unit,
+    ) {
+        lockSettingsPref?.setOnPreferenceChangeListener { _, newValue ->
+            val enableLock = newValue as? Boolean ?: false
+            if (enableLock && !accessControl.policy.isPinSet) {
+                ParentPinDialogs.showSetupPinDialog(
+                    requireContext(),
+                    onPinSet = {
+                        accessControl.apply(
+                            PolicyChange.SetSettingsPinLock(true),
+                            ParentPinDialogs.promptAdapter(requireContext()),
+                        ) { updated ->
+                            lockSettingsPref.isChecked = updated.settingsPinLockEnabled
+                            onPinConfigured()
+                        }
+                    },
+                )
+            } else {
+                accessControl.apply(
+                    PolicyChange.SetSettingsPinLock(enableLock),
+                    ParentPinDialogs.promptAdapter(requireContext()),
+                ) { updated ->
+                    lockSettingsPref.isChecked = updated.settingsPinLockEnabled
+                }
+            }
+            false
+        }
+    }
+
+    private fun bindScreenPinPreference(accessControl: AccessControl) {
         val preference =
             findPreference<SwitchPreferenceCompat>(PreferenceKeys.SCREEN_PIN_ENABLED) ?: return
         preference.setOnPreferenceChangeListener { _, newValue ->
-            store.setScreenPinEnabled(newValue as Boolean)
-            true
+            val enabled = newValue as? Boolean ?: false
+            accessControl.apply(
+                PolicyChange.SetScreenPin(enabled),
+                ParentPinDialogs.promptAdapter(requireContext()),
+            ) { updated ->
+                preference.isChecked = updated.screenPinEnabled
+            }
+            false
         }
     }
 

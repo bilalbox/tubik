@@ -1,7 +1,9 @@
 package com.github.libretube.player
 
-import com.github.libretube.util.ParentPinStorage
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.InMemoryAccessControlStorage
+import com.github.libretube.util.PinPromptAdapter
+import com.github.libretube.util.PolicyChange
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -10,25 +12,28 @@ import org.junit.Test
 
 class PlaybackSessionTest {
 
-    private class FakePinStorage(
-        override var pinHash: String? = null,
-        override var pinSalt: String? = null,
-        override var allowlistEnabled: Boolean = false,
-        override var musicRemovalEnabled: Boolean = true,
-        override var musicRemovalDisabledChannels: Set<String> = emptySet(),
-        override var screenPinEnabled: Boolean = false,
-        override var settingsPinLockEnabled: Boolean = false,
-    ) : ParentPinStorage
+    private val autoApprove = PinPromptAdapter { onVerified, _ -> onVerified() }
+
+    private fun AccessControl.setMusicRemovalEnabled(enabled: Boolean) {
+        apply(PolicyChange.SetMusicRemoval(enabled), autoApprove)
+    }
+
+    private fun AccessControl.setMusicRemovalEnabledForChannel(
+        channelId: String,
+        enabled: Boolean,
+    ) {
+        apply(PolicyChange.SetChannelMusicRemoval(channelId, enabled), autoApprove)
+    }
 
     private fun newSession(
         initialPreferredSpeed: Float = 1.0f,
         musicRemovalEnabled: Boolean = true,
         disabledChannels: Set<String> = emptySet(),
-    ): Triple<PlaybackSession, ParentPinStore, () -> Float> {
+    ): Triple<PlaybackSession, AccessControl, () -> Float> {
         var persistedSpeed = initialPreferredSpeed
         val store =
-            ParentPinStore(
-                FakePinStorage(
+            AccessControl(
+                InMemoryAccessControlStorage(
                     musicRemovalEnabled = musicRemovalEnabled,
                     musicRemovalDisabledChannels = disabledChannels,
                 ),

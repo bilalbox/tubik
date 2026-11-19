@@ -107,7 +107,7 @@ import com.github.libretube.ui.models.CommentsViewModel
 import com.github.libretube.ui.models.CommonPlayerViewModel
 import com.github.libretube.ui.models.PlayerViewModel
 import com.github.libretube.ui.sheets.CommentsSheet
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.OfflineTimeFrameReceiver
 import com.github.libretube.util.OnlineTimeFrameReceiver
 import com.github.libretube.util.PlayingQueue
@@ -1247,7 +1247,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
             playerChannelSubCount.isVisible = streams.uploaderSubscriberCount >= 0
 
             relPlayerDownload.isVisible = !streams.isLive && !isOffline
-            commentsToggle.isGone = !AllowedCatalog.instance.canViewComments()
+            commentsToggle.isGone = !AccessControl.instance.policy.canViewComments
         }
         playerControlsBinding.exoTitle.text = streams.title
 
@@ -1304,7 +1304,9 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
     }
 
     private suspend fun showRelatedStreams() {
-        if (!AllowedCatalog.instance.canViewRelatedStreams(PlayerHelper.relatedStreamsEnabled)) {
+        if (
+            !AccessControl.instance.policy.canViewRelatedStreams(PlayerHelper.relatedStreamsEnabled)
+        ) {
             binding.relatedRecView.isGone = true
             return
         }

@@ -12,10 +12,9 @@ import com.github.libretube.api.obj.SegmentData
 import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.api.obj.Streams
 import com.github.libretube.api.obj.Subscription
-import com.github.libretube.util.AllowedCatalog
-import com.github.libretube.util.AllowedSnapshot
-import com.github.libretube.util.AllowedSnapshotProvider
-import com.github.libretube.util.SubscriptionAllowedSnapshotProvider
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.AccessControlStorage
+import com.github.libretube.util.InMemoryAccessControlStorage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -28,22 +27,23 @@ class AllowlistMediaServiceRepositoryTest {
 
     private val allowedIds = setOf("UC_ALLOWED_1", "UC_ALLOWED_2")
 
-    private fun catalog(
+    private fun accessControl(
         enabled: () -> Boolean,
         ids: () -> Set<String> = { allowedIds },
-    ): AllowedCatalog =
-        AllowedCatalog(
-            snapshotProvider =
-                object : AllowedSnapshotProvider {
-                    override fun isAllowlistEnabled(): Boolean = enabled()
-
-                    override suspend fun snapshot(): AllowedSnapshot =
-                        AllowedSnapshot(
-                            allowlistEnabled = enabled(),
-                            allowedChannelIds = if (enabled()) ids() else emptySet(),
-                        )
+    ): AccessControl {
+        val storage = InMemoryAccessControlStorage()
+        return AccessControl(
+            storage =
+                object : AccessControlStorage by storage {
+                    override var allowlistEnabled: Boolean
+                        get() = enabled()
+                        set(value) {
+                            storage.allowlistEnabled = value
+                        }
                 },
+            getAllowedChannelIds = { if (enabled()) ids() else emptySet() },
         )
+    }
 
     private class FakeMediaServiceRepository : MediaServiceRepository {
         var trendingItems: List<StreamItem> = emptyList()
@@ -233,7 +233,7 @@ class AllowlistMediaServiceRepositoryTest {
             val repo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { true }),
+                    accessControl = accessControl(enabled = { true }),
                 )
 
             assertEquals(
@@ -308,7 +308,7 @@ class AllowlistMediaServiceRepositoryTest {
         val repo =
             AllowlistMediaServiceRepository(
                 delegate = fake,
-                allowedCatalog = catalog(enabled = { true }),
+                accessControl = accessControl(enabled = { true }),
             )
 
         val streams = repo.getStreams("v_ok")
@@ -357,7 +357,7 @@ class AllowlistMediaServiceRepositoryTest {
             val repo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { true }),
+                    accessControl = accessControl(enabled = { true }),
                 )
 
             assertEquals("UC_ALLOWED_1", repo.getChannel("UC_ALLOWED_1").id)
@@ -449,7 +449,7 @@ class AllowlistMediaServiceRepositoryTest {
         val repo =
             AllowlistMediaServiceRepository(
                 delegate = fake,
-                allowedCatalog = catalog(enabled = { false }),
+                accessControl = accessControl(enabled = { false }),
             )
 
         assertEquals(
@@ -506,7 +506,7 @@ class AllowlistMediaServiceRepositoryTest {
             val allowlistRepo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { true }),
+                    accessControl = accessControl(enabled = { true }),
                     getAllowedSubscriptions = { subscriptions },
                     getLocalFeedItems = { localFeed },
                     getLocalSearchHistory = { localHistory },
@@ -529,7 +529,7 @@ class AllowlistMediaServiceRepositoryTest {
             val unrestrictedRepo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { false }),
+                    accessControl = accessControl(enabled = { false }),
                     getAllowedSubscriptions = { subscriptions },
                     getLocalFeedItems = { localFeed },
                     getLocalSearchHistory = { localHistory },
@@ -669,7 +669,7 @@ class AllowlistMediaServiceRepositoryTest {
             val repo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { true }),
+                    accessControl = accessControl(enabled = { true }),
                     getAllowedSubscriptions = { subscriptions },
                     getLocalFeedItems = { localFeed },
                 )
@@ -725,7 +725,7 @@ class AllowlistMediaServiceRepositoryTest {
             val repo =
                 AllowlistMediaServiceRepository(
                     delegate = fake,
-                    allowedCatalog = catalog(enabled = { true }),
+                    accessControl = accessControl(enabled = { true }),
                     maxSearchPrefetchPages = 3,
                 )
 
@@ -757,7 +757,7 @@ class AllowlistMediaServiceRepositoryTest {
         val dynamicRepo =
             AllowlistMediaServiceRepository(
                 delegate = fake,
-                allowedCatalog = catalog(enabled = { true }, ids = { dynamicAllowedIds }),
+                accessControl = accessControl(enabled = { true }, ids = { dynamicAllowedIds }),
             )
         assertEquals(
             listOf("vid_1"),
@@ -785,30 +785,25 @@ class AllowlistMediaServiceRepositoryTest {
             }
 
         var fallbackSubscriptionsCalled = false
-        val cancelledCatalog =
-            AllowedCatalog(
-                snapshotProvider =
-                    SubscriptionAllowedSnapshotProvider(
-                        isAllowlistEnabled = { true },
-                        getAllowedChannelIds = {
-                            throw CancellationException("Coroutine cancelled")
-                        },
-                        getAllowedSubscriptions = {
-                            fallbackSubscriptionsCalled = true
-                            listOf(
-                                Subscription(
-                                    url = "UC_ALLOWED_1",
-                                    name = "Allowed",
-                                    verified = true,
-                                ),
-                            )
-                        },
-                    ),
+        val cancelledAccessControl =
+            AccessControl(
+                storage = InMemoryAccessControlStorage(allowlistEnabled = true),
+                getAllowedChannelIds = { throw CancellationException("Coroutine cancelled") },
+                getAllowedSubscriptions = {
+                    fallbackSubscriptionsCalled = true
+                    listOf(
+                        Subscription(
+                            url = "UC_ALLOWED_1",
+                            name = "Allowed",
+                            verified = true,
+                        ),
+                    )
+                },
             )
         val repo =
             AllowlistMediaServiceRepository(
                 delegate = fake,
-                allowedCatalog = cancelledCatalog,
+                accessControl = cancelledAccessControl,
             )
 
         try {
@@ -822,4 +817,87 @@ class AllowlistMediaServiceRepositoryTest {
             fallbackSubscriptionsCalled,
         )
     }
+
+    private fun localSearchRepo(): AllowlistMediaServiceRepository =
+        AllowlistMediaServiceRepository(
+            delegate = FakeMediaServiceRepository(),
+            accessControl = accessControl(enabled = { true }),
+            getAllowedSubscriptions = {
+                listOf(
+                    Subscription(url = "UC_ALLOWED_1", name = "SciShow Kids", verified = true),
+                    Subscription(url = "UC_ALLOWED_2", name = "Kids Science Lab", verified = true),
+                    Subscription(url = "UC_BLOCKED", name = "Science Blocked", verified = false),
+                )
+            },
+            getLocalFeedItems = {
+                listOf(
+                    StreamItem(
+                        url = "v1",
+                        title = "Science of Volcanoes",
+                        uploaderName = "SciShow Kids",
+                        shortDescription = "Learn about eruptions on Mars",
+                        uploaderUrl = "UC_ALLOWED_1",
+                        duration = 180L,
+                    ),
+                    StreamItem(
+                        url = "v2",
+                        title = "Fun with Magnets and Science",
+                        uploaderName = "Kids Science Lab",
+                        uploaderUrl = "UC_ALLOWED_2",
+                        duration = 90L,
+                    ),
+                    StreamItem(url = "v3", title = "scishow kids", uploaderUrl = "UC_ALLOWED_1"),
+                    StreamItem(
+                        url = "v4",
+                        title = "Science Blocked Video",
+                        uploaderUrl = "UC_BLOCKED",
+                    ),
+                )
+            },
+            getLocalSearchHistory = {
+                listOf("science experiments", "kids science", "dinosaur facts")
+            },
+        )
+
+    @Test
+    fun `local search matches Allowed Channels and feed items across tokens and filters`() =
+        runBlocking {
+            val repo = localSearchRepo()
+            assertEquals(
+                listOf("v1"),
+                repo.getSearchResults("  mars   volcanoes ", "all").items.map { it.url },
+            )
+
+            val channelsOnly = repo.getSearchResults("scishow", "channels")
+            assertEquals(listOf("UC_ALLOWED_1"), channelsOnly.items.map { it.url })
+            assertEquals(StreamItem.TYPE_CHANNEL, channelsOnly.items.single().type)
+
+            val videosOnly = repo.getSearchResults("volcanoes", "videos")
+            assertEquals(listOf("v1"), videosOnly.items.map { it.url })
+            assertEquals(StreamItem.TYPE_STREAM, videosOnly.items.single().type)
+
+            assertTrue(repo.getSearchResults("   ", "all").items.isEmpty())
+        }
+
+    @Test
+    fun `local suggestions rank prefix matches first and deduplicate case-insensitively`() =
+        runBlocking {
+            val repo = localSearchRepo()
+            assertEquals(
+                listOf(
+                    "SciShow Kids",
+                    "Science of Volcanoes",
+                    "science experiments",
+                    "Kids Science Lab",
+                    "Fun with Magnets and Science",
+                    "kids science",
+                ),
+                repo.getSuggestions("  sci  "),
+            )
+            assertEquals(
+                listOf("Fun with Magnets and Science"),
+                repo.getSuggestions("magnets science"),
+            )
+            assertTrue(repo.getSuggestions("   ").isEmpty())
+        }
 }

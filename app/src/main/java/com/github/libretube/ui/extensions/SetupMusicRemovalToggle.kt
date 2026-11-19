@@ -5,16 +5,16 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.github.libretube.R
 import com.github.libretube.ui.dialogs.ParentPinDialogs
-import com.github.libretube.util.ParentPinStore
-import com.github.libretube.util.ProtectedAction
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.PolicyChange
 import com.google.android.material.button.MaterialButton
 
 fun MaterialButton.setupMusicRemovalToggle(
     channelId: String?,
     onToggled: (Boolean) -> Unit = {},
 ) {
-    val store = ParentPinStore.instance
-    if (channelId.isNullOrBlank() || !store.isMusicRemovalEnabled()) {
+    val accessControl = AccessControl.instance
+    if (channelId.isNullOrBlank() || !accessControl.policy.musicRemovalEnabled) {
         isGone = true
         setOnClickListener(null)
         return
@@ -33,20 +33,19 @@ fun MaterialButton.setupMusicRemovalToggle(
         tooltipText = label
     }
 
-    updateUi(store.isMusicRemovalEnabledForChannel(channelId))
+    updateUi(accessControl.isMusicRemovalEnabledForChannel(channelId))
 
     setOnClickListener {
-        if (!store.isMusicRemovalEnabled()) {
+        if (!accessControl.policy.musicRemovalEnabled) {
             isGone = true
             return@setOnClickListener
         }
 
-        val nextEnabled = !store.isMusicRemovalEnabledForChannel(channelId)
-        store.authorize(
-            ProtectedAction.SetChannelMusicRemoval(enabled = nextEnabled),
+        val nextEnabled = !accessControl.isMusicRemovalEnabledForChannel(channelId)
+        accessControl.apply(
+            PolicyChange.SetChannelMusicRemoval(channelId, enabled = nextEnabled),
             ParentPinDialogs.promptAdapter(context),
         ) {
-            store.setMusicRemovalEnabledForChannel(channelId, nextEnabled)
             updateUi(nextEnabled)
             Toast.makeText(
                     context,

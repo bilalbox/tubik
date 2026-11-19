@@ -1,9 +1,9 @@
 package com.github.libretube.player
 
 import com.github.libretube.api.obj.Streams
-import com.github.libretube.extensions.toID
 import com.github.libretube.helpers.PlayerHelper
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
+import com.github.libretube.util.normalizeChannelId
 import java.util.concurrent.atomic.AtomicLong
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,9 +40,9 @@ data class PlaybackSessionState(
  */
 class PlaybackSession(
     private val isMusicRemovalEnabledForChannel: (String?) -> Boolean = { channelId ->
-        ParentPinStore.instance.isMusicRemovalEnabledForChannel(channelId)
+        AccessControl.instance.isMusicRemovalEnabledForChannel(channelId)
     },
-    musicRemovalRevision: Flow<Long> = ParentPinStore.instance.musicRemovalRevision,
+    musicRemovalRevision: Flow<Long> = AccessControl.instance.musicRemovalRevision,
     private val readPreferredSpeed: () -> Float = { PlayerHelper.readPersistedPlaybackSpeed() },
     private val writePreferredSpeed: (Float) -> Unit = { speed ->
         PlayerHelper.writePersistedPlaybackSpeed(speed)
@@ -238,15 +238,6 @@ class PlaybackSession(
 }
 
 private const val MinPlaybackSpeed = 0.25f
-
-internal fun normalizeChannelId(primary: String?, fallback: String? = null): String? {
-    return normalizeSingleChannelId(primary) ?: normalizeSingleChannelId(fallback)
-}
-
-private fun normalizeSingleChannelId(channelId: String?): String? {
-    if (channelId.isNullOrBlank()) return null
-    return channelId.toID().takeIf { it.isNotBlank() }
-}
 
 private fun sanitizeSpeed(speed: Float): Float {
     return speed

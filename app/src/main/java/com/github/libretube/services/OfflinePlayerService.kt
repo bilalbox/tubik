@@ -28,14 +28,14 @@ import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.extensions.updateParameters
 import com.github.libretube.helpers.PlayerHelper
 import com.github.libretube.parcelable.PlayerData
-import com.github.libretube.player.normalizeChannelId
 import com.github.libretube.repo.UserDataRepositoryHelper
 import com.github.libretube.ui.activities.MainActivity
 import com.github.libretube.ui.activities.NoInternetActivity
 import com.github.libretube.ui.fragments.DownloadTab
 import com.github.libretube.ui.fragments.DownloadsFragmentPage.Companion.sortDownloadList
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.PlayingQueue
+import com.github.libretube.util.normalizeChannelId
 import kotlin.io.path.exists
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -144,7 +144,9 @@ open class OfflinePlayerService : AbstractPlayerService() {
         val downloadWithItems =
             withContext(Dispatchers.IO) {
                 val found = Database.downloadDao().findById(videoId) ?: return@withContext null
-                if (!AllowedCatalog.instance.isChannelAllowed(found.download.uploaderUrl)) {
+                if (
+                    !AccessControl.instance.snapshot().isChannelAllowed(found.download.uploaderUrl)
+                ) {
                     toastFromMainDispatcher(R.string.channel_not_allowed)
                     return@withContext null
                 }
@@ -242,7 +244,7 @@ open class OfflinePlayerService : AbstractPlayerService() {
     }
 
     private suspend fun fillQueue() {
-        val snapshot = withContext(Dispatchers.IO) { AllowedCatalog.instance.snapshot() }
+        val snapshot = withContext(Dispatchers.IO) { AccessControl.instance.snapshot() }
         if (playerData.downloadTab == DownloadTab.PLAYLIST) {
             var videos =
                 withContext(Dispatchers.IO) {

@@ -9,7 +9,6 @@ import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.obj.PipedImportPlaylist
 import com.github.libretube.repo.UserDataRepository
 import com.github.libretube.repo.UserDataRepositoryHelper
-import com.github.libretube.util.AllowedCatalog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -40,13 +39,11 @@ object PlaylistsHelper {
     }
 
     suspend fun getPlaylist(playlistId: String, playlistType: PlaylistType): Playlist {
-        // load locally stored playlists with the auth api
-        val playlist =
-            when (playlistType) {
-                PlaylistType.PUBLIC -> MediaServiceRepository.instance.getPlaylist(playlistId)
-                else -> userDataRepository.getPlaylist(playlistId)
-            }
-        return AllowedCatalog.instance.filterPlaylist(playlist)
+        // Both MediaServiceRepository and LocalUserDataRepository filter through AccessControl.
+        return when (playlistType) {
+            PlaylistType.PUBLIC -> MediaServiceRepository.instance.getPlaylist(playlistId)
+            else -> userDataRepository.getPlaylist(playlistId)
+        }
     }
 
     suspend fun getAllPlaylistsWithVideos(playlistIds: List<String>? = null): List<Playlist> {

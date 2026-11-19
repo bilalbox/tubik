@@ -22,7 +22,7 @@ import com.github.libretube.ui.dialogs.BackupDialog
 import com.github.libretube.ui.dialogs.BackupDialog.Companion.BACKUP_DIALOG_REQUEST_KEY
 import com.github.libretube.ui.dialogs.ParentPinDialogs
 import com.github.libretube.ui.dialogs.RequireRestartDialog
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.ProtectedAction
 import com.github.libretube.util.TextUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -134,7 +134,7 @@ class BackupRestoreSettings : BasePreferenceFragment() {
 
         fun authorizeBackupOrRestoreClick(preferenceKey: String, onAuthorized: () -> Unit) {
             findPreference<Preference>(preferenceKey)?.setOnPreferenceClickListener {
-                ParentPinStore.instance.authorize(
+                AccessControl.instance.authorize(
                     ProtectedAction.BackupOrRestore,
                     ParentPinDialogs.promptAdapter(requireContext()),
                     onAuthorized = onAuthorized,

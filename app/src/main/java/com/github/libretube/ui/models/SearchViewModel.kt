@@ -9,7 +9,7 @@ import com.github.libretube.db.DatabaseHolder
 import com.github.libretube.enums.SearchDataType
 import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.obj.SearchDataItem
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 import kotlin.collections.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -69,8 +69,9 @@ class SearchViewModel : ViewModel() {
             .distinctUntilChanged()
             .combine(isSearchSuggestionEnabled) { query, suggestionsEnabled ->
                 if (
-                    !AllowedCatalog.instance.areSearchSuggestionsEnabled(suggestionsEnabled) ||
-                        query.isNullOrBlank()
+                    !AccessControl.instance.policy.areSearchSuggestionsEnabled(
+                        suggestionsEnabled,
+                    ) || query.isNullOrBlank()
                 ) {
                     return@combine emptyList<String>()
                 }
@@ -124,7 +125,9 @@ class SearchViewModel : ViewModel() {
             ) { histories, query, suggestionsEnabled ->
                 histories.isEmpty() &&
                     (query.isNullOrBlank() ||
-                        !AllowedCatalog.instance.areSearchSuggestionsEnabled(suggestionsEnabled))
+                        !AccessControl.instance.policy.areSearchSuggestionsEnabled(
+                            suggestionsEnabled,
+                        ))
             }
             .flowOn(Dispatchers.IO)
             .stateIn(viewModelScope, sharingStarted, true)

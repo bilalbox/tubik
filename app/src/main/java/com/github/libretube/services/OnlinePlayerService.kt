@@ -44,12 +44,12 @@ import com.github.libretube.player.choosePlaybackSource
 import com.github.libretube.player.isPlayableDashAudio
 import com.github.libretube.player.isPlayableDashVideo
 import com.github.libretube.player.manifest.SabrManifest
-import com.github.libretube.player.normalizeChannelId
 import com.github.libretube.player.shouldDestroyPlayerOnIdle
 import com.github.libretube.repo.UserDataRepositoryHelper
 import com.github.libretube.util.DeArrowUtil
 import com.github.libretube.util.PlayingQueue
 import com.github.libretube.util.YoutubeHlsPlaylistParser
+import com.github.libretube.util.normalizeChannelId
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

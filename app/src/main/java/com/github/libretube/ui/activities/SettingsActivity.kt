@@ -12,7 +12,7 @@ import com.github.libretube.R
 import com.github.libretube.databinding.ActivitySettingsBinding
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.dialogs.ParentPinDialogs
-import com.github.libretube.util.ParentPinStore
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.ProtectedAction
 
 class SettingsActivity : BaseActivity() {
@@ -53,7 +53,7 @@ class SettingsActivity : BaseActivity() {
 
         if (!pinUnlocked) {
             binding.root.isInvisible = true
-            ParentPinStore.instance.authorize(
+            AccessControl.instance.authorize(
                 ProtectedAction.OpenSettings,
                 ParentPinDialogs.promptAdapter(this),
                 onAuthorized = {

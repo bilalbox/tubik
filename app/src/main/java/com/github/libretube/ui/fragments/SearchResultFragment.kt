@@ -23,7 +23,7 @@ import com.github.libretube.ui.adapters.SearchResultsAdapter
 import com.github.libretube.ui.base.DynamicLayoutManagerFragment
 import com.github.libretube.ui.extensions.setOnBackPressed
 import com.github.libretube.ui.models.SearchResultViewModel
-import com.github.libretube.util.AllowedCatalog
+import com.github.libretube.util.AccessControl
 import com.github.libretube.util.TextUtils.toTimeInSeconds
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -139,7 +139,7 @@ class SearchResultFragment : DynamicLayoutManagerFragment(R.layout.fragment_sear
     }
 
     private fun updateMusicChipsVisibility() {
-        val hideMusicChips = AllowedCatalog.instance.shouldHideMusicSearchChips()
+        val hideMusicChips = AccessControl.instance.policy.shouldHideMusicSearchChips
         binding.chipMusicSongs.isGone = hideMusicChips
         binding.chipMusicVideos.isGone = hideMusicChips
         binding.chipMusicAlbums.isGone = hideMusicChips
