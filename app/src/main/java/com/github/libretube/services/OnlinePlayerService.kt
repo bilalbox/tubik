@@ -37,16 +37,14 @@ import com.github.libretube.helpers.PlayerHelper
 import com.github.libretube.helpers.PlayerHelper.getSubtitleRoleFlags
 import com.github.libretube.parcelable.PlayerData
 import com.github.libretube.player.PlaybackSource
+import com.github.libretube.player.PlaybackStreamResolver
+import com.github.libretube.player.ResolvedPlaybackStream
 import com.github.libretube.player.SabrMediaSource
-import com.github.libretube.player.StreamRefreshCoordinator
-import com.github.libretube.player.StreamTransportContext
-import com.github.libretube.player.choosePlaybackSource
+import com.github.libretube.player.StreamRecoveryOutcome
 import com.github.libretube.player.isPlayableDashAudio
 import com.github.libretube.player.isPlayableDashVideo
 import com.github.libretube.player.manifest.SabrManifest
-import com.github.libretube.player.shouldDestroyPlayerOnIdle
 import com.github.libretube.repo.UserDataRepositoryHelper
-import com.github.libretube.util.DeArrowUtil
 import com.github.libretube.util.PlayingQueue
 import com.github.libretube.util.YoutubeHlsPlaylistParser
 import com.github.libretube.util.normalizeChannelId
@@ -69,10 +67,9 @@ open class OnlinePlayerService : AbstractPlayerService() {
     private var channelId: String? = null
     private var startTimestampSeconds: Long? = null
 
-    /** The response that gets when called the Api. */
-    private var streams: Streams? = null
-
-    private var streamTransportContext: StreamTransportContext? = null
+    private var currentStream: ResolvedPlaybackStream? = null
+    private val streams: Streams?
+        get() = currentStream?.streams
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -82,20 +79,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
     private var fetchVideoInfoJob: Job? = null
     private var refreshStreamJob: Job? = null
 
-    private val streamRefreshCoordinator =
-        StreamRefreshCoordinator(
-            invalidateStreamsCache = { id ->
-                MediaServiceRepository.instance.invalidateStreamsCache(id)
-            },
-            fetchStreams = { id ->
-                MediaServiceRepository.instance.getStreams(id).let {
-                    runCatching { DeArrowUtil.deArrowStreams(it, id) }.getOrDefault(it)
-                }
-            },
-            resolveTransportContext = { id ->
-                MediaServiceRepository.instance.getStreamTransportContext(id)
-            },
-        )
+    private val streamResolver = PlaybackStreamResolver()
 
     private var hasPlaybackStarted = false
 
@@ -110,9 +94,10 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
                     Player.STATE_IDLE -> {
                         if (
-                            shouldDestroyPlayerOnIdle(
+                            streamResolver.shouldDestroyOnIdle(
+                                videoId = currentVideoIdOrNull(),
+                                playerError = exoPlayer?.playerError,
                                 isTransitioning = isTransitioning,
-                                hasPendingRecovery = hasPendingRecovery(),
                                 hasPlaybackStarted = hasPlaybackStarted,
                                 hasConnectedControllers = hasConnectedControllers(),
                             )
@@ -159,7 +144,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
         // get the intent arguments
         videoId = playerData.videoId!!
-        streamRefreshCoordinator.onVideoStarted(videoId)
+        streamResolver.onVideoStarted(videoId)
         playlistId = playerData.playlistId
         channelId = playerData.channelId
         playbackSession.bindTrack(
@@ -189,7 +174,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
             videoId = videoId,
             channelId = normalizeChannelId(PlayingQueue.getCurrent()?.uploaderUrl, channelId),
         )
-        streamRefreshCoordinator.onVideoStarted(videoId)
+        streamResolver.onVideoStarted(videoId)
         refreshStreamJob?.cancel()
         refreshStreamJob = null
 
@@ -205,13 +190,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
             val loaded =
                 withContext(Dispatchers.IO) {
                     try {
-                        val fetchedStreams =
-                            MediaServiceRepository.instance.getStreams(videoId).let {
-                                DeArrowUtil.deArrowStreams(it, videoId)
-                            }
-                        val fetchedTransport =
-                            MediaServiceRepository.instance.getStreamTransportContext(videoId)
-                        fetchedStreams to fetchedTransport
+                        streamResolver.resolve(videoId)
                     } catch (_: ChannelNotAllowedException) {
                         toastFromMainDispatcher(R.string.channel_not_allowed)
                         return@withContext null
@@ -227,8 +206,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                             requestStopService()
                         return@launch
                     }
-            streams = loaded.first
-            streamTransportContext = loaded.second
+            currentStream = loaded
 
             val streamItem = streams?.toStreamItem(videoId)
             playbackSession.bindTrack(
@@ -320,8 +298,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
     }
 
     override fun navigateVideo(videoId: String) {
-        this.streams = null
-        this.streamTransportContext = null
+        currentStream = null
         refreshStreamJob?.cancel()
         refreshStreamJob = null
         playbackSession.bindTrack(
@@ -335,7 +312,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
     override fun handlePlayerError(error: PlaybackException): Boolean {
         val activeVideoId = currentVideoIdOrNull() ?: return false
-        if (!streamRefreshCoordinator.beginRecoveryIfEligible(activeVideoId, error)) {
+        if (!streamResolver.beginRecoveryIfEligible(activeVideoId, error)) {
             return false
         }
 
@@ -346,50 +323,39 @@ open class OnlinePlayerService : AbstractPlayerService() {
         refreshStreamJob = scope.launch {
             val outcome =
                 withContext(Dispatchers.IO) {
-                    streamRefreshCoordinator.executeRecovery(activeVideoId, resumePositionMs)
+                    streamResolver.recover(activeVideoId, resumePositionMs)
                 }
-            StreamRefreshCoordinator.applyRecoveryOutcome(
-                currentVideoId = currentVideoIdOrNull(),
-                targetVideoId = activeVideoId,
-                outcome = outcome,
-                hasPendingRecovery = hasPendingRecovery(),
-                onRecovered = { recovered ->
-                    this@OnlinePlayerService.streams = recovered.streams
-                    this@OnlinePlayerService.streamTransportContext = recovered.transportContext
+            if (currentVideoIdOrNull() != activeVideoId) return@launch
+            when (outcome) {
+                is StreamRecoveryOutcome.Recovered -> {
+                    currentStream = outcome.resolved
                     if (setStreamSource()) {
                         exoPlayer?.apply {
-                            if (recovered.resumePositionMs > 0L) {
-                                seekTo(recovered.resumePositionMs)
-                            }
+                            if (outcome.resumePositionMs > 0L) seekTo(outcome.resumePositionMs)
                             playWhenReady = shouldPlayWhenReady
                             prepare()
                         }
                     } else {
                         finishTransition()
                     }
-                },
-                onFailed = { error ->
+                }
+                is StreamRecoveryOutcome.Failed -> {
                     finishTransition()
-                    Log.e(TAG(), error.stackTraceToString())
-                    toastFromMainDispatcher(error.localizedMessage.orEmpty())
-                },
-                onDestroyService = {
-                    if (!hasConnectedControllers()) {
+                    Log.e(TAG(), outcome.error.stackTraceToString())
+                    toastFromMainDispatcher(outcome.error.localizedMessage.orEmpty())
+                    val pending =
+                        streamResolver.hasPendingRecovery(
+                            currentVideoIdOrNull(),
+                            exoPlayer?.playerError,
+                        )
+                    if (!pending && !hasConnectedControllers()) {
                         requestStopService()
-                    } else {
-                        finishTransition()
                     }
-                },
-            )
+                }
+                StreamRecoveryOutcome.Stale -> Unit
+            }
         }
         return true
-    }
-
-    private fun hasPendingRecovery(): Boolean {
-        return streamRefreshCoordinator.hasPendingRecovery(
-            currentVideoIdOrNull(),
-            exoPlayer?.playerError,
-        )
     }
 
     override fun onDestroy() {
@@ -401,15 +367,16 @@ open class OnlinePlayerService : AbstractPlayerService() {
         super.onDestroy()
     }
 
-    /** Sets the [MediaItem] with the [streams] into the [exoPlayer] */
+    /** Sets the [MediaItem] with the resolved [currentStream] into the [exoPlayer] */
     private fun setStreamSource(): Boolean {
-        val streams = streams ?: return false
-        val transportContext = streamTransportContext ?: StreamTransportContext(videoId = videoId)
+        val resolved = currentStream ?: return false
+        val streams = resolved.streams
+        val transportContext = resolved.transportContext
         val cachingDataSourceFactory by lazy {
             PlayerHelper.getCachingDataSourceFactory(this, transportContext)
         }
 
-        when (val source = choosePlaybackSource(streams)) {
+        when (val source = resolved.source) {
             PlaybackSource.GeneratedDash,
             is PlaybackSource.RemoteDash -> {
                 val dashUri =

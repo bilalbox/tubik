@@ -29,8 +29,6 @@ import com.github.libretube.helpers.PlayerHelper
 import com.github.libretube.player.StreamTransportContext
 import com.github.libretube.security.NativeTransportBridge
 import com.github.libretube.ui.dialogs.ShareDialog.Companion.YOUTUBE_FRONTEND_URL
-import com.github.libretube.util.ClientUserAgentRegistry
-import com.github.libretube.util.NewPipeDownloaderImpl
 import kotlin.time.toKotlinInstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -280,8 +278,8 @@ class NewPipeMediaServiceRepository(
     private val poTokenProvider: org.schabi.newpipe.extractor.services.youtube.PoTokenProvider =
         PoTokenGenerator.instance,
     private val httpClient: OkHttpClient = NewPipeExtractorInstance.httpClient,
-    private val userAgentRegistry: ClientUserAgentRegistry =
-        NewPipeExtractorInstance.userAgentRegistry,
+    private val resolveRecordedUserAgent: (String) -> String? =
+        NewPipeExtractorInstance.downloader::recordedUserAgent,
     private val remoteStreamsFetcher: (suspend (String) -> Streams)? = null,
 ) : MediaServiceRepository {
     private val streamsCache =
@@ -290,7 +288,8 @@ class NewPipeMediaServiceRepository(
     override fun getStreamTransportContext(videoId: String): StreamTransportContext {
         return StreamTransportContext(
             videoId = videoId,
-            userAgent = userAgentRegistry.get(videoId) ?: NewPipeDownloaderImpl.USER_AGENT,
+            userAgent =
+                resolveRecordedUserAgent(videoId) ?: StreamTransportContext.DEFAULT_USER_AGENT,
             headers = emptyMap(),
             httpClient = httpClient,
             poTokenProvider = poTokenProvider,

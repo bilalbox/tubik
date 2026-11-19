@@ -179,8 +179,7 @@ class NewPipeDownloaderImplTest {
                 }
                 .build()
 
-        val registry = ClientUserAgentRegistry()
-        val testDownloader = NewPipeDownloaderImpl(fakeClient, registry)
+        val testDownloader = NewPipeDownloaderImpl(fakeClient)
         val requestPayload =
             """
             {
@@ -212,13 +211,13 @@ class NewPipeDownloaderImplTest {
         assertFalse(seenRequests.any { it.second == NewPipeDownloaderImpl.IOS_USER_AGENT })
         assertEquals(
             NewPipeDownloaderImpl.ANDROID_KIDS_USER_AGENT,
-            registry.get("vid_kids_1"),
+            testDownloader.recordedUserAgent("vid_kids_1"),
         )
         assertEquals(
             NewPipeDownloaderImpl.ANDROID_KIDS_USER_AGENT,
             StreamTransportContext(
                     videoId = "vid_kids_1",
-                    userAgent = registry.get("vid_kids_1"),
+                    userAgent = testDownloader.recordedUserAgent("vid_kids_1"),
                 )
                 .resolveUserAgent(
                     "https://rr1---sn-test.googlevideo.com/videoplayback?id=vid_kids_1",
@@ -266,7 +265,7 @@ class NewPipeDownloaderImplTest {
         )
         assertEquals(
             NewPipeDownloaderImpl.IOS_USER_AGENT,
-            registry.get("vid_ios_2"),
+            testDownloader.recordedUserAgent("vid_ios_2"),
         )
         assertEquals(
             NewPipeDownloaderImpl.IOS_USER_AGENT,
@@ -290,9 +289,6 @@ class NewPipeDownloaderImplTest {
 
     @Test
     fun `downloader instances isolate recorded User-Agents and never bleed across unrelated videos`() {
-        val registryA = ClientUserAgentRegistry()
-        val registryB = ClientUserAgentRegistry()
-
         val clientReturningIos =
             OkHttpClient.Builder()
                 .addInterceptor { chain ->
@@ -313,8 +309,8 @@ class NewPipeDownloaderImplTest {
                 }
                 .build()
 
-        val downloaderA = NewPipeDownloaderImpl(clientReturningIos, registryA)
-        val downloaderB = NewPipeDownloaderImpl(clientReturningIos, registryB)
+        val downloaderA = NewPipeDownloaderImpl(clientReturningIos)
+        val downloaderB = NewPipeDownloaderImpl(clientReturningIos)
 
         val payloadA =
             """{"context":{"client":{"clientName":"WEB","clientVersion":"2.20260101.00.00","hl":"en","gl":"US"}},"videoId":"vid_a"}"""
@@ -326,30 +322,28 @@ class NewPipeDownloaderImplTest {
                 .build(),
         )
 
-        assertEquals(NewPipeDownloaderImpl.IOS_USER_AGENT, registryA.get("vid_a"))
-        assertNull(registryB.get("vid_a"))
+        assertEquals(NewPipeDownloaderImpl.IOS_USER_AGENT, downloaderA.recordedUserAgent("vid_a"))
+        assertNull(downloaderB.recordedUserAgent("vid_a"))
         // Blank user agents must not overwrite or mask fallback resolution, and oldest entries
         // evict
-        registryA.record("vid_blank", "   ")
-        assertNull(registryA.get("vid_blank"))
-        val boundedRegistry = ClientUserAgentRegistry(maxEntries = 2)
-        boundedRegistry.record("v1", "ua1")
-        boundedRegistry.record("v2", "ua2")
-        boundedRegistry.record("v3", "ua3")
-        assertNull(boundedRegistry.get("v1"))
-        assertEquals("ua2", boundedRegistry.get("v2"))
-        assertEquals("ua3", boundedRegistry.get("v3"))
-        // Unrelated video in registryA must fall back to default USER_AGENT rather than a global
-        // lastExtractedUserAgent
+        downloaderA.recordUserAgent("vid_blank", "   ")
+        assertNull(downloaderA.recordedUserAgent("vid_blank"))
+        val boundedDownloader = NewPipeDownloaderImpl(clientReturningIos, maxUserAgentEntries = 2)
+        boundedDownloader.recordUserAgent("v1", "ua1")
+        boundedDownloader.recordUserAgent("v2", "ua2")
+        boundedDownloader.recordUserAgent("v3", "ua3")
+        assertNull(boundedDownloader.recordedUserAgent("v1"))
+        assertEquals("ua2", boundedDownloader.recordedUserAgent("v2"))
+        assertEquals("ua3", boundedDownloader.recordedUserAgent("v3"))
+        // Unrelated video must fall back to default USER_AGENT rather than bleeding
         assertEquals(
             NewPipeDownloaderImpl.USER_AGENT,
             StreamTransportContext(
                     videoId = "vid_unrelated",
-                    userAgent = registryA.get("vid_unrelated"),
+                    userAgent = downloaderA.recordedUserAgent("vid_unrelated"),
                 )
                 .resolveUserAgent("https://rr1---sn-test.googlevideo.com/videoplayback?itag=140"),
         )
-        assertSame(registryB, downloaderB.userAgentRegistry)
     }
 
     @Test

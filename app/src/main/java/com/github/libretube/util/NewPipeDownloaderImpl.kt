@@ -1,10 +1,11 @@
 package com.github.libretube.util
 
 import android.util.Log
+import androidx.collection.LruCache
+import com.github.libretube.player.StreamTransportContext
 import com.github.libretube.security.NativeTransportBridge
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.TimeUnit
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -24,10 +25,25 @@ import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 
 class NewPipeDownloaderImpl(
     private val client: OkHttpClient = httpClient,
-    val userAgentRegistry: ClientUserAgentRegistry = ClientUserAgentRegistry(),
+    maxUserAgentEntries: Int = DEFAULT_USER_AGENT_CACHE_SIZE,
 ) : Downloader() {
 
+    private val clientUserAgentsByVideoId = LruCache<String, String>(maxUserAgentEntries)
+
     @Volatile private var cachedIosVisitorData: String? = null
+
+    fun recordedUserAgent(videoId: String?): String? {
+        val key = videoId?.takeIf { it.isNotBlank() } ?: return null
+        return synchronized(clientUserAgentsByVideoId) { clientUserAgentsByVideoId[key] }
+    }
+
+    internal fun recordUserAgent(videoId: String?, userAgent: String) {
+        if (!videoId.isNullOrBlank() && userAgent.isNotBlank()) {
+            synchronized(clientUserAgentsByVideoId) {
+                clientUserAgentsByVideoId.put(videoId, userAgent)
+            }
+        }
+    }
 
     @Throws(IOException::class, ReCaptchaException::class)
     override fun execute(request: Request): Response {
@@ -76,7 +92,7 @@ class NewPipeDownloaderImpl(
                             dataToSend = dataToSend,
                             headerUserAgent = builtRequest.header("User-Agent"),
                         )
-                    userAgentRegistry.record(videoId, primaryUserAgent)
+                    recordUserAgent(videoId, primaryUserAgent)
                 }
                 Response(
                     response.code,
@@ -368,7 +384,7 @@ class NewPipeDownloaderImpl(
             )
             if (usable) {
                 val resolvedVideoId = videoId ?: payload["videoId"]?.jsonPrimitive?.contentOrNull
-                userAgentRegistry.record(resolvedVideoId, userAgent)
+                recordUserAgent(resolvedVideoId, userAgent)
                 Response(
                     resp.code,
                     resp.message,
@@ -428,57 +444,32 @@ class NewPipeDownloaderImpl(
 
     companion object {
         private const val LOG_TAG = "TubikPlayer"
+        const val DEFAULT_USER_AGENT_CACHE_SIZE = 128
 
-        const val USER_AGENT =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0"
+        const val USER_AGENT = StreamTransportContext.DEFAULT_USER_AGENT
 
         internal const val IOS_CLIENT_NAME = "IOS"
         internal const val IOS_CLIENT_VERSION = "21.03.2"
         internal const val IOS_DEVICE_MODEL = "iPhone16,2"
         internal const val IOS_OS_VERSION = "18.7.2.22H124"
-        const val IOS_USER_AGENT =
-            "com.google.ios.youtube/21.03.2(iPhone16,2; U; CPU iOS 18_7_2 like Mac OS X; US)"
+        const val IOS_USER_AGENT = StreamTransportContext.IOS_USER_AGENT
 
         internal const val ANDROID_KIDS_CLIENT_NAME = "ANDROID_KIDS"
         internal const val ANDROID_KIDS_CLIENT_VERSION = "9.44.2"
-        const val ANDROID_KIDS_USER_AGENT =
-            "com.google.android.apps.youtube.kids/9.44.2 (Linux; U; Android 15; US) gzip"
+        const val ANDROID_KIDS_USER_AGENT = StreamTransportContext.ANDROID_KIDS_USER_AGENT
 
-        const val VISIONOS_USER_AGENT =
-            "com.google.visionos.youtube/1.02(RealityDevice14,1; U; CPU visionOS 25_6_0 like Mac OS X; GB)"
+        const val VISIONOS_USER_AGENT = StreamTransportContext.VISIONOS_USER_AGENT
 
-        val sharedConnectionPool = ConnectionPool(10, 5, TimeUnit.MINUTES)
+        val sharedConnectionPool: ConnectionPool = StreamTransportContext.sharedConnectionPool
 
-        val httpClient: OkHttpClient =
-            OkHttpClient.Builder()
-                .connectionPool(sharedConnectionPool)
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build()
+        val httpClient: OkHttpClient = StreamTransportContext.defaultHttpClient
 
-        fun userAgentForClientName(clientName: String?): String? {
-            return when (clientName?.uppercase()) {
-                "IOS" -> IOS_USER_AGENT
-                "ANDROID_KIDS" -> ANDROID_KIDS_USER_AGENT
-                "WEB",
-                "MWEB",
-                "TVHTML5",
-                "WEB_REMIX",
-                "WEB_EMBEDDED_PLAYER",
-                "WEB_CREATOR" -> USER_AGENT
-                "VISIONOS" -> VISIONOS_USER_AGENT
-                else -> null
-            }
-        }
+        fun userAgentForClientName(clientName: String?): String? =
+            StreamTransportContext.userAgentForClientName(clientName)
 
         internal fun extractQueryParam(url: String, paramName: String): String? {
             val parsedUrl = url.toHttpUrlOrNull()
             return parsedUrl?.queryParameter(paramName) ?: extractRawQueryParam(url, paramName)
-        }
-
-        internal fun resolveUrlClientUserAgent(url: String?): String? {
-            if (url.isNullOrBlank()) return null
-            return userAgentForClientName(extractQueryParam(url, "c"))
         }
 
         private fun extractRawQueryParam(url: String, paramName: String): String? {
