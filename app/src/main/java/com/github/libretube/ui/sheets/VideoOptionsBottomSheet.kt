@@ -170,25 +170,26 @@ class VideoOptionsBottomSheet : BaseBottomSheet() {
 
         setTitle(streamItem.title)
 
-        var optionsList = buildList {
+        val baseOptions = buildList {
             add(VideoBottomSheetItem.AddToPlaylist)
             if (!streamItem.isLive) add(VideoBottomSheetItem.Download)
             add(VideoBottomSheetItem.Share)
         }
 
-        setItems(optionsList) { which ->
-            onOptionSelect(optionsList[which], videoId, playlistId)
+        // set the list exactly once, so the visible sheet never has to rewrite its rows
+        fun showOptions(optionsList: List<VideoBottomSheetItem>) {
+            setItems(optionsList) { which ->
+                onOptionSelect(optionsList[which], videoId, playlistId)
+            }
         }
 
         // these options are only available for other videos than the currently playing one
         if (PlayingQueue.getCurrent()?.url?.toID() != videoId) {
             getOptionsForNotActivePlayback(videoId) { addedOptions ->
-                optionsList = addedOptions + optionsList
-
-                setItems(optionsList) { which ->
-                    onOptionSelect(optionsList[which], videoId, playlistId)
-                }
+                showOptions((addedOptions + baseOptions).distinct())
             }
+        } else {
+            showOptions(baseOptions)
         }
 
         super.onCreate(savedInstanceState)

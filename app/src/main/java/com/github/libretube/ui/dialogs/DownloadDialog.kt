@@ -19,6 +19,7 @@ import com.github.libretube.api.obj.PipedStream
 import com.github.libretube.api.obj.Streams
 import com.github.libretube.api.obj.Subtitle
 import com.github.libretube.constants.IntentData
+import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.databinding.DialogDownloadBinding
 import com.github.libretube.db.DatabaseHolder
 import com.github.libretube.extensions.TAG
@@ -192,7 +193,8 @@ class DownloadDialog : DialogFragment() {
             val audioStream = audioStreams.getOrNull(audioPosition)
             val subtitle = subtitles.getOrNull(subtitlePosition)
 
-            saveSelections(videoStream, audioStream, subtitle)
+            // video/audio choices only apply to this download; the defaults live in the settings
+            PreferenceHelper.putString(SUBTITLE_LANGUAGE, subtitle?.code.orEmpty())
 
             val downloadData =
                 DownloadData(
@@ -210,44 +212,24 @@ class DownloadDialog : DialogFragment() {
         }
     }
 
-    /** Save the download selection to the preferences */
-    private fun saveSelections(
-        videoStream: PipedStream?,
-        audioStream: PipedStream?,
-        subtitle: Subtitle?,
-    ) {
-        PreferenceHelper.putString(SUBTITLE_LANGUAGE, subtitle?.code.orEmpty())
-        PreferenceHelper.putString(VIDEO_DOWNLOAD_FORMAT, videoStream?.format.orEmpty())
-        PreferenceHelper.putString(VIDEO_DOWNLOAD_QUALITY, videoStream?.quality.orEmpty())
-        PreferenceHelper.putString(AUDIO_DOWNLOAD_FORMAT, audioStream?.format.orEmpty())
-        PreferenceHelper.putString(AUDIO_DOWNLOAD_QUALITY, audioStream?.quality.orEmpty())
-    }
-
     private fun getSel(key: String) = PreferenceHelper.getString(key, "")
 
-    /** Restore the download selections from a previous session */
+    /** Preselect the defaults from the settings (video/audio) and the last used subtitle */
     private fun restorePreviousSelections(
         binding: DialogDownloadBinding,
         videoStreams: List<PipedStream>,
         audioStreams: List<PipedStream>,
         subtitles: List<Subtitle>,
     ) {
-        getStreamSelection(
-                videoStreams,
-                getSel(VIDEO_DOWNLOAD_QUALITY),
-                getSel(VIDEO_DOWNLOAD_FORMAT),
-            )
-            ?.let {
-                binding.videoSpinner.selectedItemPosition = it + 1
-            }
-        getStreamSelection(
-                audioStreams,
-                getSel(AUDIO_DOWNLOAD_QUALITY),
-                getSel(AUDIO_DOWNLOAD_FORMAT),
-            )
-            ?.let {
-                binding.audioSpinner.selectedItemPosition = it + 1
-            }
+        val videoDefault =
+            PreferenceHelper.getString(PreferenceKeys.DEFAULT_VIDEO_DOWNLOAD_QUALITY, "1080")
+        binding.videoSpinner.selectedItemPosition =
+            defaultVideoIndex(videoStreams, videoDefault) + 1
+
+        val audioDefault =
+            PreferenceHelper.getString(PreferenceKeys.DEFAULT_AUDIO_DOWNLOAD_QUALITY, "best")
+        binding.audioSpinner.selectedItemPosition =
+            defaultAudioIndex(audioStreams, audioDefault) + 1
 
         subtitles
             .indexOfFirst { it.code == getSel(SUBTITLE_LANGUAGE) }
@@ -257,29 +239,28 @@ class DownloadDialog : DialogFragment() {
             }
     }
 
-    private fun getStreamSelection(
-        streams: List<PipedStream>,
-        quality: String,
-        format: String,
-    ): Int? {
-        if (quality.isBlank()) return null
-
-        streams.forEachIndexed { index, pipedStream ->
-            if (quality == pipedStream.quality && format == pipedStream.format) return index
+    /**
+     * Index of the stream to preselect, or -1 for none. [streams] are sorted by quality,
+     * descending. Picks the best stream that does not exceed the wanted quality, falling back to
+     * the lowest one if all are above it.
+     */
+    private fun defaultVideoIndex(streams: List<PipedStream>, default: String): Int {
+        val maxQuality =
+            default.toIntOrNull() ?: if (default == "none") return -1 else Int.MAX_VALUE
+        val index = streams.indexOfFirst {
+            (it.quality.getWhileDigit() ?: Int.MAX_VALUE) <= maxQuality
         }
-
-        streams.forEachIndexed { index, pipedStream ->
-            if (quality == pipedStream.quality) return index
-        }
-
-        val qualityInt = quality.getWhileDigit() ?: return null
-
-        streams.forEachIndexed { index, pipedStream ->
-            if ((pipedStream.quality.getWhileDigit() ?: Int.MAX_VALUE) < qualityInt) return index
-        }
-
-        return null
+        return if (index != -1) index else streams.lastIndex
     }
+
+    private fun defaultAudioIndex(streams: List<PipedStream>, default: String): Int =
+        when (default) {
+            "none" -> -1
+            "lowest" ->
+                streams.indices.minByOrNull { streams[it].quality.getWhileDigit() ?: Int.MAX_VALUE }
+                    ?: -1
+            else -> streams.indices.firstOrNull() ?: -1
+        }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
@@ -288,10 +269,6 @@ class DownloadDialog : DialogFragment() {
     }
 
     companion object {
-        private const val VIDEO_DOWNLOAD_QUALITY = "video_download_quality"
-        private const val VIDEO_DOWNLOAD_FORMAT = "video_download_format"
-        private const val AUDIO_DOWNLOAD_QUALITY = "audio_download_quality"
-        private const val AUDIO_DOWNLOAD_FORMAT = "audio_download_format"
         private const val SUBTITLE_LANGUAGE = "subtitle_download_language"
 
         const val DOWNLOAD_DIALOG_DISMISSED_KEY = "download_dialog_dismissed_key"

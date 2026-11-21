@@ -21,8 +21,8 @@ open class BaseBottomSheet(@LayoutRes layoutResId: Int = R.layout.bottom_sheet) 
     ExpandedBottomSheet(layoutResId) {
 
     private var title: String? = null
-    private lateinit var items: List<BottomSheetItem>
-    private lateinit var listener: (index: Int) -> Unit
+    private var items: List<BottomSheetItem> = emptyList()
+    private var listener: (index: Int) -> Unit = {}
 
     private lateinit var adapter: BottomSheetAdapter
 
@@ -43,8 +43,10 @@ open class BaseBottomSheet(@LayoutRes layoutResId: Int = R.layout.bottom_sheet) 
         }
 
         binding.optionsRecycler.layoutManager = LinearLayoutManager(requireContext())
+        // the list can change after the sheet is shown; animating those inserts leaves stale rows
+        binding.optionsRecycler.itemAnimator = null
 
-        adapter = BottomSheetAdapter(listener)
+        adapter = BottomSheetAdapter { index -> listener(index) }
         adapter.submitList(items)
         binding.optionsRecycler.adapter = adapter
 
@@ -68,7 +70,7 @@ open class BaseBottomSheet(@LayoutRes layoutResId: Int = R.layout.bottom_sheet) 
 
         // if the caller calls `setItems` while the sheet is already visible, update the existing
         // list
-        if (::adapter.isInitialized) adapter.submitList(items)
+        if (::adapter.isInitialized) adapter.submitList(items.toList())
 
         this.listener = { index ->
             lifecycleScope.launch {

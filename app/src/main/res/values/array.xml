@@ -174,6 +174,36 @@
         <item>alphabetic_reversed</item>
     </string-array>
 
+    <string-array name="downloadVideoQualityOptions">
+        <item>@string/best_available</item>
+        <item translatable="false">1080p</item>
+        <item translatable="false">720p</item>
+        <item translatable="false">480p</item>
+        <item translatable="false">360p</item>
+        <item>@string/no_video</item>
+    </string-array>
+
+    <string-array name="downloadVideoQualityValues" translatable="false">
+        <item>best</item>
+        <item>1080</item>
+        <item>720</item>
+        <item>480</item>
+        <item>360</item>
+        <item>none</item>
+    </string-array>
+
+    <string-array name="downloadAudioQualityOptions">
+        <item>@string/best_available</item>
+        <item>@string/lowest_available</item>
+        <item>@string/no_audio</item>
+    </string-array>
+
+    <string-array name="downloadAudioQualityValues" translatable="false">
+        <item>best</item>
+        <item>lowest</item>
+        <item>none</item>
+    </string-array>
+
     <string-array name="dataSaverModeOptions">
         <item>@string/disabled</item>
         <item>@string/network_metered</item>

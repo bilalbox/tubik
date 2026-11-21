@@ -87,6 +87,8 @@ object PreferenceKeys {
     const val RESET_SETTINGS = "reset_settings"
     const val SHARE_WITH_TIME_CODE = "share_with_time_code"
     const val EXTERNAL_DOWNLOAD_PROVIDER = "external_download_provider"
+    const val DEFAULT_VIDEO_DOWNLOAD_QUALITY = "default_video_download_quality"
+    const val DEFAULT_AUDIO_DOWNLOAD_QUALITY = "default_audio_download_quality"
     const val LOCAL_RYD = "local_return_youtube_dislikes"
     const val INCLUDE_TIMESTAMP_IN_BACKUP_FILENAME = "include_timestamp_in_filename"
 

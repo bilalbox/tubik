@@ -451,6 +451,10 @@
     <string name="add_to_group">Add to group</string>
     <string name="change">Change</string>
     <string name="gestures">Gestures</string>
+    <string name="default_video_quality" tools:ignore="MissingTranslation">Default video quality</string>
+    <string name="default_audio_quality" tools:ignore="MissingTranslation">Default audio quality</string>
+    <string name="best_available" tools:ignore="MissingTranslation">Best available</string>
+    <string name="lowest_available" tools:ignore="MissingTranslation">Lowest available</string>
     <string name="external_download_provider">External download provider</string>
     <string name="external_download_provider_summary">Enter the package name of the app you want to use for downloading videos. Leave blank to use Tubik\'s inbuilt downloader.</string>
     <string name="local_stream_extraction">Local stream extraction</string>

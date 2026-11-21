@@ -48,6 +48,24 @@
 
     <PreferenceCategory app:title="@string/downloads">
 
+        <ListPreference
+            android:defaultValue="1080"
+            android:entries="@array/downloadVideoQualityOptions"
+            android:entryValues="@array/downloadVideoQualityValues"
+            android:icon="@drawable/ic_download_filled"
+            app:key="default_video_download_quality"
+            app:title="@string/default_video_quality"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="best"
+            android:entries="@array/downloadAudioQualityOptions"
+            android:entryValues="@array/downloadAudioQualityValues"
+            android:icon="@drawable/ic_download_filled"
+            app:key="default_audio_download_quality"
+            app:title="@string/default_audio_quality"
+            app:useSimpleSummaryProvider="true" />
+
         <EditTextPreference
             android:icon="@drawable/ic_open"
             android:key="external_download_provider"

@@ -1,0 +1,5 @@
+Tubik v1.2.4:
+
+- Fixed Download and Share showing up twice in the video options sheet on the first long press.
+- Fixed the video options sheet running the wrong action when its list updated after opening.
+- Added default video and audio quality settings for downloads (Settings > General > Downloads). The download dialog now opens with them preselected, and changing them there only applies to that download.
