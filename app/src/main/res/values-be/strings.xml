@@ -5,7 +5,6 @@
     <string name="videos">Відэа</string>
     <string name="cancel">Адмена</string>
     <string name="instances">Абярыце сервер…</string>
-    <string name="region">Рэгіён</string>
     <string name="importsuccess">Падпісаны</string>
     <string name="import_from_yt">Імпарт падпісак</string>
     <string name="import_from_yt_summary">З YouTube або NewPipe</string>
@@ -111,7 +110,6 @@
     <string name="worst_quality">Найгоршая</string>
     <string name="default_subtitle_language">Мова субтытраў</string>
     <string name="notifications">Апавяшчэнні</string>
-    <string name="startpage">Галоўная</string>
     <string name="subscriptions">Падпіскі</string>
     <string name="library">Бібліятэка</string>
     <string name="search_hint">Пошук</string>
@@ -232,10 +230,8 @@
     <string name="audio_track">Гукавая дарожка</string>
     <string name="auto_quality">Аўта</string>
     <string name="unsupported_file_format">Фармат файла не падтрымліваецца: %1$s</string>
-    <string name="trends">Трэнды</string>
     <string name="bookmark">Закладка</string>
     <string name="clear_bookmarks">Ачысціць закладкі</string>
-    <string name="trending">Зараз у трэндзе</string>
     <string name="bookmarks">Закладкі</string>
     <string name="local_playlists">Лакальныя плэйлісты</string>
     <string name="swipe_controls">Кіраванне жэстамі</string>
@@ -283,10 +279,8 @@
     <string name="faq">Часта задаюць пытанні</string>
     <string name="uploaderAndVideoCount">%1$s • %2$d відэа</string>
     <string name="new_videos_badge_summary">Паказаць значок з колькасцю новых відэа, калі яны ёсць</string>
-    <string name="change_region">«Трэнды» недаступныя для бягучага рэгіёну. Калі ласка, абярыце іншы ў наладах.</string>
     <string name="autoplay_countdown_summary">Паказваць 5-секундны зваротны адлік перад аўтаматычным прайграваннем наступнага відэа</string>
     <string name="category_preview_summary">Для сегментаў з падрабязным апісаннем будучага кантэнту без дадатковай інфармацыі. Калі яна ўключае ў сябе кліпы, якія з\'яўляюцца толькі тут, гэта, хутчэй за ўсё, няправільная катэгорыя</string>
-    <string name="featured">Рэкамендацыі</string>
     <string name="pinch_control">Шчыпковы кантроль</string>
     <string name="pinch_control_summary">Выкарыстоўвайце жэст шчыпка для павелічэння/памяншэння</string>
     <string name="color_violet">Універсальны фіялетавы</string>
@@ -411,14 +405,11 @@
     <string name="rich_caption_rendering_summary">Адмалёўваць субтытры вэб-рухавічком для падтрымкі пашыраных магчымасцяў і налад</string>
     <string name="grid_landscape">Стоўбцы (ў гарызантальным рэжыме)</string>
     <string name="copy_tooltip">Капіяваць</string>
-    <string name="change_instance">Змяніць сервер</string>
-    <string name="suggest_change_instance">Спампоўка займае больш часу, чым звычайна. Паспрабуйце змяніць сервер</string>
     <string name="delete_all">Усе спампоўкі будуць выдалены!</string>
     <string name="download_playlist">Спампаваць плэйліст</string>
     <string name="download_playlist_note">Абярыце максімальную якасць пампаванага аўдыё/відэа. Субтытры будуць запампаваны толькі пры іх наяўнасці.</string>
     <string name="gestures">Жэсты</string>
     <string name="also_clear_watch_positions">Таксама ачысціць пазіцыі прагляду</string>
-    <string name="change">Змяніць</string>
     <string name="enqueue_playlist_description">Паказваць апавяшчэнне пры стварэнні чаргі на загрузку відэа з плэйліста.</string>
     <string name="enqueueing_playlist_download">Дадаць відэа з плэйліста %1$s у чаргу на загрузку</string>
     <string name="audio_language">Мова аўдыё</string>
@@ -463,10 +454,7 @@
     <string name="updating_feed">Абнаўленне стужкі…</string>
     <string name="createNewPlaylist">Стварыць новы плэйліст</string>
     <string name="playback_pitch_semitone_error_input">Значэнне павінна быць у дыяпазоне ад -%1$.1f (мінімум) да %1$.1f (максімум)</string>
-    <string name="gaming">Гульні</string>
     <string name="podcasts">Падкасты</string>
-    <string name="trailers">Трэйлеры</string>
-    <string name="music">Музыка</string>
     <string name="category_hook">Застаўка/Вітанне</string>
     <string name="category_hook_summary">Для заставак расказу, што захопліваюць увагу глядача (часцей, першыя сцэны) перадражнівая ці апісвая падзеі ў гэтым відэа ці будучых эпізодах</string>
     <string name="checking_frequency_15_minutes">15 хвілін</string>

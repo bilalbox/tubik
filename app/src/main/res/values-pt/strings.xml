@@ -7,7 +7,6 @@
     <string name="yes">Sim</string>
     <string name="cancel">Cancelar</string>
     <string name="instances">Escolher…</string>
-    <string name="region">Região</string>
     <string name="importsuccess">Subscrito</string>
     <string name="app_theme">Tema</string>
     <string name="server_error">Parece que existe um problema com o servidor selecionado. Tente outra instância.</string>
@@ -31,7 +30,6 @@
     <string name="about">Acerca</string>
     <string name="videos">Vídeos</string>
     <string name="library">Biblioteca</string>
-    <string name="startpage">Início</string>
     <string name="subscriptions">Subscrições</string>
     <string name="instance">Instância</string>
     <string name="videoCount">%1$d vídeos</string>
@@ -209,7 +207,6 @@
     <string name="preferences">Preferências</string>
     <string name="play_next">Reproduzir seguinte</string>
     <string name="navigation_bar">Barra de navegação</string>
-    <string name="change_region">Parece que as tendências não estão disponíveis na sua região. Selecione outra região nas definições.</string>
     <string name="renamePlaylist">Mudar nome da lista de reprodução</string>
     <string name="wifi">Wi-Fi</string>
     <string name="mobile_data">Dados móveis</string>
@@ -234,9 +231,6 @@
     <string name="layout">Esquema</string>
     <string name="audio_track">Faixa de áudio</string>
     <string name="auto_quality">Automático</string>
-    <string name="trends">Tendências</string>
-    <string name="featured">Destaques</string>
-    <string name="trending">Tendências atuais</string>
     <string name="bookmarks">Marcadores</string>
     <string name="bookmark">Marcador</string>
     <string name="clear_bookmarks">Limpar marcadores</string>
@@ -410,9 +404,6 @@
     <string name="rich_caption_rendering">Legendas melhoradas</string>
     <string name="rich_caption_rendering_summary">Processar legendas para uma experiência melhorada e personalizada</string>
     <string name="copy_tooltip">Copiar</string>
-    <string name="change_instance">Alterar instância</string>
-    <string name="suggest_change_instance">O carregamento está a demorar mais do que o habitual. Considere alterar a instância</string>
-    <string name="change">Alterar</string>
     <string name="enqueueing_playlist_download">Colocar vídeos em fila de espera para descarregar da lista de reprodução %1$s</string>
     <string name="audio_language">Idioma de áudio</string>
     <string name="default_language">Padrão</string>
@@ -462,10 +453,7 @@
     <string name="authentication">Autenticação</string>
     <string name="createNewPlaylist">Nova lista de reprodução</string>
     <string name="playback_pitch_semitone_error_input">O valor tem que estar entre -%1$.1f (mínimo) e %1$.1f (máximo)</string>
-    <string name="gaming">Jogos</string>
     <string name="podcasts">Podcasts</string>
-    <string name="trailers">Trailers</string>
-    <string name="music">Músicas</string>
     <string name="include_timestamp_in_filename">Incluir data e hora no nome do ficheiro</string>
     <string name="category_hook">Trechos/Saudações</string>
     <string name="category_hook_summary">Para trechos narrativos que chamam a atenção do espectador (muitas vezes como primeira cena) ao provocar ou descrever eventos que ocorrem mais tarde no mesmo vídeo ou em episódios futuros de uma série</string>

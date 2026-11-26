@@ -81,8 +81,7 @@ class PoTokenGeneratorTest {
 
         // Repeated MediaServiceRepository.instance accesses (e.g. search, feed pagination) must not
         // wipe cached PoToken
-        MediaServiceRepository.instance.getTrendingCategories()
-        MediaServiceRepository.instance.getTrendingCategories()
+        assertSame(MediaServiceRepository.instance, MediaServiceRepository.instance)
 
         // Newly created SabrClient immediately receives the cached web PoToken on startup
         val sabrClient =

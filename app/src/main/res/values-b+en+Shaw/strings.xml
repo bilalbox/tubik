@@ -39,7 +39,6 @@
     <string name="subscribe">𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚</string>
     <string name="unsubscribe">𐑳𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚</string>
     <string name="cancel">𐑒𐑨𐑯𐑕𐑩𐑤</string>
-    <string name="region">𐑮𐑰𐑡𐑩𐑯</string>
     <string name="import_from_yt_summary">𐑓𐑮𐑪𐑥 ·𐑿𐑑𐑿𐑚 𐑹 ·𐑯𐑿𐑐𐑲𐑐</string>
     <string name="unknown_error">𐑯𐑧𐑑𐑢𐑻𐑒 𐑧𐑮𐑼.</string>
     <string name="error">𐑕𐑳𐑥𐑔𐑦𐑙 𐑢𐑧𐑯𐑑 𐑮𐑪𐑙.</string>
@@ -157,8 +156,6 @@
     <string name="preferences">𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟</string>
     <string name="play_next">𐑐𐑤𐑱 𐑯𐑧𐑒𐑕𐑑</string>
     <string name="navigation_bar">𐑯𐑨𐑝𐑦𐑜𐑱𐑖𐑩𐑯 𐑚𐑸</string>
-    <string name="change_instance">𐑗𐑱𐑯𐑡 𐑦𐑯𐑕𐑑𐑩𐑯𐑕</string>
-    <string name="suggest_change_instance">𐑤𐑴𐑛𐑦𐑙 𐑦𐑟 𐑑𐑱𐑒𐑦𐑙 𐑥𐑹 𐑞𐑨𐑯 𐑿𐑠𐑫𐑩𐑤. 𐑒𐑩𐑯𐑕𐑦𐑛𐑼 𐑗𐑱𐑯𐑡𐑦𐑙 𐑦𐑯𐑕𐑑𐑩𐑯𐑕</string>
     <string name="added_to_playlist">𐑨𐑛𐑩𐑛 𐑑 𐑐𐑤𐑱𐑤𐑦𐑕𐑑 %1$s</string>
     <string name="queue">𐑒𐑿</string>
     <string name="sb_custom_colors_summary">𐑑𐑪𐑜𐑩𐑤𐑟 𐑒𐑳𐑕𐑑𐑩𐑥 𐑒𐑳𐑤𐑼 𐑕𐑧𐑜𐑥𐑩𐑯𐑑𐑕 𐑓 ·𐑕𐑐𐑪𐑯𐑕𐑼𐑚𐑤𐑪𐑒 𐑕𐑧𐑜𐑥𐑩𐑯𐑑𐑕</string>
@@ -174,7 +171,6 @@
     <string name="audio_track">𐑷𐑛𐑦𐑴 𐑑𐑮𐑨𐑒</string>
     <string name="unsupported_file_format">𐑳𐑯𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑓𐑲𐑤 𐑓𐑹𐑥𐑨𐑑: %1$s</string>
     <string name="auto_quality">𐑷𐑑𐑴</string>
-    <string name="trends">𐑑𐑮𐑧𐑯𐑛𐑟</string>
     <string name="bookmark">𐑚𐑫𐑒𐑥𐑸𐑒</string>
     <string name="clear_bookmarks">𐑒𐑤𐑽 𐑚𐑫𐑒𐑥𐑸𐑒𐑕</string>
     <string name="brightness">𐑚𐑮𐑲𐑑𐑯𐑩𐑕</string>
@@ -236,7 +232,6 @@
     <string name="category_sponsor">𐑕𐑐𐑪𐑯𐑕𐑼</string>
     <string name="yes">𐑘𐑧𐑕</string>
     <string name="library">𐑤𐑲𐑚𐑮𐑼𐑦</string>
-    <string name="startpage">𐑣𐑴𐑥</string>
     <string name="share">𐑖𐑺</string>
     <string name="download">𐑛𐑬𐑯𐑤𐑴𐑛</string>
     <string name="save">𐑕𐑱𐑝</string>
@@ -316,8 +311,6 @@
     <string name="new_videos_badge">𐑦𐑯𐑛𐑦𐑒𐑱𐑖𐑩𐑯 𐑓 𐑯𐑿 𐑝𐑦𐑛𐑦𐑴𐑟</string>
     <string name="skip_segment">𐑕𐑒𐑦𐑐 𐑕𐑧𐑜𐑥𐑩𐑯𐑑</string>
     <string name="local_subscriptions">𐑤𐑴𐑒𐑩𐑤 𐑕𐑩𐑚𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯𐑟</string>
-    <string name="change_region">𐑑𐑮𐑧𐑯𐑛𐑦𐑙 𐑕𐑰𐑥𐑟 𐑑 𐑚𐑰 𐑳𐑯𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑓 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑮𐑰𐑡𐑩𐑯. 𐑐𐑤𐑰𐑟 𐑕𐑦𐑤𐑧𐑒𐑑 𐑩𐑯𐑳𐑞𐑼 𐑦𐑯 𐑞 𐑕𐑧𐑑𐑦𐑙𐑟.</string>
-    <string name="trending">𐑢𐑪𐑑\'𐑕 𐑑𐑮𐑧𐑯𐑛𐑦𐑙 𐑯𐑬</string>
     <string name="playback_pitch">𐑐𐑦𐑗</string>
     <string name="time_code">𐑑𐑲𐑥 𐑒𐑴𐑛 (𐑕𐑧𐑒𐑩𐑯𐑛𐑟)</string>
     <string name="sb_custom_colors">𐑒𐑳𐑕𐑑𐑩𐑥 𐑕𐑧𐑜𐑥𐑩𐑯𐑑 𐑒𐑳𐑤𐑼𐑟</string>
@@ -326,7 +319,6 @@
     <string name="swipe_controls">𐑕𐑢𐑲𐑐 𐑒𐑩𐑯𐑑𐑮𐑴𐑤𐑟</string>
     <string name="livestreams">𐑤𐑲𐑝𐑕𐑑𐑮𐑰𐑥𐑟</string>
     <string name="notification_time_summary">𐑤𐑦𐑥𐑦𐑑 𐑞 𐑑𐑲𐑥 𐑕𐑐𐑨𐑯 𐑦𐑯 𐑢𐑦𐑗 𐑕𐑑𐑮𐑰𐑥 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯𐑟 𐑸 𐑖𐑴𐑯</string>
-    <string name="featured">𐑓𐑰𐑗𐑼𐑛</string>
     <string name="pinch_control">𐑐𐑦𐑯𐑗 𐑒𐑩𐑯𐑑𐑮𐑴𐑤</string>
     <string name="no_comments_available">𐑞𐑦𐑕 𐑝𐑦𐑛𐑦𐑴 𐑣𐑨𐑟 𐑯𐑴 𐑒𐑪𐑥𐑧𐑯𐑑𐑕.</string>
     <string name="captions_size">𐑒𐑨𐑐𐑖𐑩𐑯𐑟 𐑕𐑲𐑟</string>
@@ -417,7 +409,6 @@
     <string name="time_in_minutes">𐑑𐑲𐑥 𐑦𐑯 𐑥𐑦𐑯𐑦𐑑𐑕</string>
     <string name="invalid_input">𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑦𐑯𐑐𐑫𐑑</string>
     <string name="add_to_group">𐑨𐑛 𐑑 𐑜𐑮𐑵𐑐</string>
-    <string name="change">𐑗𐑱𐑯𐑡</string>
     <string name="gestures">𐑡𐑧𐑕𐑗𐑼𐑟</string>
     <string name="external_download_provider">𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑛𐑬𐑯𐑤𐑴𐑛 𐑐𐑮𐑩𐑝𐑲𐑛𐑼</string>
     <string name="external_download_provider_summary">𐑧𐑯𐑑𐑼 𐑞 𐑐𐑨𐑒𐑦𐑡 𐑯𐑱𐑥 𐑝 𐑞 𐑨𐑐 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑿𐑟 𐑓 𐑛𐑬𐑯𐑤𐑴𐑛𐑦𐑙 𐑝𐑦𐑛𐑦𐑴𐑟. 𐑤𐑰𐑝 𐑚𐑤𐑨𐑙𐑒 𐑑 𐑿𐑟 Tubik\'𐑟 𐑦𐑯𐑚𐑦𐑤𐑑 𐑛𐑬𐑯𐑤𐑴𐑛𐑼.</string>

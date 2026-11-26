@@ -6,14 +6,12 @@
     <string name="download">Laadi alla</string>
     <string name="save">Salvesta</string>
     <string name="cancel">Katkesta</string>
-    <string name="startpage">Avaleht</string>
     <string name="yes">Jah</string>
     <string name="search_hint">Otsi</string>
     <string name="subscribe">Telli</string>
     <string name="unsubscribe">Loobu tellimusest</string>
     <string name="share">Jaga</string>
     <string name="instances">Vali…</string>
-    <string name="region">Riik</string>
     <string name="importsuccess">Tellitud</string>
     <string name="import_from_yt">Impordi tellimused</string>
     <string name="import_from_yt_summary">Impordi YouTube\'ist või NewPipe\'ist</string>
@@ -215,8 +213,6 @@
     <string name="caption_settings">Subtiitrid</string>
     <string name="playerAudioQuality">Helikvaliteet</string>
     <string name="auto_quality">Vali automaatselt</string>
-    <string name="change_instance">Vaheta vaheserverit</string>
-    <string name="suggest_change_instance">Video laadimine kestab tavalisest kauem. Palun kaalu teise vaheserveri kasutamist</string>
     <string name="concurrent_downloads_limit_reached">Samaaaegsete allalaadimiste ülempiir on käes.</string>
     <string name="unknown">Teadmata</string>
     <string name="repeat_mode_all">Korda kõiki</string>
@@ -265,7 +261,6 @@
     <string name="system_caption_style">Nutiseadme süsteemne subtiitrite stiil</string>
     <string name="most_views">Kõige rohkem vaatamisi</string>
     <string name="least_recent">Vanim</string>
-    <string name="change_region">Populaarsust koguvate videote valik pole selle piirkonna jaoks saadaval. Palun vali seadistustest mõni muu eelistus.</string>
     <string name="time_code">Ajamärge (sekundites)</string>
     <string name="queue">Esitusjärjekord</string>
     <string name="sb_custom_colors_summary">Selle valikuga saad SponsorBlock\'i lõikudes lülitada kohandatud värvisegmendid sisse/välja</string>
@@ -274,7 +269,6 @@
     <string name="start_time">Algusaeg</string>
     <string name="end_time">Lõpuaeg</string>
     <string name="category_music_offtopic_summary">Kasutamiseks vaid muusikavideotes. Siia alla kuuluvad video need lõigud, mis pole algupärase plaadiproduktsiooni osa. Lõpuks peaks video heliriba enam-vähem vastama sellele, nagu ta tegelikult plaadil leidub või Spotify\'st leitav on. Video alguses ja lõpus leiduvad jutulõigud ja muu ebaoluline peaks olema välja jäetud</string>
-    <string name="featured">Esiletõstetud</string>
     <string name="bookmark">Järjehoidja</string>
     <string name="theme_monochrome">Minimalistlik mustvalge</string>
     <string name="captions_size">Subtiitrite suurus</string>
@@ -307,7 +301,6 @@
     <string name="group_name_error_exists">Palun kirjuta nimi, mis pole veel kasutusel</string>
     <string name="play_automatically">Esita automaatselt</string>
     <string name="best_quality">Parim</string>
-    <string name="trending">Mis on hetkel populaarne</string>
     <string name="swipe_controls">Viipamise haldus</string>
     <string name="swipe_controls_summary">Viipa, et muuta täisekraanivaates eredust ja helivaljust</string>
     <string name="pinch_control">Napsamise haldus</string>
@@ -321,7 +314,6 @@
     <string name="category">Kategooria</string>
     <string name="new_group">Uus grupp</string>
     <string name="group_name">Grupi nimi</string>
-    <string name="trends">Hetkel populaarne</string>
     <string name="playlistUrl">Esitusloendi URL</string>
     <string name="go_to_video">Mine video juurde</string>
     <string name="change_playlist_description">Muuda esitusloendi kirjeldust</string>
@@ -399,7 +391,6 @@
     <string name="default_or_unknown_audio_track">Vaikimisi</string>
     <string name="dubbed_audio_track">Dubleeritud</string>
     <string name="successfully_removed_from_playlist">„%1$s“ eemaldamine esitusloendist õnnestus.</string>
-    <string name="change">Muuda</string>
     <plurals name="channel_new_streams">
         <item quantity="one">%d uus meediavoog</item>
         <item quantity="other">%d uut meediavoogu</item>
@@ -460,10 +451,7 @@
     <string name="full_local_mode">Täies mahus kohalikus nutiseadmes</string>
     <string name="full_local_mode_desc">Laadi kogu sisu otse YouTube\'ist ilma Piped\'i teenust kasutamata.</string>
     <string name="playback_pitch_semitone_error_input">väärtus peab olema vahemikus -%1$.1f (miinimum) ja %1$.1f (maksimum)</string>
-    <string name="gaming">Mängumaailm</string>
     <string name="podcasts">Taskuhäälingud</string>
-    <string name="trailers">Treilerid</string>
-    <string name="music">Muusika</string>
     <string name="createNewPlaylist">Koosta uus esitusloend</string>
     <string name="include_timestamp_in_filename">Lisa failinimesse ajatempel</string>
     <string name="unsubscribe_snackbar_message">„%1$s“ tellimusest loobumine õnnestus</string>

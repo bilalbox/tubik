@@ -1,7 +1,5 @@
 package com.github.libretube.api
 
-import androidx.annotation.StringRes
-import com.github.libretube.R
 import com.github.libretube.api.obj.Channel
 import com.github.libretube.api.obj.ChannelTabResponse
 import com.github.libretube.api.obj.CommentsPage
@@ -9,15 +7,10 @@ import com.github.libretube.api.obj.DeArrowContent
 import com.github.libretube.api.obj.Playlist
 import com.github.libretube.api.obj.SearchResult
 import com.github.libretube.api.obj.SegmentData
-import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.api.obj.Streams
 import com.github.libretube.player.StreamTransportContext
 
 interface MediaServiceRepository {
-    fun getTrendingCategories(): List<TrendingCategory>
-
-    suspend fun getTrending(region: String, category: TrendingCategory): List<StreamItem>
-
     suspend fun getStreams(videoId: String): Streams
 
     fun getStreamTransportContext(videoId: String): StreamTransportContext =
@@ -76,12 +69,4 @@ interface MediaServiceRepository {
             }
         }
     }
-}
-
-enum class TrendingCategory(@StringRes val titleRes: Int) {
-    GAMING(R.string.gaming),
-    TRAILERS(R.string.trailers),
-    PODCASTS(R.string.podcasts),
-    MUSIC(R.string.music),
-    LIVE(R.string.live),
 }

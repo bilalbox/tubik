@@ -21,12 +21,10 @@
     <string name="category_outro">終了シーンとクレジット</string>
     <string name="color_blue">群青色</string>
     <string name="color_purple">梅紫色</string>
-    <string name="startpage">ホーム</string>
     <string name="share">共有</string>
     <string name="videos">動画</string>
     <string name="error">エラーが発生しました。</string>
     <string name="subscriptions">登録チャンネル</string>
-    <string name="region">地域</string>
     <string name="library">ライブラリ</string>
     <string name="yes">はい</string>
     <string name="search_hint">検索</string>
@@ -208,7 +206,6 @@
     <string name="playback_pitch">ピッチ</string>
     <string name="error_occurred">エラー</string>
     <string name="copied">コピーしました</string>
-    <string name="change_region">急上昇中の動画一覧は現在の地域にありません。設定で他の地域を選択してください。</string>
     <string name="share_with_time">時間指定で共有</string>
     <string name="device_info">端末情報</string>
     <string name="history_empty">まだ履歴がありません。</string>
@@ -257,9 +254,6 @@
     <string name="play_latest_videos">最新の動画を再生</string>
     <string name="audio_track">音声トラック</string>
     <string name="auto_quality">自動</string>
-    <string name="trends">急上昇</string>
-    <string name="featured">注目</string>
-    <string name="trending">急上昇中</string>
     <string name="bookmarks">ブックマーク</string>
     <string name="bookmark">ブックマーク</string>
     <string name="clear_bookmarks">ブックマークを消去</string>
@@ -408,9 +402,6 @@
     <string name="rich_caption_rendering">字幕の描画を高品質にする</string>
     <string name="rich_caption_rendering_summary">より高品質にウェブ字幕を描画</string>
     <string name="copy_tooltip">コピー</string>
-    <string name="change">変更</string>
-    <string name="change_instance">インスタンスを変更</string>
-    <string name="suggest_change_instance">読み込み時間が長いです。インスタンスの変更も可能です</string>
     <string name="download_playlist">再生リストのダウンロード</string>
     <string name="audio_language">音声の言語</string>
     <string name="default_language">標準</string>
@@ -459,10 +450,7 @@
     <string name="full_local_mode_desc">Pipedを使わず、すべてをYouTubeから直接取得します。</string>
     <string name="authentication">認証</string>
     <string name="playback_pitch_semitone_error_input">音量を指定できる範囲 -%1$.1f (最小) から %1$.1f (最大)</string>
-    <string name="gaming">ゲーム</string>
     <string name="podcasts">ポッドキャスト</string>
-    <string name="trailers">トレーラー</string>
-    <string name="music">音楽</string>
     <string name="createNewPlaylist">新しい再生リストを作成</string>
     <string name="include_timestamp_in_filename">ファイル名にタイムスタンプを含める</string>
     <string name="unsubscribe_snackbar_message">%1$sの登録を解除しました</string>

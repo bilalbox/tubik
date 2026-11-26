@@ -9,11 +9,9 @@
     <string name="share">ਸਾਂਝਾ ਕਰੋ</string>
     <string name="download">ਡਾਊਨਲੋਡ</string>
     <string name="save">ਸਹੇਜੋ</string>
-    <string name="startpage">ਘਰ</string>
     <string name="subscriptions">ਸਬਸਕ੍ਰਿਪਸ਼ਨਾਂ</string>
     <string name="instances">ਚੁਣੋ…</string>
     <string name="cancel">ਰੱਦ ਕਰੋ</string>
-    <string name="region">ਖੇਤਰ</string>
     <string name="grid">ਗਰਿੱਡ ਕਾਲਮ (ਪੋਰਟਰੇਟ)</string>
     <string name="defres">ਵੀਡੀਓ ਰੈਜ਼ੋਲਿਊਸ਼ਨ</string>
     <string name="category_sponsor_summary">ਪੇਡ ਪ੍ਰੋਮੋਸ਼ਨ, ਪੇਡ ਹਵਾਲੇ ਅਤੇ ਸਿੱਧੇ ਇਸ਼ਤਿਹਾਰ ਰੋਕਣ ਲਈ। ਸਵੈ-ਪ੍ਰਮੋਸ਼ਨ ਜਾਂ ਕਾਰਨਾਂ, ਸਿਰਜਣਹਾਰਾਂ, ਵੈੱਬਸਾਈਟਾਂ ਅਤੇ ਉਤਪਾਦਾਂ ਲਈ ਮੁਫ਼ਤ ਅਸਲੀ ਰੌਲਾ ਪਾਉਣ ਲਈ ਨਹੀਂ</string>
@@ -211,7 +209,6 @@
     <string name="local_subscriptions">ਸਥਾਨਕ ਸਬਸਕ੍ਰਿਪਸ਼ਨ</string>
     <string name="preferences">ਤਰਜੀਹਾਂ</string>
     <string name="navigation_bar">ਨੈਵੀਗੇਸ਼ਨ ਪੱਟੀ</string>
-    <string name="change_region">ਮੌਜੂਦਾ ਖੇਤਰ ਲਈ ਰੁਝਾਨ ਅਣਉਪਲਬਧ ਜਾਪਦਾ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਕੋਈ ਹੋਰ ਚੁਣੋ।</string>
     <string name="playback_pitch">ਪਿੱਚ</string>
     <string name="time_code">ਸਮਾਂ ਕੋਡ (ਸਕਿੰਟ)</string>
     <string name="added_to_playlist">%1$s ਪਲੇਲਿਸਟ ਵਿੱਚ ਜੋੜਿਆ</string>
@@ -251,9 +248,6 @@
     <string name="notification_time">ਨੋਟੀਫਿਕੇਸ਼ਨ ਸਮਾਂ ਸੀਮਿਤ ਕਰੋ</string>
     <string name="layout">ਲੇਆਊਟ</string>
     <string name="notification_time_summary">ਸਮਾਂ ਸੀਮਤ ਕਰੋ ਜਿਸ ਵਿੱਚ ਸਟ੍ਰੀਮ ਸੂਚਨਾਵਾਂ ਦਿਖਾਈਆਂ ਜਾਂਦੀਆਂ ਹਨ</string>
-    <string name="trending">ਹੁਣ ਕੀ ਰੁਝਾਨ ਹੈ</string>
-    <string name="trends">ਰੁਝਾਨ</string>
-    <string name="featured">ਫ਼ੀਚਰਡ</string>
     <string name="bookmarks">ਬੁੱਕਮਾਰਕਸ</string>
     <string name="bookmark">ਬੁੱਕਮਾਰਕ</string>
     <string name="no_comments_available">ਇਸ ਵੀਡੀਓ \'ਤੇ ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ ਹੈ।</string>
@@ -409,12 +403,9 @@
     <string name="rich_caption_rendering_summary">ਵਧੇਰੇ ਰਿੱਚ ਅਤੇ ਅਨੁਕੂਲਿਤ ਅਨੁਭਵ ਲਈ ਵੈੱਬ ਸੁਰਖੀਆਂ ਨੂੰ ਰੈਂਡਰ ਕਰੋ</string>
     <string name="grid_landscape">ਗਰਿੱਡ ਕਾਲਮ (ਲੈਂਡਸਕੇਪ)</string>
     <string name="copy_tooltip">ਕਾਪੀ ਕਰੋ</string>
-    <string name="change">ਬਦਲੋ</string>
     <string name="download_playlist">ਪਲੇਲਿਸਟ ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="audio_language">ਆਡੀਓ ਦੀ ਭਾਸ਼ਾ</string>
     <string name="delete_all">ਸਾਰੇ ਡਾਊਨਲੋਡ ਮਿਟਾ ਦਿੱਤੇ ਜਾਣਗੇ!</string>
-    <string name="change_instance">ਇੰਸਟੈਂਸ ਬਦਲੋ</string>
-    <string name="suggest_change_instance">ਲੋਡ ਹੋਣ ਵਿੱਚ ਆਮ ਨਾਲੋਂ ਵੱਧ ਸਮਾਂ ਲੱਗ ਰਿਹਾ ਹੈ। ਇੰਸਟੈਂਸ ਬਦਲਣ \'ਤੇ ਵਿਚਾਰ ਕਰੋ</string>
     <string name="download_playlist_note">ਕਿਰਪਾ ਕਰਕੇ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਅਧਿਕਤਮ ਆਡੀਓ/ਵੀਡੀਓ ਗੁਣਵੱਤਾ ਦੀ ਚੋਣ ਕਰੋ। ਕੈਪਸ਼ਨਾਂ ਸਿਰਫ਼ ਉਪਲਬਧ ਹੋਣ \'ਤੇ ਹੀ ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ।</string>
     <string name="enqueue_playlist_description">ਡਾਊਨਲੋਡ ਕੀਤੇ ਜਾਣ ਵਾਲੇ ਪਲੇਲਿਸਟ ਦੇ ਵੀਡੀਓਜ਼ ਨੂੰ ਕਤਾਰਬੱਧ ਕਰਦੇ ਸਮੇਂ ਇੱਕ ਸੂਚਨਾ ਵਿਖਾਉਂਦਾ ਹੈ।</string>
     <string name="enqueueing_playlist_download">ਪਲੇਲਿਸਟ %1$s ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਵੀਡੀਓਜ਼ ਦੀ ਕਤਾਰਬੰਦੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
@@ -489,10 +480,7 @@
         <item quantity="one">%d ਮਿੰਟ</item>
         <item quantity="other">%d ਮਿੰਟ</item>
     </plurals>
-    <string name="gaming">ਗੇਮਿੰਗ</string>
     <string name="podcasts">ਪੌਡਕਾਸਟ</string>
-    <string name="trailers">ਟ੍ਰੇਲਰ</string>
-    <string name="music">ਸੰਗੀਤ</string>
     <string name="include_timestamp_in_filename">ਫ਼ਾਈਲ ਨਾਮ ਵਿੱਚ ਟਾਈਮਸਟੈਂਪ ਸ਼ਾਮਿਲ ਕਰੋ</string>
     <string name="did_you_mean">ਕੀ ਤੁਹਾਡਾ ਮਤਲਬ:</string>
     <string name="showing_results_for">ਇਸਦੇ ਨਤੀਜੇ ਦਿਖਾ ਰਿਹਾ ਹੈ:</string>

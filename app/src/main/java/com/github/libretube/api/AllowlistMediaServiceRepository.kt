@@ -47,13 +47,6 @@ class AllowlistMediaServiceRepository(
         )
     }
 
-    override fun getTrendingCategories(): List<TrendingCategory> = delegate.getTrendingCategories()
-
-    override suspend fun getTrending(region: String, category: TrendingCategory): List<StreamItem> {
-        val items = delegate.getTrending(region, category)
-        return accessControl.snapshot().filterStreamItems(items)
-    }
-
     override suspend fun getStreams(videoId: String): Streams {
         val streams = delegate.getStreams(videoId)
         val snapshot = accessControl.snapshot()

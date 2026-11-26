@@ -23,7 +23,6 @@
     <string name="fail">Nepodařilo se :(</string>
     <string name="download">Stáhnout</string>
     <string name="save">Uložit</string>
-    <string name="region">Oblast</string>
     <string name="error">Něco se pokazilo.</string>
     <string name="defres">Rozlišení videa</string>
     <string name="import_from_yt">Importovat odběry</string>
@@ -34,7 +33,6 @@
     <string name="videos">Videa</string>
     <string name="darkTheme">Tmavý</string>
     <string name="lightTheme">Světlý</string>
-    <string name="startpage">Domů</string>
     <string name="library">Knihovna</string>
     <string name="subscriptions">Odběry</string>
     <string name="systemDefault">Systém</string>
@@ -217,7 +215,6 @@
     <string name="preferences">Předvolby</string>
     <string name="play_next">Přehrát jako další</string>
     <string name="navigation_bar">Navigační lišta</string>
-    <string name="change_region">Zdá se, že trendy nejsou pro aktuální oblast k dispozici. V nastavení prosím vyberte jinou.</string>
     <string name="playback_pitch">Výška</string>
     <string name="time_code">Časový kód (sekundy)</string>
     <string name="added_to_playlist">Přidáno do playlistu %1$s</string>
@@ -233,9 +230,6 @@
     <string name="layout">Rozložení</string>
     <string name="audio_track">Zvuková stopa</string>
     <string name="auto_quality">Auto</string>
-    <string name="trends">Trendy</string>
-    <string name="featured">Doporučené</string>
-    <string name="trending">Co je právě v trendech</string>
     <string name="bookmarks">Záložky</string>
     <string name="bookmark">Uložit</string>
     <string name="clear_bookmarks">Vymazat záložky</string>
@@ -410,9 +404,6 @@
     <string name="rich_caption_rendering">Vylepšené vykreslování titulků</string>
     <string name="rich_caption_rendering_summary">Vykreslovat webové titulky pro lepší a více přizpůsobený zážitek</string>
     <string name="copy_tooltip">Kopírovat</string>
-    <string name="change_instance">Změnit instanci</string>
-    <string name="suggest_change_instance">Načítání trvá déle než obvykle. Zvažte změnu instance</string>
-    <string name="change">Změnit</string>
     <string name="enqueue_playlist_description">Zobrazí oznámení při zařazování videí z playlistu do fronty ke stažení.</string>
     <string name="audio_language">Jazyk zvuku</string>
     <string name="default_language">Výchozí</string>
@@ -461,10 +452,7 @@
     <string name="full_local_mode">Plně lokální režim</string>
     <string name="mode_of_operation">Režim operace</string>
     <string name="playback_pitch_semitone_error_input">Hodnota musí být mezi -%1$.1f (minimum) a %1$.1f (maximum)</string>
-    <string name="gaming">Hry</string>
     <string name="podcasts">Podcasty</string>
-    <string name="trailers">Ukázky</string>
-    <string name="music">Hudba</string>
     <string name="createNewPlaylist">Vytvořit nový playlist</string>
     <string name="include_timestamp_in_filename">Zahrnout časovou známku do názvu souboru</string>
     <string name="unsubscribe_snackbar_message">Odběr kanálu %1$s úspěšně zrušen</string>

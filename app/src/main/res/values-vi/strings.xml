@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Trang chủ</string>
     <string name="subscriptions">Danh sách đăng ký</string>
     <string name="library">Thư viện</string>
     <string name="yes">Có</string>
@@ -12,7 +11,6 @@
     <string name="download">Tải xuống</string>
     <string name="save">Lưu</string>
     <string name="cancel">Hủy</string>
-    <string name="region">Khu vực</string>
     <string name="importsuccess">Đã đăng ký</string>
     <string name="instances">Chọn…</string>
     <string name="import_from_yt">Phục hồi danh sách đăng ký</string>
@@ -217,7 +215,6 @@
     <string name="mobile_data">Dữ liệu di động</string>
     <string name="play_next">Tiếp theo</string>
     <string name="navigation_bar">Thanh điều hướng</string>
-    <string name="change_region">Xu hướng dường như không khả dụng cho khu vực hiện tại. Vui lòng chọn một cái khác trong cài đặt.</string>
     <string name="playlistCloned">Danh sách phát đã được nhân bản</string>
     <string name="play_all">Phát tất cả</string>
     <string name="queue">Hàng đợi</string>
@@ -233,9 +230,6 @@
     <string name="audio_track">Bản ghi âm thanh</string>
     <string name="livestreams">Trực tiếp</string>
     <string name="auto_quality">Tự động</string>
-    <string name="trends">Xu hướng</string>
-    <string name="featured">Tính năng</string>
-    <string name="trending">Xu hướng hiện tại</string>
     <string name="bookmarks">Dấu trang</string>
     <string name="clear_bookmarks">Dọn dẹp dấu trang</string>
     <string name="local_playlists">Danh sách phát cục bộ</string>
@@ -403,9 +397,6 @@
     <string name="disable_sleep_timer">Tắt tính năng hẹn giờ ngủ</string>
     <string name="start_sleep_timer">Bắt đầu hẹn giờ ngủ</string>
     <string name="no_segments_found">Chưa có phân đoạn nào cho đoạn phim này.</string>
-    <string name="change_instance">Thay đổi máy chủ</string>
-    <string name="suggest_change_instance">Quá trình tải mất nhiều thời gian hơn bình thường. Xem xét việc thay đổi máy chủ</string>
-    <string name="change">Thay đổi</string>
     <string name="gestures">Cử chỉ</string>
     <string name="add_to_group">Thêm vào nhóm</string>
     <string name="grid_landscape">Cột lưới (khổ ngang)</string>
@@ -482,9 +473,6 @@
     <string name="full_local_mode">Chế độ thuần cục bộ</string>
     <string name="full_local_mode_desc">Trực tiếp trích xuất tất cả mọi thứ từ YouTube, mà không dùng đến Piped.</string>
     <string name="authentication">Xác minh</string>
-    <string name="gaming">Trò chơi</string>
-    <string name="trailers">Đoạn quảng cáo</string>
-    <string name="music">Âm nhạc</string>
     <string name="include_timestamp_in_filename">Bao gồm mốc thời gian trong tên tệp</string>
     <string name="did_you_mean">Ý bạn là:</string>
     <string name="showing_results_for">Hiện kết quả cho:</string>

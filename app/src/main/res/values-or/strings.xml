@@ -8,11 +8,9 @@
     <string name="share">ଅଂଶୀଦାର</string>
     <string name="download">ଡାଉନଲୋଡ୍ କରନ୍ତୁ</string>
     <string name="save">ତାଲିକା ରେ ଯୋଡ଼ନ୍ତୁ</string>
-    <string name="startpage">ଗୃହ</string>
     <string name="search_hint">ସନ୍ଧାନ</string>
     <string name="cancel">ବରଖାସ୍ତ</string>
     <string name="instances">ଚୟନ କରନ୍ତୁ…</string>
-    <string name="region">ଜାଗା</string>
     <string name="importsuccess">ସଦସ୍ୟତା ଅଛି</string>
     <string name="import_from_yt_summary">ୟୁ ଟିଉବ କିମ୍ବା ନିଉପାଇପ ରୁ</string>
     <string name="app_theme">ଥିମ୍</string>
@@ -173,7 +171,6 @@
     <string name="local_subscriptions">ସ୍ଥାନୀୟ ସଦସ୍ୟତା</string>
     <string name="play_next">ପରବର୍ତ୍ତୀ ଖେଳନ୍ତୁ</string>
     <string name="navigation_bar">ନାଭିଗେସନ୍ ବାର୍</string>
-    <string name="change_region">ସାମ୍ପ୍ରତିକ ଭାବେ ଟ୍ରେଡିଂ ଏହି ଜାଗାରେ ନାହିଁ ।</string>
     <string name="added_to_playlist">%1$s ପ୍ଲେ ଲିଷ୍ଟରେ ଯୋଡା ଯାଇଛି</string>
     <string name="reset">ଡିଫଲ୍ଟଗୁଡିକ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ</string>
     <string name="reset_message">ସମସ୍ତ ସେଟିଂସମୂହ ପୁନ ରିସେଟ୍ କରନ୍ତୁ ଏବଂ ଲଗ୍ ଆଉଟ୍ କରନ୍ତୁ \?</string>
@@ -233,9 +230,6 @@
     <string name="layout">ଲେଆଉଟ୍</string>
     <string name="audio_track">ଅଡିଓ ଟ୍ରାକ୍</string>
     <string name="auto_quality">ସ୍ଵତଃ</string>
-    <string name="trends">ଧାରା</string>
-    <string name="featured">ବିଶିଷ୍ଟ</string>
-    <string name="trending">ବର୍ତ୍ତମାନ କ’ଣ ଟ୍ରେଣ୍ଡ୍ ହେଉଛି</string>
     <string name="bookmark">ବୁକ୍ ମାର୍କ୍</string>
     <string name="bookmarks">ବୁକ୍ ମାର୍କ୍ ଗୁଡ଼ିକ</string>
     <string name="clear_bookmarks">ବୁକ୍ ମାର୍କ୍ ଗୁଡ଼ିକୁ ଖାଲି କରନ୍ତୁ</string>
@@ -412,7 +406,6 @@
     <string name="enqueueing_playlist_download">ପ୍ଲେଲିଷ୍ଟ%1$s ଡାଉନଲୋଡ୍ କରିବାକୁ ଭିଡିଓଗୁଡିକୁ ଉତ୍ସାହିତ କରାଯାଉଛି</string>
     <string name="default_language">ଡିଫଲ୍ଟ</string>
     <string name="external_player">ବାହ୍ୟ ଖେଳାଳୀ</string>
-    <string name="change">ପରିବର୍ତ୍ତନ କରନ୍ତୁ</string>
     <string name="external_download_provider_summary">ଭିଡିଓ ଡାଉନଲୋଡ୍ କରିବା ପାଇଁ ଆପଣ ବ୍ୟବହାର କରିବାକୁ ଚାହୁଁଥିବା ଆପର ପ୍ୟାକେଜ୍ ନାମ ପ୍ରବେଶ କରନ୍ତୁ । Tubik ର ଇନବିଲ୍ଟ ଡାଉନଲୋଡର୍ ବ୍ୟବହାର କରିବାକୁ ଖାଲି ଛାଡିଦିଅ ।</string>
     <string name="external_download_provider">ବାହ୍ୟ ଡାଉନଲୋଡ୍ ପ୍ରଦାନକାରୀ</string>
     <string name="import_temp_playlist_summary">ଆପଣ \'%1$s\' ନାମକ ଏକ ନୂତନ ପ୍ଲେଲିଷ୍ଟ ସୃଷ୍ଟି କରିବାକୁ ଚାହୁଁଛନ୍ତି କି? ପ୍ଲେ ଲିଷ୍ଟରେ%2$d ଭିଡିଓ ରହିବ ।</string>
@@ -421,8 +414,6 @@
     <string name="delete_all">ସମସ୍ତ ଡାଉନଲୋଡ୍ ବିଲୋପ ହେବ!</string>
     <string name="albums">ଆଲବମ୍</string>
     <string name="best_quality">ସର୍ବୋତ୍ତମ</string>
-    <string name="change_instance">ଉଦାହରଣ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</string>
-    <string name="suggest_change_instance">ସାଧାରଣ ଅପେକ୍ଷା ଲୋଡିଂ ହେଉଛି । ପରିବର୍ତ୍ତନ ପରିସ୍ଥିତିକୁ ବିଚାର କରନ୍ତୁ</string>
     <string name="contribute_to_dearrow">DeArrow ରେ ଯୋଗଦାନ କରନ୍ତୁ</string>
     <string name="thumbnail_time">ଥମ୍ବନେଲ୍ ସମୟ</string>
     <string name="download_playlist_note">ଡାଉନଲୋଡ୍ କରିବାକୁ ଦୟାକରି ସର୍ବାଧିକ ଅଡିଓ / ଭିଡିଓ ଗୁଣ ଚୟନ କରନ୍ତୁ । ଉପଲବ୍ଧ ହେଲେ କ୍ୟାପସନ୍ କେବଳ ଡାଉନଲୋଡ୍ ହେବ ।</string>

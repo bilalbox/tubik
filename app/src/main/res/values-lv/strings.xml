@@ -8,7 +8,6 @@
     <string name="defres">Video izšķirtspēja</string>
     <string name="playlistCreated">Atskaņošanas saraksts izveidots.</string>
     <string name="notgmail">Pierakstīties vai reģistrēties Piped kontam</string>
-    <string name="startpage">Sākums</string>
     <string name="yes">Jā</string>
     <string name="videos">Video</string>
     <string name="subscribe">Abonēt</string>
@@ -19,7 +18,6 @@
     <string name="library">Bibliotēka</string>
     <string name="unsubscribe">Pārtraukt abonementu</string>
     <string name="cancel">Atcelt</string>
-    <string name="region">Reģions</string>
     <string name="instances">Atlasīt…</string>
     <string name="import_from_yt">Ievietot abonementus</string>
     <string name="app_theme">Motīvs</string>
@@ -213,7 +211,6 @@
     <string name="new_videos_badge_summary">Parāda jauno video skaitu, ja tādi ir</string>
     <string name="navigation_bar">Navigācijas panelis</string>
     <string name="playback_pitch">Augstums</string>
-    <string name="change_region">Izskatās, ka pašlaik populārs nav pieejams jūsu pašreiz atlasītajā valstī. Lūdzu, iestatiet citu valsti iestatījumos.</string>
     <string name="play_next">Atskaņot nākamo</string>
     <string name="no_subtitle">Bez subtitriem</string>
     <string name="download_paused">Lejupielāde iepauzēta</string>
@@ -284,9 +281,7 @@
     <string name="resume">Atsākt</string>
     <string name="unknown">Nezināms</string>
     <string name="pause">Pauzēt</string>
-    <string name="trends">Pašlaik populārs</string>
     <string name="double_tap_seek">Piesist divreiz, lai patītu</string>
-    <string name="trending">Kas pašlaik populārs</string>
     <string name="clear_bookmarks">Dzēst grāmatzīmes</string>
     <string name="sleep_timer">Miega taimeris</string>
     <string name="download_channel_description">Rāda paziņojumu, kad lejupielādē video.</string>
@@ -295,7 +290,6 @@
     <string name="audio_track">Audio celiņš</string>
     <string name="alternative_pip_controls_summary">Rādīt tikai audio un izlaist vadīklas attēlā attēlā, nevis uz priekšu un atpakaļ</string>
     <string name="autoplay_countdown">Automātiskās atskaņošanas atpakaļskaitīšana</string>
-    <string name="featured">Piedāvātie</string>
     <string name="alternative_pip_controls">Alternatīvas PiP vadīklas</string>
     <string name="fullscreen_gestures">Pilnekrāna režīma ieslēgšanas/izslēgšanas žesti</string>
     <plurals name="channel_new_streams">
@@ -351,7 +345,6 @@
     <string name="color">Krāsa</string>
     <string name="automatic_once">Automātiski vienreiz</string>
     <string name="visibility">Redzamība</string>
-    <string name="change_instance">Mainīt serveri (instanci)</string>
     <string name="copy_tooltip">Kopēt</string>
     <string name="invalid_color">Ievadīta nederīga krāsas vērtība!</string>
     <string name="group_name_error_empty">Lūdzu, ievadiet nosaukumu</string>
@@ -400,13 +393,11 @@
     </plurals>
     <string name="tooltip_fullscreen">Pa visu ekrānu</string>
     <string name="auto_generated">automātiski izveidots</string>
-    <string name="change">Mainīt</string>
     <string name="default_language">Noklusējuma</string>
     <string name="gestures">Žesti</string>
     <string name="title">Nosaukums</string>
     <string name="crashlog">Avārijas žurnāls</string>
     <string name="podcasts">Raidieraksti</string>
-    <string name="music">Mūzika</string>
     <string name="sort_size">Izmēra</string>
     <string name="sort_channel">Kanāla nosaukuma</string>
     <string name="createNewPlaylist">Izveidot jaunu atskaņošanas sarakstu</string>
@@ -434,7 +425,6 @@
     <string name="tooltip_options">Parametri</string>
     <string name="screenshot">Izveidot ekrānuzņēmumu</string>
     <string name="upcoming">Drīz pieejamie</string>
-    <string name="gaming">Spēles</string>
     <string name="segment">Segments</string>
     <string name="screen_orientation">Ekrāna orientācija</string>
     <string name="player_channel_name">Atskaņotāja pakalpojums</string>
@@ -469,7 +459,6 @@
     <string name="playback_pitch_semitone_error_input">Vērtībai jābūt diapazonā no -%1$.1f (minimums) līdz %1$.1f (maksimums)</string>
     <string name="enqueue_playlist_description">Paziņo, kad atskaņošanas saraksta video tiek ievietoti lejupielādes rindā.</string>
     <string name="authentication">Autorizācija</string>
-    <string name="trailers">Filmu reklāmkadri</string>
     <string name="ungrouped_channels">Negrupētie</string>
     <string name="tooltip_clear_queue">Notīrīt rindu</string>
 </resources>

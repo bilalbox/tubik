@@ -8,7 +8,6 @@
     <string name="save">저장</string>
     <string name="cancel">취소</string>
     <string name="instances">선택…</string>
-    <string name="region">지역</string>
     <string name="yes">확인</string>
     <string name="importsuccess">구독 중</string>
     <string name="import_from_yt">구독 가져오기</string>
@@ -30,7 +29,6 @@
     <string name="defres">동영상 해상도</string>
     <string name="playlistName">재생목록 이름</string>
     <string name="import_from_yt_summary">YouTube 또는 NewPipe에서</string>
-    <string name="startpage">홈</string>
     <string name="subscriptions">구독</string>
     <string name="videos">동영상</string>
     <string name="emptyPlaylistName">재생목록의 이름은 비워 둘 수 없습니다</string>
@@ -189,7 +187,6 @@
     <string name="import_playlists">재생목록 가져오기</string>
     <string name="export_playlists">재생목록 내보내기</string>
     <string name="audio_track">오디오 트랙</string>
-    <string name="trends">최신 유행</string>
     <string name="no_comments_available">이 동영상에는 댓글이 없습니다.</string>
     <string name="all_caught_up_summary">새로운 비디오를 모두 시청함</string>
     <string name="landscape">가로</string>
@@ -234,7 +231,6 @@
     <string name="seek_increment">건너뛰기</string>
     <string name="backup_restore_summary">구독, 재생 목록 가져오기 및 내보내기, …</string>
     <string name="auto_quality">자동</string>
-    <string name="featured">추천</string>
     <string name="bookmarks">북마크</string>
     <string name="clear_bookmarks">북마크 초기화</string>
     <string name="new_videos_badge">새로운 비디오 표시</string>
@@ -252,12 +248,10 @@
     <string name="repeat_mode">반복 모드</string>
     <string name="renamePlaylist">재생 목록 이름 바꾸기</string>
     <string name="playback_pitch">음높이</string>
-    <string name="change_region">현재 지역에서는 인기 급상승 동영상을 사용할 수 없는 것 같습니다. 설정에서 다른 지역을 선택하십시오.</string>
     <string name="network_all">전부</string>
     <string name="bookmark">북마크</string>
     <string name="theme_monochrome">단일 색조</string>
     <string name="take_a_break">휴식을 취할 시간</string>
-    <string name="trending">최신 유행</string>
     <string name="mobile_data">모바일 데이터</string>
     <string name="color_violet">화려한 보라색</string>
     <string name="hide_watched_from_feed">시청한 영상 피드에서 숨기기</string>
@@ -378,7 +372,6 @@
     <string name="visibility_unlisted">일부 공개</string>
     <string name="same_as_fullscreen">전체 화면과 동일</string>
     <string name="enqueue_playlist_description">다운로드할 재생목록의 동영상을 대기열에 추가할 때 알림을 표시합니다.</string>
-    <string name="change">변경</string>
     <string name="gestures">제스처</string>
     <string name="add_to_group">그룹에 추가</string>
     <string name="import_temp_playlist">임시 재생 목록을 가져오시겠습니까?</string>
@@ -435,8 +428,6 @@
     <string name="music_artists">유튜브 뮤직 아티스트</string>
     <string name="no_fullscreen_resolution">전체 화면이 아닐 경우의 해상도</string>
     <string name="category_highlight_summary">광고 제목, 미리보기 이미지 또는 동영상에서 가장 흥미로운 부분이 될 수 있습니다. 챕터 섹션에서 탭하여 해당 챕터로 건너뛸 수 있습니다</string>
-    <string name="suggest_change_instance">로딩이 평소보다 오래 걸립니다. 인스턴스 변경을 고려하세요</string>
-    <string name="change_instance">인스턴스 변경</string>
     <string name="tooltip_watch_position">시청 위치</string>
     <string name="tooltip_clear_queue">대기열 지우기</string>
     <string name="dialog_play_offline_title">기기에 저장된 영상이 있습니다.</string>
@@ -463,7 +454,6 @@
     <string name="screenshot_saved">스크린샷 저장됨</string>
     <string name="delete_playlist_include_vidoes">재생목록의 모든 영상을 삭제하시겠습니까?</string>
     <string name="podcasts">팟캐스트</string>
-    <string name="music">음악</string>
     <string name="include_timestamp_in_filename">파일 이름에 타임스탬프 추가</string>
     <string name="checking_frequency_15_minutes">15분</string>
     <string name="checking_frequency_30_minutes">30분</string>

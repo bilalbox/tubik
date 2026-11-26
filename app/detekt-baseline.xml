@@ -67,7 +67,7 @@
     <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is off, everything passes through unchanged`</ID>
     <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, getSuggestions returns only matching Allowed Channel names, allowed local feed titles, and local search history without global autocomplete calls`</ID>
     <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, search combines local Allowed Channel and feed matches with multi-page upstream prefetching when early pages filter to empty`</ID>
-    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, trending, search, and playlists keep only Allowed Channels including Shorts, live streams, and channels`</ID>
+    <ID>LongMethod:AllowlistMediaServiceRepositoryTest.kt:AllowlistMediaServiceRepositoryTest$@Test fun `when Allowlist is on, search and playlists keep only Allowed Channels including Shorts, live streams, and channels`</ID>
     <ID>LongMethod:AudioPlayerFragment.kt:AudioPlayerFragment$@SuppressLint("ClickableViewAccessibility") override fun onViewCreated</ID>
     <ID>LongMethod:BackupRestoreSettings.kt:BackupRestoreSettings$override fun onCreatePreferences</ID>
     <ID>LongMethod:BasePreferenceFragment.kt:BasePreferenceFragment$override fun onDisplayPreferenceDialog</ID>

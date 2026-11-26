@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="region">Region</string>
     <string name="yes">Tak</string>
     <string name="download">Pobierz</string>
     <string name="search_hint">Szukaj</string>
@@ -216,7 +215,6 @@
     <string name="download_channel_description">Pokazuje powiadomienie podczas pobierania multimediów.</string>
     <string name="play_next">Odtwórz następne</string>
     <string name="navigation_bar">Pasek nawigacyjny</string>
-    <string name="change_region">Filmy na czasie wydają się być niedostępne dla bieżącego regionu. Proszę wybrać inny w ustawieniach.</string>
     <string name="time_code">Kod czasowy (sekundy)</string>
     <string name="playback_pitch">Wysokość dźwięku</string>
     <string name="added_to_playlist">Dodano do playlisty %1$s</string>
@@ -232,9 +230,6 @@
     <string name="layout">Układ</string>
     <string name="audio_track">Ścieżka dźwiękowa</string>
     <string name="auto_quality">Automatyczna</string>
-    <string name="trends">Na czasie</string>
-    <string name="featured">Polecane</string>
-    <string name="trending">Aktualnie na czasie</string>
     <string name="bookmarks">Zakładki</string>
     <string name="bookmark">Zakładka</string>
     <string name="clear_bookmarks">Usuń zakładki</string>
@@ -405,13 +400,9 @@
     <string name="start_sleep_timer">Uruchom wyłącznik czasowy</string>
     <string name="no_segments_found">Nie ma jeszcze segmentów dla tego wideo.</string>
     <string name="finished">Ukończone</string>
-    <string name="startpage">Strona główna</string>
     <string name="add_to_group">Dodaj do grupy</string>
-    <string name="change_instance">Zmień instancję</string>
-    <string name="suggest_change_instance">Ładowanie trwa dłużej niż zwykle. Pomyśl o zmianie instancji</string>
     <string name="download_playlist">Pobierz playlistę</string>
     <string name="enqueueing_playlist_download">Przygotowywanie nagrań do pobrania z playlisty %1$s</string>
-    <string name="change">Zmień</string>
     <string name="grid_landscape">Kolumny siatki (poziomo)</string>
     <string name="rich_caption_rendering">Bogate renderowanie napisów</string>
     <string name="rich_caption_rendering_summary">Wyświetlaj napisy dla wspanialszego i dostosowanego do swoich potrzeb doświadczenia</string>
@@ -463,10 +454,7 @@
     <string name="show_upcoming_videos">Pokaż nadchodzące filmy</string>
     <string name="createNewPlaylist">Utwórz nową playlistę</string>
     <string name="playback_pitch_semitone_error_input">Wartość musi mieścić się w przedziale od -%1$.1f (minimum) do %1$.1f (maksimum)</string>
-    <string name="music">Muzyka</string>
-    <string name="gaming">Granie</string>
     <string name="podcasts">Podkasty</string>
-    <string name="trailers">Zapowiedzi</string>
     <string name="checking_frequency_15_minutes">15 minut</string>
     <string name="checking_frequency_30_minutes">30 minut</string>
     <string name="checking_frequency_60_minutes">60 minut</string>

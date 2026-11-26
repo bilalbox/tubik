@@ -7,7 +7,6 @@
     <string name="videos">ویڈیوز</string>
     <string name="subscribe">سبسکرائب</string>
     <string name="search_hint">تلاش کریں</string>
-    <string name="startpage">گھر</string>
     <string name="subscriptions">سبسکرپشنز</string>
     <string name="yes">ہاں</string>
     <string name="cancel">منسوخ کریں</string>
@@ -18,7 +17,6 @@
     <string name="settings">ترتیبات</string>
     <string name="comments">تبصرے</string>
     <string name="replies">جوابات</string>
-    <string name="region">علاقہ</string>
     <string name="app_theme">تھیم</string>
     <string name="unknown_error">نیٹ ورک کی خرابی۔</string>
     <string name="error">کچھ غلط ہو گیا.</string>
@@ -117,7 +115,6 @@
     <string name="start_time">وقت آغاز</string>
     <string name="end_time">آخر وقت</string>
     <string name="audio_track">آڈیو ٹریک</string>
-    <string name="trending">اب کیا ٹرینڈ ہو رہا ہے۔</string>
     <string name="bookmarks">بک مارکس</string>
     <string name="bookmark">بک مارکس</string>
     <string name="clear_bookmarks">بُک مارکس صاف کریں۔</string>

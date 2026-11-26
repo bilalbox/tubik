@@ -107,7 +107,6 @@
     <string name="navigation_bar">શોધખોળ પટ્ટી</string>
     <string name="material_you">સામગ્રી તમે</string>
     <string name="layout">લેઆઉટ</string>
-    <string name="change_region">વર્તમાન ક્ષેત્ર માટે ટ્રેન્ડિંગ અનુપલબ્ધ હોય તેવું લાગે છે. કૃપા કરીને સેટિંગ્સમાં અન્યને પસંદ કરો.</string>
     <string name="downloading">ડાઉનલોડ કરી રહ્યું છે…</string>
     <string name="pauseOnScreenOff">સ્વતઃ વિરામ</string>
     <string name="open">સાફ…</string>
@@ -128,7 +127,6 @@
     <string name="related_streams_summary">તમે જે જુઓ છો તેની સાથે સમાન સ્ટ્રીમો બતાવો</string>
     <string name="export_subscriptions">સબસ્ક્રિપ્શનો નિકાસ કરો</string>
     <string name="watch_history">ઇતિહાસ જુઓ</string>
-    <string name="startpage">ઘર</string>
     <string name="subscriptions">સબસ્ક્રિપ્શન્સ</string>
     <string name="library">પુસ્તકાલય</string>
     <string name="search_hint">શોધવું</string>
@@ -138,7 +136,6 @@
     <string name="save">સંગ્રહો</string>
     <string name="cancel">રદ્દ</string>
     <string name="instances">પસંદ કરો…</string>
-    <string name="region">વિસ્તાર</string>
     <string name="importsuccess">સબ્સ્ક્રાઇબ થયેલ</string>
     <string name="import_from_yt">સબસ્ક્રિપ્શનોની આયાત કરો</string>
     <string name="import_from_yt_summary">યુટ્યુબ અથવા ન્યુપાઇપ માંથી</string>
@@ -253,9 +250,6 @@
     <string name="double_tap_seek_summary">ખેલાડીની િસ્થતિને બદલવા કે આગળ ધપાવવા માટે ડાબી કે જમણી બાજુએ બે વખત ટૅપ કરો</string>
     <string name="download_channel_name">સેવા ડાઉનલોડ કરો</string>
     <string name="push_channel_name">સૂચના કામદાર</string>
-    <string name="trends">વલણો</string>
-    <string name="featured">ફીચર્ડ</string>
-    <string name="trending">હવે શું ચાલી રહ્યું છે ટ્રેન્ડ</string>
     <string name="require_restart_message">નવા ફેરફારોનો ઉપયોગ કરવા માટે એપ્લિકેશનને પુનઃપ્રારંભ કરો.</string>
     <string name="time_code">સમય કોડ (સેકંડો)</string>
     <string name="bookmarks">બુકમાર્કો</string>

@@ -32,7 +32,10 @@ object ShortcutHelper {
 
     fun createShortcuts(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (ShortcutManagerCompat.getDynamicShortcuts(context).isEmpty()) {
+            // Replace the set whenever it differs, so shortcuts for removed screens disappear
+            val currentIds = ShortcutManagerCompat.getDynamicShortcuts(context).map { it.id }
+            val expectedIds = TopLevelDestination.entries.map { it.route }
+            if (currentIds.toSet() != expectedIds.toSet()) {
                 val dynamicShortcuts =
                     TopLevelDestination.entries.map { createShortcut(context, it) }
                 ShortcutManagerCompat.setDynamicShortcuts(context, dynamicShortcuts)

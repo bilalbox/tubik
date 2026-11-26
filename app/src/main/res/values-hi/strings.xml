@@ -27,9 +27,7 @@
     <string name="success">सफलता।</string>
     <string name="fail">अनुत्तीर्ण होना :(</string>
     <string name="unknown_error">नेटवर्क त्रुटि।</string>
-    <string name="region">क्षेत्र चुनें</string>
     <string name="about">के बारे में</string>
-    <string name="startpage">घर</string>
     <string name="subscriptions">सब्सक्रिप्शनस</string>
     <string name="library">लायब्रेरी</string>
     <string name="videos">वीडियो</string>
@@ -125,7 +123,6 @@
     <string name="error_occurred">ख़राबी</string>
     <string name="copied">कॉपी किया गया</string>
     <string name="layout">लेआउट</string>
-    <string name="change_region">वर्तमान क्षेत्र के लिए चलन में अनुपलब्ध प्रतीत होता है। कृपया सेटिंग्स में दूसरे का चयन करें।</string>
     <string name="device_info">डिवाइस की जानकारी</string>
     <string name="disabled">आफ</string>
     <string name="added_to_playlist">%1$s प्लेलिस्ट में जोड़ा गया</string>
@@ -157,9 +154,6 @@
     <string name="network_wifi">केवल वाई-फाई पर</string>
     <string name="no_search_result">कोई परिणाम नहीं।</string>
     <string name="auto_quality">ऑटो</string>
-    <string name="trends">चलन में</string>
-    <string name="featured">फीचर्ड</string>
-    <string name="trending">अभी क्या चलन में है</string>
     <string name="time_code">समय कोड (सेकंडस)</string>
     <string name="bookmark">बुकमार्क</string>
     <string name="bookmarks">बुकमार्कस</string>
@@ -409,9 +403,6 @@
     <string name="rich_caption_rendering_summary">अधिक समृद्ध और अनुकूलित अनुभव के लिए वेब कैप्शन प्रस्तुत करें</string>
     <string name="grid_landscape">ग्रिड कॉलम (लैंडसकेप)</string>
     <string name="copy_tooltip">कॉपी करें</string>
-    <string name="change_instance">इंसटैंस बदलें</string>
-    <string name="suggest_change_instance">लोडिंग में सामान्य से अधिक समय लग रहा है। इंसटैंस बदलने पर विचार करें</string>
-    <string name="change">बदलें</string>
     <string name="enqueue_playlist_description">डाउनलोड की जाने वाली प्लेलिस्ट के वीडियो को कतारबद्ध करते समय एक अधिसूचना दिखाता है।</string>
     <string name="audio_language">ऑडियो की भाषा</string>
     <string name="default_language">डिफ़ॉल्ट</string>
@@ -489,10 +480,7 @@
         <item quantity="one">%d मिनट</item>
         <item quantity="other">%d मिनट</item>
     </plurals>
-    <string name="gaming">गेमिंग</string>
     <string name="podcasts">पॉडकास्ट</string>
-    <string name="trailers">ट्रेलर</string>
-    <string name="music">संगीत</string>
     <string name="include_timestamp_in_filename">फ़ाइल के नाम में टाइमस्टैम्प शामिल करें</string>
     <string name="did_you_mean">क्या आपका मतलब था:</string>
     <string name="showing_results_for">इसके नतीजे दिखा रहा है:</string>

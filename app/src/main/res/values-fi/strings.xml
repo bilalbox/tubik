@@ -5,7 +5,6 @@
     <string name="search_hint">Hae</string>
     <string name="download">Lataa</string>
     <string name="instances">Valitse…</string>
-    <string name="region">Alue</string>
     <string name="subscribe">Tilaa</string>
     <string name="save">Tallenna</string>
     <string name="cancel">Peruuta</string>
@@ -31,7 +30,6 @@
     <string name="addToPlaylist">Lisää soittolistaan</string>
     <string name="emptyPlaylistName">Soittolistan nimi ei voi olla tyhjä</string>
     <string name="import_from_yt_summary">YouTubesta tai NewPipestä</string>
-    <string name="startpage">Etusivu</string>
     <string name="subscriptions">Tilaukset</string>
     <string name="library">Kirjasto</string>
     <string name="videos">Videot</string>
@@ -253,16 +251,12 @@
     <string name="preferences">Asetukset</string>
     <string name="notify_new_streams">Ilmoitukset uusista suoratoistoista</string>
     <string name="play_next">Toista seuraavaksi</string>
-    <string name="change_region">Trending ei näytä olevan saatavilla nykyisellä alueella. Valitse toinen asetuksista.</string>
     <string name="playback_pitch">Sävelkorkeus</string>
     <string name="queue">Jono</string>
     <string name="play_all">Toista kaikki</string>
     <string name="notification_time">Rajoita ilmoitusaikaa</string>
     <string name="audio_track">Ääniraita</string>
     <string name="auto_quality">Auto</string>
-    <string name="trends">Trendit</string>
-    <string name="featured">Esillä</string>
-    <string name="trending">Mikä trendaa nyt</string>
     <string name="bookmarks">Kirjanmerkit</string>
     <string name="bookmark">Kirjanmerkki</string>
     <string name="brightness">Kirkkaus</string>
@@ -323,7 +317,6 @@
     <string name="segment">Osio</string>
     <string name="finished">Loppu</string>
     <string name="copy_tooltip">Kopioi</string>
-    <string name="change">Muuta</string>
     <string name="default_language">Oletus</string>
     <string name="gestures">Eleet</string>
     <string name="albums">Albumit</string>
@@ -334,10 +327,7 @@
     <string name="upcoming">Tulossa</string>
     <string name="crashlog">Kaatumisloki</string>
     <string name="authentication">Todennus</string>
-    <string name="gaming">Pelaaminen</string>
     <string name="podcasts">Podcastit</string>
-    <string name="trailers">Trailerit</string>
-    <string name="music">Musiikki</string>
     <string name="sort_size">Koko</string>
     <string name="channel_groups">Kanavaryhmät</string>
     <string name="group_name">Ryhmän nimi</string>
@@ -366,7 +356,6 @@
     <string name="no_fullscreen_resolution">Ei-kokoruudun resoluutio</string>
     <string name="segment_submitted">Osio syötetty</string>
     <string name="invalid_input">Epäkelpo syöttö</string>
-    <string name="change_instance">Vaihda instanssi</string>
     <string name="download_playlist">Tallenna soittolista</string>
     <string name="audio_language">Äänen kieli</string>
     <string name="external_player">Ulkoinen soitin</string>
@@ -468,7 +457,6 @@
     <string name="no_segments_found">Tälle videolle ei ole vielä osioita.</string>
     <string name="dialog_play_offline_title">Tälle videolle on saatavilla paikallinen versio.</string>
     <string name="full_local_mode_desc">Nouda kaikki suoraan YouTubesta ilman, että käytetään Piped-sovellusta.</string>
-    <string name="suggest_change_instance">Lataaminen kestää tavallista kauemmin. Harkitse instanssin vaihtamista</string>
     <string name="playback_pitch_semitone_error_input">Arvon tulee olla välillä -%1$.1f (pienin) ja %1$.1f (suurin)</string>
     <string name="rich_caption_rendering_summary">Renderöi web-kaappaukset upeammaksi kokemukseksi</string>
     <string name="local_stream_extraction_summary">Nouda suoraan videon toiston tiedot YouTubesta ilman, että käytetään Piped-sovellusta.</string>

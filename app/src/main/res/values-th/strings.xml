@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">หน้าแรก</string>
     <string name="share">แชร์</string>
     <string name="deletePlaylist">ลบเพลย์ลิสต์</string>
     <string name="playlistCreated">สร้างเพลย์ลิสต์แล้ว</string>
@@ -9,7 +8,6 @@
     <string name="videoCount">%1$d วิดีโอ</string>
     <string name="version">เวอร์ชั่น %1$s</string>
     <string name="subscriptions">การติดตาม</string>
-    <string name="region">ภูมิภาค</string>
     <string name="importsuccess">ติดตามแล้ว</string>
     <string name="search_hint">ค้นหา</string>
     <string name="subscribe">ติดตาม</string>
@@ -81,7 +79,6 @@
     <string name="video">วิดีโอ</string>
     <string name="license">ลิขสิทธิ์</string>
     <string name="start_time">เริ่ม</string>
-    <string name="trends">เทรนด์</string>
     <string name="import_watch_history">นำเข้าประวัติการดู</string>
     <string name="brightness">ความสว่าง</string>
     <string name="no_comments_available">วิดีโอนี้ยังไม่มีการแสดงความคิดเห็น</string>
@@ -217,8 +214,6 @@
     <string name="livestreams">ไลฟ์สตรีม</string>
     <string name="playlistCloned">โคลนเพลย์ลิสต์แล้ว</string>
     <string name="unsupported_file_format">รูปแบบไฟล์ไม่รองรับ: %1$s</string>
-    <string name="featured">แนะนำ</string>
-    <string name="trending">กำลังมาแรงในตอนนี้</string>
     <string name="swipe_controls_summary">ปัดเพื่อปรับความสว่างและระดับความดังเสียงในขณะที่อยู่ในโหมดเต็มหน้าจอ</string>
     <string name="captions_size">ขนาดคำบรรยาย</string>
     <string name="all_caught_up_summary">คุณได้ดูวิดีโอใหม่ทั้งหมดเรียบร้อยแล้ว</string>
@@ -311,7 +306,6 @@
     <string name="time_in_minutes">เวลาในนาที</string>
     <string name="invalid_input">ค่าที่ใส่ไม่ถูกต้อง</string>
     <string name="add_to_group">เพิ่มลงในกลุ่ม</string>
-    <string name="change">เปลี่ยน</string>
     <string name="gestures">ท่าทาง</string>
     <string name="external_download_provider">ผู้ให้ดาวน์โหลดจากภายนอก</string>
     <string name="external_download_provider_summary">ใส่ชื่อแพ็คเกจของแอปที่คุณจะใช้ในการดาวน์โหลดวิดีโอ ปล่อยเว้นว้างเอาไว้เพื่อใช้ตัวดาวน์โหลดของ Tubik</string>
@@ -329,7 +323,6 @@
     <string name="updating_feed">กำลังอัปเดตฟีด…</string>
     <string name="full_local_mode">โหมดโหลดข้อมูลโดยตรงทั้งหมด</string>
     <string name="full_local_mode_desc">โหลดข้อมูลทุกอย่างจาก YouTube โดยตรงโดยไม่ต้องผ่าน Piped</string>
-    <string name="music">เพลง</string>
     <string name="did_you_mean">คุณหมายถึง:</string>
     <string name="tooltip_close">ปิด</string>
     <string name="tooltip_play">เล่น</string>
@@ -386,8 +379,6 @@
     <string name="tooltip_watch_position">ตำแหน่งที่ดู</string>
     <string name="nothing_selected">ไม่มีอะไรเลือกเอาไว้!</string>
     <string name="auth_instance_summary">ใช้อินสแตนซ์อื่นสำหรับเรียกการยืนยันผู้ใช้งาน</string>
-    <string name="change_instance">เปลี่ยนอินสแตนซ์</string>
-    <string name="suggest_change_instance">ใช้เวลาโหลดนานกว่าปกติ ลองเปลี่ยนอินสแตนซ์</string>
     <string name="clear_bookmarks">เคลียร์บุ๊กมาร์ก</string>
     <string name="local_playlists">เพลย์ลิสต์</string>
     <string name="swipe_controls">ควบคุมด้วยการปัด</string>
@@ -432,7 +423,6 @@
     <string name="local_subscriptions">การติดตาม</string>
     <string name="preferences">การตั้งค่า</string>
     <string name="navigation_bar">แถบการนำทาง</string>
-    <string name="change_region">เทรนมาแรงไม่สามารถใช้ได้ในภูมิภาคนี้ โปรดเลือกภูมิภาคอื่นจากการตั้งค่า</string>
     <string name="unsubscribe_snackbar_message">เลิกติดตาม %1$s เรียบร้อยแล้ว</string>
     <string name="notification_time">จำกัดเวลาการแจ้งเตือน</string>
     <string name="notification_time_summary">จำกัดช่วงเวลาที่การแจ้งเตือนวิดีโอสามารถแจ้งเตือนได้</string>
@@ -454,9 +444,7 @@
     <string name="visibility_unlisted">ไม่เป็นสาธารณะ</string>
     <string name="crashlog">รายการข้อผิดพลาด</string>
     <string name="authentication">ระบบยืนยันผู้ใช้</string>
-    <string name="gaming">เกม</string>
     <string name="podcasts">พอดแคสต์</string>
-    <string name="trailers">ตัวอย่างวิดีโอ</string>
     <string name="include_timestamp_in_filename">ประทับเวลาลงในชื่อไฟล์ด้วย</string>
     <string name="showing_results_for">แสดงผลลัพธ์สำหรับ:</string>
     <string name="download_channel_name">ระบบดาวน์โหลด</string>

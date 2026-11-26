@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Pagrindinis</string>
     <string name="subscriptions">Prenumeratos</string>
     <string name="library">Biblioteka</string>
     <string name="yes">Taip</string>
@@ -10,7 +9,6 @@
     <string name="save">Išsaugoti</string>
     <string name="cancel">Atšaukti</string>
     <string name="instances">Pasirinkti…</string>
-    <string name="region">Regionas</string>
     <string name="error">Kažkas nutiko ne taip.</string>
     <string name="notgmail">Tai skirta Piped paskyrai</string>
     <string name="defres">Vaizdo įrašų raiška</string>
@@ -112,7 +110,6 @@
     <string name="skip_segment">Praleisti segmentą</string>
     <string name="local_subscriptions">Vietinės prenumeratos</string>
     <string name="preferences">Nuostatos</string>
-    <string name="change_region">Atrodo, kad dabartiniame regione tendencijos yra neprieinamos. Nustatymuose pasirinkite kitą.</string>
     <string name="playback_pitch">Pikinė</string>
     <string name="time_code">Laiko kodas (sekundėmis)</string>
     <string name="added_to_playlist">Pridėti į grojaraštį %1$s</string>
@@ -233,9 +230,6 @@
     <string name="layout">Išdėstymas</string>
     <string name="audio_track">Garso takelis</string>
     <string name="auto_quality">Automatinė</string>
-    <string name="trends">Tendencijos</string>
-    <string name="featured">Siūloma</string>
-    <string name="trending">Dabartinės tendencijos</string>
     <string name="bookmarks">Žymos</string>
     <string name="bookmark">Pridėti prie žymų</string>
     <string name="clear_bookmarks">Išvalyti žymes</string>
@@ -306,8 +300,6 @@
     <string name="backup_creation_failed">Nepavyko sukurti atsarginės kopijos</string>
     <string name="pip">Pip</string>
     <string name="delete_all">Visi atsisiuntimai bus ištrinti!</string>
-    <string name="change_instance">Pakeisti egzempliorių</string>
-    <string name="suggest_change_instance">Krovimas trunka ilgiau nei įprastai. Pabandykite pakeisti serverį.</string>
     <string name="playback_pitch_semitone_error_input">Vertė turi būti nuo -%1$.1f (mažiausia) iki %1$.1f (didžiausia)</string>
     <string name="sb_custom_colors_summary">Įjungia pasirinktinius spalvų segmentus „SponsorBlock“ segmentams</string>
     <string name="sb_custom_colors">Pasirenkamos segmentų spalvos</string>
@@ -442,7 +434,6 @@
         <item quantity="other"/>
     </plurals>
     <string name="add_to_group">Pridėti į grupę</string>
-    <string name="change">Pakeisti</string>
     <string name="gestures">Gestai</string>
     <string name="external_download_provider">Išorinis atsisiuntimų teikėjas</string>
     <string name="external_download_provider_summary">Naudoti išorinę programėlę (pvz., „Seal“, „YTDLnis“) atsisiuntimams</string>
@@ -461,10 +452,7 @@
     <string name="full_local_mode">Visiškai vietinis režimas</string>
     <string name="full_local_mode_desc">Naudoti vietinį išgavimą viskam. Nereikalauja „Piped“ serverio ryšio.</string>
     <string name="authentication">Autentifikavimas</string>
-    <string name="gaming">Žaidimai</string>
     <string name="podcasts">Tinklalaidės</string>
-    <string name="trailers">Anonsai</string>
-    <string name="music">Muzika</string>
     <string name="include_timestamp_in_filename">Įtraukti laiko žymą į failo pavadinimą</string>
     <string name="did_you_mean">Galbūt turėjote omenyje?</string>
     <string name="showing_results_for">Rodomi rezultatai:</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Hejmo</string>
     <string name="subscriptions">Abonoj</string>
     <string name="library">Biblioteko</string>
     <string name="yes">Jes</string>
@@ -86,14 +85,12 @@
     <string name="enabled">Ebligita</string>
     <string name="disabled">Malebligita</string>
     <string name="playOnBackground">Ludi en fono</string>
-    <string name="region">Regiono</string>
     <string name="subscriberAndVideoCounts">%1$s abonantoj • %2$d videoj</string>
     <string name="finished">Finita</string>
     <string name="replies">Respondoj</string>
     <string name="donate">Donaci</string>
     <string name="music_artists">YT-Muzikaj Artistoj</string>
     <string name="uploaderAndVideoCount">%1$s • %2$d videoj</string>
-    <string name="change_region">Tendenco ŝajnas esti maldisponebla por la nuna regiono. Bonvolu elekti alian en la agordoj.</string>
     <string name="update_available">Versio %1$s disponeblas</string>
     <string name="no_comments_available">Ĉi tiu video ne havas komentojn.</string>
     <string name="push_channel_description">Montras sciigon kiam novaj fluoj disponeblas.</string>

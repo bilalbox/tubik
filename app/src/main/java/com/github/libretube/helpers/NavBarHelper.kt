@@ -92,8 +92,7 @@ object NavBarHelper {
                     oldMenuItem.title,
                 )
             newMenuItem.icon = oldMenuItem.icon
-            newMenuItem.isVisible =
-                isVisible && menuItemId != R.id.homeFragment && menuItemId != R.id.trendsFragment
+            newMenuItem.isVisible = isVisible
         }
         if (navBarItems.none { (_, isVisible) -> isVisible }) bottomNav.isGone = true
 
@@ -103,17 +102,11 @@ object NavBarHelper {
     fun getStartFragmentId(context: Context): Int {
         val pref = PreferenceHelper.getInt(PreferenceKeys.START_FRAGMENT, Int.MAX_VALUE)
         val defaultNavItems = getDefaultNavBarItems(context)
-        val selectedId =
-            if (pref == Int.MAX_VALUE || pref !in defaultNavItems.indices) {
-                getNavBarItemPreference(context).firstOrNull { (_, isVisible) -> isVisible }?.first
-                    ?: R.id.searchFragment
-            } else {
-                defaultNavItems[pref].itemId
-            }
-        return if (selectedId == R.id.homeFragment || selectedId == R.id.trendsFragment) {
-            R.id.searchFragment
+        return if (pref == Int.MAX_VALUE || pref !in defaultNavItems.indices) {
+            getNavBarItemPreference(context).firstOrNull { (_, isVisible) -> isVisible }?.first
+                ?: R.id.searchFragment
         } else {
-            selectedId
+            defaultNavItems[pref].itemId
         }
     }
 

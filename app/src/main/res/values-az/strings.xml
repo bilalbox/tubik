@@ -9,11 +9,9 @@
     <string name="save">Saxla</string>
     <string name="download">Yüklə</string>
     <string name="cancel">İmtina et</string>
-    <string name="startpage">Ev</string>
     <string name="subscriptions">Abunəliklər</string>
     <string name="library">Kitabxana</string>
     <string name="instances">Seç…</string>
-    <string name="region">Bölgə</string>
     <string name="all">Hamısı</string>
     <string name="channels">Kanallar</string>
     <string name="playlists">Oynatma Siyahıları</string>
@@ -217,7 +215,6 @@
     <string name="push_channel_description">Yeni yayımlar mövcuddursa bildiriş göstərir.</string>
     <string name="play_next">Sonra oynat</string>
     <string name="navigation_bar">Hərəkət çubuğu</string>
-    <string name="change_region">Görünür, trendlər cari bölgə üçün əlçatan deyil. Xahiş olunur, tənzimləmələrdə başqasın seç.</string>
     <string name="playback_pitch">Ucalıq</string>
     <string name="time_code">Vaxt kodu (saniyə)</string>
     <string name="added_to_playlist">%1$s oynatma siyahısına əlavə edildi</string>
@@ -233,9 +230,6 @@
     <string name="layout">Tərtibat</string>
     <string name="audio_track">Səs axını</string>
     <string name="auto_quality">Avtomatik</string>
-    <string name="trends">Trendlər</string>
-    <string name="featured">Seçilən</string>
-    <string name="trending">İndi nə trenddədir</string>
     <string name="bookmarks">Əlfəcinlər</string>
     <string name="bookmark">Əlfəcin</string>
     <string name="clear_bookmarks">Əlfəcinləri təmizlə</string>
@@ -409,9 +403,6 @@
     <string name="rich_caption_rendering">Zəngin titr təqdimatı</string>
     <string name="rich_caption_rendering_summary">Daha zəngin və fərdiləşdirilmiş təcrübə üçün veb titrləri göstər</string>
     <string name="copy_tooltip">Köçür</string>
-    <string name="change_instance">İnstansiyanı dəyişdir</string>
-    <string name="suggest_change_instance">Yüklənmə həmişəkindən daha uzun çəkir. Serveri dəyişdirməyi düşün</string>
-    <string name="change">Dəyişdir</string>
     <string name="audio_language">Səs dili</string>
     <string name="default_language">Standart</string>
     <string name="download_playlist">Oynatma siyahısın yüklə</string>
@@ -460,10 +451,7 @@
     <string name="mode_of_operation">Fəaliyyət üsulu</string>
     <string name="full_local_mode_desc">Piped işlətmədən hər şeyi dərhal YouTube-dan əldə et.</string>
     <string name="playback_pitch_semitone_error_input">Dəyər -%1$.1f (ən az) və %1$.1f (ən yüksək) arasında olmalıdır</string>
-    <string name="gaming">Oyun</string>
     <string name="podcasts">Podkastlar</string>
-    <string name="trailers">Filmlər</string>
-    <string name="music">Musiqi</string>
     <string name="createNewPlaylist">Yeni pleylist yarat</string>
     <string name="include_timestamp_in_filename">Fayl adına vaxt möhürü daxil et</string>
     <string name="unsubscribe_snackbar_message">%1$s abunəliyi uğurla ləğv edildi</string>

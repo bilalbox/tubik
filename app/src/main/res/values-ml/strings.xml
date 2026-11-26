@@ -7,7 +7,6 @@
     <string name="share">പങ്കിടുക</string>
     <string name="download">ഡൗൺലോഡ്</string>
     <string name="instances">തിരഞ്ഞെടുക്കുക…</string>
-    <string name="region">പ്രദേശം</string>
     <string name="error">എന്തോ പ്രശ്നം പറ്റി.</string>
     <string name="areYouSure">ഈ പ്ലേലിസ്റ്റ് ഇല്ലാതാക്കണോ\?</string>
     <string name="playlistName">പ്ലേലിസ്റ്റിന്റെ പേര്</string>
@@ -20,7 +19,6 @@
     <string name="retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="noInternet">ഇന്റർനെറ്റ് കണക്ഷൻ ഇല്ല</string>
     <string name="library">ലൈബ്രറി</string>
-    <string name="startpage">വീട്</string>
     <string name="search_hint">തിരയുക</string>
     <string name="save">ചേർക്കുക</string>
     <string name="cancel">റദ്ദാക്കൂ</string>

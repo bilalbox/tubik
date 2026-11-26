@@ -6,7 +6,7 @@ Signed APKs (Android 8.0+ / API 26) are published at [tubik.23p.dev](https://tub
 
 ## No trending
 
-The trending tab is gone, and so is the home screen that led with it. Tubik does not open on a page of whatever is popular today. The bottom bar is Search, Subscriptions, and Library.
+The trending tab is gone, and so is the home screen that led with it: both are removed from the app entirely, launcher shortcuts included, and Tubik never fetches trending feeds. Tubik does not open on a page of whatever is popular today. The bottom bar is Search, Subscriptions, and Library, with Downloads available as an optional tab.
 
 ## Allowlist
 

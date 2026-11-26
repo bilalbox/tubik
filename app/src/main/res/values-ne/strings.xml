@@ -9,11 +9,9 @@
     <string name="download">डाउनलोड गर्नुहोस्</string>
     <string name="save">बचत गर्नुहोस्</string>
     <string name="cancel">रद्द गर्नुहोस्</string>
-    <string name="startpage">घर</string>
     <string name="videos">भिडियोहरू</string>
     <string name="unsubscribe">सदस्यता रद्द गर्नुहोस्</string>
     <string name="instances">छान्नुहोस्…</string>
-    <string name="region">क्षेत्र</string>
     <string name="importsuccess">सदस्यता लिइयो</string>
     <string name="import_from_yt">सदस्यता आयात गर्नुहोस्</string>
     <string name="import_from_yt_summary">YouTube वा NewPipe बाट</string>

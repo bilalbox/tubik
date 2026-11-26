@@ -8,7 +8,6 @@
     <string name="download">Preuzmite</string>
     <string name="save">Spremi</string>
     <string name="instances">Odaberite…</string>
-    <string name="region">Regija</string>
     <string name="importsuccess">Pretplaćen</string>
     <string name="server_error">Čini se da postoji problem s odabranim poslužiteljem. Pokušajte s drugom instancom.</string>
     <string name="unknown_error">Pogreška mreže.</string>
@@ -23,7 +22,6 @@
     <string name="settings">Postavke</string>
     <string name="location">Mjesto</string>
     <string name="website">Web stranica</string>
-    <string name="startpage">Početna stranica</string>
     <string name="subscriptions">Pretplate</string>
     <string name="library">Biblioteka</string>
     <string name="unsubscribe">Otkaži pretplatu</string>

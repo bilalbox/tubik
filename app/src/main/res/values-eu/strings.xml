@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">Utzi</string>
-    <string name="startpage">Hasiera</string>
     <string name="subscriptions">Harpidetzak</string>
     <string name="library">Liburutegia</string>
     <string name="yes">Bai</string>
@@ -11,7 +10,6 @@
     <string name="download">Deskargatu</string>
     <string name="save">Gorde</string>
     <string name="instances">Hautatu…</string>
-    <string name="region">Lurraldea</string>
     <string name="importsuccess">Harpidetuta</string>
     <string name="import_from_yt">Inportatu harpidetzak</string>
     <string name="import_from_yt_summary">Youtube edo NewPipetik</string>
@@ -217,7 +215,6 @@
     <string name="delete">Deskargetatik ezabatu</string>
     <string name="renamePlaylist">Berrizendatu erreprodukzio zerrenda</string>
     <string name="mobile_data">Datu mugikorrak</string>
-    <string name="change_region">Badirudi \'Joerak\' ez dagoela eskuragarri eskualde honetan. Mesedez, hautatu beste bat ezarpenetan.</string>
     <string name="queue">Ilara</string>
     <string name="added_to_playlist">Gehitu erreprodukzio zerrendara %1$s</string>
     <string name="livestreams">Zuzeneko transmisioak</string>
@@ -241,9 +238,6 @@
     <string name="playback_pitch">Tonua</string>
     <string name="audio_track">Audio pista</string>
     <string name="auto_quality">Automatikoa</string>
-    <string name="trends">Joerak</string>
-    <string name="featured">Gomendatuak</string>
-    <string name="trending">Uneko joera</string>
     <string name="bookmarks">Laster-markak</string>
     <string name="bookmark">Laster-marka</string>
     <string name="clear_bookmarks">Ezabatu laster-markak</string>

@@ -29,12 +29,10 @@
     <string name="website">Կայք</string>
     <string name="videoCount">%1$d տեսանյութ</string>
     <string name="noInternet">Սկզբից միացեք համացանցին:</string>
-    <string name="startpage">Գլխավոր</string>
     <string name="yes">Այո</string>
     <string name="unsubscribe">Չհետևել</string>
     <string name="download">Ներբեռնել</string>
     <string name="search_hint">Որոնել</string>
-    <string name="region">Տարածաշրջան</string>
     <string name="error">Ինչ-որ բան սխալ է:</string>
     <string name="notgmail">Սա Piped հաշվի համար է</string>
 </resources>

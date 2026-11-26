@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">முகப்பு</string>
     <string name="subscriptions">சந்தாக்கள்</string>
     <string name="yes">ஆம்</string>
     <string name="search_hint">தேடு</string>
@@ -14,7 +13,6 @@
     <string name="cancel">நிராகரி</string>
     <string name="pip">பிப்</string>
     <string name="audio_only_mode">ஆடியோ மட்டும் பயன்முறை</string>
-    <string name="region">பகுதி</string>
     <string name="app_theme">கருப்பொருள்</string>
     <string name="server_error">தேர்ந்தெடுக்கப்பட்ட சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது. மற்றொரு நிகழ்வை முயற்சிக்கவும்.</string>
     <string name="unknown_error">பிணைய பிழை.</string>
@@ -43,16 +41,12 @@
     <string name="none">எதுவுமில்லை</string>
     <string name="backup_restore">காப்புப்பிரதி மற்றும் மீட்டமை</string>
     <string name="audio_video_summary">தகுதி மற்றும் வடிவம்</string>
-    <string name="change_region">தற்போதைய பிராந்தியத்திற்கு ட்ரெண்டிங் கிடைக்கவில்லை என்று தெரிகிறது. அமைப்புகளில் இன்னொன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="all_caught_up">நீங்கள் அனைத்தும் பிடிபட்டீர்கள்</string>
     <string name="group_name_error_exists">தனித்துவமான பெயரைத் தேர்வுசெய்க</string>
     <string name="dearrow">அன்பே இயக்கு</string>
-    <string name="change_instance">உதாரணத்தை மாற்றவும்</string>
-    <string name="suggest_change_instance">ஏற்றுதல் வழக்கத்தை விட அதிகமாக எடுக்கும். நிகழ்வை மாற்றுவதைக் கவனியுங்கள்</string>
     <string name="playback_pitch">குனிவு</string>
     <string name="swipe_controls_summary">முழுத்திரை பயன்முறையில் இருக்கும்போது பிரகாசத்தையும் அளவையும் சரிசெய்ய ச்வைப்</string>
     <string name="automatic_once">ஒரு முறை தானியங்கி</string>
-    <string name="change">மாற்றம்</string>
     <string name="dialog_play_offline_title">இந்த வீடியோவின் உள்ளக பதிப்பு கிடைக்கிறது.</string>
     <string name="local_feed_extraction">உள்ளக தீவன பிரித்தெடுத்தல்</string>
     <string name="local_feed_extraction_summary">YouTube இலிருந்து நேரடியாக ஊட்டத்தைப் பெறுங்கள். இது கணிசமாக மெதுவாக இருக்கலாம்.</string>
@@ -152,7 +146,6 @@
     <string name="play_all">அனைத்தையும் விளையாடுங்கள்</string>
     <string name="start_time">தொடக்க நேரம்</string>
     <string name="notification_time_summary">ச்ட்ரீம் அறிவிப்புகள் காட்டப்படும் கால அளவைக் கட்டுப்படுத்துங்கள்</string>
-    <string name="featured">இடம்பெற்றது</string>
     <string name="comments_disabled">பதிவேற்றியவரால் கருத்துகள் முடக்கப்படுகின்றன.</string>
     <string name="no_comments_available">இந்த வீடியோவில் எந்தக் கருத்தும் இல்லை.</string>
     <string name="import_playlists">பிளேலிச்ட்களை இறக்குமதி செய்யுங்கள்</string>
@@ -261,7 +254,6 @@
     <string name="playerAudioQuality">ஆடியோ தகுதி</string>
     <string name="checking_frequency">ஒவ்வொன்றையும் சரிபார்க்கிறது…</string>
     <string name="queue">வரிசை</string>
-    <string name="trending">இப்போது என்ன பிரபலமானது</string>
     <string name="fullscreen_gestures">முழுத்திரை சைகைகளை உள்ளிடவும்/வெளியேறவும்</string>
     <string name="uploader_name">பதிவேற்றும் பெயர்</string>
     <string name="player_channel_description">விளையாடும்போது அறிவிப்பைக் காட்டுகிறது</string>
@@ -445,7 +437,6 @@
     <string name="backup">காப்புப்பிரதி</string>
     <string name="player_resize_mode">மறுஅளவிடுதல் பயன்முறை</string>
     <string name="unsupported_file_format">ஆதரிக்கப்படாத கோப்பு வடிவம்: %1$s</string>
-    <string name="trends">போக்குகள்</string>
     <string name="bookmarks">புக்மார்க்குகள்</string>
     <string name="bookmark">புத்தககுறி</string>
     <string name="clear_bookmarks">தெளிவான புக்மார்க்குகள்</string>
@@ -460,10 +451,7 @@
     <string name="full_local_mode_desc">குழாய் பயன்படுத்தாமல், யூடியூப்பிலிருந்து எல்லாவற்றையும் நேரடியாகப் பெறுங்கள்.</string>
     <string name="show_upcoming_videos">வரவிருக்கும் வீடியோக்களைக் காண்பி</string>
     <string name="createNewPlaylist">புதிய ஒளிச்சரம்</string>
-    <string name="gaming">கேமிங்</string>
     <string name="podcasts">பாட்காஸ்டுகள்</string>
-    <string name="trailers">டிரெய்லர்கள்</string>
-    <string name="music">இசை</string>
     <string name="playback_pitch_semitone_error_input">மதிப்பு -%1$.1f மற்றும் %1$.1f க்கு இடையில் இருக்க வேண்டும்</string>
     <string name="category_hook">ஊக்/வாழ்த்துக்கள்</string>
     <string name="category_hook_summary">ஒரு தொடரின் அதே வீடியோ அல்லது எதிர்கால எபிசோட்களில் நடக்கும் நிகழ்வுகளை கிண்டல் செய்வதன் மூலம் அல்லது விவரிப்பதன் மூலம் பார்வையாளரின் கவனத்தை (பெரும்பாலும் முதல் காட்சியாக) ஈர்க்கும் கதை கொக்கிகளுக்காக</string>

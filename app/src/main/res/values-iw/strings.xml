@@ -54,7 +54,6 @@
     <string name="player">נגן</string>
     <string name="library">ספרייה</string>
     <string name="live">חי</string>
-    <string name="startpage">בית</string>
     <string name="importsuccess">נרשמת</string>
     <string name="emptyList">אין כאן כלום.</string>
     <string name="systemLanguage">מערכת</string>
@@ -63,7 +62,6 @@
     <string name="sponsorblock_summary">משתמש ב־API ‏https://sponsor.ajay.app/‎</string>
     <string name="download">הורדה</string>
     <string name="save">שמירה</string>
-    <string name="region">אזור</string>
     <string name="import_from_yt">ייבוא מינויים</string>
     <string name="systemDefault">מערכת</string>
     <string name="settings">הגדרות</string>
@@ -218,7 +216,6 @@
     <string name="play_next">לנגן את הבא</string>
     <string name="navigation_bar">סרגל ניווט</string>
     <string name="playback_pitch">גובה צליל</string>
-    <string name="change_region">כנראה שהמובילים לא זמינים לאזור הנוכחי. נא לבחור באזור אחר בהגדרות.</string>
     <string name="time_code">קוד זמן (שניות)</string>
     <string name="added_to_playlist">נוסף לרשימת הנגינה %1$s</string>
     <string name="queue">תור</string>
@@ -233,9 +230,6 @@
     <string name="layout">פריסה</string>
     <string name="audio_track">רצועת שמע</string>
     <string name="auto_quality">אוטומטי</string>
-    <string name="trends">מגמות</string>
-    <string name="featured">מובילים</string>
-    <string name="trending">מה מוביל כרגע</string>
     <string name="bookmarks">סימניות</string>
     <string name="bookmark">סימנייה</string>
     <string name="clear_bookmarks">פינוי סימניות</string>
@@ -403,8 +397,6 @@
     <string name="finished">הסתיים</string>
     <string name="show_updates">לבדוק אוטומטית אם יש עדכונים</string>
     <string name="rich_caption_rendering">עיבוד של כותרת עשירה</string>
-    <string name="change">החלפה</string>
-    <string name="change_instance">החלפת מופע</string>
     <string name="copy_tooltip">העתקה</string>
     <string name="download_playlist_note">נא לבחור את איכות השמע/וידאו המרבית להורדה. כתוביות תתקבלנה רק אם תהיינה זמינות.</string>
     <string name="disable_sleep_timer">השבתת מתזמן שינה</string>
@@ -417,7 +409,6 @@
     <string name="enqueue_playlist_description">להציג התראות בעת הוספת סרטונים של רשימת נגינה להורדה.</string>
     <string name="also_clear_watch_positions">לפנות גם את מקומות השעון</string>
     <string name="delete_all">כל ההורדות תימחקנה!</string>
-    <string name="suggest_change_instance">הטעינה אורכת מעבר לרגיל. כדאי לשנות מופע</string>
     <string name="add_to_group">הוספה לקבוצה</string>
     <string name="audio_language">שפת השמע</string>
     <string name="default_language">ברירת מחדל</string>
@@ -462,10 +453,7 @@
     <string name="mode_of_operation">מצב פעולה</string>
     <string name="createNewPlaylist">יצירת פלייליסט חדש</string>
     <string name="playback_pitch_semitone_error_input">הערך חייב להיות בין ‎-%1$.1f (לכל הפחות) לבין %1$.1f (לכל היותר)</string>
-    <string name="gaming">משחקים</string>
     <string name="podcasts">הסכתים</string>
-    <string name="trailers">קדימונים</string>
-    <string name="music">מוזיקה</string>
     <string name="include_timestamp_in_filename">לכלול חותמת זמן בשם הקובץ</string>
     <string name="unsubscribe_snackbar_message">ההרשמה אל %1$s בוטלה בהצלחה</string>
     <string name="did_you_mean">האם הכוונה הייתה:</string>

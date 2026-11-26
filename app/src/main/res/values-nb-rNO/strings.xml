@@ -3,7 +3,6 @@
     <string name="yes">Ja</string>
     <string name="save">Lagre</string>
     <string name="instances">Velg …</string>
-    <string name="region">Region</string>
     <string name="import_from_yt">Importer abonnementer</string>
     <string name="server_error">Problem med tjeneren. Prøv en annen instans\?</string>
     <string name="defres">Video-oppløsning</string>
@@ -48,7 +47,6 @@
     <string name="okay">OK</string>
     <string name="emptyPlaylistName">Spillelistenavnet kan ikke være tomt</string>
     <string name="import_from_yt_summary">Fra YouTube eller NewPipe</string>
-    <string name="startpage">Hjem</string>
     <string name="subscriptions">Abonnementer</string>
     <string name="library">Bibliotek</string>
     <string name="videos">Vidoer</string>
@@ -218,7 +216,6 @@
     <string name="wifi">Wi-Fi</string>
     <string name="navigation_bar">Navigasjonsfelt</string>
     <string name="playback_pitch">Tonehøyde</string>
-    <string name="change_region">På vei opp ser ut til å være utilgjengelig for nåværende region. Velg en annen i innstillingene.</string>
     <string name="queue">Kø</string>
     <string name="added_to_playlist">Lagt til på spillelisten %1$s</string>
     <string name="time_code">Tidskode</string>
@@ -232,10 +229,7 @@
     <string name="notification_time_summary">Tidsperiode merknadene kan vises</string>
     <string name="audio_track">Lydspor</string>
     <string name="auto_quality">Automatisk</string>
-    <string name="trending">Hva er populært nå</string>
     <string name="layout">Tilpasning</string>
-    <string name="trends">På vei opp</string>
-    <string name="featured">Framhevet</string>
     <string name="local_playlists">Lokale spillelister</string>
     <string name="bookmarks">Bokmerke</string>
     <string name="bookmark">Bokmerke</string>
@@ -410,19 +404,16 @@
     <string name="successfully_removed_from_playlist">«%1$s» fjernet fra spillelisten.</string>
     <string name="finished">Fullført</string>
     <string name="albums">Album</string>
-    <string name="change_instance">Endre instans</string>
     <string name="best_quality">Best</string>
     <string name="thumbnail_time">Miniatyrbildetid</string>
     <string name="download_playlist">Last ned spilleliste</string>
     <string name="import_temp_playlist">Importer midlertidig spilleliste?</string>
     <string name="contribute_to_dearrow">Bidra til DeArrow</string>
     <string name="show_updates">Hold øye med om det finnes nye versjoner</string>
-    <string name="suggest_change_instance">Innlasting tar mer tid enn vanlig. Kanskje du bør bytte instans?</string>
     <string name="audio_language">Lydspråk</string>
     <string name="default_language">Forvalg</string>
     <string name="download_playlist_note">Velg maks. lyd/-videokvalitet å laste ned. Undertekster lastes ned hvis tilgjengelig.</string>
     <string name="gestures">Håndvendinger</string>
-    <string name="change">Bytt</string>
     <string name="delete_all">Alle nedlastninger vil bli slettet.</string>
     <string name="title">Navn</string>
     <string name="external_player">Ekstern avspiller</string>

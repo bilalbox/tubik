@@ -22,7 +22,6 @@
     <string name="areYouSure">Sei sicuro/a di volerla eliminare\?</string>
     <string name="grid">Colonne della griglia (verticale)</string>
     <string name="save">Salva</string>
-    <string name="region">Regione</string>
     <string name="importsuccess">Iscritto</string>
     <string name="createPlaylist">Crea playlist</string>
     <string name="playlistCreated">Playlist creata.</string>
@@ -34,7 +33,6 @@
     <string name="videos">Video</string>
     <string name="import_from_yt_summary">Da YouTube o NewPipe</string>
     <string name="systemDefault">Sistema</string>
-    <string name="startpage">Pagina principale</string>
     <string name="subscribers">%1$s iscritti</string>
     <string name="subscriptions">Iscrizioni</string>
     <string name="changeLanguage">Lingua</string>
@@ -217,7 +215,6 @@
     <string name="push_channel_name">Operatore di notifica</string>
     <string name="push_channel_description">Mostra una notifica quando sono disponibili nuovi video.</string>
     <string name="navigation_bar">Barra di navigazione</string>
-    <string name="change_region">La Tendenza sembra non essere disponibile per la regione attuale. Selezionane un\'altra nelle impostazioni.</string>
     <string name="playback_pitch">Tono</string>
     <string name="added_to_playlist">Aggiunto alla playlist %1$s</string>
     <string name="queue">Coda</string>
@@ -239,9 +236,6 @@
     <string name="layout">Disposizione</string>
     <string name="audio_track">Traccia audio</string>
     <string name="auto_quality">Automatica</string>
-    <string name="trends">Tendenze</string>
-    <string name="featured">In evidenza</string>
-    <string name="trending">Cos\'è di tendenza ora</string>
     <string name="bookmarks">Segnalibri</string>
     <string name="bookmark">Segnalibro</string>
     <string name="clear_bookmarks">Cancella segnalibri</string>
@@ -410,9 +404,6 @@
     <string name="rich_caption_rendering_summary">Rendering dei sottotitoli web per un\'esperienza più ricca e personalizzata</string>
     <string name="grid_landscape">Colonne della griglia (orizzontale)</string>
     <string name="copy_tooltip">Copia</string>
-    <string name="change_instance">Cambia istanza</string>
-    <string name="suggest_change_instance">Il caricamento sta impiegando più tempo del solito. Prova a cambiare istanza</string>
-    <string name="change">Cambia</string>
     <string name="download_playlist_note">Seleziona la qualità audio/video massima da scaricare. I sottotitoli verranno scaricati solo se disponibili.</string>
     <string name="download_playlist">Scarica playlist</string>
     <string name="enqueueing_playlist_download">Accodamento di video da scaricare della playlist %1$s</string>
@@ -463,9 +454,6 @@
     <string name="createNewPlaylist">Crea una nuova playlist</string>
     <string name="playback_pitch_semitone_error_input">Il valore deve essere tra -%1$.1f (minimo) e %1$.1f (massimo)</string>
     <string name="podcasts">Podcast</string>
-    <string name="trailers">Trailer</string>
-    <string name="music">Musica</string>
-    <string name="gaming">Giochi</string>
     <string name="include_timestamp_in_filename">Includi data e ora nel nome del file</string>
     <string name="unsubscribe_snackbar_message">Disiscritto da %1$s con successo</string>
     <string name="screenshot_saved">Cattura dello schermo salvata</string>

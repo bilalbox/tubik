@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Почетна</string>
     <string name="yes">Да</string>
     <string name="search_hint">Претрага</string>
     <string name="videos">Видео снимци</string>
     <string name="subscribe">Запрати</string>
     <string name="cancel">Откажи</string>
     <string name="instances">Избор…</string>
-    <string name="region">Регион</string>
     <string name="importsuccess">Пратите</string>
     <string name="import_from_yt">Увези праћења</string>
     <string name="import_from_yt_summary">Из YouTube-а или NewPipe-а</string>
@@ -214,7 +212,6 @@
     <string name="preferences">Преференце</string>
     <string name="play_next">Пусти следеће</string>
     <string name="playback_pitch">Висина тона</string>
-    <string name="change_region">Чини се да видео снимци у тренду нису доступни за тренутни регион. Изаберите други регион у подешавањима.</string>
     <string name="download_channel_name">Услуга преузимања</string>
     <string name="download_channel_description">Приказује обавештења приликом преузимања медија.</string>
     <string name="renamePlaylist">Преименуј плејлисту</string>
@@ -233,9 +230,6 @@
     <string name="audio_track">Аудио трака</string>
     <string name="livestreams">Стримови уживо</string>
     <string name="auto_quality">Аутоматски</string>
-    <string name="trends">Трендови</string>
-    <string name="featured">Истакнуто</string>
-    <string name="trending">Шта је сада у тренду</string>
     <string name="bookmarks">Обележивачи</string>
     <string name="bookmark">Обележивач</string>
     <string name="local_playlists">Локалне плејлисте</string>
@@ -410,10 +404,7 @@
     <string name="rich_caption_rendering">Напредни титлови</string>
     <string name="rich_caption_rendering_summary">Приказивање веб-титлова за богатије и прилагођеније искуство</string>
     <string name="copy_tooltip">Копирај</string>
-    <string name="change_instance">Промени инстанцу</string>
-    <string name="change">Промени</string>
     <string name="delete_all">Сва преузимања ће бити избрисана!</string>
-    <string name="suggest_change_instance">Учитавање траје више него обично. Размислите о промени инстанце</string>
     <string name="enqueue_playlist_description">Приказује обавештење када се у редослед стављају видео снимци с плејлисте за преузимање.</string>
     <string name="audio_language">Језик аудио снимка</string>
     <string name="default_language">Подразумевани</string>
@@ -462,8 +453,5 @@
     <string name="authentication">Аутентификација</string>
     <string name="createNewPlaylist">Направи нову плејлисту</string>
     <string name="playback_pitch_semitone_error_input">Вредност мора бити између -%1$.1f (минимално) и %1$.1f (максимално)</string>
-    <string name="gaming">Игре</string>
     <string name="podcasts">Подкасти</string>
-    <string name="trailers">Трејлери</string>
-    <string name="music">Музика</string>
 </resources>

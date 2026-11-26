@@ -15,7 +15,6 @@
     <string name="subscribe">Abone ol</string>
     <string name="save">Kaydet</string>
     <string name="cancel">Vazgeç</string>
-    <string name="region">Bölge</string>
     <string name="importsuccess">Abone olundu</string>
     <string name="import_from_yt">Abonelikleri içe aktar</string>
     <string name="error">Bir şeyler ters gitti.</string>
@@ -38,7 +37,6 @@
     <string name="subscribers">%1$s abone</string>
     <string name="lightTheme">Aydınlık</string>
     <string name="videos">Videolar</string>
-    <string name="startpage">Ana Sayfa</string>
     <string name="changeLanguage">Dil</string>
     <string name="systemLanguage">Sistem</string>
     <string name="comments">Yorumlar</string>
@@ -217,7 +215,6 @@
     <string name="push_channel_description">Yeni içerikkler olduğunda bildirim göster.</string>
     <string name="play_next">Bundan sonra oynat</string>
     <string name="navigation_bar">Gezinme çubuğu</string>
-    <string name="change_region">Trendler mevcut bölge için kullanılamıyor gibi görünüyor. Lütfen ayarlarda başka bir tane seçin.</string>
     <string name="playback_pitch">Ses perdesi</string>
     <string name="time_code">Zaman kodu (saniye)</string>
     <string name="added_to_playlist">Oynatma listesine eklendi %1$s</string>
@@ -233,9 +230,6 @@
     <string name="layout">Düzen</string>
     <string name="audio_track">Ses parçası</string>
     <string name="auto_quality">Oto</string>
-    <string name="trends">Trendler</string>
-    <string name="featured">Öne Çıkanlar</string>
-    <string name="trending">Şu anda popüler</string>
     <string name="bookmarks">Yer imleri</string>
     <string name="bookmark">Yer imi</string>
     <string name="clear_bookmarks">Yer imlerini temizle</string>
@@ -409,14 +403,11 @@
     <string name="rich_caption_rendering">Zengin altyazı oluşturma</string>
     <string name="rich_caption_rendering_summary">Daha zengin ve kişiselleştirilmiş bir deneyim için web altyazılarını oluşturun</string>
     <string name="copy_tooltip">Kopyala</string>
-    <string name="change">Değiştir</string>
-    <string name="change_instance">Örneği değiştir</string>
     <string name="download_playlist">Oynatma listesini indir</string>
     <string name="enqueue_playlist_description">İndirilecek bir oynatma listesinin videoları sıraya alınırken bir bildirim gösterilir.</string>
     <string name="enqueueing_playlist_download">%1$s oynatma listesinden videolar indirmek için sıraya alınıyor</string>
     <string name="default_language">Varsayılan</string>
     <string name="delete_all">Tüm indirilenler silinecektir!</string>
-    <string name="suggest_change_instance">Yükleme her zamankinden uzun sürüyor. Örneği değiştirmeyi deneyin</string>
     <string name="download_playlist_note">Lütfen indirme için en yüksek ses/video kalitesini seçin. Altyazılar yalnızca mevcut olması durumunda indirilecektir.</string>
     <string name="audio_language">Ses dili</string>
     <string name="also_clear_watch_positions">İzleme konumlarını da temizle</string>
@@ -462,10 +453,7 @@
     <string name="createNewPlaylist">Yeni oynatma listesi oluştur</string>
     <string name="playback_pitch_semitone_error_input">Değer -%1$.1f (en düşük) ve %1$.1f (en yüksek) arasında olmalıdır</string>
     <string name="unsubscribe_snackbar_message">%1$s aboneliğinden çıkıldı</string>
-    <string name="gaming">Oyun</string>
     <string name="podcasts">Podcast</string>
-    <string name="trailers">Fragmanlar</string>
-    <string name="music">Müzik</string>
     <string name="include_timestamp_in_filename">Dosya adına zaman damgası ekle</string>
     <string name="screenshot_saved">Ekran görüntüsü kaydedildi</string>
     <string name="did_you_mean">Bunu mu demek istediniz:</string>

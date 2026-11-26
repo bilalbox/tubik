@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pip">পিআইপি</string>
-    <string name="startpage">মুখ্যপৃষ্ঠা</string>
     <string name="subscriptions">চাবস্ক্ৰিপচন</string>
     <string name="library">গ্ৰন্থভাণ্ডাৰ</string>
     <string name="yes">হয়</string>
@@ -14,7 +13,6 @@
     <string name="save">সংৰক্ষণ</string>
     <string name="cancel">ৰদ কৰক</string>
     <string name="instances">বাছনি কৰক…</string>
-    <string name="region">অঞ্চল</string>
     <string name="importsuccess">চাবস্ক্ৰাইব কৰি�ছে</string>
     <string name="import_from_yt">চাবস্ক্ৰিপচন আমদানি কৰক</string>
     <string name="import_from_yt_summary">ইউটিউব বা নিউপাইপৰ পৰা</string>
@@ -242,9 +240,6 @@
     <string name="preferences">পছন্দ</string>
     <string name="play_next">পৰৱৰ্তী চলাওক</string>
     <string name="navigation_bar">নেভিগেচন বাৰ</string>
-    <string name="change_region">বৰ্তমান অঞ্চলৰ বাবে ট্ৰেণ্ডিং উপলব্ধ নহয়। ছেটিংত অন্য এটা বাছনি কৰক।</string>
-    <string name="change_instance">ইনষ্টেন্স সলনি কৰক</string>
-    <string name="suggest_change_instance">ল’ডিং স্বাভাৱিকতকৈ বেছি সময় লৈছে। ইনষ্টেন্স সলনি কৰাৰ কথা ভাৱক</string>
     <string name="playback_pitch">পিচ</string>
     <string name="playback_pitch_semitone_error_input">মান -%1$.1f (ন্যূনতম) আৰু %1$.1f (সৰ্বাধিক)ৰ মাজত হ’ব লাগিব</string>
     <string name="time_code">টাইম ক’ড (ছেকেণ্ড)</string>
@@ -266,9 +261,6 @@
     <string name="audio_track">অডিঅ’ ট্ৰেক</string>
     <string name="unsupported_file_format">অসমৰ্থিত ফাইল ফৰ্মেট: %1$s</string>
     <string name="auto_quality">স্বয়ং</string>
-    <string name="trends">ট্ৰেণ্ড</string>
-    <string name="featured">প্ৰদৰ্শিত</string>
-    <string name="trending">এতিয়া কি ট্ৰেণ্ডিং</string>
     <string name="bookmarks">চিহ্নিত</string>
     <string name="bookmark">চিহ্নিত কৰক</string>
     <string name="clear_bookmarks">চিহ্নিত পৰিষ্কাৰ কৰক</string>
@@ -408,7 +400,6 @@
     <string name="time_in_minutes">মিনিটত সময়</string>
     <string name="invalid_input">অবৈধ ইনপুট</string>
     <string name="add_to_group">গ্ৰুপত যোগ কৰক</string>
-    <string name="change">সলনি কৰক</string>
     <string name="gestures">অঙ্গভঙ্গি</string>
     <string name="external_download_provider">বাহ্যিক ডাউনলোড প্ৰদানকাৰী</string>
     <string name="external_download_provider_summary">ভিডিঅ’ ডাউনলোডৰ বাবে ব্যৱহাৰ কৰিব বিচৰা এপৰ পেকেজ নাম দিয়ক। Tubikৰ অন্তৰ্নিৰ্মিত ডাউনলোডাৰ ব্যৱহাৰ কৰিবলৈ খালী এৰি দিয়ক।</string>
@@ -427,10 +418,7 @@
     <string name="full_local_mode">পূৰ্ণ স্থানীয় মোড</string>
     <string name="full_local_mode_desc">পাইপড ব্যৱহাৰ নকৰাকৈ ইউটিউবৰ পৰা সকলো প্ৰত্যক্ষভাৱে আনক।</string>
     <string name="authentication">প্ৰমাণীকৰণ</string>
-    <string name="gaming">গেমিং</string>
     <string name="podcasts">পডকাষ্ট</string>
-    <string name="trailers">ট্ৰেইলাৰ</string>
-    <string name="music">সংগীত</string>
     <string name="download_channel_name">ডাউনলোড সেৱা</string>
     <string name="download_channel_description">মিডিয়া ডাউনলোড কৰাৰ সময়ত জাননী দেখুৱায়।</string>
     <string name="push_channel_name">জাননী কৰ্মী</string>

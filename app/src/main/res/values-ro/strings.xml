@@ -9,7 +9,6 @@
     <string name="share">Distribuie</string>
     <string name="cancel">Anulare</string>
     <string name="instances">Alege…</string>
-    <string name="region">Regiune</string>
     <string name="importsuccess">Abonat</string>
     <string name="import_from_yt">Importare abonamente</string>
     <string name="import_from_yt_summary">De pe YouTube sau NewPipe</string>
@@ -65,7 +64,6 @@
     <string name="color_yellow">Galben viu</string>
     <string name="color_green">Verde activ</string>
     <string name="color_purple">Mov plăcut</string>
-    <string name="startpage">Acasă</string>
     <string name="save">Salvează</string>
     <string name="library">Bibliotecă</string>
     <string name="download">Descarcă</string>
@@ -220,7 +218,6 @@
     <string name="wifi">Wi-Fi</string>
     <string name="new_videos_badge">Indicator pentru videoclipuri noi</string>
     <string name="repeat_mode_current">Actual</string>
-    <string name="change_region">Tendințele par să fie indisponibile pentru regiunea actuală. Te rog să selectezi o altă regiune din setări.</string>
     <string name="playlistCloned">Lista de redare a fost clonată</string>
     <string name="play_all">Redă tot</string>
     <string name="notification_time_summary">Limitează intervalul de timp în care sunt afișate notificările pentru videoclipuri</string>
@@ -233,7 +230,6 @@
     <string name="download_channel_name">Serviciu de descărcare</string>
     <string name="swipe_controls">Comenzi prin glisare</string>
     <string name="queue">Coadă</string>
-    <string name="trending">În tendințe acum</string>
     <string name="clear_bookmarks">Șterge marcajele</string>
     <string name="volume">Volum</string>
     <string name="swipe_controls_summary">Glisează pentru a regla luminozitatea și volumul în modul ecran complet</string>
@@ -256,8 +252,6 @@
     <string name="notification_time">Limitare interval pentru notificări</string>
     <string name="unsupported_file_format">Format de fișier nesuportat: %1$s</string>
     <string name="auto_quality">Automată</string>
-    <string name="trends">Tendințe</string>
-    <string name="featured">Recomandate</string>
     <string name="captions_size">Dimensiunea subtitrărilor</string>
     <string name="double_tap_seek">Atingere dublă pentru a derula</string>
     <string name="all_caught_up">Ești la curent</string>
@@ -410,9 +404,6 @@
     <string name="invalid_input">Intrare incorectă</string>
     <string name="no_fullscreen_resolution">Rezoluție fără mod ecran complet</string>
     <string name="same_as_fullscreen">La fel ca în modul ecran complet</string>
-    <string name="change">Schimbă</string>
-    <string name="change_instance">Schimbă instanță</string>
-    <string name="suggest_change_instance">Încărcarea durează mai mult decât de obicei. Considerați schimbarea instanței</string>
     <string name="download_playlist">Descarcă lista de redare</string>
     <string name="enqueue_playlist_description">Afișează o notificare atunci când se adaugă în coadă videoclipurile dintr-o listă de redare pentru a fi descărcate.</string>
     <string name="enqueueing_playlist_download">Adăugarea în coada de descărcare a videoclipurilor din lista de redare %1$s</string>
@@ -481,10 +472,7 @@
     <string name="full_local_mode">Mod local complet</string>
     <string name="full_local_mode_desc">Preia totul direct de pe YouTube, fără a folosi Piped.</string>
     <string name="authentication">Autentificare</string>
-    <string name="gaming">Gaming</string>
     <string name="podcasts">Podcasturi</string>
-    <string name="trailers">Trailere</string>
-    <string name="music">Muzică</string>
     <string name="include_timestamp_in_filename">Include data și ora în numele fișierului</string>
     <string name="did_you_mean">Ai vrut să spui:</string>
     <string name="showing_results_for">Se afișează rezultate pentru:</string>

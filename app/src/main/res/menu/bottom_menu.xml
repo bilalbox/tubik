@@ -7,18 +7,6 @@
         android:title="@string/search_hint" />
 
     <item
-        android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home"
-        android:title="@string/startpage"
-        android:visible="false" />
-
-    <item
-        android:id="@+id/trendsFragment"
-        android:icon="@drawable/ic_trending"
-        android:title="@string/trends"
-        android:visible="false" />
-
-    <item
         android:id="@+id/subscriptionsFragment"
         android:icon="@drawable/ic_subscriptions"
         android:title="@string/subscriptions" />

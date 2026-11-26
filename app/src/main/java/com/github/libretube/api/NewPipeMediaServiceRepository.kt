@@ -44,9 +44,7 @@ import org.schabi.newpipe.extractor.channel.tabs.ChannelTabs
 import org.schabi.newpipe.extractor.comments.CommentsInfo
 import org.schabi.newpipe.extractor.comments.CommentsInfoItem
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
-import org.schabi.newpipe.extractor.kiosk.KioskInfo
 import org.schabi.newpipe.extractor.linkhandler.ListLinkHandler
-import org.schabi.newpipe.extractor.localization.ContentCountry
 import org.schabi.newpipe.extractor.playlist.PlaylistInfo
 import org.schabi.newpipe.extractor.playlist.PlaylistInfoItem
 import org.schabi.newpipe.extractor.search.SearchInfo
@@ -294,33 +292,6 @@ class NewPipeMediaServiceRepository(
             httpClient = httpClient,
             poTokenProvider = poTokenProvider,
         )
-    }
-
-    // see
-    // https://github.com/TeamNewPipe/NewPipeExtractor/tree/dev/extractor/src/main/java/org/schabi/newpipe/extractor/services/youtube/extractors/kiosk
-    private val trendingCategories =
-        TrendingCategory.entries.associate {
-            when (it) {
-                TrendingCategory.GAMING -> it to "trending_gaming"
-                TrendingCategory.TRAILERS -> it to "trending_movies_and_shows"
-                TrendingCategory.PODCASTS -> it to "trending_podcasts_episodes"
-                TrendingCategory.MUSIC -> it to "trending_music"
-                TrendingCategory.LIVE -> it to "live"
-            }
-        }
-
-    override fun getTrendingCategories(): List<TrendingCategory> = trendingCategories.keys.toList()
-
-    override suspend fun getTrending(region: String, category: TrendingCategory): List<StreamItem> {
-        val kioskList = NewPipeExtractorInstance.extractor.kioskList
-        kioskList.forceContentCountry(ContentCountry(region))
-
-        val kioskId = trendingCategories[category]
-        val extractor = kioskList.getExtractorById(kioskId, null)
-        extractor.fetchPage()
-
-        val info = KioskInfo.getInfo(extractor)
-        return info.relatedItems.filterIsInstance<StreamInfoItem>().map { it.toStreamItem() }
     }
 
     override fun invalidateStreamsCache(videoId: String) {

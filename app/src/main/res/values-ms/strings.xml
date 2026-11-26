@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Laman Utama</string>
     <string name="subscriptions">Langganan</string>
     <string name="yes">Ya</string>
     <string name="search_hint">Cari</string>
@@ -11,7 +10,6 @@
     <string name="download">Muat turun</string>
     <string name="save">Simpan</string>
     <string name="instances">Pilih…</string>
-    <string name="region">Rantau</string>
     <string name="importsuccess">Dilanggan</string>
     <string name="import_from_yt">Import langganan</string>
     <string name="import_from_yt_summary">Daripada YouTube atau NewPipe</string>

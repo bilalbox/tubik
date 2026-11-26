@@ -5,7 +5,6 @@
     <string name="save">រក្សាទុក</string>
     <string name="color_blue">ខៀវចាស់</string>
     <string name="subscribe">ជាវ</string>
-    <string name="region">តំបន់</string>
     <string name="sponsorblock_notifications">ការជូនដំណឹង</string>
     <string name="music_playlists">កម្រងចាក់ យូធូបតន្ត្រី</string>
     <string name="notgmail">នេះគឺជាគណនី Piped</string>
@@ -71,7 +70,6 @@
     <string name="videoCount">%1$d វីដេអូ</string>
     <string name="category_selfpromo">មិនបង់ប្រាក់/ការផ្សព្វផ្សាយខ្លួនឯង</string>
     <string name="okay">យល់ព្រម</string>
-    <string name="startpage">ទំព័រដើម</string>
     <string name="error">មានអ្វីមួយមិនប្រក្រតី។</string>
     <string name="sponsorblock_summary">ប្រើ API https://sponsor.ajay.app</string>
     <string name="replies">ឆ្លើយតប</string>

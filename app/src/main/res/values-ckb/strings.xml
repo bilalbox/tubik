@@ -8,7 +8,6 @@
     <string name="save">هەڵگرتن</string>
     <string name="cancel">هەڵوەشاندنەوه</string>
     <string name="instances">هەڵبژاردن…</string>
-    <string name="region">ناوچە</string>
     <string name="search_hint">گەڕان</string>
     <string name="error">شتێکی هەڵە ڕوویدا.</string>
     <string name="success">تەواو.</string>
@@ -24,7 +23,6 @@
     <string name="areYouSure">دڵنیاییت لە سڕینەوەی لیستی لێدان؟</string>
     <string name="defres">ڕوونی ڤیدیۆ</string>
     <string name="deletePlaylist">سڕینەوەی لیستی لێدان</string>
-    <string name="startpage">ماڵەوە</string>
     <string name="subscriptions">بەشداریکردنەکان</string>
     <string name="library">بەشەکان</string>
     <string name="videos">ڤیدیۆکان</string>
@@ -254,14 +252,10 @@
     <string name="autoplay_countdown">ماوەی لێدانی خۆکاری</string>
     <string name="notification_time_summary">دیاریکردنی مەودای کاتی ئاگادارکردنەوەکان بۆ پیشاندانی بڵاوکراوە</string>
     <string name="audio_track">تراکی دەنگی</string>
-    <string name="trends">پێشنیارکراوەکان</string>
-    <string name="featured">هەڵبژێردراوەکان</string>
-    <string name="trending">ئەمانە لەئێستادا پێشنیارکراون بۆ سەیرکردن</string>
     <string name="app_backup">پاشەکەوتکردنی بەرنامەکە</string>
     <string name="backup_restore_summary">هێنان و هەڵگرتنی هاوبەشیکردنەکان، لیستی لێدان، …</string>
     <string name="video_id">کۆدی ڤیدیۆ</string>
     <string name="autoRotatePlayer_summary">خستە دۆخی پڕ بە شاشە کاتێ ئامێرەکە خرایە سەرلا</string>
-    <string name="change_region">ڤیدیۆ پێشنیارکراوەکان بەردەست نییە لەم شوێنەدا، تکایە شوێنێکی تر هەڵبژێرە لەبەشی ڕێکخستندا.</string>
     <string name="unsupported_file_format">جۆری فایل نەگونجاوە: %1$s</string>
     <string name="auto_quality">خۆکار</string>
     <string name="bookmarks">نیشانەکراوەکان</string>
@@ -394,8 +388,6 @@
     <string name="same_as_fullscreen">هەروەکو پڕ بە شاشە</string>
     <string name="segment">مەودا</string>
     <string name="albums">ئەلبوم</string>
-    <string name="change_instance">گۆڕینی سەرچاوە</string>
-    <string name="suggest_change_instance">بارکردن ماوەیەکی زۆتر لە ئاسایی پێدەچێ، هەوڵبدە سەرچاوەکە بگۆڕیت</string>
     <string name="segment_submitted">مەودا پێشکەشکرا</string>
     <string name="best_quality">باشترین</string>
     <string name="download_playlist">داگرتنی لیستی لێدان</string>
@@ -420,7 +412,6 @@
     <string name="enqueueing_playlist_download">ڕیزکردنی ڤیدیۆکان بۆ داگرتن لە لیستی لێدانی %1$s</string>
     <string name="audio_language">زمانی دەنگ</string>
     <string name="successfully_removed_from_playlist">\"%1$s\" سەرکەوتووانە لابرا لە لیستی لێدانەکە.</string>
-    <string name="change">گۆڕین</string>
     <string name="add_to_group">زیادکردن بۆ گرووپ</string>
     <string name="import_temp_playlist">هێنانی لیستی لێدانە کاتییەکان؟</string>
     <string name="import_temp_playlist_summary">ئەتەوێ لیستی لێدانێکی نوێ دروست بکەیت بەناوی \'%1$s\'؟ لیستی لێدانەکە %2$d ڤیدیۆ لەخۆدەگرێت.</string>
@@ -483,10 +474,7 @@
     <plurals name="minutes_left">
         <item quantity="one">%d خولەک ماوە</item>
     </plurals>
-    <string name="gaming">یاریکردن</string>
     <string name="podcasts">پۆدکاستەکان</string>
-    <string name="trailers">ترەیلەرەکان</string>
-    <string name="music">مووزیک</string>
     <string name="include_timestamp_in_filename">مۆری کات لە ناوی فایلەکەدا دابنێ</string>
     <string name="did_you_mean">مەبەستت بوو:</string>
     <string name="showing_results_for">پیشاندانی ئەنجامەکان بۆ:</string>

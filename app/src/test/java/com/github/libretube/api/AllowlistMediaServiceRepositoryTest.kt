@@ -46,7 +46,7 @@ class AllowlistMediaServiceRepositoryTest {
     }
 
     private class FakeMediaServiceRepository : MediaServiceRepository {
-        var trendingItems: List<StreamItem> = emptyList()
+        var streamItems: List<StreamItem> = emptyList()
         var searchResult: SearchResult = SearchResult()
         var searchNextPageResult: SearchResult = SearchResult()
         var searchNextPagesByToken: Map<String, SearchResult> = emptyMap()
@@ -59,13 +59,6 @@ class AllowlistMediaServiceRepositoryTest {
         var channelTabResponse: ChannelTabResponse = ChannelTabResponse()
         var commentsPage: CommentsPage = CommentsPage()
         var suggestionCalls: Int = 0
-
-        override fun getTrendingCategories(): List<TrendingCategory> = TrendingCategory.entries
-
-        override suspend fun getTrending(
-            region: String,
-            category: TrendingCategory,
-        ): List<StreamItem> = trendingItems
 
         override suspend fun getStreams(videoId: String): Streams =
             streamsByVideoId.getValue(videoId)
@@ -119,11 +112,11 @@ class AllowlistMediaServiceRepositoryTest {
     }
 
     @Test
-    fun `when Allowlist is on, trending, search, and playlists keep only Allowed Channels including Shorts, live streams, and channels`() =
+    fun `when Allowlist is on, search and playlists keep only Allowed Channels including Shorts, live streams, and channels`() =
         runBlocking {
             val fake =
                 FakeMediaServiceRepository().apply {
-                    trendingItems =
+                    streamItems =
                         listOf(
                             StreamItem(
                                 url = "vid_allowed",
@@ -225,7 +218,7 @@ class AllowlistMediaServiceRepositoryTest {
                         Playlist(
                             name = "Mixed Playlist",
                             uploaderUrl = "UC_ALLOWED_1",
-                            relatedStreams = trendingItems,
+                            relatedStreams = streamItems,
                         )
                     playlistNextPageResult = playlistResult
                 }
@@ -236,10 +229,6 @@ class AllowlistMediaServiceRepositoryTest {
                     accessControl = accessControl(enabled = { true }),
                 )
 
-            assertEquals(
-                listOf("vid_allowed", "short_allowed", "live_allowed"),
-                repo.getTrending("US", TrendingCategory.LIVE).map { it.url },
-            )
             assertEquals(
                 listOf("s_vid_ok", "s_short_ok", "s_live_ok", "UC_ALLOWED_1"),
                 repo.getSearchResults("test", "all").items.map { it.url },
@@ -388,9 +377,12 @@ class AllowlistMediaServiceRepositoryTest {
     fun `when Allowlist is off, everything passes through unchanged`() = runBlocking {
         val fake =
             FakeMediaServiceRepository().apply {
-                trendingItems =
-                    listOf(
-                        StreamItem(url = "vid_blocked", uploaderUrl = "UC_BLOCKED"),
+                playlistResult =
+                    Playlist(
+                        relatedStreams =
+                            listOf(
+                                StreamItem(url = "vid_blocked", uploaderUrl = "UC_BLOCKED"),
+                            ),
                     )
                 searchResult =
                     SearchResult(
@@ -452,10 +444,7 @@ class AllowlistMediaServiceRepositoryTest {
                 accessControl = accessControl(enabled = { false }),
             )
 
-        assertEquals(
-            listOf("vid_blocked"),
-            repo.getTrending("US", TrendingCategory.LIVE).map { it.url },
-        )
+        assertEquals(listOf("vid_blocked"), repo.getPlaylist("pl").relatedStreams.map { it.url })
         assertEquals(listOf("s_blocked"), repo.getSearchResults("q", "all").items.map { it.url })
         val streams = repo.getStreams("v_blocked")
         assertEquals(1, streams.relatedStreams.size)
@@ -738,18 +727,21 @@ class AllowlistMediaServiceRepositoryTest {
     fun `repository resolves a fresh AllowedCatalog snapshot per operation`() = runBlocking {
         val fake =
             FakeMediaServiceRepository().apply {
-                trendingItems =
-                    listOf(
-                        StreamItem(
-                            url = "vid_1",
-                            type = StreamItem.TYPE_STREAM,
-                            uploaderUrl = "UC_ALLOWED_1",
-                        ),
-                        StreamItem(
-                            url = "vid_2",
-                            type = StreamItem.TYPE_STREAM,
-                            uploaderUrl = "UC_ALLOWED_2",
-                        ),
+                playlistResult =
+                    Playlist(
+                        relatedStreams =
+                            listOf(
+                                StreamItem(
+                                    url = "vid_1",
+                                    type = StreamItem.TYPE_STREAM,
+                                    uploaderUrl = "UC_ALLOWED_1",
+                                ),
+                                StreamItem(
+                                    url = "vid_2",
+                                    type = StreamItem.TYPE_STREAM,
+                                    uploaderUrl = "UC_ALLOWED_2",
+                                ),
+                            ),
                     )
             }
 
@@ -761,12 +753,12 @@ class AllowlistMediaServiceRepositoryTest {
             )
         assertEquals(
             listOf("vid_1"),
-            dynamicRepo.getTrending("US", TrendingCategory.LIVE).map { it.url },
+            dynamicRepo.getPlaylist("pl").relatedStreams.map { it.url },
         )
         dynamicAllowedIds = setOf("UC_ALLOWED_2")
         assertEquals(
             listOf("vid_2"),
-            dynamicRepo.getTrending("US", TrendingCategory.LIVE).map { it.url },
+            dynamicRepo.getPlaylist("pl").relatedStreams.map { it.url },
         )
     }
 
@@ -774,13 +766,16 @@ class AllowlistMediaServiceRepositoryTest {
     fun `repository propagates CancellationException from AllowedCatalog snapshot`() = runBlocking {
         val fake =
             FakeMediaServiceRepository().apply {
-                trendingItems =
-                    listOf(
-                        StreamItem(
-                            url = "vid_1",
-                            type = StreamItem.TYPE_STREAM,
-                            uploaderUrl = "UC_ALLOWED_1",
-                        ),
+                playlistResult =
+                    Playlist(
+                        relatedStreams =
+                            listOf(
+                                StreamItem(
+                                    url = "vid_1",
+                                    type = StreamItem.TYPE_STREAM,
+                                    uploaderUrl = "UC_ALLOWED_1",
+                                ),
+                            ),
                     )
             }
 
@@ -807,7 +802,7 @@ class AllowlistMediaServiceRepositoryTest {
             )
 
         try {
-            repo.getTrending("US", TrendingCategory.LIVE)
+            repo.getPlaylist("pl")
             fail("Expected CancellationException to propagate")
         } catch (_: CancellationException) {
             // Expected

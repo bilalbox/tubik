@@ -7,14 +7,16 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.github.libretube.LibreTubeApp
 import com.github.libretube.R
-import com.github.libretube.api.TrendingCategory
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.enums.SbSkipOptions
-import com.github.libretube.helpers.LocaleHelper.getDetectedCountry
 import kotlin.math.roundToInt
 
 object PreferenceHelper {
     private val TAG = PreferenceHelper::class.simpleName
+
+    /** Home and Trends sat at bottom menu positions 1 and 2 until they were removed. */
+    private const val FIRST_REMOVED_NAV_BAR_INDEX = 1
+    private const val REMOVED_NAV_BAR_ITEM_COUNT = 2
 
     /** Preference migration from [fromVersion] to [toVersion]. */
     private class PreferenceMigration(
@@ -50,8 +52,7 @@ object PreferenceHelper {
                     }
             },
             PreferenceMigration(1, 2) {
-                // select a random category as the new value
-                putString(PreferenceKeys.TRENDING_CATEGORY, TrendingCategory.LIVE.name)
+                // Used to seed the trending category; Trending was removed in 14 -> 15
             },
             PreferenceMigration(2, 3) {
                 // git log -p -- app/src/main/java/com/github/libretube/constants/PreferenceKeys.kt
@@ -155,10 +156,6 @@ object PreferenceHelper {
                     "local_feed_extraction",
                 ) // local feed extraction is default now
             },
-            PreferenceMigration(7, 8) {
-                remove("image_cache_size")
-                remove("max_parallel_downloads")
-            },
             PreferenceMigration(8, 9) {
                 remove("label_visibility")
                 remove("playback_during_call")
@@ -180,6 +177,16 @@ object PreferenceHelper {
             PreferenceMigration(12, 13) {
                 remove("selected_share_host")
                 remove("unlimited_search_history")
+            },
+            // A duplicate 7 -> 8 entry once stood here, so installs already sit at version 14
+            PreferenceMigration(13, 14) {
+                remove("image_cache_size")
+                remove("max_parallel_downloads")
+            },
+            PreferenceMigration(14, 15) {
+                remove("trending_category")
+                remove("region")
+                remapNavBarIndices()
             },
         )
 
@@ -335,16 +342,56 @@ object PreferenceHelper {
         return uuid
     }
 
-    fun getTrendingRegion(context: Context): String {
-        val regionPref = PreferenceHelper.getString(PreferenceKeys.REGION, "sys")
+    /**
+     * Rewrites the stored bottom bar order and start tab after Home and Trends left the bottom
+     * menu. Both preferences store positions in that menu.
+     */
+    private fun remapNavBarIndices() {
+        val navBarItems = getString(PreferenceKeys.NAVBAR_ITEMS, "")
+        if (navBarItems.isNotEmpty()) {
+            putString(
+                PreferenceKeys.NAVBAR_ITEMS,
+                remapNavBarItemsWithoutHomeAndTrends(navBarItems),
+            )
+        }
 
-        // get the system default country if auto region selected
-        return if (regionPref == "sys") {
-            getDetectedCountry(context).uppercase()
-        } else {
-            regionPref
+        val startFragment = getInt(PreferenceKeys.START_FRAGMENT, Int.MAX_VALUE)
+        if (startFragment != Int.MAX_VALUE) {
+            remapNavBarIndexWithoutHomeAndTrends(startFragment)?.let {
+                putInt(PreferenceKeys.START_FRAGMENT, it)
+            } ?: remove(PreferenceKeys.START_FRAGMENT)
         }
     }
+
+    /**
+     * Maps a position in the old bottom menu (Search, Home, Trends, Subscriptions, Library,
+     * Downloads) to the current one (Search, Subscriptions, Library, Downloads), or null for Home
+     * and Trends.
+     */
+    internal fun remapNavBarIndexWithoutHomeAndTrends(oldIndex: Int): Int? =
+        when {
+            oldIndex < 0 -> null
+            oldIndex < FIRST_REMOVED_NAV_BAR_INDEX -> oldIndex
+            oldIndex < FIRST_REMOVED_NAV_BAR_INDEX + REMOVED_NAV_BAR_ITEM_COUNT -> null
+            else -> oldIndex - REMOVED_NAV_BAR_ITEM_COUNT
+        }
+
+    /**
+     * Remaps a stored bottom bar order ("0,-1,3", where "-" marks a hidden tab) with
+     * [remapNavBarIndexWithoutHomeAndTrends], dropping Home, Trends, and unreadable entries.
+     */
+    internal fun remapNavBarItemsWithoutHomeAndTrends(navBarItems: String): String =
+        navBarItems
+            .split(",")
+            .mapNotNull { entry ->
+                val hidden = entry.startsWith("-")
+                entry
+                    .removePrefix("-")
+                    .toIntOrNull()
+                    ?.let(::remapNavBarIndexWithoutHomeAndTrends)
+                    ?.let { if (hidden) "-$it" else "$it" }
+            }
+            .joinToString(",")
 
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Startseite</string>
     <string name="subscriptions">Abos</string>
     <string name="library">Bibliothek</string>
     <string name="search_hint">Suche</string>
@@ -9,7 +8,6 @@
     <string name="videos">Videos</string>
     <string name="share">Teilen</string>
     <string name="instances">Auswählen…</string>
-    <string name="region">Region</string>
     <string name="importsuccess">Abonniert</string>
     <string name="app_theme">Design</string>
     <string name="server_error">Problem mit ausgewähltem Server. Versuche eine andere Instanz.</string>
@@ -204,7 +202,6 @@
     <string name="playback_pitch">Tonhöhe</string>
     <string name="download_channel_description">Zeigt beim Herunterladen von Medien eine Benachrichtigung an.</string>
     <string name="push_channel_description">Zeigt eine Benachrichtigung an, wenn neue Videos verfügbar sind.</string>
-    <string name="change_region">Trends scheinen in ihrem Land nicht verfügbar zu sein. Bitte ein unterstütztes Land in den Einstellungen auswählen.</string>
     <string name="device_info">Geräteinformationen</string>
     <string name="network_wifi">Nur über WLAN</string>
     <string name="share_with_time">Mit Zeitstempel teilen</string>
@@ -234,9 +231,6 @@
     <string name="livestreams">Livestreams</string>
     <string name="auto_quality">Automatisch</string>
     <string name="time_code">Zeitstempel (Sekunden)</string>
-    <string name="trends">Trends</string>
-    <string name="featured">Vorgestellt</string>
-    <string name="trending">Trends</string>
     <string name="bookmarks">Lesezeichen</string>
     <string name="bookmark">Lesezeichen</string>
     <string name="clear_bookmarks">Lesezeichen löschen</string>
@@ -409,13 +403,10 @@
     <string name="rich_caption_rendering_summary">Individuell gestaltete Untertitel (z.B. fettgedruckt oder andere Schriftart) anzeigen</string>
     <string name="grid_landscape">Spaltenanzahl im Querformat</string>
     <string name="copy_tooltip">Kopieren</string>
-    <string name="change_instance">Instanz ändern</string>
-    <string name="change">Ändern</string>
     <string name="delete_all">Alle Downloads werden gelöscht!</string>
     <string name="default_language">Standard</string>
     <string name="download_playlist">Playlist herunterladen</string>
     <string name="audio_language">Audio-Sprache</string>
-    <string name="suggest_change_instance">Laden dauert länger als üblich. Eventuell Instanz wechseln?</string>
     <string name="enqueue_playlist_description">Benachrichtigen, wenn Videos einer Playlist der Download-Warteschlange hinzugefügt werden.</string>
     <string name="enqueueing_playlist_download">Videos aus Playlist %1$s werden zum Download eingereiht</string>
     <string name="also_clear_watch_positions">Wiedergabepositionen ebenso löschen</string>
@@ -460,10 +451,7 @@
     <string name="full_local_mode_desc">Alle Daten direkt von YouTube abrufen, ohne Piped zu nutzen.</string>
     <string name="mode_of_operation">Betriebsmodus</string>
     <string name="playback_pitch_semitone_error_input">Wert muss zwischen -%1$.1f (Minimum) und %1$.1f (Maximum) liegen</string>
-    <string name="gaming">Gaming</string>
     <string name="podcasts">Podcasts</string>
-    <string name="trailers">Trailer</string>
-    <string name="music">Musik</string>
     <string name="createNewPlaylist">Neue Playlist erstellen</string>
     <string name="include_timestamp_in_filename">Zeitstempel in Dateinamen einfügen</string>
     <string name="unsubscribe_snackbar_message">%1$s wurde deabonniert</string>

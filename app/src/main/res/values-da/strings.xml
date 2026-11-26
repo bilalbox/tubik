@@ -55,7 +55,6 @@
     <string name="appearance_summary">Tilpas appen efter din smag</string>
     <string name="live">Direkte</string>
     <string name="shareTo">Del URL til</string>
-    <string name="startpage">Hjem</string>
     <string name="subscriptions">Abonnementer</string>
     <string name="instances">Vælg…</string>
     <string name="app_theme">Tema</string>
@@ -64,7 +63,6 @@
     <string name="save">Gem</string>
     <string name="videos">Videoer</string>
     <string name="subscribe">Abonner</string>
-    <string name="region">Region</string>
     <string name="share">Del</string>
     <string name="error">Noget gik galt.</string>
     <string name="download">Hent</string>
@@ -219,8 +217,6 @@
     <string name="category_highlight">Vis video-højdepunkt</string>
     <string name="sb_create_segment">Opret segment</string>
     <string name="tooltip_clear_queue">Ryd kø</string>
-    <string name="change_instance">Ændr instans</string>
-    <string name="change">Skift</string>
     <string name="download_channel_description">Viser en notifikation, når der downloades medier.</string>
     <string name="tooltip_minimize">Minimér</string>
     <string name="rewind">Spol tilbage</string>
@@ -237,7 +233,6 @@
     <string name="enqueueing_playlist_download">Videoer i playlisten %1$s bliver sat i kø til at blive downloaded</string>
     <string name="delete_all">Alle downloads vil blive slettet!</string>
     <string name="new_videos_badge_summary">Vis et badge med antallet af nye videoer, hvis der er nogle</string>
-    <string name="suggest_change_instance">Indlæsning tager længere tid end normalt. Overvej at ændre instans</string>
     <string name="invalid_color">Ugyldig farveværdi indtastet!</string>
     <string name="livestreams">Livestreams</string>
     <string name="time">Tid</string>
@@ -245,7 +240,6 @@
     <string name="notification_time_summary">Begræns tidsperiode, hvor streamnotifikationer er vist</string>
     <string name="audio_track">Lydspor</string>
     <string name="unsupported_file_format">Ikke-understøttet filformat: %1$s</string>
-    <string name="trends">Trends</string>
     <string name="local_playlists">Lokale playlister</string>
     <string name="brightness">Lysstyrke</string>
     <string name="volume">Lydstyrke</string>
@@ -389,7 +383,6 @@
     <string name="local_subscriptions">Lokale abonnementer</string>
     <string name="play_next">Afspil næste</string>
     <string name="navigation_bar">Navigationslinje</string>
-    <string name="change_region">Trending ser ud til at være utilgængelig i den nuværende region. Vælg venligst en anden i indstillingerne.</string>
     <string name="playback_pitch">Tonehøjde</string>
     <string name="category_highlight_summary">Kan være enten sponsoreret titel, miniaturebilledet eller den mest interessante del af videoen. Du kan springe hen til den ved at trykke på den i kapitlersektionen</string>
     <string name="color">Farve</string>
@@ -403,8 +396,6 @@
     <string name="layout">Layout</string>
     <string name="end_time">Sluttid</string>
     <string name="auto_quality">Auto</string>
-    <string name="featured">Fremhævet</string>
-    <string name="trending">Hvad er populært lige nu</string>
     <string name="bookmarks">Bogmærker</string>
     <string name="replies">Svar</string>
     <string name="wifi">Wi-Fi</string>

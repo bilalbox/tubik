@@ -3,7 +3,6 @@
     <string name="instances">选择…</string>
     <string name="download">下载</string>
     <string name="share">分享</string>
-    <string name="startpage">首页</string>
     <string name="subscriptions">订阅内容</string>
     <string name="yes">是</string>
     <string name="library">媒体库</string>
@@ -12,7 +11,6 @@
     <string name="subscribe">订阅</string>
     <string name="unsubscribe">退订</string>
     <string name="cancel">取消</string>
-    <string name="region">地区</string>
     <string name="import_from_yt">导入订阅列表</string>
     <string name="import_from_yt_summary">从 YouTube 或 NewPipe</string>
     <string name="app_theme">主题</string>
@@ -217,7 +215,6 @@
     <string name="preferences">选项</string>
     <string name="play_next">播放下一个</string>
     <string name="navigation_bar">导航栏</string>
-    <string name="change_region">“时下流行”似乎对当前地区不可用。请在设置中另选一个地区。</string>
     <string name="playback_pitch">音调</string>
     <string name="time_code">时间码（秒）</string>
     <string name="added_to_playlist">已添加到播放列表 %1$s</string>
@@ -233,9 +230,6 @@
     <string name="layout">布局</string>
     <string name="audio_track">音轨</string>
     <string name="auto_quality">自动</string>
-    <string name="trends">热门</string>
-    <string name="featured">精选</string>
-    <string name="trending">时下热门</string>
     <string name="bookmarks">书签</string>
     <string name="bookmark">加入书签</string>
     <string name="clear_bookmarks">清除书签</string>
@@ -408,9 +402,6 @@
     <string name="rich_caption_rendering">富字幕渲染</string>
     <string name="rich_caption_rendering_summary">渲染 web 字幕获得更丰富和定制的体验</string>
     <string name="copy_tooltip">复制</string>
-    <string name="change_instance">更换实例</string>
-    <string name="suggest_change_instance">加载所花时间比平常要多。请考虑更换实例</string>
-    <string name="change">更换</string>
     <string name="download_playlist_note">请选择要下载的最高音视频质量。字幕仅会在可用时下载。</string>
     <string name="delete_all">所有已下载项目将被删除！</string>
     <string name="download_playlist">下载播放列表</string>
@@ -459,10 +450,7 @@
     <string name="full_local_mode_desc">直接从 YT 获取一切数据，不使用 Piped。</string>
     <string name="authentication">身份验证</string>
     <string name="playback_pitch_semitone_error_input">值须在 %1$.1f（最小值）和 %1$.1f（最大值）之间</string>
-    <string name="gaming">游戏</string>
     <string name="podcasts">播客</string>
-    <string name="trailers">预告片</string>
-    <string name="music">音乐</string>
     <string name="createNewPlaylist">创建新播放列表</string>
     <string name="include_timestamp_in_filename">在文件名中包含时间戳</string>
     <string name="unsubscribe_snackbar_message">取消订阅 %1$s 成功</string>

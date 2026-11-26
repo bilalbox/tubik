@@ -5,7 +5,6 @@
     <string name="share">分享俾人</string>
     <string name="save">儲存</string>
     <string name="cancel">取消</string>
-    <string name="region">地區</string>
     <string name="importsuccess">訂閱咗</string>
     <string name="import_from_yt">匯入訂閱</string>
     <string name="import_from_yt_summary">嚟自 YouTube 或者 NewPipe</string>
@@ -58,7 +57,6 @@
     <string name="music_songs">YT Music 歌</string>
     <string name="category_sponsor">Sponsor</string>
     <string name="customization">較嘢</string>
-    <string name="startpage">主頁</string>
     <string name="library">拉把</string>
     <string name="autoRotatePlayer">自動 Fullscreen</string>
     <string name="pause">暫停</string>

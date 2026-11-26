@@ -4,7 +4,6 @@
     <string name="save">Uložiť</string>
     <string name="cancel">Zrušiť</string>
     <string name="instances">Vybrať…</string>
-    <string name="region">Región</string>
     <string name="importsuccess">Ste prihlásený k odberu</string>
     <string name="import_from_yt">Importovať odbery</string>
     <string name="import_from_yt_summary">Z YouTube alebo NewPipe</string>
@@ -54,7 +53,6 @@
     <string name="search_hint">Vyhľadávanie</string>
     <string name="videos">Videá</string>
     <string name="subscribe">Odoberať</string>
-    <string name="startpage">Domov</string>
     <string name="subscriptions">Odbery</string>
     <string name="download">Stiahnuť</string>
     <string name="about">O Tubik</string>
@@ -257,7 +255,6 @@
     <string name="play_automatically_summary">Začne automaticky prehrávať video po výbere</string>
     <string name="time_code">Časový kód (v sekundách)</string>
     <string name="notification_time_summary">Obmedzí časové rozpätie, v ktorom sa zobrazujú upozornenia o streamoch</string>
-    <string name="featured">Odporúčané</string>
     <string name="bookmarks">Záložky</string>
     <string name="bookmark">Záložka</string>
     <string name="add_to_bookmarks">Pridať do záložiek</string>
@@ -297,7 +294,6 @@
     <string name="tooltip_repeat">Opakovanie</string>
     <string name="category_highlight_summary">Môže to byť inzerovaný titul, miniatúra alebo najzaujímavejšia časť videa. Môžete na ňu prejsť ťuknutím v sekcii kapitol</string>
     <string name="player_resize_mode">Režim zmeny veľkosti</string>
-    <string name="change_region">Zdá sa, že trendy nie sú pre aktuálny región k dispozícii. V nastaveniach vyberte iný.</string>
     <string name="sb_custom_colors_summary">Prepína používané farebné segmenty pre segmenty SponsorBlock</string>
     <string name="playback_pitch">Výška tónu</string>
     <string name="download_channel_description">Zobrazí upozornenie pri sťahovaní médií.</string>
@@ -321,8 +317,6 @@
     <string name="delete">Odstrániť zo stiahnutých súborov</string>
     <string name="skip_segment">Vynechať segment</string>
     <string name="layout">Usporiadanie</string>
-    <string name="trends">Trendy</string>
-    <string name="trending">Čo je teraz v trende</string>
     <string name="local_playlists">Lokálne zoznamy skladieb</string>
     <string name="volume">Hlasitosť</string>
     <string name="livestreams">Živé prenosy</string>
@@ -410,9 +404,6 @@
         <item quantity="few">%d nové streamy</item>
         <item quantity="other">%d nových streamov</item>
     </plurals>
-    <string name="change_instance">Zmeniť inštanciu</string>
-    <string name="suggest_change_instance">Načítanie trvá dlhšie ako zvyčajne. Zvážte zmenu inštancie</string>
-    <string name="change">Zmeniť</string>
     <string name="audio_language">Jazyk zvuku</string>
     <string name="default_language">Predvolený</string>
     <string name="enqueueing_playlist_download">Videá zo zoznamu skladieb %1$s sú v poradí na stiahnutie</string>
@@ -461,10 +452,7 @@
     <string name="authentication">Autentifikácia</string>
     <string name="updating_feed">Aktualizácia kanála…</string>
     <string name="playback_pitch_semitone_error_input">Hodnota musí byť medzi -%1$.1f (minimum) a %1$.1f (maximum)</string>
-    <string name="gaming">Hry</string>
     <string name="podcasts">Podcasty</string>
-    <string name="trailers">Ukážky</string>
-    <string name="music">Hudba</string>
     <string name="createNewPlaylist">Vytvoriť nový playlist</string>
     <string name="include_timestamp_in_filename">Zahrnúť časovú známku do názvu súboru</string>
     <string name="unsubscribe_snackbar_message">Odber kanálu %1$s bol úspešne zrušený</string>

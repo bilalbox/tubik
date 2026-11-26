@@ -2,7 +2,6 @@
 <resources>
     <string name="download">ডাউনলোড</string>
     <string name="customization">সমন্বয়</string>
-    <string name="startpage">হোম</string>
     <string name="library">লাইব্রেরি</string>
     <string name="unsubscribe">আনসাবস্ক্রাইব</string>
     <string name="subscribe">সাবস্ক্রাইব</string>
@@ -123,7 +122,6 @@
     <string name="save">সংরক্ষণ</string>
     <string name="cancel">বাতিল</string>
     <string name="instances">নির্বাচন করুন…</string>
-    <string name="region">এলাকা</string>
     <string name="importsuccess">সাবস্ক্রাইব করা হয়েছে</string>
     <string name="subscriptions">সাবস্ক্রিপশনগুলো</string>
     <string name="deleteAccount_summary">পাইপড অ্যাকাউন্ট মুছে ফেলুন</string>
@@ -218,7 +216,6 @@
     <string name="navigation_bar">নেভিগেশনবার</string>
     <string name="playback_pitch">পিচ</string>
     <string name="download_channel_name">ডাউনলোড সার্ভিস</string>
-    <string name="change_region">বর্তমান এলাকায় ট্রেডিং অ্যাভেলেবল নেই। সেটিংসে গিয়ে অন্যটি বাছুন।</string>
     <string name="download_channel_description">ডাউনলোডের সময় নোটিফিকেশন দেখান।</string>
     <string name="time_code">সময় কোড (সেকেন্ড)</string>
     <string name="queue">কিউ</string>
@@ -233,9 +230,6 @@
     <string name="layout">লেয়াউট</string>
     <string name="audio_track">অডিও ট্র্যাক</string>
     <string name="auto_quality">স্বয়ংক্রিয়</string>
-    <string name="trends">জনপ্রিয়গুলো</string>
-    <string name="featured">বৈশিষ্ট্যযুক্ত</string>
-    <string name="trending">এখন যা যা জনপ্রিয়</string>
     <string name="local_playlists">স্থানীয় প্লেলিস্ট</string>
     <string name="exportsuccess">রপ্তানি করা।</string>
     <string name="bookmarks">বুকমার্কগুলো</string>
@@ -310,8 +304,6 @@
     <string name="backup_creation_success">ব্যাকআপ সফলভাবে সম্পন্ন হয়েছে</string>
     <string name="backup_creation_failed">ব্যাকআপ তৈরি করতে ব্যর্থ হয়েছে</string>
     <string name="delete_all">সমস্ত ডাউনলোড মুছে ফেলা হবে!</string>
-    <string name="change_instance">ইন্সটেন্স পরিবর্তন</string>
-    <string name="suggest_change_instance">লোডিং স্বাভাবিকের চেয়ে বেশি সময় নিচ্ছে। উদাহরণ পরিবর্তন করার কথা বিবেচনা করুন</string>
     <string name="playback_pitch_semitone_error_input">মান অবশ্যই -%1$.1f (সর্বনিম্ন) এবং %1$.1f, (সর্বোচ্চ) এর মধ্যে হতে হবে</string>
     <string name="sb_custom_colors_summary">স্পন্সরব্লক সেগমেন্টের জন্য কাস্টম রঙের অংশগুলি টগল করে</string>
     <string name="sb_custom_colors">কাস্টম সেগমেন্টের রঙ</string>

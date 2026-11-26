@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="startpage">Guriga</string>
     <string name="yes">Haa</string>
     <string name="search_hint">Raadi</string>
     <string name="videos">Muuqaalo</string>
@@ -11,7 +10,6 @@
     <string name="save">Kaydi</string>
     <string name="cancel">Jooji</string>
     <string name="instances">Xulo</string>
-    <string name="region">Gobol</string>
     <string name="server_error">Waxay u muuqataa inay dhibaato ka jirto server-ka la doortay. Isku day mid kale.</string>
     <string name="unknown_error">Khalad shabakadeed.</string>
     <string name="error">Wax baa qaldamay.</string>

@@ -54,7 +54,6 @@
     <string name="open_copied">Opna</string>
     <string name="audio_video_summary">Gæði og snið</string>
     <string name="skip_segment">Sleppa bút</string>
-    <string name="change_instance">Skipta um netþjónstilvik</string>
     <string name="playlistCloned">Spilunarlisti klónaður</string>
     <string name="end_time">Lokatími</string>
     <string name="audio_track">Hljóðspor</string>
@@ -87,7 +86,6 @@
     <string name="save">Vista</string>
     <string name="cancel">Hætta við</string>
     <string name="instances">Velja…</string>
-    <string name="region">Hérað</string>
     <string name="importsuccess">Áskrifandi</string>
     <string name="import_from_yt">Flytja inn áskriftir</string>
     <string name="import_from_yt_summary">Frá YouTube eða NewPipe</string>
@@ -206,8 +204,6 @@
     <string name="background_mode">Bakgrunnshamur</string>
     <string name="yt_shorts">Símamyndir</string>
     <string name="most_views">Mest áhorf</string>
-    <string name="featured">Úrvals</string>
-    <string name="trending">Hvað er í umræðunni</string>
     <string name="color_violet">Fjölhæfur fjólublár</string>
     <string name="play_latest_videos">Spila nýjustu myndskeið</string>
     <string name="rewind">Spóla til baka</string>
@@ -221,7 +217,6 @@
     <string name="download_playlist">Sækja spilunarlista</string>
     <string name="show_search_suggestions">Birta uppástungur í leit</string>
     <string name="chapters_videoHighlight">Hápunktur myndskeiðs</string>
-    <string name="change">Breyta</string>
     <string name="tooltip_play">Spila</string>
     <string name="tooltip_filter">Sía</string>
     <string name="visibility_unlisted">Óskráður</string>
@@ -275,7 +270,6 @@
     <string name="local_subscriptions">Staðværar áskriftir</string>
     <string name="time_code">Tímakóði (sekúndur)</string>
     <string name="added_to_playlist">Bætt á spilunarlistann %1$s</string>
-    <string name="suggest_change_instance">Hleðsla tekur lengri tíma en venjulega. Íhugaðu að skipta um netþjónstilvik</string>
     <string name="start_time">Upphafstími</string>
     <string name="notification_time_summary">Takmarka tímasviðið þegar tilkynningar um streymi eru birtar</string>
     <string name="layout">Framsetning</string>
@@ -384,7 +378,6 @@
     <string name="data_saver_mode_summary">Sleppa smámyndum og öðrum myndum</string>
     <string name="renamePlaylist">Endurnefna spilunarlista</string>
     <string name="playback_pitch">Tónhæð</string>
-    <string name="startpage">Forsíða</string>
     <string name="subscriptions">Áskriftir</string>
     <string name="library">Safn</string>
     <string name="yes">Já</string>
@@ -414,7 +407,6 @@
     <string name="comments">Athugasemdir</string>
     <string name="customization">Lagfæringar</string>
     <string name="category_outro">Lokaskjáir og kreditlistar</string>
-    <string name="trends">Tilhneiging</string>
     <string name="screen_orientation">Stefna skjás</string>
     <string name="external_download_provider_summary">Settu inn nafn forritspakkans sem þú vilt að sé notaður til að sækja myndskeið. Skildu þetta eftir autt til að nota innbyggða niðurhalarann í Tubik.</string>
     <string name="player_channel_name">Spilaraþjónusta</string>
@@ -423,7 +415,6 @@
     <string name="also_clear_watch_positions">Einnig hreinsa áhorfsstaðsetningar</string>
     <string name="system_caption_style">Skýringartextar í stíl kerfis</string>
     <string name="category_preview_summary">Fyrir hluta sem útlista væntanlegt efni en án viðbótarupplýsinga. Ef þetta inniheldur myndefni sem einungis birtist hér, þá er þetta væntanlega röng flokkun</string>
-    <string name="change_region">Upplýsingar um tilhneigingu virðast ekki vera aðgengilegar á fyrirliggjandi svæði. Veldu eitthvað annað í stillingunum.</string>
     <string name="category_music_offtopic_summary">Eingöngu fyrir tónlistarmyndbönd. Þetta ætti að ná yfir þá hluta myndskeiðs sem ekki eru hlutar opinberra samsetninga. Á endanum ætti myndskeiðið að líkjast sem mest útgáfunni á Spotify eða einhverjum öðrum samsetningum, eða minnka tal eða annað afvegaleiðandi</string>
     <string name="category_highlight_summary">Gæti annað hvort verið auglýstur titill, smámyndin eða áhugaverðasti hluti myndskeiðsins. Þú getur hoppað yfir á þetta með því að pikka á kaflahlutann</string>
     <string name="dearrow_summary">Sýna nákvæmari og minna áberandi titla og smámyndir. Eykur hleðslutíma</string>
@@ -461,10 +452,7 @@
     <string name="authentication">Auðkenning</string>
     <string name="createNewPlaylist">Útbúa nýjan spilunarlista</string>
     <string name="playback_pitch_semitone_error_input">Gildið þarf að vara á milli -%1$.1f (lágmark) og %1$.1f (hámark)</string>
-    <string name="gaming">Leikir</string>
     <string name="podcasts">Hlaðvörp</string>
-    <string name="trailers">Kynningarstiklur</string>
-    <string name="music">Tónlist</string>
     <string name="include_timestamp_in_filename">Hafa tímamerki í skráarheiti</string>
     <string name="unsubscribe_snackbar_message">Tókst að segja upp áskrift á %1$s</string>
     <string name="screenshot_saved">Skjámynd vistuð</string>

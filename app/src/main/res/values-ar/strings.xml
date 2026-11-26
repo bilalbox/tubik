@@ -9,7 +9,6 @@
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
     <string name="yes">نعم</string>
-    <string name="region">المنطقة</string>
     <string name="importsuccess">مشترك</string>
     <string name="import_from_yt">استيراد الاشتراكات</string>
     <string name="app_theme">سمة التطبيق</string>
@@ -30,7 +29,6 @@
     <string name="addToPlaylist">أضف إلى قائمة التشغيل</string>
     <string name="about">حول</string>
     <string name="emptyPlaylistName">لا يمكن لاسم قائمة التشغيل أن يكون فارغا</string>
-    <string name="startpage">الرئيسية</string>
     <string name="changeLanguage">اللغة</string>
     <string name="systemDefault">النظام</string>
     <string name="lightTheme">فاتح</string>
@@ -217,7 +215,6 @@
     <string name="push_channel_description">يظهر إشعارًا عند توفر تدفقات جديدة.</string>
     <string name="play_next">تشغيل التالي</string>
     <string name="navigation_bar">شريط التنقل</string>
-    <string name="change_region">المتصدرة يبدو أنها غير متاحة في المنطقة الحالية . الرجاء اختيار آخر في الإعداد .</string>
     <string name="playback_pitch">الحدة</string>
     <string name="time_code">رمز الوقت (بالثواني)</string>
     <string name="added_to_playlist">أُضيف إلى قائمة التشغيل %1$s</string>
@@ -233,9 +230,6 @@
     <string name="layout">التَخطِيط</string>
     <string name="audio_track">مسار صوتي</string>
     <string name="auto_quality">تلقائي</string>
-    <string name="trends">المتصدرة</string>
-    <string name="featured">مميز</string>
-    <string name="trending">ما هو الشائع الآن</string>
     <string name="bookmarks">الإشارات المرجعية</string>
     <string name="bookmark">الإشارة المرجعية</string>
     <string name="clear_bookmarks">امحُ الإشارات المرجعية</string>
@@ -413,9 +407,6 @@
     <string name="rich_caption_rendering">التسميات التوضيحية المتقدمة</string>
     <string name="rich_caption_rendering_summary">عرض التسميات التوضيحية على الويب للحصول على تجربة أكثر ثراءً وتخصيصًا</string>
     <string name="copy_tooltip">انسخ</string>
-    <string name="change">غيّر</string>
-    <string name="change_instance">غير الخادم</string>
-    <string name="suggest_change_instance">يستغرق التنزيل أكثر من المعتاد. يُرجى النظر في تغيير الخادم</string>
     <string name="audio_language">اللغة الصوتية</string>
     <string name="default_language">الافتراضي</string>
     <string name="download_playlist">نزّل قائمة التشغيل</string>
@@ -464,10 +455,7 @@
     <string name="full_local_mode_desc">جلب كل شيء مباشرة من YouTube دون استخدام Piped.</string>
     <string name="updating_feed">تحديث التغذية …</string>
     <string name="playback_pitch_semitone_error_input">يجب أن تتراوح القيمة بين -%1$.1f (الحد الأدنى) و%1$.1f (الحد الأقصى)</string>
-    <string name="gaming">ألعاب فيديو</string>
     <string name="podcasts">بودكاست</string>
-    <string name="trailers">الرائجة</string>
-    <string name="music">الموسيقى</string>
     <string name="createNewPlaylist">أنشئ قائمة تشغيل جديدة</string>
     <string name="include_timestamp_in_filename">ضمّن الطابع الزمني في اسم الملف</string>
     <string name="unsubscribe_snackbar_message">أُلغيت الاشتراك من %1$s بنجاج</string>

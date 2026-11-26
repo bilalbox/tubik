@@ -2,7 +2,6 @@
 <resources>
     <string name="playlists">Spellistor</string>
     <string name="yes">Ja</string>
-    <string name="startpage">Hem</string>
     <string name="videos">Videor</string>
     <string name="subscribe">Prenumerera</string>
     <string name="unsubscribe">Sluta prenumerera</string>
@@ -11,7 +10,6 @@
     <string name="save">Spara</string>
     <string name="cancel">Avbryt</string>
     <string name="instances">Välj…</string>
-    <string name="region">Region</string>
     <string name="importsuccess">Prenumererar</string>
     <string name="defres">Videoupplösning</string>
     <string name="emptyList">Ingenting här.</string>
@@ -227,13 +225,11 @@
     <string name="renamePlaylist">Byt namn på spellistan</string>
     <string name="playlist_description">Spellistans beskrivning</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
-    <string name="trending">Populärt just nu</string>
     <string name="end_time">Sluttid</string>
     <string name="mobile_data">Mobildata</string>
     <string name="unknown_or_no_audio">okänt eller inget ljud</string>
     <string name="audio_video_summary">Kvalitet och format</string>
     <string name="pinch_control">Nypgester</string>
-    <string name="change_region">Populärt innehåll verkar inte vara tillgängligt i den aktuella regionen. Välj en annan region i inställningarna.</string>
     <string name="import_playlists_from">Importera spellistor från</string>
     <string name="added_to_playlist">Tillagd i spellistan %1$s</string>
     <string name="start_time">Starttid</string>
@@ -246,7 +242,6 @@
     <string name="playing_next">Spelar upp nästa om %1$s</string>
     <string name="app_backup">Säkerhetskopiering av appen</string>
     <string name="volume">Volym</string>
-    <string name="featured">Utvalda</string>
     <string name="remove_watched_videos">Ta bort sedda videor</string>
     <string name="nothing_selected">Inget har valts.</string>
     <string name="new_videos_badge">Indikator för nya videor</string>
@@ -348,7 +343,6 @@
     <string name="show_search_suggestions">Visa sökförslag</string>
     <string name="bookmarks">Bokmärken</string>
     <string name="play_next">Spela upp nästa</string>
-    <string name="trends">Trender</string>
     <string name="video_id">Video-ID</string>
     <string name="resize_mode_fit">Anpassa</string>
     <string name="audio_only_mode">Endast ljud</string>
@@ -409,9 +403,6 @@
     <string name="rich_caption_rendering_summary">Visa webbtextning med mer avancerad och anpassad formatering</string>
     <string name="grid_landscape">Rutnätskolumner (liggande)</string>
     <string name="copy_tooltip">Kopiera</string>
-    <string name="change_instance">Byt instans</string>
-    <string name="suggest_change_instance">Det tar längre tid än vanligt att ladda. Överväg att byta instans.</string>
-    <string name="change">Byt</string>
     <string name="audio_language">Ljudspråk</string>
     <string name="default_language">Standard</string>
     <string name="delete_all">Alla nedladdningar tas bort!</string>
@@ -461,10 +452,7 @@
     <string name="authentication">Autentisering</string>
     <string name="createNewPlaylist">Skapa ny spellista</string>
     <string name="playback_pitch_semitone_error_input">Värdet måste vara mellan -%1$.1f (minimivärde) och %1$.1f (maximivärde)</string>
-    <string name="gaming">Spel</string>
     <string name="podcasts">Poddar</string>
-    <string name="trailers">Trailrar</string>
-    <string name="music">Musik</string>
     <string name="include_timestamp_in_filename">Inkludera tidsstämpel i filnamn</string>
     <string name="checking_frequency_15_minutes">15 minuter</string>
     <string name="checking_frequency_30_minutes">30 minuter</string>

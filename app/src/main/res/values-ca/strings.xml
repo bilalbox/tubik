@@ -8,7 +8,6 @@
     <string name="save">Desa</string>
     <string name="subscribe">Subscriu-me</string>
     <string name="unsubscribe">Cancel·la la subscripció</string>
-    <string name="startpage">Inici</string>
     <string name="subscriptions">Subscripcions</string>
     <string name="download">Descarrega</string>
     <string name="fail">Ha fallat :(</string>
@@ -42,7 +41,6 @@
     <string name="downloading">S\'està baixant…</string>
     <string name="cancel">Cancel·la</string>
     <string name="instances">Elegeix…</string>
-    <string name="region">Regió</string>
     <string name="import_from_yt">Importa subscripcions</string>
     <string name="import_from_yt_summary">Des de YouTube o NewPipe</string>
     <string name="app_theme">Tema</string>
@@ -225,8 +223,6 @@
     <string name="app_backup">Còpia de seguretat de l\'aplicació</string>
     <string name="dubbed_audio_track">doblat</string>
     <string name="play_all">Reprodueix-ho tot</string>
-    <string name="suggest_change_instance">La càrrega triga més del normal. Tingueu en compte la possibilitat de canviar la instància</string>
-    <string name="change_instance">Canvia la instància</string>
     <string name="alternative_pip_controls">Controls Imatge sobre Imatge alternatius</string>
     <string name="unknown_or_no_audio">desconegut o sense àudio</string>
     <string name="continue_watching">Continua veient</string>
@@ -247,7 +243,6 @@
     <string name="new_videos_badge_summary">Mostra una insígnia amb la quantitat de vídeos nous si n\'hi ha</string>
     <string name="color">Color</string>
     <string name="notification_time_summary">Limita el lapse de temps en què es mostren les notificacions de transmissió</string>
-    <string name="trending">El que és tendència ara</string>
     <string name="bookmarks">Marcadors</string>
     <string name="bookmark">Marcador</string>
     <string name="clear_bookmarks">Neteja els marcadors</string>
@@ -265,7 +260,6 @@
     <string name="layout">Disseny</string>
     <string name="unsupported_file_format">Format de fitxer no compatible: %1$s</string>
     <string name="auto_quality">Automàtica</string>
-    <string name="trends">Tendències</string>
     <string name="rewind">Retrocedeix</string>
     <string name="time">Temps</string>
     <string name="comments_disabled">Els comentaris han estat desactivats pel pujador.</string>
@@ -282,7 +276,6 @@
     <string name="playlistCloned">S\'ha clonat la llista de reproducció</string>
     <string name="end_time">Hora de finalització</string>
     <string name="audio_track">Pista d\'àudio</string>
-    <string name="featured">Destacats</string>
     <string name="swipe_controls">Controls del lliscament</string>
     <string name="backup_restore_summary">Importa i exporta subscripcions, llistes de reproducció…</string>
     <string name="play_latest_videos">Reprodueix els vídeos més recents</string>
@@ -385,7 +378,6 @@
         <item quantity="many">%d transmissions noves</item>
         <item quantity="other">%d transmissions noves</item>
     </plurals>
-    <string name="change">Canvia</string>
     <string name="gestures">Gestos</string>
     <string name="download_channel_name">Servei de baixades</string>
     <string name="push_channel_description">Mostra una notificació quan hi hagi transmissions noves.</string>
@@ -411,7 +403,6 @@
     <string name="tooltip_repeat">Repeteix</string>
     <string name="play_next">Reprodueix a continuació</string>
     <string name="navigation_bar">Barra de navegació</string>
-    <string name="change_region">Sembla que les tendències no estan disponibles per a la regió actual. Si us plau, seleccioneu-ne una altra a la configuració.</string>
     <string name="playback_pitch">To</string>
     <string name="pinch_control">Controls del pinçament</string>
     <string name="automatic">Automàtic</string>
@@ -458,10 +449,7 @@
     <string name="full_local_mode">Mode local complet</string>
     <string name="full_local_mode_desc">Obté-ho tot directament de YouTube, sense utilitzar Piped.</string>
     <string name="authentication">Autenticació</string>
-    <string name="gaming">Jocs</string>
     <string name="podcasts">Pòdcasts</string>
-    <string name="trailers">Tràilers</string>
-    <string name="music">Música</string>
     <string name="include_timestamp_in_filename">Inclou la marca de temps al nom del fitxer</string>
     <string name="import_temp_playlist">Importar la llista de reproducció temporal?</string>
     <string name="pip">PiP</string>

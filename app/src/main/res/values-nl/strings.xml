@@ -9,7 +9,6 @@
     <string name="save">Opslaan</string>
     <string name="cancel">Annuleren</string>
     <string name="instances">Kiezen…</string>
-    <string name="region">Regio</string>
     <string name="import_from_yt">Abonnementen importeren</string>
     <string name="import_from_yt_summary">Van YouTube of NewPipe</string>
     <string name="app_theme">Thema</string>
@@ -20,7 +19,6 @@
     <string name="grid">Raster­kolommen (portret)</string>
     <string name="playlistName">Afspeellijst­naam</string>
     <string name="systemLanguage">Systeem</string>
-    <string name="startpage">Thuis</string>
     <string name="library">Bibliotheek</string>
     <string name="defres">Video­resolutie</string>
     <string name="noInternet">Maak eerst verbinding met het internet.</string>
@@ -159,7 +157,6 @@
     <string name="playback_pitch">Toonhoogte</string>
     <string name="autoRotatePlayer">Automatisch volledig scherm</string>
     <string name="default_subtitle_language">Ondertitelings­taal</string>
-    <string name="featured">Uitgelicht</string>
     <string name="exportsuccess">Geëxporteerd</string>
     <string name="required_network">Vereiste verbinding</string>
     <string name="general">Algemeen</string>
@@ -215,7 +212,6 @@
     <string name="resize_mode_fill">Uitgerekt</string>
     <string name="resize_mode_zoom">Vullend</string>
     <string name="auto_quality">Automatisch</string>
-    <string name="trends">Trends</string>
     <string name="bookmarks">Bladwijzers</string>
     <string name="bookmark">Blad­wijzer opslaan</string>
     <string name="alphabetic">Alfabetisch</string>
@@ -324,7 +320,6 @@
     <string name="default_or_unknown_audio_track">Standaard</string>
     <string name="unsupported_file_format">Niet-ondersteund bestands­formaat: %1$s</string>
     <string name="mark_as_watched">Markeren als gezien</string>
-    <string name="trending">Nu trending</string>
     <string name="no_comments_available">Deze video heeft geen opmerkingen.</string>
     <string name="backup_restore_summary">Importeer en exporteer abonnementen, afspeel­lĳsten, …</string>
     <string name="add_to_bookmarks">Toevoegen aan bladwijzers</string>
@@ -335,7 +330,6 @@
     <string name="added_to_playlist">Toegevoegd aan afspeellijst %1$s</string>
     <string name="pinch_control_summary">Gebruik knijp­gebaren om in of uit te zoomen</string>
     <string name="hide_watched_from_feed">Bekeken video\'s verbergen</string>
-    <string name="change_region">Trending is niet beschikbaar voor de huidige regio. Selecteer een andere onder instellingen.</string>
     <string name="comments_disabled">Opmerkingen zijn uitgeschakeld door de uploader.</string>
     <string name="player_channel_description">Toont een melding tijdens het afspelen</string>
     <string name="data_saver_mode_summary">Sla miniaturen en andere afbeeldingen over</string>
@@ -409,9 +403,6 @@
     <string name="copy_tooltip">Kopiëren</string>
     <string name="rich_caption_rendering">Rijke weergave van bijschriften</string>
     <string name="rich_caption_rendering_summary">Geef web­bijschriften weer voor een rijkere en persoonlijkere ervaring</string>
-    <string name="change_instance">Instantie wijzigen</string>
-    <string name="suggest_change_instance">Laden duurt langer dan normaal; overweeg een andere instantie te gebruiken.</string>
-    <string name="change">Wijzigen</string>
     <string name="delete_all">Alle downloads zullen worden verwijderd!</string>
     <string name="default_language">Standaard</string>
     <string name="audio_language">Audio­taal</string>
@@ -461,10 +452,7 @@
     <string name="show_upcoming_videos">Aan­komende video\'s tonen</string>
     <string name="delete_only_watched_videos">Enkel al bekeken video\'s verwĳderen</string>
     <string name="local_feed_extraction_summary">Haal de feed recht­streeks op van YouTube. Dit kan aanzienlĳk langzamer zijn.</string>
-    <string name="gaming">Gaming</string>
     <string name="podcasts">Podcasts</string>
-    <string name="trailers">Trailers</string>
-    <string name="music">Muziek</string>
     <string name="include_timestamp_in_filename">Tĳd­stempel in bestands­naam opnemen</string>
     <string name="unsubscribe_snackbar_message">Succesvol gedeabonneerd van %1$s</string>
     <string name="screenshot_saved">Scherm­afdruk opgeslagen</string>
