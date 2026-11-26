@@ -1,0 +1,4 @@
+Tubik v1.2.6:
+
+- Removed Trending and the Home screen from the app entirely. Their launcher shortcuts, which could still open Trending, are gone too, and Tubik no longer fetches trending feeds or reads your region for them.
+- Your bottom bar order and start tab carry over unchanged after the update.
