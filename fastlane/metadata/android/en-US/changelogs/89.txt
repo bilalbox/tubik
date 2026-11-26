@@ -1,0 +1,5 @@
+Tubik v1.2.5:
+
+- Updated the Android Gradle Plugin, Gradle, and AndroidX Lifecycle.
+- Refreshed the README to match how the Parent PIN, Screen Pin, Music Removal fallback, and download quality defaults work today, and removed the Obtainium badge.
+- Fixed the startup baseline profile journey, which still waited for screens that no longer exist.
