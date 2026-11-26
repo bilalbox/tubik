@@ -63,7 +63,7 @@ class StartupBenchmarks {
             measureBlock = {
                 startActivityAndWait()
 
-                loadHomePage()
+                waitForStartScreen()
             },
         )
     }

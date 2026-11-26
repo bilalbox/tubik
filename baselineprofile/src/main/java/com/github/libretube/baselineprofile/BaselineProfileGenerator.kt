@@ -1,6 +1,5 @@
 package com.github.libretube.baselineprofile
 
-import android.widget.RadioButton
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -67,7 +66,7 @@ class BaselineProfileGenerator {
             pressHome()
             startActivityAndWait()
 
-            loadHomePage()
+            waitForStartScreen()
 
             // Check UiAutomator documentation for more information how to interact with the app.
             // https://d.android.com/training/testing/other-components/ui-automator
@@ -75,14 +74,9 @@ class BaselineProfileGenerator {
     }
 }
 
-fun MacrobenchmarkScope.loadHomePage() {
-    // Select a Piped instance on the initial screen and click the OK button
-    val selector = By.clazz(RadioButton::class.java)
-    device.wait(Until.hasObject(selector), 1000)
-    device.findObject(selector)?.click()
-
-    device.findObject(By.text("OK"))?.click()
-
-    // Wait until the home page is loaded
-    device.wait(Until.hasObject(By.text("Home")), 1000)
+fun MacrobenchmarkScope.waitForStartScreen() {
+    // Tubik opens straight on the start tab (Search by default) with the bottom bar shown
+    device.wait(Until.hasObject(By.res(packageName, "bottomNav")), START_SCREEN_TIMEOUT_MS)
 }
+
+private const val START_SCREEN_TIMEOUT_MS = 5_000L
