@@ -1,16 +1,16 @@
 # quality-kit kotlin-android pins. Tool and test-runtime versions live here only;
 # QualityKitVersions.kt is generated from this file.
 [versions]
-agp = "9.5.0"
+agp = "9.5.3"
 kotlin = "2.4.21"
 # compose-rules 0.6.3+ requires detekt 2.0.0-alpha.6 (Kotlin 2.4 syntax).
 detekt = "2.0.0-alpha.6"
 composeRules = "0.6.8"
 kover = "0.9.11"
-roborazzi = "1.77.0"
-robolectric = "4.17"
+roborazzi = "1.79.0"
+robolectric = "4.18.1"
 robolectricSdk = "36"
-composablePreviewScanner = "0.9.3"
+composablePreviewScanner = "0.10.1"
 dependencyAnalysis = "3.20.0"
 junit = "4.13.2"
 
