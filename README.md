@@ -4,8 +4,6 @@ Tubik is an Android YouTube client for all ages — built for anyone who wants t
 
 Signed APKs (Android 8.0+ / API 26) are published at [tubik.23p.dev](https://tubik.23p.dev) and on [GitHub Releases](https://github.com/bilalbox/tubik/releases). The app installs beside other YouTube clients as `dev.twenty3p.tubik`.
 
-[![Get it on Obtainium](https://raw.githubusercontent.com/ImranR98/apps.obtainium.imranr.dev/main/public/badge_obtainium.png)](https://apps.obtainium.imranr.dev/redirect?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22dev.twenty3p.tubik%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fbilalbox%2Ftubik%22%2C%22author%22%3A%22bilalbox%22%2C%22name%22%3A%22Tubik%22%7D)
-
 ## No trending
 
 The trending tab is gone, and so is the home screen that led with it. Tubik does not open on a page of whatever is popular today. The bottom bar is Search, Subscriptions, and Library.
@@ -29,7 +27,7 @@ The Allowlist starts off. Until you turn it on, search can still reach any chann
 
 **Music Removal** takes the music out of the audio as it plays on the device: in the player, in the background, in picture-in-picture, and in downloads. Speech remains, in mono. Sound effects go with the music.
 
-- **Overload Mute:** If the speech model cannot load or the device falls behind realtime throughput, Tubik silences playback audio rather than playing unprocessed audio.
+- **Overload Mute:** If the speech model cannot load or the device falls behind realtime throughput, Tubik first switches to a lighter speech model. If that also fails, it silences playback audio rather than playing unprocessed audio.
 - **Channel Opt-Out:** You can turn off Music Removal for a specific channel on its channel page or subscription row while the global Music Removal switch stays on.
 - **Preferred Speed:** Playback speed is capped at 1.5× while Music Removal is active, preserving your chosen speed across channels.
 
@@ -37,15 +35,15 @@ Music Removal starts on.
 
 ## Parent PIN
 
-You can set a **Parent PIN** (stored only on the device as a salted hash) and turn on **Lock Settings**. With the lock on, opening Settings or installing an in-app update asks for the PIN. The Allowlist, Music Removal, and Screen Pin switches live in Settings, so the lock covers them.
+You can set a **Parent PIN** (stored only on the device as a salted hash) and turn on **Lock Settings**. With the lock on, opening Settings asks for the PIN. The Allowlist, Music Removal, and Screen Pin switches and in-app updates live in Settings, so the lock covers them.
 
-When a Parent PIN is set, Tubik also asks for it before changing subscriptions, toggling Channel Opt-Out, importing or exporting subscriptions, or restoring a backup.
+Once a Parent PIN is set, Tubik asks for it before any change that loosens protection or moves data in or out: turning off the Allowlist, Music Removal, Screen Pin, or Lock Settings, opting a channel out of Music Removal, unsubscribing, importing or exporting subscriptions or playlists, importing watch history, and creating or restoring a backup. Changes that tighten protection, such as turning a switch back on or subscribing to a channel, need no PIN.
 
 Settings open without a PIN until you set one and turn the lock on.
 
 ## Screen Pin
 
-**Screen Pin** adds a one-touch button in the toolbar and player controls that locks the device to Tubik with Android's system screen pinning. Unpinning follows the system gesture: hold Back and Overview, or swipe up and hold.
+**Screen Pin** adds a one-touch button in the toolbar and player controls that locks the device to Tubik with Android's system screen pinning. Unpinning follows the system gesture: hold Back and Overview, or swipe up and hold. In-app updates are not installed while the screen is pinned.
 
 ## Watching & local data
 
@@ -53,6 +51,7 @@ Tubik plays YouTube videos without ads and without a Google account.
 
 - Subscriptions, subscription groups, playlists, and playlist bookmarks
 - Watch history, search history, downloads, and crash logs kept strictly on the device
+- Default video (1080p) and audio (best) download qualities, set under Settings > General > Downloads
 - Local backup and import/export support for your data (no cloud or sync servers)
 - [SponsorBlock](https://sponsor.ajay.app/), [Return YouTube Dislike](https://www.returnyoutubedislike.com/), and optional [DeArrow](https://dearrow.ajay.app/)
 - Optional automatic in-app update checks against [tubik.23p.dev/updates/latest.json](https://tubik.23p.dev/updates/latest.json) with SHA-256 and signing-certificate verification
@@ -73,8 +72,8 @@ Official Tubik APKs are built and signed exclusively by GitHub Actions using APK
 You can verify a downloaded APK on-device with [AppVerifier](https://github.com/soupslurpr/AppVerifier) or on a desktop using `apksigner` and GitHub CLI build provenance attestations:
 
 ```bash
-apksigner verify --print-certs tubik-v1.1.0.apk
-gh attestation verify tubik-v1.1.0.apk --owner bilalbox
+apksigner verify --print-certs tubik-v1.2.5.apk
+gh attestation verify tubik-v1.2.5.apk --owner bilalbox
 ```
 
 ### Permissions
