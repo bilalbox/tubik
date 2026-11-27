@@ -219,7 +219,6 @@
     <string name="segment_type">Typ segmentu</string>
     <string name="tooltip_unlocked">Odomknutie prehrávača</string>
     <string name="tooltip_options">Možnosti</string>
-    <string name="remove_bookmark">Odstrániť záložku</string>
     <string name="remove_watched_videos">Odstrániť odsledované videá</string>
     <string name="pause">Pozastaviť</string>
     <string name="double_tap_seek">Hľadať dvojitým ťuknutím</string>
@@ -255,9 +254,6 @@
     <string name="play_automatically_summary">Začne automaticky prehrávať video po výbere</string>
     <string name="time_code">Časový kód (v sekundách)</string>
     <string name="notification_time_summary">Obmedzí časové rozpätie, v ktorom sa zobrazujú upozornenia o streamoch</string>
-    <string name="bookmarks">Záložky</string>
-    <string name="bookmark">Záložka</string>
-    <string name="add_to_bookmarks">Pridať do záložiek</string>
     <string name="stats_for_nerds">Štatistiky pre šprtov</string>
     <string name="screen_orientation">Orientácia obrazovky</string>
     <string name="download_completed">Sťahovanie dokončené</string>
@@ -273,7 +269,6 @@
     <string name="play_all">Prehrať všetko</string>
     <string name="start_time">Čas spustenia</string>
     <string name="end_time">Čas ukončenia</string>
-    <string name="clear_bookmarks">Vymazať záložky</string>
     <string name="unknown_or_no_audio">neznámy alebo žiadny zvuk</string>
     <string name="fullscreen_gestures">Gestá vstupu/opustenia celej obrazovky</string>
     <string name="duration_span">Trvanie: %1$s</string>

@@ -265,15 +265,11 @@
     <string name="app_backup">Lietotnes rezerves kopijas</string>
     <string name="backup_restore_summary">Ievietot un izgūt abonementus, atskaņošanas sarakstus, …</string>
     <string name="exportsuccess">Izgūts.</string>
-    <string name="add_to_bookmarks">Pievienot grāmatzīmēm</string>
-    <string name="remove_bookmark">Noņemt grāmatzīmi</string>
     <string name="rewind">Attīt</string>
     <string name="forward">Uz priekšu</string>
     <string name="audio_only_mode">Audio režīms</string>
     <string name="export_playlists">Izgūt atskaņošanas sarakstus</string>
     <string name="category">Kategorija</string>
-    <string name="bookmarks">Grāmatzīmes</string>
-    <string name="bookmark">Grāmatzīme</string>
     <string name="push_channel_description">Parāda paziņojumu, kad pieejami jauni video.</string>
     <string name="help">Palīdzība</string>
     <string name="faq">Biežāk uzdotie jautājumi</string>
@@ -282,7 +278,6 @@
     <string name="unknown">Nezināms</string>
     <string name="pause">Pauzēt</string>
     <string name="double_tap_seek">Piesist divreiz, lai patītu</string>
-    <string name="clear_bookmarks">Dzēst grāmatzīmes</string>
     <string name="sleep_timer">Miega taimeris</string>
     <string name="download_channel_description">Rāda paziņojumu, kad lejupielādē video.</string>
     <string name="uploaderAndVideoCount">%1$s • %2$d videoklipi</string>

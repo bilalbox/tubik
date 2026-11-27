@@ -155,9 +155,6 @@
     <string name="no_search_result">कोई परिणाम नहीं।</string>
     <string name="auto_quality">ऑटो</string>
     <string name="time_code">समय कोड (सेकंडस)</string>
-    <string name="bookmark">बुकमार्क</string>
-    <string name="bookmarks">बुकमार्कस</string>
-    <string name="clear_bookmarks">बुकमार्कस मिटाएं</string>
     <string name="local_playlists">स्थानीय प्लेलिस्ट</string>
     <string name="volume">ध्वनि</string>
     <string name="auto">ऑटो</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">पहले से देखे गए वीडियो छिपाएं</string>
     <string name="playlistUrl">प्लेलिस्ट URL</string>
     <string name="shuffle">शफल</string>
-    <string name="add_to_bookmarks">बुकमार्कस में जोड़ें</string>
-    <string name="remove_bookmark">बुकमार्क हटाएं</string>
     <string name="rewind">पीछे मोड़ें</string>
     <string name="forward">आगे करें</string>
     <string name="pause">रोकें</string>

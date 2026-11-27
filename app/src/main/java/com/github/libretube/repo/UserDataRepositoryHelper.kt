@@ -9,5 +9,5 @@ object UserDataRepositoryHelper {
 
     @Deprecated("DO NOT use this directly, use the wrappers from SubscriptionHelper instead!")
     val feedRepository: FeedRepository
-        get() = LocalFeedRepository()
+        get() = SeriesAwareFeedRepository()
 }

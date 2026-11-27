@@ -223,14 +223,12 @@
     <string name="notification_time_summary">Limitează intervalul de timp în care sunt afișate notificările pentru videoclipuri</string>
     <string name="brightness">Luminozitate</string>
     <string name="double_tap_seek_summary">Atinge de două ori în partea stângă sau dreaptă pentru a derula înapoi sau înainte poziția playerului</string>
-    <string name="remove_bookmark">Elimină marcajul</string>
     <string name="alternative_pip_controls_summary">Afișează doar comenzile audio și omitere în suprapunere în loc de înainte și înapoi</string>
     <string name="stats_for_nerds">Statistici pentru pasionați</string>
     <string name="push_channel_name">Modul de notificare</string>
     <string name="download_channel_name">Serviciu de descărcare</string>
     <string name="swipe_controls">Comenzi prin glisare</string>
     <string name="queue">Coadă</string>
-    <string name="clear_bookmarks">Șterge marcajele</string>
     <string name="volume">Volum</string>
     <string name="swipe_controls_summary">Glisează pentru a regla luminozitatea și volumul în modul ecran complet</string>
     <string name="rewind">Înapoi</string>
@@ -261,7 +259,6 @@
     <string name="nothing_selected">Nimic selectat!</string>
     <string name="playlistUrl">URL-ul listei de redare</string>
     <string name="shuffle">Amestecare</string>
-    <string name="add_to_bookmarks">Adaugă la marcaje</string>
     <string name="forward">Înainte</string>
     <string name="audio_only_mode">Modul numai audio</string>
     <string name="audio_only_mode_summary">Transformă Tubik într-un player audio</string>
@@ -272,8 +269,6 @@
     <string name="pinch_control_summary">Folosește gestul de ciupire pentru a mări/micșora</string>
     <string name="comments_disabled">Comentariile sunt dezactivate de către autor.</string>
     <string name="no_comments_available">Acest videoclip nu are comentarii.</string>
-    <string name="bookmarks">Marcaje</string>
-    <string name="bookmark">Marcaj</string>
     <string name="pinch_control">Comandă prin ciupire</string>
     <string name="category">Categoria</string>
     <string name="sleep_timer">Cronometru de somn</string>

@@ -230,9 +230,6 @@
     <string name="layout">Раскладка</string>
     <string name="audio_track">Звуковая дорожка</string>
     <string name="auto_quality">Авто</string>
-    <string name="bookmarks">Закладки</string>
-    <string name="clear_bookmarks">Удалить закладки</string>
-    <string name="bookmark">Закладка</string>
     <string name="local_playlists">Локальные плейлисты</string>
     <string name="brightness">Яркость</string>
     <string name="volume">Громкость</string>
@@ -265,8 +262,6 @@
     <string name="alternative_pip_controls">Альтернативное управление КвК</string>
     <string name="alternative_pip_controls_summary">Показывать только аудио и пропускать элементы управления в режиме PiP вместо перемотки вперед и назад</string>
     <string name="pause">Пауза</string>
-    <string name="add_to_bookmarks">Добавить в закладки</string>
-    <string name="remove_bookmark">Удалить закладку</string>
     <string name="no_subtitle">Нет субтитров</string>
     <string name="download_paused">Загрузка приостановлена</string>
     <string name="download_completed">Загрузка завершена</string>

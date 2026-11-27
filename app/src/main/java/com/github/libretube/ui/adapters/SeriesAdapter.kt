@@ -9,33 +9,33 @@ import androidx.recyclerview.widget.ListAdapter
 import com.github.libretube.R
 import com.github.libretube.constants.IntentData
 import com.github.libretube.databinding.PlaylistsRowBinding
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.enums.PlaylistType
 import com.github.libretube.helpers.ImageHelper
 import com.github.libretube.helpers.NavigationHelper
-import com.github.libretube.repo.UserDataRepositoryHelper
+import com.github.libretube.repo.SeriesRepository
 import com.github.libretube.ui.adapters.callbacks.DiffUtilItemCallback
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.sheets.PlaylistOptionsBottomSheet
-import com.github.libretube.ui.viewholders.PlaylistBookmarkViewHolder
+import com.github.libretube.ui.viewholders.SeriesViewHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlaylistBookmarkAdapter :
-    ListAdapter<PlaylistBookmark, PlaylistBookmarkViewHolder>(
+class SeriesAdapter :
+    ListAdapter<Series, SeriesViewHolder>(
         DiffUtilItemCallback(
             areItemsTheSame = { oldItem, newItem -> oldItem.playlistId == newItem.playlistId },
         ),
     ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistBookmarkViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return PlaylistBookmarkViewHolder(
+        return SeriesViewHolder(
             PlaylistsRowBinding.inflate(layoutInflater, parent, false),
         )
     }
 
-    private fun showPlaylistOptions(context: Context, bookmark: PlaylistBookmark) {
+    private fun showPlaylistOptions(context: Context, bookmark: Series) {
         val sheet = PlaylistOptionsBottomSheet()
         sheet.arguments =
             bundleOf(
@@ -49,7 +49,7 @@ class PlaylistBookmarkAdapter :
         )
     }
 
-    override fun onBindViewHolder(holder: PlaylistBookmarkViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val bookmark = getItem(holder.bindingAdapterPosition)
 
         with(holder.binding) {
@@ -67,11 +67,9 @@ class PlaylistBookmarkAdapter :
                 )
                 CoroutineScope(Dispatchers.IO).launch {
                     if (!isBookmarked) {
-                        UserDataRepositoryHelper.userDataRepository.deletePlaylistBookmark(
-                            bookmark.playlistId,
-                        )
+                        SeriesRepository.instance.store.delete(bookmark.playlistId)
                     } else {
-                        UserDataRepositoryHelper.userDataRepository.createPlaylistBookmark(bookmark)
+                        SeriesRepository.instance.follow(bookmark)
                     }
                 }
             }

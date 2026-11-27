@@ -190,7 +190,6 @@
     <string name="mobile_data">Mobiilne andmeside</string>
     <string name="added_to_playlist">Lisasime esitusloendisse: %1$s</string>
     <string name="time">Aeg</string>
-    <string name="clear_bookmarks">Eemalda järjehoidjad</string>
     <string name="resume">Jätka</string>
     <string name="stop">Lõpeta</string>
     <string name="player_autoplay">Automaatne kordus</string>
@@ -204,7 +203,6 @@
     <string name="delete_all">Kustutame kõik allalaadimised!</string>
     <string name="skip_segment">Jäta segment vahele</string>
     <string name="unsupported_file_format">Failivormingu tugi puudub: %1$s</string>
-    <string name="bookmarks">Järjehoidjad</string>
     <string name="local_playlists">Kohalikud esitusloendid</string>
     <string name="volume">Helivaljus</string>
     <string name="brightness">Eredus</string>
@@ -269,7 +267,6 @@
     <string name="start_time">Algusaeg</string>
     <string name="end_time">Lõpuaeg</string>
     <string name="category_music_offtopic_summary">Kasutamiseks vaid muusikavideotes. Siia alla kuuluvad video need lõigud, mis pole algupärase plaadiproduktsiooni osa. Lõpuks peaks video heliriba enam-vähem vastama sellele, nagu ta tegelikult plaadil leidub või Spotify\'st leitav on. Video alguses ja lõpus leiduvad jutulõigud ja muu ebaoluline peaks olema välja jäetud</string>
-    <string name="bookmark">Järjehoidja</string>
     <string name="theme_monochrome">Minimalistlik mustvalge</string>
     <string name="captions_size">Subtiitrite suurus</string>
     <string name="double_tap_seek">Edasikerimiseks topeltklõpsa</string>
@@ -279,8 +276,6 @@
     <string name="app_backup">Rakenduse varundus</string>
     <string name="color_violet">Mitmekülgne violetne</string>
     <string name="shuffle">Sega videod</string>
-    <string name="add_to_bookmarks">Lisa järjehoidjaks</string>
-    <string name="remove_bookmark">Kustuta järjehoidja</string>
     <string name="rewind">Keri tagasi</string>
     <string name="forward">Keri edasi</string>
     <string name="alternative_pip_controls">Täiendavad võimalused pilt-pildis vaate halduseks</string>

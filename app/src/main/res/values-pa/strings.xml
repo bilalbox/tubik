@@ -243,13 +243,10 @@
     <string name="audio_video_summary">ਕੁਆਲਿਟੀ ਅਤੇ ਫਾਰਮੈਟ</string>
     <string name="play_next">ਅਗਲਾ ਚਲਾਓ</string>
     <string name="livestreams">ਲਾਈਵ ਸਟ੍ਰੀਮਾਂ</string>
-    <string name="clear_bookmarks">ਬੁੱਕਮਾਰਕਸ ਸਾਫ਼ ਕਰੋ</string>
     <string name="auto_quality">ਆਟੋ</string>
     <string name="notification_time">ਨੋਟੀਫਿਕੇਸ਼ਨ ਸਮਾਂ ਸੀਮਿਤ ਕਰੋ</string>
     <string name="layout">ਲੇਆਊਟ</string>
     <string name="notification_time_summary">ਸਮਾਂ ਸੀਮਤ ਕਰੋ ਜਿਸ ਵਿੱਚ ਸਟ੍ਰੀਮ ਸੂਚਨਾਵਾਂ ਦਿਖਾਈਆਂ ਜਾਂਦੀਆਂ ਹਨ</string>
-    <string name="bookmarks">ਬੁੱਕਮਾਰਕਸ</string>
-    <string name="bookmark">ਬੁੱਕਮਾਰਕ</string>
     <string name="no_comments_available">ਇਸ ਵੀਡੀਓ \'ਤੇ ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ ਹੈ।</string>
     <string name="swipe_controls_summary">ਫੁੱਲ ਸਕਰੀਨ ਮੋਡ ਵਿੱਚ ਹੋਣ ਵੇਲੇ ਚਮਕ ਅਤੇ ਆਵਾਜ਼ ਨੂੰ ਐਡਜਸਟ ਕਰਨ ਲਈ ਸਵਾਈਪ ਕਰੋ</string>
     <string name="comments_disabled">ਟਿੱਪਣੀਆਂ ਅੱਪਲੋਡਰ ਦੁਆਰਾ ਅਸਮਰੱਥ ਹਨ।</string>
@@ -260,8 +257,6 @@
     <string name="download_channel_name">ਸੇਵਾ ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="playlistUrl">ਪਲੇਲਿਸਟ URL</string>
     <string name="shuffle">ਸ਼ਫਲ</string>
-    <string name="remove_bookmark">ਬੁੱਕਮਾਰਕ ਹਟਾਓ</string>
-    <string name="add_to_bookmarks">ਬੁੱਕਮਾਰਕਸ \'ਚ ਸ਼ਾਮਿਲ ਕਰੋ</string>
     <string name="rewind">ਪਿੱਛੇ ਮੋੜੋ</string>
     <string name="forward">ਅੱਗੇ ਕਰੋ</string>
     <string name="pause">ਰੋਕੋ</string>

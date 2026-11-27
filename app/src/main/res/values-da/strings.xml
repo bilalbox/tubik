@@ -288,11 +288,8 @@
     <string name="player_channel_name">Afspillerservice</string>
     <string name="tooltip_sponsorblock">Slå SponsorBlock til/fra</string>
     <string name="player_channel_description">Viser en notifikation ved afspilning</string>
-    <string name="bookmark">Bogmærke</string>
-    <string name="clear_bookmarks">Ryd bogmærker</string>
     <string name="duration_span">Varighed: %1$s</string>
     <string name="queue">Kø</string>
-    <string name="remove_bookmark">Fjern bogmærke</string>
     <string name="auto">Auto</string>
     <string name="downvote">Ned</string>
     <string name="new_videos_badge">Indikator for nye videoer</string>
@@ -390,13 +387,11 @@
     <string name="captions_size">Undertekstsstørrelse</string>
     <string name="hide_watched_from_feed">Skjul allerede sete videoer</string>
     <string name="playlistUrl">Playliste-URL</string>
-    <string name="add_to_bookmarks">Føj til bogmærker</string>
     <string name="time_in_minutes">Tid i minutter</string>
     <string name="play_all">Afspil alle</string>
     <string name="layout">Layout</string>
     <string name="end_time">Sluttid</string>
     <string name="auto_quality">Auto</string>
-    <string name="bookmarks">Bogmærker</string>
     <string name="replies">Svar</string>
     <string name="wifi">Wi-Fi</string>
     <string name="no_fullscreen_resolution">Ikke-fuldskærmsopløsning</string>

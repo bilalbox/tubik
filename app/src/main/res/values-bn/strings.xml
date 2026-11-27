@@ -232,9 +232,6 @@
     <string name="auto_quality">স্বয়ংক্রিয়</string>
     <string name="local_playlists">স্থানীয় প্লেলিস্ট</string>
     <string name="exportsuccess">রপ্তানি করা।</string>
-    <string name="bookmarks">বুকমার্কগুলো</string>
-    <string name="bookmark">বুকমার্ক</string>
-    <string name="clear_bookmarks">বুকমার্ক মুছে দিন</string>
     <string name="replies">রিপ্লাইগুলা</string>
     <string name="download_completed">ডাউনলোড শেষ হয়েছে</string>
     <string name="no_subtitle">সাবটাইটেল নেই</string>
@@ -257,10 +254,8 @@
     <string name="no_comments_available">এই ভিডিওতে কোনো কমেন্ট নেই।</string>
     <string name="import_playlists">প্লেলিস্টগুলো ইম্পোর্ট করুন</string>
     <string name="concurrent_downloads_limit_reached">একই সঙ্গে সংঘটিত ডাউনলোডের সংখ্যা সর্বোচ্চ হয়েছে।</string>
-    <string name="remove_bookmark">বুকমার্ক সরাও</string>
     <string name="rewind">রিওয়াইন্ড</string>
     <string name="forward">সামনে আগাও</string>
-    <string name="add_to_bookmarks">বুকমার্কে বসাও</string>
     <string name="nothing_selected">কোনকিছুই সিলেক্ট করা হয়নি !</string>
     <string name="skip_silence">শান্ত অংশ বাদ দেও</string>
     <string name="stop">বন্ধ কর</string>

@@ -231,8 +231,6 @@
     <string name="seek_increment">건너뛰기</string>
     <string name="backup_restore_summary">구독, 재생 목록 가져오기 및 내보내기, …</string>
     <string name="auto_quality">자동</string>
-    <string name="bookmarks">북마크</string>
-    <string name="clear_bookmarks">북마크 초기화</string>
     <string name="new_videos_badge">새로운 비디오 표시</string>
     <string name="brightness">밝기</string>
     <string name="new_videos_badge_summary">새로운 영상의 수만큼 배지를 표시합니다</string>
@@ -249,7 +247,6 @@
     <string name="renamePlaylist">재생 목록 이름 바꾸기</string>
     <string name="playback_pitch">음높이</string>
     <string name="network_all">전부</string>
-    <string name="bookmark">북마크</string>
     <string name="theme_monochrome">단일 색조</string>
     <string name="take_a_break">휴식을 취할 시간</string>
     <string name="mobile_data">모바일 데이터</string>
@@ -259,8 +256,6 @@
     <string name="misc">기타</string>
     <string name="playlistUrl">재생목록 URL</string>
     <string name="shuffle">섞기</string>
-    <string name="add_to_bookmarks">북마크에 추가</string>
-    <string name="remove_bookmark">북마크 제거</string>
     <string name="replies">답글</string>
     <string name="unknown">알 수 없음</string>
     <string name="faq">FAQ</string>

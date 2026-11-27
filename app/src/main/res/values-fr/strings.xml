@@ -230,9 +230,6 @@
     <string name="layout">Mise en page</string>
     <string name="audio_track">Piste audio</string>
     <string name="auto_quality">Auto</string>
-    <string name="bookmarks">Marque-pages</string>
-    <string name="bookmark">Marque-page</string>
-    <string name="clear_bookmarks">Effacer les marque-pages</string>
     <string name="brightness">Luminosité</string>
     <string name="volume">Volume</string>
     <string name="no_comments_available">Cette vidéo n’a aucun commentaire.</string>
@@ -257,11 +254,9 @@
     <string name="play_latest_videos">Lire les vidéos les plus récentes</string>
     <string name="captions_size">Taille des sous-titres</string>
     <string name="color_violet">Violet</string>
-    <string name="remove_bookmark">Retirer le marque-page</string>
     <string name="hide_watched_from_feed">Masquer les vidéos déjà regardées</string>
     <string name="playlistUrl">URL de la playlist</string>
     <string name="shuffle">Aléatoire</string>
-    <string name="add_to_bookmarks">Ajouter aux marque-pages</string>
     <string name="rewind">Rembobiner</string>
     <string name="forward">Avancer</string>
     <string name="pause">Pause</string>

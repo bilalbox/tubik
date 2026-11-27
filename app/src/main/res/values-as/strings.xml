@@ -261,9 +261,6 @@
     <string name="audio_track">অডিঅ’ ট্ৰেক</string>
     <string name="unsupported_file_format">অসমৰ্থিত ফাইল ফৰ্মেট: %1$s</string>
     <string name="auto_quality">স্বয়ং</string>
-    <string name="bookmarks">চিহ্নিত</string>
-    <string name="bookmark">চিহ্নিত কৰক</string>
-    <string name="clear_bookmarks">চিহ্নিত পৰিষ্কাৰ কৰক</string>
     <string name="local_playlists">স্থানীয় প্লেলিষ্ট</string>
     <string name="brightness">উজ্জ্বলতা</string>
     <string name="volume">ভলিউম</string>
@@ -293,8 +290,6 @@
     <string name="hide_watched_from_feed">ইতিমধ্যে চোৱা ভিডিঅ’ লুকুৱাওক</string>
     <string name="playlistUrl">প্লেলিষ্ট URL</string>
     <string name="shuffle">শ্বাফল</string>
-    <string name="add_to_bookmarks">চিহ্নিত তালিকাত যোগ কৰক</string>
-    <string name="remove_bookmark">চিহ্নিত আঁতৰাওক</string>
     <string name="rewind">পিছুৱাওক</string>
     <string name="forward">আগুৱাওক</string>
     <string name="alternative_pip_controls">বিকল্প পিআইপি নিয়ন্ত্ৰণ</string>

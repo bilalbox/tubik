@@ -275,9 +275,6 @@
     <string name="audio_track">Audio track</string>
     <string name="unsupported_file_format">Unsupported file format: %1$s</string>
     <string name="auto_quality">Auto</string>
-    <string name="bookmarks">Bookmarks</string>
-    <string name="bookmark">Bookmark</string>
-    <string name="clear_bookmarks">Clear bookmarks</string>
     <string name="local_playlists">Local playlists</string>
     <string name="brightness">Brightness</string>
     <string name="volume">Volume</string>
@@ -307,8 +304,6 @@
     <string name="hide_watched_from_feed">Hide already watched videos</string>
     <string name="playlistUrl">Playlist URL</string>
     <string name="shuffle">Shuffle</string>
-    <string name="add_to_bookmarks">Add to bookmarks</string>
-    <string name="remove_bookmark">Remove bookmark</string>
     <string name="rewind">Rewind</string>
     <string name="forward">Forward</string>
     <string name="alternative_pip_controls">Alternative PiP controls</string>
@@ -581,4 +576,11 @@
     <string name="audio_only_default" tools:ignore="MissingTranslation">Play as audio by default</string>
     <string name="audio_only_default_on" tools:ignore="MissingTranslation">This channel\'s videos now play as audio</string>
     <string name="audio_only_default_off" tools:ignore="MissingTranslation">This channel\'s videos now play as video</string>
+    <string name="series" tools:ignore="MissingTranslation">Series</string>
+    <string name="follow_series" tools:ignore="MissingTranslation">Follow</string>
+    <string name="following_series" tools:ignore="MissingTranslation">Following</string>
+    <string name="unfollow_series" tools:ignore="MissingTranslation">Unfollow</string>
+    <string name="series_order_playlist" tools:ignore="MissingTranslation">Playlist order</string>
+    <string name="series_order_newest" tools:ignore="MissingTranslation">Newest first</string>
+    <string name="series_order_oldest" tools:ignore="MissingTranslation">Oldest first</string>
 </resources>

@@ -246,8 +246,6 @@
     <string name="time">کات</string>
     <string name="notification_time">کاتی دیاریکراو</string>
     <string name="end_time">کاتی کۆتاییهاتن</string>
-    <string name="bookmark">نیشانەکردن</string>
-    <string name="clear_bookmarks">لابردنی نیشانەکردن</string>
     <string name="help">یارمەتی</string>
     <string name="autoplay_countdown">ماوەی لێدانی خۆکاری</string>
     <string name="notification_time_summary">دیاریکردنی مەودای کاتی ئاگادارکردنەوەکان بۆ پیشاندانی بڵاوکراوە</string>
@@ -258,7 +256,6 @@
     <string name="autoRotatePlayer_summary">خستە دۆخی پڕ بە شاشە کاتێ ئامێرەکە خرایە سەرلا</string>
     <string name="unsupported_file_format">جۆری فایل نەگونجاوە: %1$s</string>
     <string name="auto_quality">خۆکار</string>
-    <string name="bookmarks">نیشانەکراوەکان</string>
     <string name="comments_disabled">لێدوان نووسین نا چالاککراوە لەلایەن خاوەن ڤیدیۆوە.</string>
     <string name="double_tap_seek">دووجار دەسلێدان بۆ پێشخستن</string>
     <string name="all_caught_up">هەموویت بینیوە</string>
@@ -277,7 +274,6 @@
     <string name="shuffle">تێکەڵاوکردن</string>
     <string name="fullscreen_gestures">کردن/لابردنی ئاماژەکانی دۆخی پڕ بەشاشە</string>
     <string name="go_to_video">چوون بۆ ڤیدیۆ</string>
-    <string name="add_to_bookmarks">زیادکردن بۆ نیشانەکراوەکان</string>
     <string name="audio_only_mode_summary">بەکارهێنانی بەرنامەکە وەک لێدەرێکی دەنگی</string>
     <string name="play_automatically_summary">دەستپێکردنی لێدانی خۆکاری ڤیدیۆکان کاتێ دیاریکران</string>
     <string name="duration">ماوە</string>
@@ -287,7 +283,6 @@
     <string name="stats_for_nerds">زانیارییەکانی ڤیدیۆ</string>
     <string name="double_tap_seek_summary">دووجار دەستدان لەلای ڕاست یان چەپ بۆ پێشخستن یان دواخستنی ڤیدیۆ</string>
     <string name="playlistUrl">بەستەری لیستی لێدان</string>
-    <string name="remove_bookmark">لابردنی نیشانەکراو</string>
     <string name="rewind">داوخستن</string>
     <string name="forward">پێشخستن</string>
     <plurals name="channel_new_streams">

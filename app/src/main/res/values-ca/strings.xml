@@ -243,9 +243,6 @@
     <string name="new_videos_badge_summary">Mostra una insígnia amb la quantitat de vídeos nous si n\'hi ha</string>
     <string name="color">Color</string>
     <string name="notification_time_summary">Limita el lapse de temps en què es mostren les notificacions de transmissió</string>
-    <string name="bookmarks">Marcadors</string>
-    <string name="bookmark">Marcador</string>
-    <string name="clear_bookmarks">Neteja els marcadors</string>
     <string name="added_to_playlist">Afegit a la llista de reproducció %1$s</string>
     <string name="download_channel_description">Mostra una notificació quan es baixi fitxers multimèdia.</string>
     <string name="unlimited_search_history">Historial de cerca il·limitat</string>
@@ -317,7 +314,6 @@
     <string name="tooltip_minimize">Minimitza</string>
     <string name="player_channel_description">Mostra una notificació durant la reproducció</string>
     <string name="tooltip_clear_queue">Esborra la cua</string>
-    <string name="remove_bookmark">Elimina el marcador</string>
     <string name="playlist_description">Descripció de la llista de reproducció</string>
     <string name="comments_count">Comentaris (%1$s)</string>
     <string name="category_highlight_summary">Podria ser el títol anunciat, la miniatura o la part més interessant del vídeo. Podeu saltar-hi fent clic sobre ell a la secció de capítols</string>
@@ -387,7 +383,6 @@
     <string name="tooltip_unlocked">Desbloqueja el reproductor</string>
     <string name="hide_watched_from_feed">Amaga els vídeos ja vistos</string>
     <string name="shuffle">Aleatori</string>
-    <string name="add_to_bookmarks">Afegeix als marcadors</string>
     <string name="tooltip_play">Reprodueix</string>
     <string name="tooltip_edit_groups">Edita els grups</string>
     <string name="tooltip_create_playlist">Crea una llista de reproducció</string>

@@ -238,9 +238,6 @@
     <string name="playback_pitch">Tonua</string>
     <string name="audio_track">Audio pista</string>
     <string name="auto_quality">Automatikoa</string>
-    <string name="bookmarks">Laster-markak</string>
-    <string name="bookmark">Laster-marka</string>
-    <string name="clear_bookmarks">Ezabatu laster-markak</string>
     <string name="stop">Gelditu</string>
     <string name="replies">Erantzun</string>
     <string name="category_highlight_summary">Izenburua, aurrebista edo bideoaren unerik interesgarriena izan daiteke. Aurrera egin dezakezu nabarmendutako atalean ukituz</string>

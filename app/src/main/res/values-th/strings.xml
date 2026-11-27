@@ -379,13 +379,8 @@
     <string name="tooltip_watch_position">ตำแหน่งที่ดู</string>
     <string name="nothing_selected">ไม่มีอะไรเลือกเอาไว้!</string>
     <string name="auth_instance_summary">ใช้อินสแตนซ์อื่นสำหรับเรียกการยืนยันผู้ใช้งาน</string>
-    <string name="clear_bookmarks">เคลียร์บุ๊กมาร์ก</string>
     <string name="local_playlists">เพลย์ลิสต์</string>
     <string name="swipe_controls">ควบคุมด้วยการปัด</string>
-    <string name="bookmarks">บุ๊กมาร์ก</string>
-    <string name="bookmark">บุ๊กมาร์ก</string>
-    <string name="add_to_bookmarks">เพิ่มไปยังบุ๊กมาร์ก</string>
-    <string name="remove_bookmark">ลบออกจากบุ๊กมาร์ก</string>
     <string name="pinch_control">ควบคุมด้วยการบีบ</string>
     <string name="pinch_control_summary">บีบเพื่อขยายเข้า/ออก</string>
     <string name="segment_submitted">ส่งเซกเมนต์เรียบร้อยแล้ว</string>

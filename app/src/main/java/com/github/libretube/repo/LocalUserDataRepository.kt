@@ -11,7 +11,7 @@ import com.github.libretube.db.dao.WatchHistoryRow
 import com.github.libretube.db.obj.LocalPlaylist
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.LocalSubscription
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.db.obj.WatchPosition
 import com.github.libretube.enums.WatchHistoryStatus
@@ -32,7 +32,7 @@ interface LocalUserDataSource {
         relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow>
 
-    suspend fun getPlaylistBookmarks(): List<PlaylistBookmark>
+    suspend fun getSeriesList(): List<Series>
 }
 
 internal object RoomLocalUserDataSource : LocalUserDataSource {
@@ -57,8 +57,7 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
                 relativeRemainingWatchedThreshold = relativeRemainingWatchedThreshold,
             )
 
-    override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
-        Database.playlistBookmarkDao().getAll()
+    override suspend fun getSeriesList(): List<Series> = Database.seriesDao().getAll()
 }
 
 class LocalUserDataRepository(
@@ -350,20 +349,8 @@ class LocalUserDataRepository(
         Database.watchHistoryDao().deleteAll()
     }
 
-    override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
-        accessControl.snapshot().filterPlaylistBookmarks(localDataSource.getPlaylistBookmarks())
-
-    override suspend fun getPlaylistBookmark(playlistId: String): PlaylistBookmark? {
-        return Database.playlistBookmarkDao().findById(playlistId)
-    }
-
-    override suspend fun createPlaylistBookmark(playlist: PlaylistBookmark) {
-        Database.playlistBookmarkDao().insert(playlist)
-    }
-
-    override suspend fun deletePlaylistBookmark(playlistId: String) {
-        Database.playlistBookmarkDao().deleteById(playlistId)
-    }
+    override suspend fun getSeriesList(): List<Series> =
+        accessControl.snapshot().filterSeries(localDataSource.getSeriesList())
 
     companion object {
         // can only mark as watched if less than 60s remaining

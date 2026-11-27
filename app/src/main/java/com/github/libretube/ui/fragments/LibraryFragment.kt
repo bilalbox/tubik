@@ -30,8 +30,8 @@ import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.helpers.NavBarHelper
 import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.repo.UserDataRepositoryHelper
-import com.github.libretube.ui.adapters.PlaylistBookmarkAdapter
 import com.github.libretube.ui.adapters.PlaylistsAdapter
+import com.github.libretube.ui.adapters.SeriesAdapter
 import com.github.libretube.ui.base.DynamicLayoutManagerFragment
 import com.github.libretube.ui.dialogs.CreatePlaylistDialog
 import com.github.libretube.ui.dialogs.CreatePlaylistDialog.Companion.CREATE_PLAYLIST_DIALOG_REQUEST_KEY
@@ -49,7 +49,7 @@ class LibraryFragment : DynamicLayoutManagerFragment(R.layout.fragment_library) 
     private val commonPlayerViewModel: CommonPlayerViewModel by activityViewModels()
 
     private val playlistsAdapter = PlaylistsAdapter(PlaylistType.PRIVATE)
-    private val playlistBookmarkAdapter = PlaylistBookmarkAdapter()
+    private val playlistBookmarkAdapter = SeriesAdapter()
 
     override fun setLayoutManagers(gridItems: Int) {
         _binding?.bookmarksRecView?.layoutManager = GridLayoutManager(context, gridItems.ceilHalf())
@@ -163,7 +163,7 @@ class LibraryFragment : DynamicLayoutManagerFragment(R.layout.fragment_library) 
             val bookmarks =
                 try {
                     withContext(Dispatchers.IO) {
-                        UserDataRepositoryHelper.userDataRepository.getPlaylistBookmarks()
+                        UserDataRepositoryHelper.userDataRepository.getSeriesList()
                     }
                 } catch (e: Exception) {
                     context?.toastFromMainDispatcher(e.message.orEmpty())

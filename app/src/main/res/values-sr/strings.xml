@@ -230,8 +230,6 @@
     <string name="audio_track">Аудио трака</string>
     <string name="livestreams">Стримови уживо</string>
     <string name="auto_quality">Аутоматски</string>
-    <string name="bookmarks">Обележивачи</string>
-    <string name="bookmark">Обележивач</string>
     <string name="local_playlists">Локалне плејлисте</string>
     <string name="color_violet">Свестрана љубичаста</string>
     <string name="brightness">Осветљеност</string>
@@ -271,10 +269,7 @@
     <string name="unknown">Непознато</string>
     <string name="resume">Настави</string>
     <string name="comments_disabled">Аутор је онемогућио коментаре.</string>
-    <string name="clear_bookmarks">Очисти обележиваче</string>
     <string name="shuffle">Мешање</string>
-    <string name="remove_bookmark">Уклони обележивач</string>
-    <string name="add_to_bookmarks">Додај у обележиваче</string>
     <string name="sleep_timer">Тајмер спавања</string>
     <string name="skip_silence">Прескочи тишину</string>
     <string name="help">Помоћ</string>

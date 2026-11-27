@@ -230,9 +230,6 @@
     <string name="layout">Tata letak</string>
     <string name="audio_track">Trek audio</string>
     <string name="auto_quality">Otomatis</string>
-    <string name="bookmarks">Markah</string>
-    <string name="bookmark">Markah</string>
-    <string name="clear_bookmarks">Hapus markah</string>
     <string name="local_playlists">Daftar putar lokal</string>
     <string name="volume">Volume</string>
     <string name="auto">Otomatis</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Sembunyikan video yang sudah ditonton</string>
     <string name="playlistUrl">URL Daftar Putar</string>
     <string name="shuffle">Acak</string>
-    <string name="add_to_bookmarks">Tambahkan ke markah</string>
-    <string name="remove_bookmark">Hapus markah</string>
     <string name="rewind">Mundur</string>
     <string name="forward">Maju</string>
     <string name="pause">Jeda</string>

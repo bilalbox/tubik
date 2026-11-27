@@ -231,9 +231,6 @@
     <string name="layout">Esquema</string>
     <string name="audio_track">Faixa de áudio</string>
     <string name="auto_quality">Automático</string>
-    <string name="bookmarks">Marcadores</string>
-    <string name="bookmark">Marcador</string>
-    <string name="clear_bookmarks">Limpar marcadores</string>
     <string name="brightness">Brilho</string>
     <string name="volume">Volume</string>
     <string name="auto">Automático</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Ocultar vídeos já vistos</string>
     <string name="playlistUrl">URL da lista de reprodução</string>
     <string name="shuffle">Baralhar</string>
-    <string name="add_to_bookmarks">Adicionar aos marcadores</string>
-    <string name="remove_bookmark">Remover marcador</string>
     <string name="rewind">Recuar</string>
     <string name="forward">Avançar</string>
     <string name="pause">Pausa</string>

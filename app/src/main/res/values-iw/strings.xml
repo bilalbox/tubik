@@ -230,9 +230,6 @@
     <string name="layout">פריסה</string>
     <string name="audio_track">רצועת שמע</string>
     <string name="auto_quality">אוטומטי</string>
-    <string name="bookmarks">סימניות</string>
-    <string name="bookmark">סימנייה</string>
-    <string name="clear_bookmarks">פינוי סימניות</string>
     <string name="local_playlists">רשימות נגינה מקומיות</string>
     <string name="brightness">בהירות</string>
     <string name="volume">עצמת שמע</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">להסתיר סרטונים שנצפו כבר</string>
     <string name="playlistUrl">כתובת רשימת נגינה</string>
     <string name="shuffle">ערבול</string>
-    <string name="add_to_bookmarks">הוספה למועדפים</string>
-    <string name="remove_bookmark">הסרת סימנייה</string>
     <string name="rewind">אחורה</string>
     <string name="forward">קדימה</string>
     <string name="pause">השהיה</string>

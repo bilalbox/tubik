@@ -253,7 +253,6 @@
     <string name="comments_disabled">Le commentos es disactivate per le creator.</string>
     <string name="no_fullscreen_resolution">Resolution sin schermo plen</string>
     <string name="uploader_name">Nomine del creator</string>
-    <string name="clear_bookmarks">Rader le marcapaginas</string>
     <string name="off">Disactivate</string>
     <string name="tooltip_unlocked">Disblocar reproductor</string>
     <string name="help">Adjuta</string>
@@ -266,7 +265,6 @@
     <string name="mark_as_watched">Marcar como reguardate</string>
     <string name="auto_quality">Auto</string>
     <string name="group_name">Nomine de gruppo</string>
-    <string name="remove_bookmark">Remover marcapagina</string>
     <string name="color_violet">Violetta versatile</string>
     <string name="play_automatically_summary">Initiar le reproduction automatic del video quando es seligite</string>
     <string name="local_playlists">Listas de reproduction local</string>
@@ -287,7 +285,6 @@
     <string name="rewind">Rebobinar</string>
     <string name="repeat_mode_all">Repeter toto</string>
     <string name="go_to_video">Vader al video</string>
-    <string name="bookmark">Marcapagina</string>
     <string name="automatic_once">Automatic un vice</string>
     <string name="unsupported_file_format">Formato de file non supportate: %1$s</string>
     <string name="manual">Manual</string>
@@ -306,7 +303,6 @@
     <string name="take_a_break">Il es hora de facer un pausa</string>
     <string name="notification_time">Limitar le tempore de notification</string>
     <string name="group_name_error_empty">Insere un nomine</string>
-    <string name="add_to_bookmarks">Adder al marcapaginas</string>
     <string name="audio_track">Tracia de audio</string>
     <string name="no_comments_available">Iste video non ha commentos.</string>
     <string name="playlistUrl">URL del lista de reproduction</string>
@@ -332,7 +328,6 @@
     <string name="descriptive_audio_track">descriptive</string>
     <string name="color">Color</string>
     <string name="show_search_suggestions">Monstrar suggestiones de recerca</string>
-    <string name="bookmarks">Marcapaginas</string>
     <string name="video_id">ID del video</string>
     <string name="audio_only_mode">Modo solmente audio</string>
     <string name="play_all">Reproducer toto</string>

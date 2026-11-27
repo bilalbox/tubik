@@ -3,8 +3,9 @@ package com.github.libretube.obj
 import com.github.libretube.db.obj.CustomInstance
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.LocalSubscription
-import com.github.libretube.db.obj.PlaylistBookmark
 import com.github.libretube.db.obj.SearchHistoryItem
+import com.github.libretube.db.obj.Series
+import com.github.libretube.db.obj.SeriesVideo
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.db.obj.WatchHistoryItem
 import com.github.libretube.db.obj.WatchPosition
@@ -28,7 +29,9 @@ data class BackupFile(
     var watchPositions: List<WatchPosition>? = emptyList(),
     var searchHistory: List<SearchHistoryItem>? = emptyList(),
     var customInstances: List<CustomInstance>? = emptyList(),
-    var playlistBookmarks: List<PlaylistBookmark>? = emptyList(),
+    // Series (followed playlists); kept under their old name so older versions can still read them
+    var playlistBookmarks: List<Series>? = emptyList(),
+    var seriesVideos: List<SeriesVideo>? = emptyList(),
 
     //
     // Preferences, stored as a key value map

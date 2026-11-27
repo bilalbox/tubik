@@ -9,7 +9,7 @@ import com.github.libretube.api.obj.WatchHistoryEntry
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.db.obj.DownloadWithItems
 import com.github.libretube.db.obj.LocalPlaylistItem
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.extensions.toID
 import com.github.libretube.helpers.PreferenceHelper
 import java.security.MessageDigest
@@ -139,7 +139,7 @@ data class AllowedSnapshot(
     fun filterLocalPlaylistItems(items: List<LocalPlaylistItem>): List<LocalPlaylistItem> =
         filterWhenEnabled(items) { it.uploaderUrl }
 
-    fun filterPlaylistBookmarks(bookmarks: List<PlaylistBookmark>): List<PlaylistBookmark> =
+    fun filterSeries(bookmarks: List<Series>): List<Series> =
         filterWhenEnabled(bookmarks) { it.uploaderUrl }
 
     fun filterDownloads(downloads: List<DownloadWithItems>): List<DownloadWithItems> =

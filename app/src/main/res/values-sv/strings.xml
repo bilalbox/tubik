@@ -258,7 +258,6 @@
     <string name="alternative_pip_controls_summary">Visa knappar för ”endast ljud” och ”nästa/föregående” i bild-i-bild-läget i stället för knappar för att spola framåt eller bakåt.</string>
     <string name="preferences">Inställningar</string>
     <string name="uploader_name">Uppladdarens namn</string>
-    <string name="clear_bookmarks">Rensa bokmärken</string>
     <string name="swipe_controls_summary">Svep för att justera ljusstyrkan och volymen i helskärmsläge</string>
     <string name="off">Av</string>
     <string name="help">Hjälp</string>
@@ -274,7 +273,6 @@
     <string name="mark_as_watched">Markera som sedd</string>
     <string name="auto_quality">Automatisk</string>
     <string name="group_name">Gruppnamn</string>
-    <string name="remove_bookmark">Ta bort bokmärke</string>
     <string name="play_automatically_summary">Spela upp den valda videon automatiskt</string>
     <string name="device_info">Enhetsinformation</string>
     <string name="local_playlists">Lokala spellistor</string>
@@ -297,7 +295,6 @@
     <string name="rewind">Spola tillbaka</string>
     <string name="exportsuccess">Exporten är klar.</string>
     <string name="go_to_video">Gå till videon</string>
-    <string name="bookmark">Bokmärk</string>
     <string name="skip_segment">Hoppa över segment</string>
     <string name="pinch_control_summary">Använd nypgester för att zooma in eller ut</string>
     <string name="automatic_once">Automatisk (en gång)</string>
@@ -317,7 +314,6 @@
     <string name="resize_mode_zoom">Zooma</string>
     <string name="double_tap_seek_summary">Dubbeltryck på vänster eller höger sida för att spola bakåt eller framåt.</string>
     <string name="group_name_error_empty">Ange ett gruppnamn.</string>
-    <string name="add_to_bookmarks">Lägg till i bokmärken</string>
     <string name="audio_track">Ljudspår</string>
     <string name="no_comments_available">Videon har inga kommentarer.</string>
     <string name="all_caught_up">Du har kommit ikapp</string>
@@ -341,7 +337,6 @@
     <string name="duration">Längd</string>
     <string name="descriptive_audio_track">syntolkat</string>
     <string name="show_search_suggestions">Visa sökförslag</string>
-    <string name="bookmarks">Bokmärken</string>
     <string name="play_next">Spela upp nästa</string>
     <string name="video_id">Video-ID</string>
     <string name="resize_mode_fit">Anpassa</string>

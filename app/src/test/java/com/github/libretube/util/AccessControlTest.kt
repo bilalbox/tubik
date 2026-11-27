@@ -9,7 +9,7 @@ import com.github.libretube.api.obj.WatchHistoryEntryMetadata
 import com.github.libretube.db.obj.Download
 import com.github.libretube.db.obj.DownloadWithItems
 import com.github.libretube.db.obj.LocalPlaylistItem
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -283,12 +283,12 @@ class AccessControlTest {
 
             val bookmarks =
                 listOf(
-                    PlaylistBookmark(playlistId = "p1", uploaderUrl = "UC_ALLOWED_1"),
-                    PlaylistBookmark(playlistId = "p2", uploaderUrl = "UC_BLOCKED"),
+                    Series(playlistId = "p1", uploaderUrl = "UC_ALLOWED_1"),
+                    Series(playlistId = "p2", uploaderUrl = "UC_BLOCKED"),
                 )
             assertEquals(
                 listOf("p1"),
-                snap.filterPlaylistBookmarks(bookmarks).map { it.playlistId },
+                snap.filterSeries(bookmarks).map { it.playlistId },
             )
 
             val downloads =

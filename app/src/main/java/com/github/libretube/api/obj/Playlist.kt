@@ -1,6 +1,6 @@
 package com.github.libretube.api.obj
 
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.helpers.ProxyHelper
 import kotlinx.serialization.Serializable
 
@@ -17,8 +17,8 @@ data class Playlist(
     val videos: Int = 0,
     var relatedStreams: List<StreamItem> = emptyList(),
 ) {
-    fun toPlaylistBookmark(playlistId: String): PlaylistBookmark {
-        return PlaylistBookmark(
+    fun toSeries(playlistId: String): Series {
+        return Series(
             playlistId = playlistId,
             playlistName = name,
             thumbnailUrl = thumbnailUrl?.let { ProxyHelper.unwrapUrl(it) },

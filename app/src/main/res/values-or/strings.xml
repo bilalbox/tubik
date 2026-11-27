@@ -230,9 +230,6 @@
     <string name="layout">ଲେଆଉଟ୍</string>
     <string name="audio_track">ଅଡିଓ ଟ୍ରାକ୍</string>
     <string name="auto_quality">ସ୍ଵତଃ</string>
-    <string name="bookmark">ବୁକ୍ ମାର୍କ୍</string>
-    <string name="bookmarks">ବୁକ୍ ମାର୍କ୍ ଗୁଡ଼ିକ</string>
-    <string name="clear_bookmarks">ବୁକ୍ ମାର୍କ୍ ଗୁଡ଼ିକୁ ଖାଲି କରନ୍ତୁ</string>
     <string name="local_playlists">ସ୍ଥାନୀୟ ପ୍ଲେଲିଷ୍ଟଗୁଡିକ</string>
     <string name="brightness">ଉଜ୍ଜଳତା</string>
     <string name="volume">ଶବ୍ଦ</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">ପୂର୍ବରୁ ଦେଖାଯାଇଥିବା ଭିଡିଓଗୁଡିକ ଲୁଚାନ୍ତୁ</string>
     <string name="playlistUrl">ପ୍ଲେଲିଷ୍ଟ୍ URL</string>
     <string name="shuffle">ସଫଲ୍</string>
-    <string name="add_to_bookmarks">ବୁକମାର୍କରେ ଯୋଡନ୍ତୁ</string>
-    <string name="remove_bookmark">ବୁକମାର୍କ ଅପସାରଣ କରନ୍ତୁ</string>
     <string name="rewind">ପଛ କୁ ନିଅ</string>
     <string name="forward">ଆଗ କୁ ନିଅ</string>
     <string name="pause">ବିରାମ</string>

@@ -9,7 +9,7 @@ import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.api.obj.Subscription
 import com.github.libretube.api.obj.WatchHistoryEntry
 import com.github.libretube.api.obj.WatchHistoryEntryMetadata
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.enums.WatchHistoryStatus
 import com.github.libretube.extensions.TAG
@@ -88,13 +88,8 @@ interface UserDataRepository {
 
     suspend fun clearWatchHistory()
 
-    suspend fun getPlaylistBookmarks(): List<PlaylistBookmark>
-
-    suspend fun getPlaylistBookmark(playlistId: String): PlaylistBookmark?
-
-    suspend fun createPlaylistBookmark(playlist: PlaylistBookmark)
-
-    suspend fun deletePlaylistBookmark(playlistId: String)
+    /** Series visible under the Allowlist; following goes through [SeriesRepository]. */
+    suspend fun getSeriesList(): List<Series>
 
     // The following methods can be overriden to offload the work to the server, but in most cases
     // the default implementation should work out just fine.

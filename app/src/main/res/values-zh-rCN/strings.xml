@@ -230,9 +230,6 @@
     <string name="layout">布局</string>
     <string name="audio_track">音轨</string>
     <string name="auto_quality">自动</string>
-    <string name="bookmarks">书签</string>
-    <string name="bookmark">加入书签</string>
-    <string name="clear_bookmarks">清除书签</string>
     <string name="local_playlists">本地播放列表</string>
     <string name="brightness">亮度</string>
     <string name="auto">自动</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">隐藏已看过的视频</string>
     <string name="playlistUrl">播放列表 URL</string>
     <string name="shuffle">随机播放</string>
-    <string name="add_to_bookmarks">添加到书签</string>
-    <string name="remove_bookmark">移除书签</string>
     <string name="forward">前进</string>
     <string name="pause">暂停</string>
     <string name="rewind">后退</string>

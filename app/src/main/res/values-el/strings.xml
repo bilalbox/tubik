@@ -228,7 +228,6 @@
     <string name="color_violet">Ευέλικτο βιολετί</string>
     <string name="playlistUrl">URL λίστας αναπαραγωγής</string>
     <string name="shuffle">Ανακάτεμα</string>
-    <string name="remove_bookmark">Αφαίρεση σελιδοδείκτη</string>
     <string name="forward">Εμπρός</string>
     <string name="alternative_pip_controls">Εναλλακτικά στοιχεία ελέγχου PiP</string>
     <string name="alternative_pip_controls_summary">Εμφάνιση μόνο ήχου και παράβλεψη στοιχείων ελέγχου στο PiP αντί για εμπρός και πίσω</string>
@@ -258,7 +257,6 @@
     <string name="double_tap_seek_summary">Πατήστε δύο φορές αριστερά ή δεξιά για να μετακινήσετε προς τα πίσω ή προς τα εμπρός τη θέση του αναπαραγωγέα</string>
     <string name="backup_restore_summary">Εισαγωγή και εξαγωγή συνδρομών, playlist,…</string>
     <string name="play_latest_videos">Αναπαραγωγή των πιο πρόσφατων βίντεο</string>
-    <string name="add_to_bookmarks">Προσθήκη στους σελιδοδείκτες</string>
     <string name="delete">Διαγραφή από λήψεις</string>
     <string name="exportsuccess">Εξήχθη.</string>
     <string name="preferences">Προτιμήσεις</string>
@@ -273,9 +271,6 @@
     <string name="export_playlists">Εξαγωγή λιστών αναπαραγωγής</string>
     <string name="audio_track">Ηχητικό κομμάτι</string>
     <string name="renamePlaylist">Μετονομασία λίστας αναπαραγωγής</string>
-    <string name="bookmarks">Σελιδοδείκτες</string>
-    <string name="bookmark">Σελιδοδείκτης</string>
-    <string name="clear_bookmarks">Εκκαθάριση σελιδοδεικτών</string>
     <string name="download_completed">Το κατέβασμα ολοκληρώθηκε</string>
     <string name="pinch_control">Έλεγχος τσιμπήματος αφής</string>
     <string name="play_automatically_summary">Ξεκινήστε την αναπαραγωγή βίντεο αυτόματα όταν επιλέγετε</string>

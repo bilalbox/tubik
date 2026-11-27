@@ -230,9 +230,6 @@
     <string name="layout">Diseño</string>
     <string name="audio_track">Pista de audio</string>
     <string name="auto_quality">Automática</string>
-    <string name="bookmarks">Marcadores</string>
-    <string name="bookmark">Marcador</string>
-    <string name="clear_bookmarks">Borrar marcadores</string>
     <string name="local_playlists">Listas de reproducción locales</string>
     <string name="volume">Volumen</string>
     <string name="auto">Automática</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Ocultar los vídeos ya vistos</string>
     <string name="playlistUrl">URL de la lista</string>
     <string name="shuffle">Mezclar</string>
-    <string name="add_to_bookmarks">Añadir a Marcadores</string>
-    <string name="remove_bookmark">Quitar marcador</string>
     <string name="forward">Avanzar</string>
     <string name="pause">Pausa</string>
     <string name="alternative_pip_controls_summary">Mostrar boton \"Modo audio\" y Anterior/Siguiente en la ventana flotante en lugar de avance y retroceso</string>

@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:maxLines="1"
-                        android:text="@string/bookmark"
+                        android:text="@string/follow_series"
                         app:icon="@drawable/ic_bookmark_outlined" />
 
                 </com.google.android.material.button.MaterialButtonGroup>
