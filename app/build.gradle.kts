@@ -37,8 +37,8 @@ android {
         applicationId = "dev.twenty3p.tubik"
         minSdk = 26
         targetSdk = 36
-        versionCode = 91
-        versionName = "1.3.0"
+        versionCode = 92
+        versionName = "1.3.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resValue("string", "app_name", "Tubik")
     }

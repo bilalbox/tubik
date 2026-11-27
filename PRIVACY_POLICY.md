@@ -8,7 +8,7 @@ This policy describes Tubik (`dev.twenty3p.tubik`) and its website (`tubik.23p.d
 
 The app stores this on the phone:
 
-- Subscriptions, playlists, bookmarks, and downloads
+- Subscriptions, playlists, followed Series, and downloads
 - Watch history and search history, which both start on. Either can be turned off. Turning search history off clears it.
 - Settings, including the Allowlist, Music Removal, and Screen Pin
 - A Parent PIN, if you set one, stored as a salted hash. The PIN itself is not stored, and it is not sent off the device.
@@ -27,9 +27,9 @@ If you choose **Download & Install** in Settings, Tubik downloads the signed rel
 
 ## While you watch
 
-Playing, searching, and loading subscriptions contacts YouTube from this device. YouTube can see the device's IP address and which videos and channels are requested. Tubik does not ask you to sign in with a Google or YouTube account.
+Playing, searching, and loading subscriptions and followed Series contact YouTube from this device. YouTube can see the device's IP address and which videos and channels are requested. Tubik does not ask you to sign in with a Google or YouTube account.
 
-New-video notifications start on. While they are on, the app also checks subscriptions in the background by contacting YouTube.
+New-video notifications start on. While they are on, the app also checks subscriptions and followed Series in the background by contacting YouTube.
 
 Two lookups run during playback unless you turn them off:
 

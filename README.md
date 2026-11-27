@@ -45,6 +45,18 @@ Settings open without a PIN until you set one and turn the lock on.
 
 **Screen Pin** adds a one-touch button in the toolbar and player controls that locks the device to Tubik with Android's system screen pinning. Unpinning follows the system gesture: hold Back and Overview, or swipe up and hold. In-app updates are not installed while the screen is pinned.
 
+## Series & Episodes
+
+Follow lectures, audiobooks, and radio shows like podcasts. Open a playlist and tap **Follow** to make it a **Series**. Its new videos then reach your feed alongside your subscribed channels.
+
+- **Series** are listed under Library with an unwatched count and a dot when a new episode arrives. Each one plays in playlist order, newest first, or oldest first, and continues with the next unwatched video.
+- **Episodes** on the Subscriptions tab lists your unwatched videos podcast-style. **Listen** starts audio-only playback, and a swipe marks an episode watched (with Undo).
+- **Play as audio by default** is a per-channel setting: that channel's videos open as audio.
+- **Feed Scope** (**In the feed** in channel options) is a per-subscription choice: **All uploads** reach the feed, or **Series only**. It never changes whether the channel is an Allowed Channel.
+- Long-form videos count as watched once at most 5% is left.
+
+While the Allowlist is on, a Series from a channel that is not an Allowed Channel is hidden (not removed), and only playlists from Allowed Channels can be followed.
+
 ## Watching & local data
 
 Tubik plays YouTube videos without ads and without a Google account.
