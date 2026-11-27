@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isGone
@@ -27,6 +28,9 @@ import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.constants.IntentData
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.databinding.FragmentPlaylistBinding
+import com.github.libretube.db.DatabaseHelper
+import com.github.libretube.db.obj.Series
+import com.github.libretube.db.obj.SeriesOrder
 import com.github.libretube.enums.PlaylistType
 import com.github.libretube.enums.menuoption.PlayListSortModeBottomSheetItem
 import com.github.libretube.extensions.TAG
@@ -38,8 +42,11 @@ import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.helpers.ImageHelper
 import com.github.libretube.helpers.NavigationHelper
 import com.github.libretube.helpers.PreferenceHelper
+import com.github.libretube.helpers.ProxyHelper
 import com.github.libretube.parcelable.PlayerData
-import com.github.libretube.repo.UserDataRepositoryHelper
+import com.github.libretube.repo.SeriesRepository
+import com.github.libretube.repo.seriesQueue
+import com.github.libretube.repo.sortedBySeriesOrder
 import com.github.libretube.ui.adapters.PlaylistAdapter
 import com.github.libretube.ui.adapters.PlaylistItem
 import com.github.libretube.ui.base.BaseActivity
@@ -73,7 +80,10 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
     private var playlistAdapter: PlaylistAdapter? = null
     private var nextPage: String? = null
     private var isLoading = true
-    private var isBookmarked = false
+    /** The followed Series for this playlist, or null when it isn't followed. */
+    private var series: Series? = null
+    private val isFollowed
+        get() = series != null
 
     // view models
     private val commonPlayerViewModel: CommonPlayerViewModel by activityViewModels()
@@ -105,11 +115,12 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
         binding.playlistProgress.isVisible = true
 
         lifecycleScope.launch(Dispatchers.IO) {
-            isBookmarked =
-                UserDataRepositoryHelper.userDataRepository.getPlaylistBookmark(playlistId) != null
+            series = runCatching { SeriesRepository.instance.store.get(playlistId) }.getOrNull()
+            // opening a Series clears its new-episode dot
+            if (isFollowed) SeriesRepository.instance.markOpened(playlistId)
 
             withContext(Dispatchers.Main) {
-                updateBookmarkRes()
+                if (_binding != null) updateFollowRes()
             }
         }
 
@@ -136,10 +147,37 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
         _binding = null
     }
 
-    private fun updateBookmarkRes() {
+    private fun updateFollowRes() {
+        if (playlistType != PlaylistType.PUBLIC) return
         binding.bookmark.setIconResource(
-            if (isBookmarked) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outlined,
+            if (isFollowed) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outlined,
         )
+        binding.bookmark.text =
+            getString(if (isFollowed) R.string.following_series else R.string.follow_series)
+        updateSeriesOrderButton()
+    }
+
+    /** A followed Series has its own order (playlist order, newest or oldest first). */
+    private fun updateSeriesOrderButton() {
+        val followed = series ?: return run { binding.sortBTN.isGone = true }
+        val orders = SeriesOrder.entries
+        binding.sortBTN.isVisible = true
+        binding.sortBTN.text = getString(followed.order.labelRes())
+        binding.sortBTN.setOnClickListener {
+            val titles = orders.map { getString(it.labelRes()) }
+            BaseBottomSheet()
+                .setSimpleItems(titles, preselectedItem = getString(followed.order.labelRes())) {
+                    index ->
+                    val order = orders[index]
+                    val updated = series?.copy(seriesOrder = order.name) ?: return@setSimpleItems
+                    series = updated
+                    withContext(Dispatchers.IO) { SeriesRepository.instance.store.update(updated) }
+                    if (_binding == null) return@setSimpleItems
+                    updateSeriesOrderButton()
+                    showPlaylistVideos()
+                }
+                .show(childFragmentManager)
+        }
     }
 
     private fun fetchPlaylist() {
@@ -266,25 +304,29 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
                 binding.playAll.isGone = true
             } else {
                 binding.playAll.setOnClickListener {
-                    startVideoItemPlayback(getSortedVideos().first().item)
+                    startVideoItemPlayback(if (isFollowed) null else getSortedVideos().first().item)
                 }
             }
 
             if (playlistType == PlaylistType.PUBLIC) {
+                // with the Allowlist on, only playlists from Allowed Channels can be followed
+                val canFollow =
+                    isFollowed || SeriesRepository.instance.canFollow(response.uploaderUrl)
+                binding.bookmark.isVisible = canFollow
+                updateFollowRes()
                 binding.bookmark.setOnClickListener {
-                    isBookmarked = !isBookmarked
-                    updateBookmarkRes()
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        if (!isBookmarked) {
-                            UserDataRepositoryHelper.userDataRepository.deletePlaylistBookmark(
-                                playlistId,
-                            )
-                        } else {
-                            val bookmark = response.toPlaylistBookmark(playlistId)
-                            UserDataRepositoryHelper.userDataRepository.createPlaylistBookmark(
-                                bookmark,
-                            )
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            if (isFollowed) {
+                                SeriesRepository.instance.store.delete(playlistId)
+                            } else {
+                                SeriesRepository.instance.follow(response.toSeries(playlistId))
+                            }
+                            series = SeriesRepository.instance.store.get(playlistId)
                         }
+                        if (_binding == null) return@launch
+                        updateFollowRes()
+                        showPlaylistVideos()
                     }
                 }
             } else {
@@ -325,7 +367,7 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
                     sortOptions[selectedSortOrder].title.getText(requireContext())
             }
 
-            updatePlaylistBookmark(response)
+            updateSeriesMetadata(response)
         }
     }
 
@@ -338,34 +380,49 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
                     playlistId = playlistId,
                     keepQueue = true,
                 ),
+            ownerChannelId = streamItem.uploaderUrl,
         )
     }
 
-    private fun startVideoItemPlayback(streamItem: StreamItem) {
+    private fun startVideoItemPlayback(streamItem: StreamItem?) {
         if (playlistFeed.isEmpty()) return
 
-        val sortedStreams = getSortedVideos()
-        PlayingQueue.setStreams(sortedStreams.map { it.item })
+        val sortedStreams = getSortedVideos().map { it.item }
+        if (!isFollowed) {
+            PlayingQueue.setStreams(sortedStreams)
+            navigateVideo(streamItem ?: sortedStreams.first())
+            return
+        }
 
-        navigateVideo(streamItem)
+        // a Series continues with the next unwatched video in its order
+        lifecycleScope.launch {
+            val watched =
+                withContext(Dispatchers.IO) {
+                    sortedStreams
+                        .filter {
+                            DatabaseHelper.isVideoWatched(it.url.orEmpty().toID(), it.duration ?: 0)
+                        }
+                        .mapNotNull { it.url?.toID() }
+                        .toSet()
+                }
+            val queue = seriesQueue(sortedStreams, streamItem) { it.url?.toID() in watched }
+            if (queue.isEmpty() || _binding == null) return@launch
+            PlayingQueue.setStreams(queue)
+            navigateVideo(queue.first())
+        }
     }
 
-    /** If the playlist is bookmarked, update its content if modified by the uploader */
-    private suspend fun updatePlaylistBookmark(playlist: Playlist) {
-        if (!isBookmarked) return
+    /** If the playlist is a followed Series, keep its name, thumbnail and count current. */
+    private suspend fun updateSeriesMetadata(playlist: Playlist) {
         withContext(Dispatchers.IO) {
-            // update the playlist thumbnail and title if bookmarked
-            val playlistBookmark =
-                UserDataRepositoryHelper.userDataRepository.getPlaylistBookmark(playlistId)
-                    ?: return@withContext
-            if (
-                playlistBookmark.thumbnailUrl != playlist.thumbnailUrl ||
-                    playlistBookmark.playlistName != playlist.name ||
-                    playlistBookmark.videos != playlist.videos
-            ) {
-                val bookmark = playlist.toPlaylistBookmark(playlistBookmark.playlistId)
-                UserDataRepositoryHelper.userDataRepository.createPlaylistBookmark(bookmark)
-            }
+            val followed = SeriesRepository.instance.store.get(playlistId) ?: return@withContext
+            val updated =
+                followed.copy(
+                    playlistName = playlist.name,
+                    thumbnailUrl = playlist.thumbnailUrl?.let { ProxyHelper.unwrapUrl(it) },
+                    videos = playlist.videos,
+                )
+            if (updated != followed) SeriesRepository.instance.store.update(updated)
         }
     }
 
@@ -374,6 +431,10 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
         // is still known. We solve this by wrapping the StreamItems into PlaylistItems that contain
         // an additional index attribute.
         val items = playlistFeed.mapIndexed { index, item -> PlaylistItem(item, index) }
+
+        series?.let { followed ->
+            return items.sortedBySeriesOrder(followed.order) { it.item.uploaded }
+        }
 
         return when {
             selectedSortOrder in listOf(0, 1) || playlistType == PlaylistType.PUBLIC -> {
@@ -580,3 +641,11 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
         binding.playlistRecView.layoutManager?.onRestoreInstanceState(recyclerViewState)
     }
 }
+
+@StringRes
+private fun SeriesOrder.labelRes(): Int =
+    when (this) {
+        SeriesOrder.PLAYLIST -> R.string.series_order_playlist
+        SeriesOrder.NEWEST_FIRST -> R.string.series_order_newest
+        SeriesOrder.OLDEST_FIRST -> R.string.series_order_oldest
+    }

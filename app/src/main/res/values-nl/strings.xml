@@ -212,8 +212,6 @@
     <string name="resize_mode_fill">Uitgerekt</string>
     <string name="resize_mode_zoom">Vullend</string>
     <string name="auto_quality">Automatisch</string>
-    <string name="bookmarks">Bladwijzers</string>
-    <string name="bookmark">Blad­wijzer opslaan</string>
     <string name="alphabetic">Alfabetisch</string>
     <string name="category">Categorie</string>
     <string name="duration">Duur</string>
@@ -246,7 +244,6 @@
     <string name="captions_size">Ondertitelings­grootte</string>
     <string name="theme_monochrome">Minimalistisch monochroom</string>
     <string name="color_violet">Veelzijdig violet</string>
-    <string name="remove_bookmark">Bladwijzer verwijderen</string>
     <string name="aspect_ratio">Beeldverhouding van video</string>
     <string name="require_restart">Herstart van app vereist</string>
     <string name="pinch_control">Knijp­bediening</string>
@@ -295,7 +292,6 @@
     <string name="play_next">Volgende afspelen</string>
     <string name="playlistCloned">Afspeellijst gekloond</string>
     <string name="audio_track">Audiospoor</string>
-    <string name="clear_bookmarks">Bladwijzers wissen</string>
     <string name="duration_reversed">Duur (omgekeerd)</string>
     <string name="creation_date">Aanmaak­datum</string>
     <string name="playlist_description">Afspeellijst­beschrijving</string>
@@ -322,7 +318,6 @@
     <string name="mark_as_watched">Markeren als gezien</string>
     <string name="no_comments_available">Deze video heeft geen opmerkingen.</string>
     <string name="backup_restore_summary">Importeer en exporteer abonnementen, afspeel­lĳsten, …</string>
-    <string name="add_to_bookmarks">Toevoegen aan bladwijzers</string>
     <string name="auto_fullscreen_shorts">Automatisch volledig scherm bij korte video\'s</string>
     <string name="change_playlist_description">Beschrijving van afspeellijst aanpassen</string>
     <string name="require_restart_message">Herstart de app om de wijzigingen toe te passen.</string>

@@ -57,13 +57,11 @@
     <string name="playlistCloned">Spilunarlisti klónaður</string>
     <string name="end_time">Lokatími</string>
     <string name="audio_track">Hljóðspor</string>
-    <string name="clear_bookmarks">Hreinsa bókamerki</string>
     <string name="volume">Hljóðstyrkur</string>
     <string name="local_playlists">Spilunarlistar á tækinu</string>
     <string name="auto">Sjálfvirkt</string>
     <string name="exportsuccess">Flutt út.</string>
     <string name="backup_restore_summary">Flytja inn og út áskriftir, spilunarlista, …</string>
-    <string name="remove_bookmark">Fjarlægja bókamerki</string>
     <string name="hide_watched_from_feed">Fela myndskeið sem er búið að horfa á</string>
     <string name="help">Hjálp</string>
     <string name="alternative_pip_controls">Varastýringar á mynd-í-mynd</string>
@@ -273,12 +271,9 @@
     <string name="start_time">Upphafstími</string>
     <string name="notification_time_summary">Takmarka tímasviðið þegar tilkynningar um streymi eru birtar</string>
     <string name="layout">Framsetning</string>
-    <string name="bookmarks">Bókamerki</string>
-    <string name="bookmark">Bókamerki</string>
     <string name="double_tap_seek_summary">Ýttu tvisvar til vinstri eða hægri til að spóla staðsetningu spilarans áfram eða afturábak</string>
     <string name="theme_monochrome">Einfalt einlitað</string>
     <string name="import_playlists">Flytja inn spilunarlista</string>
-    <string name="add_to_bookmarks">Bæta í bókamerki</string>
     <string name="fullscreen_gestures">Bendingar til að fara í/hætta í skjáfylli</string>
     <string name="duration">Tímalengd</string>
     <string name="mark_as_unwatched">Merkja sem ekki búið að horfa á</string>

@@ -230,9 +230,6 @@
     <string name="layout">Rozložení</string>
     <string name="audio_track">Zvuková stopa</string>
     <string name="auto_quality">Auto</string>
-    <string name="bookmarks">Záložky</string>
-    <string name="bookmark">Uložit</string>
-    <string name="clear_bookmarks">Vymazat záložky</string>
     <string name="local_playlists">Místní playlisty</string>
     <string name="brightness">Jas</string>
     <string name="auto">Auto</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Skrýt zhlédnutá videa</string>
     <string name="playlistUrl">URL playlistu</string>
     <string name="shuffle">Náhodně</string>
-    <string name="add_to_bookmarks">Přidat do záložek</string>
-    <string name="remove_bookmark">Odstranit záložku</string>
     <string name="rewind">Přetočit</string>
     <string name="pause">Pozastavit</string>
     <string name="alternative_pip_controls_summary">V PiP místo přetočení zpět a vpřed zobrazit ovládání režimu pouze zvuku a přeskočení</string>

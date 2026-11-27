@@ -231,9 +231,6 @@
     <string name="livestreams">Livestreams</string>
     <string name="auto_quality">Automatisch</string>
     <string name="time_code">Zeitstempel (Sekunden)</string>
-    <string name="bookmarks">Lesezeichen</string>
-    <string name="bookmark">Lesezeichen</string>
-    <string name="clear_bookmarks">Lesezeichen löschen</string>
     <string name="brightness">Helligkeit</string>
     <string name="auto">Automatisch</string>
     <string name="volume">Lautstärke</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Angesehene Videos ausblenden</string>
     <string name="playlistUrl">Playlist-URL</string>
     <string name="shuffle">Zufallswiedergabe</string>
-    <string name="add_to_bookmarks">Zu Lesezeichen hinzufügen</string>
-    <string name="remove_bookmark">Lesezeichen entfernen</string>
     <string name="rewind">Zurückspulen</string>
     <string name="forward">Vorspulen</string>
     <string name="pause">Pause</string>

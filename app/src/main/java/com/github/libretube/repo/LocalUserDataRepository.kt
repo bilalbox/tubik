@@ -11,7 +11,7 @@ import com.github.libretube.db.dao.WatchHistoryRow
 import com.github.libretube.db.obj.LocalPlaylist
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.LocalSubscription
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.db.obj.WatchPosition
 import com.github.libretube.enums.WatchHistoryStatus
@@ -29,9 +29,10 @@ interface LocalUserDataSource {
         watched: Boolean?,
         absoluteWatchedThresholdSeconds: Float,
         relativeWatchedThreshold: Float,
+        relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow>
 
-    suspend fun getPlaylistBookmarks(): List<PlaylistBookmark>
+    suspend fun getSeriesList(): List<Series>
 }
 
 internal object RoomLocalUserDataSource : LocalUserDataSource {
@@ -44,6 +45,7 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
         watched: Boolean?,
         absoluteWatchedThresholdSeconds: Float,
         relativeWatchedThreshold: Float,
+        relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow> =
         Database.watchHistoryDao()
             .getPage(
@@ -52,10 +54,10 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
                 watched = watched,
                 absoluteWatchedThresholdSeconds = absoluteWatchedThresholdSeconds,
                 relativeWatchedThreshold = relativeWatchedThreshold,
+                relativeRemainingWatchedThreshold = relativeRemainingWatchedThreshold,
             )
 
-    override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
-        Database.playlistBookmarkDao().getAll()
+    override suspend fun getSeriesList(): List<Series> = Database.seriesDao().getAll()
 }
 
 class LocalUserDataRepository(
@@ -327,6 +329,7 @@ class LocalUserDataRepository(
                 watched = watchedState.isWatched,
                 absoluteWatchedThresholdSeconds = ABSOLUTE_WATCHED_THRESHOLD,
                 relativeWatchedThreshold = RELATIVE_WATCHED_THRESHOLD,
+                relativeRemainingWatchedThreshold = RELATIVE_REMAINING_WATCHED_THRESHOLD,
             )
 
         val nextCursor = rows.lastOrNull()?.rowId?.minus(1)?.takeIf { rows.size == pageSize }
@@ -346,20 +349,8 @@ class LocalUserDataRepository(
         Database.watchHistoryDao().deleteAll()
     }
 
-    override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
-        accessControl.snapshot().filterPlaylistBookmarks(localDataSource.getPlaylistBookmarks())
-
-    override suspend fun getPlaylistBookmark(playlistId: String): PlaylistBookmark? {
-        return Database.playlistBookmarkDao().findById(playlistId)
-    }
-
-    override suspend fun createPlaylistBookmark(playlist: PlaylistBookmark) {
-        Database.playlistBookmarkDao().insert(playlist)
-    }
-
-    override suspend fun deletePlaylistBookmark(playlistId: String) {
-        Database.playlistBookmarkDao().deleteById(playlistId)
-    }
+    override suspend fun getSeriesList(): List<Series> =
+        accessControl.snapshot().filterSeries(localDataSource.getSeriesList())
 
     companion object {
         // can only mark as watched if less than 60s remaining
@@ -367,5 +358,8 @@ class LocalUserDataRepository(
 
         // can only mark as watched if at least 75% watched
         const val RELATIVE_WATCHED_THRESHOLD = 0.75f
+
+        // also watched when at most 5% is left, so long talks with a long outro count as watched
+        const val RELATIVE_REMAINING_WATCHED_THRESHOLD = 0.05f
     }
 }

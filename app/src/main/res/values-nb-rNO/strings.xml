@@ -231,9 +231,6 @@
     <string name="auto_quality">Automatisk</string>
     <string name="layout">Tilpasning</string>
     <string name="local_playlists">Lokale spillelister</string>
-    <string name="bookmarks">Bokmerke</string>
-    <string name="bookmark">Bokmerke</string>
-    <string name="clear_bookmarks">Tøm bokmerker</string>
     <string name="swipe_controls">Dragningskontroller</string>
     <string name="swipe_controls_summary">Bruk dragnings-håndvendinger for å justere lys- og lydstyrke</string>
     <string name="brightness">Lysstyrke</string>
@@ -277,8 +274,6 @@
     <string name="skip_silence">Hopp over stillhet</string>
     <string name="help">Hjelp</string>
     <string name="faq">O-S-S</string>
-    <string name="add_to_bookmarks">Bokmerk</string>
-    <string name="remove_bookmark">Fjern bokmerke</string>
     <string name="mark_as_watched">Marker som sett</string>
     <string name="normal_views">%1$s visninger%2$s</string>
     <string name="unsupported_file_format">Ustøttet filformat: %1$s</string>

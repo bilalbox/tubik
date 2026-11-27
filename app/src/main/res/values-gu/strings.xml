@@ -252,8 +252,5 @@
     <string name="push_channel_name">સૂચના કામદાર</string>
     <string name="require_restart_message">નવા ફેરફારોનો ઉપયોગ કરવા માટે એપ્લિકેશનને પુનઃપ્રારંભ કરો.</string>
     <string name="time_code">સમય કોડ (સેકંડો)</string>
-    <string name="bookmarks">બુકમાર્કો</string>
-    <string name="bookmark">બુકમાર્ક</string>
-    <string name="clear_bookmarks">બુકમાર્કો સાફ કરો</string>
     <string name="pip">PiP</string>
 </resources>

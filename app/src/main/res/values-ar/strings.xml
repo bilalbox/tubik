@@ -230,9 +230,6 @@
     <string name="layout">التَخطِيط</string>
     <string name="audio_track">مسار صوتي</string>
     <string name="auto_quality">تلقائي</string>
-    <string name="bookmarks">الإشارات المرجعية</string>
-    <string name="bookmark">الإشارة المرجعية</string>
-    <string name="clear_bookmarks">امحُ الإشارات المرجعية</string>
     <string name="local_playlists">قوائم التشغيل المحلية</string>
     <string name="brightness">السطوع</string>
     <string name="volume">مستوى الصوت</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">أخفِ مقاطع الفيديو التي شاهدتها بالفعل</string>
     <string name="playlistUrl">عنوان URL لقائمة التشغيل</string>
     <string name="shuffle">خلط</string>
-    <string name="remove_bookmark">أزِل الإشارة المرجعية</string>
-    <string name="add_to_bookmarks">أضف إلى الإشارات المرجعية</string>
     <string name="pause">إيقاف مؤقت</string>
     <string name="rewind">الترجيع</string>
     <string name="forward">التقديم</string>

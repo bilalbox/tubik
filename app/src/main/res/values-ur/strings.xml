@@ -115,9 +115,6 @@
     <string name="start_time">وقت آغاز</string>
     <string name="end_time">آخر وقت</string>
     <string name="audio_track">آڈیو ٹریک</string>
-    <string name="bookmarks">بک مارکس</string>
-    <string name="bookmark">بک مارکس</string>
-    <string name="clear_bookmarks">بُک مارکس صاف کریں۔</string>
     <string name="all_caught_up_summary">آپ نے تمام نئی ویڈیوز دیکھی ہیں۔</string>
     <string name="pinch_control_summary">زوم ان/آؤٹ کرنے کے لیے چوٹکی کے اشارے کا استعمال کریں</string>
     <string name="play_latest_videos">تازہ ترین ویڈیوز چلائیں۔</string>

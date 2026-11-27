@@ -116,15 +116,11 @@
     <string name="queue">Опашка</string>
     <string name="time">Време</string>
     <string name="play_all">Изпълни всички</string>
-    <string name="bookmark">Отметка</string>
-    <string name="bookmarks">Отметки</string>
     <string name="auto_quality">Автоматично</string>
     <string name="auto">Автоматично</string>
     <string name="volume">Сила на звука</string>
     <string name="brightness">Яркост</string>
-    <string name="clear_bookmarks">Изчисти отметки</string>
     <string name="all_caught_up_summary">Видяхте всички нови видеоклипове</string>
-    <string name="add_to_bookmarks">Добави към отметки</string>
     <string name="general">Общи</string>
     <string name="swipe_controls">Контрол чрез плъзгане</string>
     <string name="playerAudioQuality">Качество на звука</string>
@@ -243,7 +239,6 @@
     <string name="mark_as_watched">Маркирай като гледан</string>
     <string name="category_music_offtopic_summary">Само за използване в музикални видеоклипове. Трябва да покрива части от видеоклипа, които не са част от официални миксове. В крайна сметка видеоклипът трябва да наподобява Spotify или всяка друга смесена версия възможно най-близо или да намали говоренето или други разсейвания</string>
     <string name="group_name">Име на група</string>
-    <string name="remove_bookmark">Премахни отметка</string>
     <string name="color_violet">Виолетов</string>
     <string name="play_automatically_summary">Започни автоматично изпълнение при избор на видео</string>
     <string name="local_playlists">Местни плейлисти</string>

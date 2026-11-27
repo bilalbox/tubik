@@ -230,9 +230,6 @@
     <string name="layout">Išdėstymas</string>
     <string name="audio_track">Garso takelis</string>
     <string name="auto_quality">Automatinė</string>
-    <string name="bookmarks">Žymos</string>
-    <string name="bookmark">Pridėti prie žymų</string>
-    <string name="clear_bookmarks">Išvalyti žymes</string>
     <string name="local_playlists">Vietiniai grojaraščiai</string>
     <string name="auto">Automatinis</string>
     <string name="swipe_controls">Perbraukimo valdikliai</string>
@@ -313,8 +310,6 @@
     <string name="hide_watched_from_feed">Slėpti peržiūrėtus vaizdo įrašus</string>
     <string name="playlistUrl">Grojaraščio naršyklės nuorodą</string>
     <string name="shuffle">Sumaišyti</string>
-    <string name="add_to_bookmarks">Pridėti prie skirtukų</string>
-    <string name="remove_bookmark">Panaikinti skirtuką</string>
     <string name="rewind">Atsukti atgal</string>
     <string name="forward">Pasukti Pirmyn</string>
     <string name="alternative_pip_controls">Alternatyvūs PiP valdymo elementai</string>

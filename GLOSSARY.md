@@ -11,7 +11,7 @@ A channel the user is subscribed to while the **Allowlist** is on; subscriptions
 _Avoid_: whitelisted channel, approved channel
 
 **Allowlist**:
-A switch that hides all content not from an **Allowed Channel** across every surface while freezing subscriptions until a parent turns it off.
+A switch that hides all content not from an **Allowed Channel** across every surface. Adding a subscription never needs the **Parent PIN**; removing one does.
 _Avoid_: whitelist, filter, fence
 
 **Parent PIN**:
@@ -39,3 +39,13 @@ _Avoid_: fallback passthrough, audio dropout
 **Preferred Speed**:
 The user's chosen playback speed before **Music Removal** caps effective playback speed, preserved across channels that temporarily restrict speed.
 _Avoid_: clamped speed, temporary speed
+
+### Following
+
+**Series**:
+A playlist the user follows so its new videos reach the feed alongside subscribed channels; it belongs to its owning channel, and is hidden (not removed) while the **Allowlist** is on and that channel is not an **Allowed Channel**.
+_Avoid_: playlist bookmark, followed playlist, podcast, show
+
+**Feed Scope**:
+A per-subscription choice of whether all of a channel's uploads reach the feed or only those in its followed **Series**; it never changes whether the channel is an **Allowed Channel**.
+_Avoid_: feed filter, mute channel, series-only subscription

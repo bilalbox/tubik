@@ -1,5 +1,6 @@
 package com.github.libretube.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,33 +10,44 @@ import androidx.recyclerview.widget.ListAdapter
 import com.github.libretube.R
 import com.github.libretube.constants.IntentData
 import com.github.libretube.databinding.PlaylistsRowBinding
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.enums.PlaylistType
 import com.github.libretube.helpers.ImageHelper
 import com.github.libretube.helpers.NavigationHelper
-import com.github.libretube.repo.UserDataRepositoryHelper
+import com.github.libretube.repo.SeriesRepository
+import com.github.libretube.repo.SeriesSummary
 import com.github.libretube.ui.adapters.callbacks.DiffUtilItemCallback
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.sheets.PlaylistOptionsBottomSheet
-import com.github.libretube.ui.viewholders.PlaylistBookmarkViewHolder
+import com.github.libretube.ui.viewholders.SeriesViewHolder
+import java.text.NumberFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlaylistBookmarkAdapter :
-    ListAdapter<PlaylistBookmark, PlaylistBookmarkViewHolder>(
+class SeriesAdapter :
+    ListAdapter<Series, SeriesViewHolder>(
         DiffUtilItemCallback(
             areItemsTheSame = { oldItem, newItem -> oldItem.playlistId == newItem.playlistId },
         ),
     ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistBookmarkViewHolder {
+    /** Unwatched counts and new-episode dots by Series ID. */
+    @SuppressLint("NotifyDataSetChanged")
+    var summaries: Map<String, SeriesSummary> = emptyMap()
+        set(value) {
+            if (field == value) return
+            field = value
+            notifyDataSetChanged()
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return PlaylistBookmarkViewHolder(
+        return SeriesViewHolder(
             PlaylistsRowBinding.inflate(layoutInflater, parent, false),
         )
     }
 
-    private fun showPlaylistOptions(context: Context, bookmark: PlaylistBookmark) {
+    private fun showPlaylistOptions(context: Context, bookmark: Series) {
         val sheet = PlaylistOptionsBottomSheet()
         sheet.arguments =
             bundleOf(
@@ -49,7 +61,7 @@ class PlaylistBookmarkAdapter :
         )
     }
 
-    override fun onBindViewHolder(holder: PlaylistBookmarkViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val bookmark = getItem(holder.bindingAdapterPosition)
 
         with(holder.binding) {
@@ -57,8 +69,24 @@ class PlaylistBookmarkAdapter :
 
             ImageHelper.loadImage(bookmark.thumbnailUrl, playlistThumbnail)
             playlistTitle.text = bookmark.playlistName
-            playlistDescription.text = bookmark.uploader
-            videoCount.text = bookmark.videos.toString()
+            val summary = summaries[bookmark.playlistId]
+            playlistDescription.text =
+                listOfNotNull(
+                        bookmark.uploader,
+                        summary
+                            ?.unwatched
+                            ?.takeIf { it > 0 }
+                            ?.let {
+                                root.context.resources.getQuantityString(
+                                    R.plurals.series_unwatched_count,
+                                    it,
+                                    it,
+                                )
+                            },
+                    )
+                    .joinToString(" · ")
+            videoCount.text = NumberFormat.getIntegerInstance().format(bookmark.videos)
+            newEpisodeDot.isVisible = summary?.hasNewEpisode == true
 
             bookmarkPlaylist.setOnClickListener {
                 isBookmarked = !isBookmarked
@@ -67,11 +95,9 @@ class PlaylistBookmarkAdapter :
                 )
                 CoroutineScope(Dispatchers.IO).launch {
                     if (!isBookmarked) {
-                        UserDataRepositoryHelper.userDataRepository.deletePlaylistBookmark(
-                            bookmark.playlistId,
-                        )
+                        SeriesRepository.instance.store.delete(bookmark.playlistId)
                     } else {
-                        UserDataRepositoryHelper.userDataRepository.createPlaylistBookmark(bookmark)
+                        SeriesRepository.instance.follow(bookmark)
                     }
                 }
             }

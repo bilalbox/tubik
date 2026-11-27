@@ -60,11 +60,12 @@ class BackupDialog : DialogFragment() {
                 },
             )
 
-        data object PlaylistBookmarks :
+        data object Series :
             BackupOption(
-                R.string.bookmarks,
+                R.string.series,
                 onSelected = {
-                    it.playlistBookmarks = Database.playlistBookmarkDao().getAll()
+                    it.playlistBookmarks = Database.seriesDao().getAll()
+                    it.seriesVideos = Database.seriesVideoDao().getAll()
                 },
             )
 
@@ -118,7 +119,7 @@ class BackupDialog : DialogFragment() {
                 BackupOption.WatchPositions,
                 BackupOption.SearchHistory,
                 BackupOption.LocalSubscriptions,
-                BackupOption.PlaylistBookmarks,
+                BackupOption.Series,
                 BackupOption.LocalPlaylists,
                 BackupOption.SubscriptionGroups,
                 BackupOption.Preferences,

@@ -37,8 +37,8 @@ android {
         applicationId = "dev.twenty3p.tubik"
         minSdk = 26
         targetSdk = 36
-        versionCode = 90
-        versionName = "1.2.6"
+        versionCode = 91
+        versionName = "1.3.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resValue("string", "app_name", "Tubik")
     }
@@ -235,6 +235,9 @@ dependencies {
     /* Testing */
     testImplementation(libs.junit)
     testImplementation(libs.onnxruntime.jvm)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.robolectric.annotations)
+    testImplementation(libs.robolectric.shadows.framework)
 }
 
 // TODO: exclude from release protobuf

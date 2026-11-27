@@ -53,7 +53,10 @@ object BackupHelper {
             Database.searchHistoryDao().insertAll(backupFile.searchHistory.orEmpty())
             Database.watchPositionDao().insertAll(backupFile.watchPositions.orEmpty())
             Database.localSubscriptionDao().insertAll(backupFile.subscriptions.orEmpty())
-            Database.playlistBookmarkDao().insertAll(backupFile.playlistBookmarks.orEmpty())
+            Database.seriesDao().insertAll(backupFile.playlistBookmarks.orEmpty())
+            // a backup without Series videos (older versions) restores Series without a baseline,
+            // so their first check records the videos already in them
+            Database.seriesVideoDao().insertAll(backupFile.seriesVideos.orEmpty())
             Database.subscriptionGroupsDao().insertAll(backupFile.groups.orEmpty())
 
             backupFile.localPlaylists?.forEach {

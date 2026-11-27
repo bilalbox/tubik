@@ -8,8 +8,9 @@ import com.github.libretube.db.dao.CustomInstanceDao
 import com.github.libretube.db.dao.DownloadDao
 import com.github.libretube.db.dao.LocalPlaylistsDao
 import com.github.libretube.db.dao.LocalSubscriptionDao
-import com.github.libretube.db.dao.PlaylistBookmarkDao
 import com.github.libretube.db.dao.SearchHistoryDao
+import com.github.libretube.db.dao.SeriesDao
+import com.github.libretube.db.dao.SeriesVideoDao
 import com.github.libretube.db.dao.SubscriptionGroupsDao
 import com.github.libretube.db.dao.SubscriptionsFeedDao
 import com.github.libretube.db.dao.WatchHistoryDao
@@ -24,8 +25,9 @@ import com.github.libretube.db.obj.DownloadSponsorBlockSegment
 import com.github.libretube.db.obj.LocalPlaylist
 import com.github.libretube.db.obj.LocalPlaylistItem
 import com.github.libretube.db.obj.LocalSubscription
-import com.github.libretube.db.obj.PlaylistBookmark
 import com.github.libretube.db.obj.SearchHistoryItem
+import com.github.libretube.db.obj.Series
+import com.github.libretube.db.obj.SeriesVideo
 import com.github.libretube.db.obj.SubscriptionGroup
 import com.github.libretube.db.obj.SubscriptionsFeedItem
 import com.github.libretube.db.obj.WatchHistoryItem
@@ -39,7 +41,8 @@ import com.github.libretube.db.obj.WatchPosition
             SearchHistoryItem::class,
             CustomInstance::class,
             LocalSubscription::class,
-            PlaylistBookmark::class,
+            Series::class,
+            SeriesVideo::class,
             LocalPlaylist::class,
             LocalPlaylistItem::class,
             Download::class,
@@ -51,7 +54,7 @@ import com.github.libretube.db.obj.WatchPosition
             SubscriptionGroup::class,
             SubscriptionsFeedItem::class,
         ],
-    version = 25,
+    version = 26,
     autoMigrations =
         [
             AutoMigration(from = 7, to = 8),
@@ -64,6 +67,7 @@ import com.github.libretube.db.obj.WatchPosition
             AutoMigration(from = 20, to = 21),
             AutoMigration(from = 23, to = 24, spec = DatabaseHolder.MIGRATION_23_24::class),
             AutoMigration(from = 24, to = 25),
+            AutoMigration(from = 25, to = 26),
         ],
 )
 @TypeConverters(Converters::class)
@@ -83,8 +87,10 @@ abstract class AppDatabase : RoomDatabase() {
     /** Local Subscriptions */
     abstract fun localSubscriptionDao(): LocalSubscriptionDao
 
-    /** Bookmarked Playlists */
-    abstract fun playlistBookmarkDao(): PlaylistBookmarkDao
+    /** Series (followed playlists) and their videos */
+    abstract fun seriesDao(): SeriesDao
+
+    abstract fun seriesVideoDao(): SeriesVideoDao
 
     /** Local playlists */
     abstract fun localPlaylistsDao(): LocalPlaylistsDao

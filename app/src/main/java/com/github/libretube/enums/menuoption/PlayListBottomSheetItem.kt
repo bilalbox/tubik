@@ -44,15 +44,15 @@ sealed class PlayListBottomSheetItem(
             drawableRes = R.drawable.ic_copy,
         )
 
-    data object RemoveFromBookmarks :
+    data object Unfollow :
         PlayListBottomSheetItem(
-            titleStringRes = R.string.remove_bookmark,
+            titleStringRes = R.string.unfollow_series,
             drawableRes = R.drawable.ic_remove_from_bookmark,
         )
 
-    data object AddToBookmarks :
+    data object Follow :
         PlayListBottomSheetItem(
-            titleStringRes = R.string.add_to_bookmarks,
+            titleStringRes = R.string.follow_series,
             drawableRes = R.drawable.ic_add_to_bookmark,
         )
 

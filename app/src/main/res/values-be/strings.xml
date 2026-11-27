@@ -230,9 +230,6 @@
     <string name="audio_track">Гукавая дарожка</string>
     <string name="auto_quality">Аўта</string>
     <string name="unsupported_file_format">Фармат файла не падтрымліваецца: %1$s</string>
-    <string name="bookmark">Закладка</string>
-    <string name="clear_bookmarks">Ачысціць закладкі</string>
-    <string name="bookmarks">Закладкі</string>
     <string name="local_playlists">Лакальныя плэйлісты</string>
     <string name="swipe_controls">Кіраванне жэстамі</string>
     <string name="swipe_controls_summary">Правядзіце пальцам, каб наладзіць яркасць і гучнасць у поўнаэкранным рэжыме</string>
@@ -251,9 +248,7 @@
     <string name="hide_watched_from_feed">Схаваць ужо прагледжаныя відэа</string>
     <string name="play_latest_videos">Прайграць апошнія відэа</string>
     <string name="nothing_selected">Нічога не выбрана!</string>
-    <string name="remove_bookmark">Выдаліць закладку</string>
     <string name="rewind">Перамотка назад</string>
-    <string name="add_to_bookmarks">Дадаць у закладкі</string>
     <string name="audio_only_mode">Рэжым толькі аўдыя</string>
     <string name="audio_only_mode_summary">Ператварыце Tubik у музычны прайгравальнік</string>
     <string name="sleep_timer">Таймер сну</string>

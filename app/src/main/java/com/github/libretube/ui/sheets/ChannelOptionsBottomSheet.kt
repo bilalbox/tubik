@@ -2,7 +2,9 @@ package com.github.libretube.ui.sheets
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import com.github.libretube.R
 import com.github.libretube.api.MediaServiceRepository
 import com.github.libretube.constants.IntentData
 import com.github.libretube.enums.ShareObjectType
@@ -14,6 +16,7 @@ import com.github.libretube.helpers.NavigationHelper
 import com.github.libretube.obj.ShareData
 import com.github.libretube.parcelable.PlayerData
 import com.github.libretube.ui.dialogs.ShareDialog
+import com.github.libretube.util.ChannelSettingSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -41,15 +44,19 @@ class ChannelOptionsBottomSheet : BaseBottomSheet() {
         // List that stores the different menu options. In the future could be add more options
         // here.
         val optionsList =
-            mutableListOf(
+            mutableListOf<ChannelBottomSheetItem>(
                 ChannelBottomSheetItem.Share,
                 ChannelBottomSheetItem.PlayLatestVideos,
                 ChannelBottomSheetItem.PlayOnBackground,
             )
         if (subscribed) optionsList.add(ChannelBottomSheetItem.AddToGroup)
+        optionsList += channelSettingItems()
 
         setItems(optionsList) { which ->
-            when (optionsList[which]) {
+            when (val option = optionsList[which]) {
+                is ChannelBottomSheetItem.FeedScope,
+                is ChannelBottomSheetItem.AudioOnlyDefault -> toggleChannelSetting(option)
+
                 ChannelBottomSheetItem.Share -> {
                     val bundle =
                         bundleOf(
@@ -115,5 +122,39 @@ class ChannelOptionsBottomSheet : BaseBottomSheet() {
                 }
             }
         }
+    }
+
+    /** Per-channel settings that never weaken protection, so they never need the Parent PIN. */
+    private fun channelSettingItems(): List<ChannelBottomSheetItem> = buildList {
+        if (subscribed) {
+            add(ChannelBottomSheetItem.FeedScope(seriesOnlyFeedScope.isEnabled(channelId)))
+        }
+        add(ChannelBottomSheetItem.AudioOnlyDefault(audioOnlyDefault.isEnabled(channelId)))
+    }
+
+    private fun toggleChannelSetting(option: ChannelBottomSheetItem) {
+        val message =
+            when (option) {
+                is ChannelBottomSheetItem.FeedScope -> {
+                    seriesOnlyFeedScope.set(channelId, !option.seriesOnly)
+                    if (option.seriesOnly) R.string.feed_scope_all_uploads_on
+                    else R.string.feed_scope_series_only_on
+                }
+                is ChannelBottomSheetItem.AudioOnlyDefault -> {
+                    audioOnlyDefault.set(channelId, !option.enabled)
+                    if (option.enabled) R.string.audio_only_default_off
+                    else R.string.audio_only_default_on
+                }
+                else -> return
+            }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private companion object {
+        val seriesOnlyFeedScope
+            get() = ChannelSettingSet.seriesOnlyFeedScope
+
+        val audioOnlyDefault
+            get() = ChannelSettingSet.audioOnlyDefault
     }
 }

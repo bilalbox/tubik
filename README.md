@@ -49,7 +49,7 @@ Settings open without a PIN until you set one and turn the lock on.
 
 Tubik plays YouTube videos without ads and without a Google account.
 
-- Subscriptions, subscription groups, playlists, and playlist bookmarks
+- Subscriptions, subscription groups, playlists, and followed Series
 - Watch history, search history, downloads, and crash logs kept strictly on the device
 - Default video (1080p) and audio (best) download qualities, set under Settings > General > Downloads
 - Local backup and import/export support for your data (no cloud or sync servers)

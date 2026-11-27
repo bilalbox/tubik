@@ -108,7 +108,6 @@
     <string name="always">成日</string>
     <string name="mark_as_watched">Mark 低做已經睇咗</string>
     <string name="play_latest_videos">播最後一條片</string>
-    <string name="add_to_bookmarks">加去拉把</string>
     <string name="sleep_timer">瞓教計時器</string>
     <string name="faq">問同答</string>
     <string name="push_channel_description">有人開緊 Live 嗰陣就出個通知俾我.</string>
@@ -127,7 +126,6 @@
     <string name="import_playlists">匯入 Playlists</string>
     <string name="export_playlists">匯出 Playlists</string>
     <string name="backup_restore_summary">匯入 &amp; 匯出你嘅訂閱，Playlists, …</string>
-    <string name="remove_bookmark">喺拉把度刪</string>
     <string name="audio_only_mode_summary">將 Tubik 轉做一個音樂 Player</string>
     <string name="help">幫助</string>
     <string name="autoplay_countdown">自動倒數</string>

@@ -263,12 +263,7 @@
     <string name="auto_quality">自動</string>
     <string name="comments_disabled">上傳者停用了留言功能。</string>
     <string name="theme_monochrome">極簡單色</string>
-    <string name="bookmarks">書籤</string>
-    <string name="bookmark">加入書籤</string>
-    <string name="clear_bookmarks">清除書籤</string>
     <string name="shuffle">隨機</string>
-    <string name="add_to_bookmarks">新增至書籤</string>
-    <string name="remove_bookmark">移除書籤</string>
     <string name="double_tap_seek_summary">按螢幕左邊或右邊兩下快轉影片</string>
     <string name="sleep_timer">睡眠定時器</string>
     <string name="skip_silence">跳過無聲片段</string>

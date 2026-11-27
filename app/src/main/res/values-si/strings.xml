@@ -169,8 +169,6 @@
     <string name="layout">පිරිසැලසුම</string>
     <string name="audio_track">ශ්‍රව්‍ය පථය</string>
     <string name="auto_quality">ස්වයං</string>
-    <string name="bookmarks">පොත් සලකුණු</string>
-    <string name="clear_bookmarks">පොත් සලකුණු හිස් කරන්න</string>
     <string name="brightness">දීප්තිය</string>
     <string name="volume">ශබ්ද හඩ</string>
     <string name="auto">ස්වයං</string>
@@ -191,7 +189,6 @@
     <string name="playlistUrl">වාදන ලැයිස්තු URL</string>
     <string name="audio_only_mode_summary">Tubik සංගීත වාදකයක් බවට පත් කරන්න</string>
     <string name="shuffle">කලවම් කරන්න</string>
-    <string name="add_to_bookmarks">පොත් සලකුණු වලට එකතු කරන්න</string>
     <string name="rewind">ආපස්සට යන්න</string>
     <string name="forward">ඉදිරියට යන්න</string>
     <string name="alternative_pip_controls">විකල්ප PiP පාලන</string>
@@ -255,7 +252,6 @@
     <string name="playlistCloned">වාදන ලැයිස්තුව ක්ලෝන කරන ලදී</string>
     <string name="end_time">අවසන් කාලය</string>
     <string name="start_time">ආරම්භක කාලය</string>
-    <string name="bookmark">පොත් සලකුණ</string>
     <string name="local_playlists">දේශීය වාදන ලැයිස්තු</string>
     <string name="no_comments_available">මෙම වීඩියෝවට අදහස් නොමැත.</string>
     <string name="comments_disabled">උඩුගත කරන්නා විසින් අදහස් අබල කර ඇත.</string>
@@ -269,7 +265,6 @@
     <string name="pauseOnScreenOff_summary">තිරය ක්‍රියාවිරහිත වූ විට වාදනය නවත්වන්න</string>
     <string name="playlistCreated">වාදන ලැයිස්තුව සාදන ලදී.</string>
     <string name="addToPlaylist">වාදන ලැයිස්තුවට එක් කරන්න</string>
-    <string name="remove_bookmark">පොත් සලකුණ ඉවත් කරන්න</string>
     <string name="download_channel_name">බාගත කිරීමේ සේවාව</string>
     <string name="push_channel_name">දැනුම්දීම් සේවකයා</string>
     <string name="category_sponsor_summary">ගෙවුම් ප්‍රවර්ධනය, ගෙවුම් යොමු කිරීම් සහ සෘජු දැන්වීම්. ස්වයං ප්‍රවර්ධනය හෝ නොමිලේ නිර්මාණකරුවන්, වෙබ් අඩවි සහ නිෂ්පාදන සඳහා සත්‍ය ප්‍රචාරක කටයුතු, සඳහා නොවේ</string>

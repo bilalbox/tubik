@@ -230,9 +230,6 @@
     <string name="layout">Düzen</string>
     <string name="audio_track">Ses parçası</string>
     <string name="auto_quality">Oto</string>
-    <string name="bookmarks">Yer imleri</string>
-    <string name="bookmark">Yer imi</string>
-    <string name="clear_bookmarks">Yer imlerini temizle</string>
     <string name="local_playlists">Yerel oynatma listeleri</string>
     <string name="volume">Ses</string>
     <string name="auto">Oto</string>
@@ -254,8 +251,6 @@
     <string name="play_latest_videos">En yeni videoları oynat</string>
     <string name="playlistUrl">Oynatma listesi URL\'si</string>
     <string name="shuffle">Karıştır</string>
-    <string name="remove_bookmark">Yer imini kaldır</string>
-    <string name="add_to_bookmarks">Yer imlerine ekle</string>
     <string name="color_violet">Kullanışlı mor</string>
     <string name="pause">Duraklat</string>
     <string name="rewind">Geri sar</string>

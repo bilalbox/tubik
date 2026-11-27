@@ -22,7 +22,9 @@ import com.github.libretube.ui.activities.ZoomableImageActivity
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.fragments.AudioPlayerFragment
 import com.github.libretube.ui.fragments.PlayerFragment
+import com.github.libretube.util.ChannelSettingSet
 import com.github.libretube.util.PlayingQueue
+import com.github.libretube.util.shouldStartAudioOnly
 
 object NavigationHelper {
     fun navigateChannel(context: Context, channelUrlOrId: String?) {
@@ -45,8 +47,9 @@ object NavigationHelper {
     }
 
     /**
-     * Navigate to the given video using the other provided parameters as well If the audio only
-     * mode is enabled, play it in the background, else as a normal video
+     * Navigate to the given video using the other provided parameters as well. It plays in the
+     * audio player when audio was requested, or when the global audio-only mode or the
+     * [ownerChannelId]'s audio-only default is on (unless [forceVideo]); else as a normal video.
      */
     @SuppressLint("UnsafeOptInUsageError")
     fun navigateVideo(
@@ -55,7 +58,18 @@ object NavigationHelper {
         alreadyStarted: Boolean = false,
         forceVideo: Boolean = false,
         audioOnlyPlayerRequested: Boolean = false,
+        ownerChannelId: String? = null,
     ) {
+        val ownerAudioOnlyDefault =
+            ChannelSettingSet.audioOnlyDefault.isEnabled(ownerChannelId ?: playerData.channelId)
+        val startAudioOnly =
+            shouldStartAudioOnly(
+                audioOnlyRequested = audioOnlyPlayerRequested,
+                forceVideo = forceVideo,
+                globalAudioOnly =
+                    PreferenceHelper.getBoolean(PreferenceKeys.AUDIO_ONLY_MODE, false),
+                ownerAudioOnlyDefault = ownerAudioOnlyDefault,
+            )
         // attempt to attach to the current media session first by using the corresponding
         // video/audio player instance
         val activity = ContextHelper.unwrapActivity<AbstractPlayerHostActivity>(context)
@@ -69,7 +83,8 @@ object NavigationHelper {
                 PlayingQueue.clearAfterCurrent()
                 this.playVideo(playerData.videoId.toID())
 
-                if (audioOnlyPlayerRequested) {
+                // a running video player ignores the global audio-only mode, not the channel's
+                if (audioOnlyPlayerRequested || (!forceVideo && ownerAudioOnlyDefault)) {
                     // switch to audio only player
                     this.switchToAudioMode()
                 } else {
@@ -85,7 +100,6 @@ object NavigationHelper {
         }
         if (attachedToRunningPlayer) return
 
-        val audioOnlyMode = PreferenceHelper.getBoolean(PreferenceKeys.AUDIO_ONLY_MODE, false)
         val attachedToRunningAudioPlayer = activity.runOnAudioPlayerFragment {
             // can only continue using player if in same mode (online/offline)
             // otherwise, recreate the player
@@ -95,7 +109,7 @@ object NavigationHelper {
             PlayingQueue.clearAfterCurrent()
             this.playNextVideo(playerData.videoId.toID())
 
-            if (!audioOnlyPlayerRequested && !audioOnlyMode) {
+            if (!startAudioOnly) {
                 // switch to video only player
                 this.switchToVideoMode(playerData.videoId.toID())
             } else {
@@ -107,7 +121,7 @@ object NavigationHelper {
         }
         if (attachedToRunningAudioPlayer) return
 
-        if (audioOnlyPlayerRequested || (audioOnlyMode && !forceVideo)) {
+        if (startAudioOnly) {
             // in contrast to the video player, the audio player doesn't start a media service on
             // its own!
             BackgroundHelper.playOnBackground(context, playerData)

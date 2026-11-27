@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="10dp"
+            android:id="@+id/empty_feed_text"
             android:text="@string/emptyList"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -100,6 +101,36 @@
 
                         </com.google.android.material.button.MaterialButtonGroup>
 
+                        <!-- Videos (cards) or Episodes (unwatched, audio-style rows) -->
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/feed_mode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            app:checkedButton="@id/feed_mode_videos"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/feed_mode_videos"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/videos" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/feed_mode_episodes"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/episodes"
+                                app:icon="@drawable/ic_headphones" />
+
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
                         <HorizontalScrollView
                             android:id="@+id/channel_groups_container"
                             android:layout_width="match_parent"
@@ -112,6 +143,18 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_series_only"
+                                    style="@style/ElevatedFilterChip"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginEnd="8dp"
+                                    android:checkable="true"
+                                    android:text="@string/feed_scope_series_only"
+                                    android:visibility="gone"
+                                    tools:visibility="visible" />
 
                                 <com.google.android.material.button.MaterialButton
                                     android:id="@+id/edit_groups"

@@ -19,7 +19,7 @@ import com.github.libretube.helpers.ContextHelper
 import com.github.libretube.helpers.DownloadHelper
 import com.github.libretube.obj.ShareData
 import com.github.libretube.parcelable.PlayerData
-import com.github.libretube.repo.UserDataRepositoryHelper
+import com.github.libretube.repo.SeriesRepository
 import com.github.libretube.ui.activities.MainActivity
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.dialogs.DeletePlaylistDialog
@@ -40,7 +40,11 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
 
     private var exportFormat: ImportFormat = ImportFormat.NEWPIPE
 
-    private fun buildOptionsList(isBookmarked: Boolean?): List<PlayListBottomSheetItem> {
+    /**
+     * @param isFollowed whether the playlist is a followed Series; null while unknown or when it
+     *   can't be followed (the Allowlist hides Follow for owners that aren't Allowed Channels)
+     */
+    private fun buildOptionsList(isFollowed: Boolean?): List<PlayListBottomSheetItem> {
         // options for the dialog
         val optionsList =
             mutableListOf(
@@ -54,11 +58,11 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
             optionsList.add(PlayListBottomSheetItem.Share)
             optionsList.add(PlayListBottomSheetItem.Clone)
 
-            // only add the bookmark option to the playlist if public
-            if (isBookmarked != null) {
+            // only public playlists can be followed as a Series
+            if (isFollowed != null) {
                 optionsList.add(
-                    if (isBookmarked) PlayListBottomSheetItem.RemoveFromBookmarks
-                    else PlayListBottomSheetItem.AddToBookmarks,
+                    if (isFollowed) PlayListBottomSheetItem.Unfollow
+                    else PlayListBottomSheetItem.Follow,
                 )
             }
         } else {
@@ -73,7 +77,7 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
 
     private suspend fun onOptionSelected(
         playListOption: PlayListBottomSheetItem,
-        isBookmarked: Boolean,
+        isFollowed: Boolean,
     ) {
         val mFragmentManager = (context as BaseActivity).supportFragmentManager
 
@@ -191,19 +195,16 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
 
             else -> {
                 withContext(Dispatchers.IO) {
-                    if (isBookmarked) {
-                        UserDataRepositoryHelper.userDataRepository.deletePlaylistBookmark(
-                            playlistId,
-                        )
+                    if (isFollowed) {
+                        SeriesRepository.instance.store.delete(playlistId)
                     } else {
-                        val bookmark = runCatching {
+                        val playlist = runCatching {
                             MediaServiceRepository.instance.getPlaylist(playlistId)
                         }
                             .getOrElse {
                                 return@withContext
                             }
-                            .toPlaylistBookmark(playlistId)
-                        UserDataRepositoryHelper.userDataRepository.createPlaylistBookmark(bookmark)
+                        SeriesRepository.instance.follow(playlist.toSeries(playlistId))
                     }
                 }
             }
@@ -227,19 +228,20 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
             onOptionSelected(optionsList[which], false)
         }
 
-        // we have to update the options list as soon as we know whether the playlist is bookmarked
+        // we have to update the options list as soon as we know whether the playlist is followed
         lifecycleScope.launch(Dispatchers.IO) {
-            val isBookmarked =
-                runCatching {
-                    UserDataRepositoryHelper.userDataRepository.getPlaylistBookmark(playlistId)
-                }
-                    .getOrNull() != null
+            val series = SeriesRepository.instance
+            val isFollowed = runCatching { series.store.get(playlistId) }.getOrNull() != null
+            val canFollow =
+                isFollowed ||
+                    runCatching { series.canFollowPlaylist(playlistId) }.getOrDefault(false)
+            if (!canFollow) return@launch
 
             withContext(Dispatchers.Main) {
-                optionsList = buildOptionsList(isBookmarked)
+                optionsList = buildOptionsList(isFollowed)
 
                 setItems(optionsList) { which ->
-                    onOptionSelected(optionsList[which], isBookmarked)
+                    onOptionSelected(optionsList[which], isFollowed)
                 }
             }
         }

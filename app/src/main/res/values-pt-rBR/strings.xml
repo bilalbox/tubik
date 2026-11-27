@@ -230,9 +230,6 @@
     <string name="layout">Layout</string>
     <string name="audio_track">Faixa de áudio</string>
     <string name="auto_quality">Auto</string>
-    <string name="bookmarks">Favoritos</string>
-    <string name="bookmark">Favorito</string>
-    <string name="clear_bookmarks">Excluir favoritos</string>
     <string name="local_playlists">Playlist locais</string>
     <string name="auto">Auto</string>
     <string name="swipe_controls">Controles deslizantes</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Ocultar vídeos já assistidos</string>
     <string name="playlistUrl">URL da playlist</string>
     <string name="shuffle">Aleatório</string>
-    <string name="add_to_bookmarks">Adicionar aos favoritos</string>
-    <string name="remove_bookmark">Remover favorito</string>
     <string name="rewind">Retroceder</string>
     <string name="forward">Avançar</string>
     <string name="pause">Pausar</string>

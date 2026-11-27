@@ -144,7 +144,6 @@
     <string name="most_views">بیش‌ترین مشاهده‌ها</string>
     <string name="livestreams">جریان‌های زنده</string>
     <string name="layout">چینش</string>
-    <string name="bookmarks">نشانک‌ها</string>
     <string name="end_time">زمان پایان</string>
     <string name="audio_track">قطعهٔ صوتی</string>
     <string name="shuffle">بر زدن</string>
@@ -185,7 +184,6 @@
     <string name="queue">صف</string>
     <string name="navigation_bar">نوار ناوبری</string>
     <string name="auto_quality">خودکار</string>
-    <string name="bookmark">نشانک</string>
     <string name="volume">حجم صدا</string>
     <string name="backup_restore_summary">واردات و صادرات اشتراک‌ها، لیست‌های پخش، …</string>
     <string name="rewind">پس‌روی</string>
@@ -193,7 +191,6 @@
     <string name="push_channel_description">نمایش آگاهی هنگام موجود بودن جریان‌های جدید.</string>
     <string name="general">عمومی</string>
     <string name="caption_settings">نوشته‌ها</string>
-    <string name="clear_bookmarks">پاک‌سازی نشانک‌ها</string>
     <string name="customInstance_summary">افزودن…</string>
     <string name="chapters">فصل‌ها</string>
     <string name="network_all">همه</string>
@@ -280,7 +277,6 @@
     <string name="nothing_selected">هیچ چیزی گزیده نشده!</string>
     <string name="playlistUrl">نشانی سیاههٔ پخش</string>
     <string name="color_violet">بنفش چندمنظوره</string>
-    <string name="remove_bookmark">برداشتن نشانک</string>
     <string name="pinch_control">واپایش نیشگونی</string>
     <string name="app_backup">پشتیبان کاره</string>
     <string name="fullscreen_gestures">حرکات ورود یا خروج تمام‌صفحه</string>
@@ -297,7 +293,6 @@
     <string name="audio_only_mode">حالت فقط صدا</string>
     <string name="audio_only_mode_summary">Tubik را به یک پخش کننده موسیقی تبدیل کنید</string>
     <string name="all_caught_up_summary">همه ویدیوهای جدید را دیده اید</string>
-    <string name="add_to_bookmarks">به نشانک ها اضافه کنید</string>
     <string name="mark_as_watched">علامت گذاری به عنوان دیده شده</string>
     <string name="comments_disabled">نظرات توسط آپلود کننده غیرفعال شده است.</string>
     <string name="swipe_controls_summary">کشیدن برای تنظیم روشنایی و صدا در حالت تمام‌صفحه</string>

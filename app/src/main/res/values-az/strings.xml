@@ -230,9 +230,6 @@
     <string name="layout">Tərtibat</string>
     <string name="audio_track">Səs axını</string>
     <string name="auto_quality">Avtomatik</string>
-    <string name="bookmarks">Əlfəcinlər</string>
-    <string name="bookmark">Əlfəcin</string>
-    <string name="clear_bookmarks">Əlfəcinləri təmizlə</string>
     <string name="local_playlists">Yerli oynatma siyahıları</string>
     <string name="brightness">Parlaqlıq</string>
     <string name="auto">Avtomatik</string>
@@ -260,8 +257,6 @@
     <string name="hide_watched_from_feed">Artıq baxılan videoları gizlət</string>
     <string name="playlistUrl">Oynatma Siyahısı URL\'si</string>
     <string name="shuffle">Qarışdır</string>
-    <string name="remove_bookmark">Əlfəcini sil</string>
-    <string name="add_to_bookmarks">Əlfəcinlərə əlavə et</string>
     <string name="forward">İrəli</string>
     <string name="pause">Fasilə et</string>
     <string name="alternative_pip_controls">Alternativ PiP idarəedicilər</string>

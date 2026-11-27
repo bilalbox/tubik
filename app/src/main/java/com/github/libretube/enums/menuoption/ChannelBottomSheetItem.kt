@@ -9,10 +9,12 @@ import com.github.libretube.obj.bottomsheetitem.BottomSheetItemTitle
 sealed class ChannelBottomSheetItem(
     @StringRes titleStringRes: Int,
     @DrawableRes drawableRes: Int?,
+    @StringRes currentStringRes: Int? = null,
 ) :
     BottomSheetItem(
         title = BottomSheetItemTitle.StringResource(titleStringRes),
         drawable = drawableRes,
+        getCurrent = { currentStringRes?.let { BottomSheetItemTitle.StringResource(it) } },
     ) {
     data object Share :
         ChannelBottomSheetItem(
@@ -36,5 +38,23 @@ sealed class ChannelBottomSheetItem(
         ChannelBottomSheetItem(
             titleStringRes = R.string.add_to_group,
             drawableRes = R.drawable.ic_add_to_bookmark,
+        )
+
+    /** A subscription's Feed Scope; changing it never needs the Parent PIN. */
+    data class FeedScope(val seriesOnly: Boolean) :
+        ChannelBottomSheetItem(
+            titleStringRes = R.string.feed_scope,
+            drawableRes = R.drawable.ic_subscriptions,
+            currentStringRes =
+                if (seriesOnly) R.string.feed_scope_series_only
+                else R.string.feed_scope_all_uploads,
+        )
+
+    /** The channel's audio-only default; changing it never needs the Parent PIN. */
+    data class AudioOnlyDefault(val enabled: Boolean) :
+        ChannelBottomSheetItem(
+            titleStringRes = R.string.audio_only_default,
+            drawableRes = R.drawable.ic_headphones,
+            currentStringRes = if (enabled) R.string.enabled else R.string.off,
         )
 }

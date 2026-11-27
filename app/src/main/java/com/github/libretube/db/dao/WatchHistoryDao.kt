@@ -45,8 +45,15 @@ interface WatchHistoryDao {
             :watched IS NULL OR (
                 p.position IS NOT NULL
                 AND h.duration IS NOT NULL
-                AND h.duration - p.position / 1000 <= :absoluteWatchedThresholdSeconds
-                AND p.position / 1000 >= :relativeWatchedThreshold * h.duration
+                AND h.duration > 0
+                AND (
+                    (
+                        h.duration - p.position / 1000 <= :absoluteWatchedThresholdSeconds
+                        AND p.position / 1000 >= :relativeWatchedThreshold * h.duration
+                    )
+                    OR h.duration - p.position / 1000
+                        <= :relativeRemainingWatchedThreshold * h.duration
+                )
             ) = :watched
         )
         ORDER BY h.rowid DESC
@@ -59,6 +66,7 @@ interface WatchHistoryDao {
         watched: Boolean?,
         absoluteWatchedThresholdSeconds: Float,
         relativeWatchedThreshold: Float,
+        relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow>
 
     @Query("SELECT COUNT(videoId) FROM watchHistoryItem") suspend fun getSize(): Int

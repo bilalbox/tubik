@@ -29,6 +29,9 @@ data class StreamItem(
     val uploaded: Long = 0,
     val shortDescription: String? = null,
     val isShort: Boolean = false,
+    /** The followed Series this video was found in, if any (not sent by any API). */
+    val seriesId: String? = null,
+    val seriesName: String? = null,
 ) : Parcelable {
     val isLive
         get() = !isShort && ((duration == null) || (duration <= 0L))

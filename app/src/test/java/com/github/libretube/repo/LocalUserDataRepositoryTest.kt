@@ -4,7 +4,7 @@ import com.github.libretube.db.dao.WatchHistoryRow
 import com.github.libretube.db.obj.LocalPlaylist
 import com.github.libretube.db.obj.LocalPlaylistItem
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
-import com.github.libretube.db.obj.PlaylistBookmark
+import com.github.libretube.db.obj.Series
 import com.github.libretube.db.obj.WatchHistoryItem
 import com.github.libretube.enums.WatchHistoryStatus
 import com.github.libretube.util.AccessControl
@@ -19,7 +19,7 @@ class LocalUserDataRepositoryTest {
     private class FakeLocalUserDataSource(
         var playlists: List<LocalPlaylistWithVideos> = emptyList(),
         var watchHistoryRows: List<WatchHistoryRow> = emptyList(),
-        var bookmarks: List<PlaylistBookmark> = emptyList(),
+        var bookmarks: List<Series> = emptyList(),
     ) : LocalUserDataSource {
         override suspend fun getLocalPlaylists(): List<LocalPlaylistWithVideos> = playlists
 
@@ -29,13 +29,14 @@ class LocalUserDataRepositoryTest {
             watched: Boolean?,
             absoluteWatchedThresholdSeconds: Float,
             relativeWatchedThreshold: Float,
+            relativeRemainingWatchedThreshold: Float,
         ): List<WatchHistoryRow> =
             watchHistoryRows
                 .filter { it.rowId <= cursor }
                 .sortedByDescending { it.rowId }
                 .take(limit)
 
-        override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> = bookmarks
+        override suspend fun getSeriesList(): List<Series> = bookmarks
     }
 
     private fun samplePlaylist(
@@ -143,11 +144,11 @@ class LocalUserDataRepositoryTest {
                         ),
                     bookmarks =
                         listOf(
-                            PlaylistBookmark(
+                            Series(
                                 playlistId = "pl_allowed",
                                 uploaderUrl = "UC_ALLOWED_1",
                             ),
-                            PlaylistBookmark(playlistId = "pl_blocked", uploaderUrl = "UC_BLOCKED"),
+                            Series(playlistId = "pl_blocked", uploaderUrl = "UC_BLOCKED"),
                         ),
                 )
             val repo =
@@ -157,7 +158,7 @@ class LocalUserDataRepositoryTest {
             assertEquals(listOf("h_allowed"), historyPage.map { it.metadata.videoId })
             assertEquals(8L, nextCursor)
 
-            assertEquals(listOf("pl_allowed"), repo.getPlaylistBookmarks().map { it.playlistId })
+            assertEquals(listOf("pl_allowed"), repo.getSeriesList().map { it.playlistId })
 
             allowlistEnabled = false
             val (unfilteredHistory, emptyNextCursor) =
@@ -169,7 +170,7 @@ class LocalUserDataRepositoryTest {
             assertNull(emptyNextCursor)
             assertEquals(
                 listOf("pl_allowed", "pl_blocked"),
-                repo.getPlaylistBookmarks().map { it.playlistId },
+                repo.getSeriesList().map { it.playlistId },
             )
         }
 }

@@ -271,9 +271,6 @@
     <string name="audio_track">Audio trek</string>
     <string name="unsupported_file_format">Qo‘llab-quvvatlanmaydigan fayl formati: %1$s</string>
     <string name="auto_quality">Avtomatik</string>
-    <string name="bookmarks">Belgilanganlar</string>
-    <string name="bookmark">Belgilash</string>
-    <string name="clear_bookmarks">Belgilanganlarni o\'chirish</string>
     <string name="local_playlists">Local pleylistlar</string>
     <string name="brightness">Yorqinlik</string>
     <string name="volume">Ovoz balandligi</string>
@@ -303,8 +300,6 @@
     <string name="hide_watched_from_feed">Allaqachon ko‘rilgan videolarni yashirish</string>
     <string name="playlistUrl">Pleylist URL manzili</string>
     <string name="shuffle">Aralashtirish</string>
-    <string name="add_to_bookmarks">Belgilar ro‘yxatiga qo‘shish</string>
-    <string name="remove_bookmark">Belgini o‘chirish</string>
     <string name="rewind">Orqaga surish</string>
     <string name="forward">Oldinga surish</string>
     <string name="alternative_pip_controls">Muqobil PiP (Parcha oynasi) boshqaruvlari</string>

@@ -152,7 +152,6 @@
     <string name="exportsuccess">ஏற்றுமதி.</string>
     <string name="nothing_selected">எதுவும் தேர்ந்தெடுக்கப்படவில்லை!</string>
     <string name="hide_watched_from_feed">ஏற்கனவே பார்த்த வீடியோக்களை மறைக்கவும்</string>
-    <string name="remove_bookmark">புத்தகக்குறியை அகற்று</string>
     <string name="skip_silence">ம .னத்தைத் தவிர்க்கவும்</string>
     <string name="autoplay_countdown_summary">அடுத்த வீடியோவை தானாக விளையாடுவதற்கு முன் 5 எச் கவுண்ட்டவுனைக் காட்டு</string>
     <string name="playing_next">%1$s இல் அடுத்து விளையாடுவது</string>
@@ -185,7 +184,6 @@
     <string name="swipe_controls">கட்டுப்பாடுகள் ச்வைப்</string>
     <string name="import_watch_history">கண்காணிப்பு வரலாற்றை இறக்குமதி செய்யுங்கள்</string>
     <string name="audio_video">ஆடியோ மற்றும் வீடியோ</string>
-    <string name="add_to_bookmarks">புக்மார்க்குகளில் சேர்க்கவும்</string>
     <string name="alternative_pip_controls_summary">ஆடியோவை மட்டும் காண்பி, முன்னோக்கி மற்றும் முன்னாடி வைப்பதற்கு பதிலாக பிப் இல் கட்டுப்பாடுகளைத் தவிர்க்கவும்</string>
     <string name="add_to_queue">வரிசையில் சேர்க்கவும்</string>
     <string name="open_copied">திற</string>
@@ -437,9 +435,6 @@
     <string name="backup">காப்புப்பிரதி</string>
     <string name="player_resize_mode">மறுஅளவிடுதல் பயன்முறை</string>
     <string name="unsupported_file_format">ஆதரிக்கப்படாத கோப்பு வடிவம்: %1$s</string>
-    <string name="bookmarks">புக்மார்க்குகள்</string>
-    <string name="bookmark">புத்தககுறி</string>
-    <string name="clear_bookmarks">தெளிவான புக்மார்க்குகள்</string>
     <string name="creation_date">உருவாக்கும் தேதி</string>
     <string name="alphabetic_reversed">அகரவரிசை (தலைகீழ்)</string>
     <string name="full_local_mode">முழு உள்ளக பயன்முறை</string>
