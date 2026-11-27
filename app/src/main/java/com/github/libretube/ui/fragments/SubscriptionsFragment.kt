@@ -13,6 +13,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.libretube.R
 import com.github.libretube.api.SubscriptionHelper
@@ -28,8 +30,13 @@ import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.obj.SelectableOption
 import com.github.libretube.parcelable.PlayerData
 import com.github.libretube.repo.FeedRefresh
+import com.github.libretube.repo.RoomWatchStateStore
 import com.github.libretube.repo.UserDataRepositoryHelper
+import com.github.libretube.repo.markWatchedWithUndo
+import com.github.libretube.repo.selectEpisodes
 import com.github.libretube.repo.shouldFetchFeedOnOpen
+import com.github.libretube.repo.undoMarkWatched
+import com.github.libretube.ui.adapters.EpisodesAdapter
 import com.github.libretube.ui.adapters.VideoCardsAdapter
 import com.github.libretube.ui.base.DynamicLayoutManagerFragment
 import com.github.libretube.ui.models.SubscriptionsViewModel
@@ -39,8 +46,10 @@ import com.github.libretube.ui.sheets.FilterSortBottomSheet.Companion.FILTER_SOR
 import com.github.libretube.ui.sheets.SubscriptionsBottomSheet
 import com.github.libretube.util.PlayingQueue
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_subscriptions) {
     private var _binding: FragmentSubscriptionsBinding? = null
@@ -77,8 +86,44 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
             field = value
         }
 
+    /** Episodes mode lists unwatched videos as audio-style rows instead of video cards. */
+    private var episodesMode = PreferenceHelper.getBoolean(PreferenceKeys.FEED_EPISODES_MODE, false)
+        set(value) {
+            PreferenceHelper.putBoolean(PreferenceKeys.FEED_EPISODES_MODE, value)
+            field = value
+        }
+
+    private var seriesOnlyEpisodes =
+        PreferenceHelper.getBoolean(PreferenceKeys.EPISODES_SERIES_ONLY, false)
+        set(value) {
+            PreferenceHelper.putBoolean(PreferenceKeys.EPISODES_SERIES_ONLY, value)
+            field = value
+        }
+
+    private val episodesAdapter =
+        EpisodesAdapter(onOpen = ::openEpisode, onListen = ::listenToEpisode)
+
+    /** Swiping an episode marks it watched; only attached in Episodes mode. */
+    private val episodeSwipe =
+        ItemTouchHelper(
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ) = false
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    markEpisodeWatched(viewHolder.bindingAdapterPosition)
+                }
+            },
+        )
+
     override fun setLayoutManagers(gridItems: Int) {
-        _binding?.subFeed?.layoutManager = GridLayoutManager(context, gridItems)
+        _binding?.subFeed?.layoutManager =
+            if (episodesMode) LinearLayoutManager(context)
+            else GridLayoutManager(context, gridItems)
     }
 
     @SuppressLint("SetTextI18n")
@@ -87,8 +132,7 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
         super.onViewCreated(view, savedInstanceState)
 
         setupSortAndFilter()
-
-        binding.subFeed.adapter = feedAdapter
+        setupFeedMode()
 
         // Check if the AppBarLayout is fully expanded
         binding.subscriptionsAppBar.addOnOffsetChangedListener { _, verticalOffset ->
@@ -271,6 +315,74 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
         }
     }
 
+    private fun setupFeedMode() {
+        binding.feedMode.check(
+            if (episodesMode) binding.feedModeEpisodes.id else binding.feedModeVideos.id,
+        )
+        binding.feedMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            episodesMode = checkedId == binding.feedModeEpisodes.id
+            applyFeedMode()
+            lifecycleScope.launch { showFeed(restoreScrollState = false) }
+        }
+        binding.chipSeriesOnly.isChecked = seriesOnlyEpisodes
+        binding.chipSeriesOnly.setOnCheckedChangeListener { _, isChecked ->
+            seriesOnlyEpisodes = isChecked
+            lifecycleScope.launch { showFeed(restoreScrollState = false) }
+        }
+        applyFeedMode()
+    }
+
+    private fun applyFeedMode() {
+        val binding = _binding ?: return
+        binding.subFeed.adapter = if (episodesMode) episodesAdapter else feedAdapter
+        setLayoutManagers(getGridItemsCount())
+        // sorting and the watched filter only apply to the Videos mode
+        binding.filterSort.isGone = episodesMode
+        binding.chipSeriesOnly.isVisible = episodesMode
+        episodeSwipe.attachToRecyclerView(if (episodesMode) binding.subFeed else null)
+    }
+
+    private fun openEpisode(episode: StreamItem) {
+        NavigationHelper.navigateVideo(
+            requireContext(),
+            PlayerData(episode.url?.toID()),
+            ownerChannelId = episode.uploaderUrl,
+        )
+    }
+
+    private fun listenToEpisode(episode: StreamItem) {
+        NavigationHelper.navigateVideo(
+            requireContext(),
+            PlayerData(episode.url?.toID()),
+            audioOnlyPlayerRequested = true,
+            ownerChannelId = episode.uploaderUrl,
+        )
+    }
+
+    private fun markEpisodeWatched(position: Int) {
+        val episode = episodesAdapter.itemAt(position) ?: return
+        val videoId = episode.url.orEmpty().toID()
+        episodesAdapter.submitList(episodesAdapter.currentList - episode)
+        lifecycleScope.launch {
+            val previous =
+                withContext(Dispatchers.IO) {
+                    RoomWatchStateStore.markWatchedWithUndo(episode, videoId)
+                }
+            val binding = _binding ?: return@launch
+            Snackbar.make(binding.root, R.string.episode_marked_watched, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo) {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            RoomWatchStateStore.undoMarkWatched(previous)
+                        }
+                        showFeed(restoreScrollState = true)
+                    }
+                }
+                .show()
+        }
+    }
+
     private fun setupSortAndFilter() {
         binding.filterSort.setOnClickListener {
             childFragmentManager.setFragmentResultListener(
@@ -304,6 +416,7 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
 
     override fun onDestroyView() {
         super.onDestroyView()
+        episodeSwipe.attachToRecyclerView(null)
         _binding = null
     }
 
@@ -423,9 +536,13 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
             else -> this
         }
 
-    private suspend fun showFeed(restoreScrollState: Boolean = true) {
+    private suspend fun showFeed(restoreScrollState: Boolean = true) =
+        if (episodesMode) showEpisodes(restoreScrollState) else showVideos(restoreScrollState)
+
+    private suspend fun showVideos(restoreScrollState: Boolean) {
         val binding = _binding ?: return
         val videoFeed = viewModel.videoFeed.value ?: return
+        binding.emptyFeedText.setText(R.string.emptyList)
 
         val feed =
             videoFeed.filterByGroup(selectedFilterGroup).let {
@@ -462,6 +579,40 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
         feedAdapter.submitList(sortedFeed) {
             if (restoreScrollState) {
                 // manually restore the previous feed state
+                binding.subFeed.layoutManager?.onRestoreInstanceState(
+                    viewModel.subFeedRecyclerViewState,
+                )
+            } else {
+                binding.subFeed.scrollToPosition(0)
+            }
+        }
+    }
+
+    private suspend fun showEpisodes(restoreScrollState: Boolean) {
+        val videoFeed = viewModel.videoFeed.value ?: return
+
+        val episodes =
+            selectEpisodes(
+                unwatchedFeed =
+                    DatabaseHelper.filterByStreamTypeAndWatchPosition(
+                        videoFeed.filterByGroup(selectedFilterGroup),
+                        hideWatched = true,
+                        showUpcoming = false,
+                    ),
+                seriesOnly = seriesOnlyEpisodes,
+            )
+        val binding = _binding ?: return
+
+        val isFetchingEmpty = episodes.isEmpty() && viewModel.isFeedFetchInFlight
+        binding.subProgress.isVisible = isFetchingEmpty
+        val isEmpty = episodes.isEmpty() && !isFetchingEmpty
+        binding.subFeed.isGone = isEmpty
+        binding.emptyFeed.isVisible = isEmpty
+        binding.emptyFeedText.setText(R.string.episodes_empty)
+        binding.subRefresh.isRefreshing = false
+
+        episodesAdapter.submitList(episodes) {
+            if (restoreScrollState) {
                 binding.subFeed.layoutManager?.onRestoreInstanceState(
                     viewModel.subFeedRecyclerViewState,
                 )

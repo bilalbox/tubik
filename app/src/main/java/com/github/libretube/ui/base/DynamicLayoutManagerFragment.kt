@@ -12,7 +12,9 @@ import com.github.libretube.helpers.PreferenceHelper
 abstract class DynamicLayoutManagerFragment(@LayoutRes layoutResId: Int) : Fragment(layoutResId) {
     abstract fun setLayoutManagers(gridItems: Int)
 
-    private fun getGridItemsCount(orientation: Int): Int {
+    protected fun getGridItemsCount(
+        orientation: Int = resources.configuration.orientation,
+    ): Int {
         val (prefKey, defaultValueRes) =
             when (orientation) {
                 Configuration.ORIENTATION_PORTRAIT ->

@@ -1,5 +1,6 @@
 package com.github.libretube.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,10 +15,12 @@ import com.github.libretube.enums.PlaylistType
 import com.github.libretube.helpers.ImageHelper
 import com.github.libretube.helpers.NavigationHelper
 import com.github.libretube.repo.SeriesRepository
+import com.github.libretube.repo.SeriesSummary
 import com.github.libretube.ui.adapters.callbacks.DiffUtilItemCallback
 import com.github.libretube.ui.base.BaseActivity
 import com.github.libretube.ui.sheets.PlaylistOptionsBottomSheet
 import com.github.libretube.ui.viewholders.SeriesViewHolder
+import java.text.NumberFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +31,15 @@ class SeriesAdapter :
             areItemsTheSame = { oldItem, newItem -> oldItem.playlistId == newItem.playlistId },
         ),
     ) {
+    /** Unwatched counts and new-episode dots by Series ID. */
+    @SuppressLint("NotifyDataSetChanged")
+    var summaries: Map<String, SeriesSummary> = emptyMap()
+        set(value) {
+            if (field == value) return
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return SeriesViewHolder(
@@ -57,8 +69,24 @@ class SeriesAdapter :
 
             ImageHelper.loadImage(bookmark.thumbnailUrl, playlistThumbnail)
             playlistTitle.text = bookmark.playlistName
-            playlistDescription.text = bookmark.uploader
-            videoCount.text = bookmark.videos.toString()
+            val summary = summaries[bookmark.playlistId]
+            playlistDescription.text =
+                listOfNotNull(
+                        bookmark.uploader,
+                        summary
+                            ?.unwatched
+                            ?.takeIf { it > 0 }
+                            ?.let {
+                                root.context.resources.getQuantityString(
+                                    R.plurals.series_unwatched_count,
+                                    it,
+                                    it,
+                                )
+                            },
+                    )
+                    .joinToString(" · ")
+            videoCount.text = NumberFormat.getIntegerInstance().format(bookmark.videos)
+            newEpisodeDot.isVisible = summary?.hasNewEpisode == true
 
             bookmarkPlaylist.setOnClickListener {
                 isBookmarked = !isBookmarked

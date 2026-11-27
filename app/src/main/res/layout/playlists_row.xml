@@ -69,6 +69,19 @@
         </com.google.android.material.card.MaterialCardView>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- new-episode dot for a Series with a video found since it was last opened -->
+    <View
+        android:id="@+id/new_episode_dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/new_episode_dot"
+        android:contentDescription="@string/series_new_episode"
+        android:elevation="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/card_playlist_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/card_playlist_thumbnail" />
+
     <TextView
         android:id="@+id/playlist_title"
         android:layout_width="0dp"

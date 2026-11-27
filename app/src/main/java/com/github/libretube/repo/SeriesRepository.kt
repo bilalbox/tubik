@@ -178,8 +178,15 @@ fun mergeSeriesIntoFeed(
         item.url?.toID() !in seriesVideoIds &&
             normalizeChannelId(item.uploaderUrl) !in seriesOnlyChannelIds
     }
-    return channelVideos + uniqueSeriesVideos
+    // stable: equal or unknown upload dates keep channel-feed and Series order
+    return (channelVideos + uniqueSeriesVideos).sortedByDescending { it.uploaded }
 }
+
+/**
+ * @param hasNewEpisode a video was found after the Series was last opened (the new-episode dot);
+ *   independent of [unwatched]
+ */
+data class SeriesSummary(val unwatched: Int, val hasNewEpisode: Boolean)
 
 /**
  * Orders a Series' videos for display and playback. Videos with an unknown upload date go last,
@@ -256,6 +263,7 @@ class SeriesRepository(
             store
                 .getAllVideos()
                 .filter { it.seriesId in seriesById }
+                .sortedWith(compareBy({ it.seriesId }, { it.position }))
                 .map { it.toStreamItem(seriesById[it.seriesId]?.playlistName) }
         return snapshot.filterStreamItems(videos)
     }
@@ -298,6 +306,29 @@ class SeriesRepository(
     }
 
     suspend fun markOpened(seriesId: String) = store.setLastOpened(seriesId, clock.millis())
+
+    /**
+     * Each visible Series' unwatched count and whether it has a video found since it was last
+     * opened. Videos from channels that aren't allowed don't count.
+     */
+    suspend fun summaries(
+        isWatched: suspend (videoId: String, durationSeconds: Long?) -> Boolean,
+    ): Map<String, SeriesSummary> {
+        val snapshot = accessControl.snapshot()
+        val videosBySeries =
+            store
+                .getAllVideos()
+                .filter { snapshot.isChannelAllowed(it.uploaderUrl) }
+                .groupBy { it.seriesId }
+        return visibleSeries().associate { series ->
+            val videos = videosBySeries[series.playlistId].orEmpty()
+            series.playlistId to
+                SeriesSummary(
+                    unwatched = videos.count { !isWatched(it.videoId, it.duration) },
+                    hasNewEpisode = videos.any { it.foundAt > series.lastOpened },
+                )
+        }
+    }
 
     companion object {
         private val REFRESH_INTERVAL: Duration = Duration.ofDays(1)

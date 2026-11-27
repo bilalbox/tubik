@@ -21,6 +21,7 @@ import com.github.libretube.api.obj.Playlists
 import com.github.libretube.constants.IntentData
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.databinding.FragmentLibraryBinding
+import com.github.libretube.db.DatabaseHelper
 import com.github.libretube.enums.PlaylistType
 import com.github.libretube.enums.menuoption.PlayListSortModeBottomSheetItem
 import com.github.libretube.extensions.TAG
@@ -29,6 +30,7 @@ import com.github.libretube.extensions.dpToPx
 import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.helpers.NavBarHelper
 import com.github.libretube.helpers.PreferenceHelper
+import com.github.libretube.repo.SeriesRepository
 import com.github.libretube.repo.UserDataRepositoryHelper
 import com.github.libretube.ui.adapters.PlaylistsAdapter
 import com.github.libretube.ui.adapters.SeriesAdapter
@@ -170,12 +172,23 @@ class LibraryFragment : DynamicLayoutManagerFragment(R.layout.fragment_library) 
                     return@launch
                 }
 
+            val summaries =
+                withContext(Dispatchers.IO) {
+                    runCatching {
+                            SeriesRepository.instance.summaries { videoId, duration ->
+                                DatabaseHelper.isVideoWatched(videoId, duration ?: 0)
+                            }
+                        }
+                        .getOrDefault(emptyMap())
+                }
+
             val binding = _binding ?: return@launch
 
-            binding.bookmarksContainer.isVisible = bookmarks.isNotEmpty()
-            if (bookmarks.isNotEmpty()) {
-                playlistBookmarkAdapter.submitList(bookmarks)
-            }
+            // with no Series, the section explains what following a playlist does
+            binding.seriesEmptyHint.isVisible = bookmarks.isEmpty()
+            binding.bookmarksRecView.isVisible = bookmarks.isNotEmpty()
+            playlistBookmarkAdapter.summaries = summaries
+            playlistBookmarkAdapter.submitList(bookmarks)
         }
     }
 
