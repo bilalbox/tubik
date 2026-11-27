@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">Tubik</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="library">Library</string>
@@ -437,10 +437,10 @@
     </plurals>
     <string name="add_to_group">Add to group</string>
     <string name="gestures">Gestures</string>
-    <string name="default_video_quality" tools:ignore="MissingTranslation">Default video quality</string>
-    <string name="default_audio_quality" tools:ignore="MissingTranslation">Default audio quality</string>
-    <string name="best_available" tools:ignore="MissingTranslation">Best available</string>
-    <string name="lowest_available" tools:ignore="MissingTranslation">Lowest available</string>
+    <string name="default_video_quality">Default video quality</string>
+    <string name="default_audio_quality">Default audio quality</string>
+    <string name="best_available">Best available</string>
+    <string name="lowest_available">Lowest available</string>
     <string name="external_download_provider">External download provider</string>
     <string name="external_download_provider_summary">Enter the package name of the app you want to use for downloading videos. Leave blank to use Tubik\'s inbuilt downloader.</string>
     <string name="local_stream_extraction">Local stream extraction</string>
@@ -536,66 +536,66 @@
     <string name="music_removal_overload_muted">Audio muted: device is too slow for Music Removal</string>
     <string name="music_removal_channel_on">Music Removal enabled for this channel</string>
     <string name="music_removal_channel_off">Music Removal disabled for this channel</string>
-    <string name="privacy_policy" tools:ignore="MissingTranslation">Privacy Policy</string>
-    <string name="app_updates" tools:ignore="MissingTranslation">App updates</string>
-    <string name="auto_update_check_title" tools:ignore="MissingTranslation">Check for updates automatically</string>
-    <string name="auto_update_check_summary" tools:ignore="MissingTranslation">Check daily for new Tubik releases</string>
-    <string name="app_updates_check_title" tools:ignore="MissingTranslation">Check for updates</string>
-    <string name="update_channel_name" tools:ignore="MissingTranslation">App updates</string>
-    <string name="update_channel_description" tools:ignore="MissingTranslation">Notifications when a new version of Tubik is available</string>
-    <string name="update_notification_title" tools:ignore="MissingTranslation">Tubik update available</string>
-    <string name="update_notification_text" tools:ignore="MissingTranslation">Version %1$s is ready in Settings</string>
-    <string name="update_summary_available" tools:ignore="MissingTranslation">Update available: v%1$s (current: v%2$s)</string>
-    <string name="update_summary_up_to_date" tools:ignore="MissingTranslation">v%1$s • Up to date</string>
-    <string name="update_summary_up_to_date_checked" tools:ignore="MissingTranslation">v%1$s • Up to date (checked %2$s)</string>
-    <string name="update_summary_incompatible" tools:ignore="MissingTranslation">v%1$s • v%2$s requires Android API %3$d</string>
-    <string name="update_summary_unchecked" tools:ignore="MissingTranslation">Current version: v%1$s • Tap to check</string>
-    <string name="update_checking" tools:ignore="MissingTranslation">Checking for updates…</string>
-    <string name="update_check_failed" tools:ignore="MissingTranslation">Could not check for updates: %1$s</string>
-    <string name="update_available_header" tools:ignore="MissingTranslation">Version %1$s available (current: v%2$s)</string>
-    <string name="update_size_mb" tools:ignore="MissingTranslation">Download size: %1$.1f MiB</string>
-    <string name="update_release_notes_label" tools:ignore="MissingTranslation">Release notes</string>
-    <string name="update_no_release_notes" tools:ignore="MissingTranslation">No release notes provided.</string>
-    <string name="update_download_and_install" tools:ignore="MissingTranslation">Download &amp; Install</string>
-    <string name="update_downloading" tools:ignore="MissingTranslation">Downloading update…</string>
-    <string name="update_downloading_progress" tools:ignore="MissingTranslation">Downloading update (%1$d%%)…</string>
-    <string name="update_verifying" tools:ignore="MissingTranslation">Verifying signature and checksum…</string>
-    <string name="update_verification_failed" tools:ignore="MissingTranslation">Update verification failed. The downloaded file was deleted for safety.</string>
-    <string name="update_download_failed" tools:ignore="MissingTranslation">Download failed: %1$s</string>
-    <string name="update_install_starting" tools:ignore="MissingTranslation">Opening system installer…</string>
-    <string name="update_install_success" tools:ignore="MissingTranslation">Tubik update installed</string>
-    <string name="update_install_failed" tools:ignore="MissingTranslation">Installation failed: %1$s</string>
-    <string name="update_unpin_before_install" tools:ignore="MissingTranslation">Unpin the screen before installing an update. To unpin, touch and hold Back and Overview (or swipe up and hold).</string>
-    <string name="update_unknown_sources_title" tools:ignore="MissingTranslation">Allow app installs</string>
-    <string name="update_unknown_sources_message" tools:ignore="MissingTranslation">To install Tubik updates, allow Tubik to install unknown apps in Android Settings, then return here and tap Download &amp; Install.</string>
-    <string name="update_open_install_permission" tools:ignore="MissingTranslation">Open Settings</string>
-    <string name="update_view_release_notes" tools:ignore="MissingTranslation">Release notes</string>
-    <string name="update_check_now" tools:ignore="MissingTranslation">Check now</string>
-    <string name="update_close" tools:ignore="MissingTranslation">Close</string>
-    <!-- Series and Episodes (#17); English only until translated (#16) -->
-    <string name="audio_only_default" tools:ignore="MissingTranslation">Play as audio by default</string>
-    <string name="audio_only_default_on" tools:ignore="MissingTranslation">This channel\'s videos now play as audio</string>
-    <string name="audio_only_default_off" tools:ignore="MissingTranslation">This channel\'s videos now play as video</string>
-    <string name="series" tools:ignore="MissingTranslation">Series</string>
-    <string name="follow_series" tools:ignore="MissingTranslation">Follow</string>
-    <string name="following_series" tools:ignore="MissingTranslation">Following</string>
-    <string name="unfollow_series" tools:ignore="MissingTranslation">Unfollow</string>
-    <string name="series_order_playlist" tools:ignore="MissingTranslation">Playlist order</string>
-    <string name="series_order_newest" tools:ignore="MissingTranslation">Newest first</string>
-    <string name="series_order_oldest" tools:ignore="MissingTranslation">Oldest first</string>
-    <string name="feed_scope" tools:ignore="MissingTranslation">In the feed</string>
-    <string name="feed_scope_all_uploads" tools:ignore="MissingTranslation">All uploads</string>
-    <string name="feed_scope_series_only" tools:ignore="MissingTranslation">Series only</string>
-    <string name="feed_scope_all_uploads_on" tools:ignore="MissingTranslation">All of this channel\'s uploads now reach the feed</string>
-    <string name="feed_scope_series_only_on" tools:ignore="MissingTranslation">Only this channel\'s Series now reach the feed</string>
-    <string name="episodes" tools:ignore="MissingTranslation">Episodes</string>
-    <string name="episode_listen" tools:ignore="MissingTranslation">Listen</string>
-    <string name="episodes_empty" tools:ignore="MissingTranslation">No unwatched episodes</string>
-    <string name="episode_marked_watched" tools:ignore="MissingTranslation">Marked as watched</string>
-    <string name="series_new_episode" tools:ignore="MissingTranslation">New episode</string>
-    <plurals name="series_unwatched_count" tools:ignore="MissingTranslation">
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="app_updates">App updates</string>
+    <string name="auto_update_check_title">Check for updates automatically</string>
+    <string name="auto_update_check_summary">Check daily for new Tubik releases</string>
+    <string name="app_updates_check_title">Check for updates</string>
+    <string name="update_channel_name">App updates</string>
+    <string name="update_channel_description">Notifications when a new version of Tubik is available</string>
+    <string name="update_notification_title">Tubik update available</string>
+    <string name="update_notification_text">Version %1$s is ready in Settings</string>
+    <string name="update_summary_available">Update available: v%1$s (current: v%2$s)</string>
+    <string name="update_summary_up_to_date">v%1$s • Up to date</string>
+    <string name="update_summary_up_to_date_checked">v%1$s • Up to date (checked %2$s)</string>
+    <string name="update_summary_incompatible">v%1$s • v%2$s requires Android API %3$d</string>
+    <string name="update_summary_unchecked">Current version: v%1$s • Tap to check</string>
+    <string name="update_checking">Checking for updates…</string>
+    <string name="update_check_failed">Could not check for updates: %1$s</string>
+    <string name="update_available_header">Version %1$s available (current: v%2$s)</string>
+    <string name="update_size_mb">Download size: %1$.1f MiB</string>
+    <string name="update_release_notes_label">Release notes</string>
+    <string name="update_no_release_notes">No release notes provided.</string>
+    <string name="update_download_and_install">Download &amp; Install</string>
+    <string name="update_downloading">Downloading update…</string>
+    <string name="update_downloading_progress">Downloading update (%1$d%%)…</string>
+    <string name="update_verifying">Verifying signature and checksum…</string>
+    <string name="update_verification_failed">Update verification failed. The downloaded file was deleted for safety.</string>
+    <string name="update_download_failed">Download failed: %1$s</string>
+    <string name="update_install_starting">Opening system installer…</string>
+    <string name="update_install_success">Tubik update installed</string>
+    <string name="update_install_failed">Installation failed: %1$s</string>
+    <string name="update_unpin_before_install">Unpin the screen before installing an update. To unpin, touch and hold Back and Overview (or swipe up and hold).</string>
+    <string name="update_unknown_sources_title">Allow app installs</string>
+    <string name="update_unknown_sources_message">To install Tubik updates, allow Tubik to install unknown apps in Android Settings, then return here and tap Download &amp; Install.</string>
+    <string name="update_open_install_permission">Open Settings</string>
+    <string name="update_view_release_notes">Release notes</string>
+    <string name="update_check_now">Check now</string>
+    <string name="update_close">Close</string>
+    <!-- Series and Episodes (#17) -->
+    <string name="audio_only_default">Play as audio by default</string>
+    <string name="audio_only_default_on">This channel\'s videos now play as audio</string>
+    <string name="audio_only_default_off">This channel\'s videos now play as video</string>
+    <string name="series">Series</string>
+    <string name="follow_series">Follow</string>
+    <string name="following_series">Following</string>
+    <string name="unfollow_series">Unfollow</string>
+    <string name="series_order_playlist">Playlist order</string>
+    <string name="series_order_newest">Newest first</string>
+    <string name="series_order_oldest">Oldest first</string>
+    <string name="feed_scope">In the feed</string>
+    <string name="feed_scope_all_uploads">All uploads</string>
+    <string name="feed_scope_series_only">Series only</string>
+    <string name="feed_scope_all_uploads_on">All of this channel\'s uploads now reach the feed</string>
+    <string name="feed_scope_series_only_on">Only this channel\'s Series now reach the feed</string>
+    <string name="episodes">Episodes</string>
+    <string name="episode_listen">Listen</string>
+    <string name="episodes_empty">No unwatched episodes</string>
+    <string name="episode_marked_watched">Marked as watched</string>
+    <string name="series_new_episode">New episode</string>
+    <plurals name="series_unwatched_count">
         <item quantity="one">%1$d unwatched</item>
         <item quantity="other">%1$d unwatched</item>
     </plurals>
-    <string name="series_empty_hint" tools:ignore="MissingTranslation">Follow lectures, audiobooks and radio shows like podcasts: open a playlist and tap Follow.</string>
+    <string name="series_empty_hint">Follow lectures, audiobooks and radio shows like podcasts: open a playlist and tap Follow.</string>
 </resources>

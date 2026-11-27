@@ -1,2 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <!-- Machine-translated first pass (#16); corrections from native speakers welcome. -->
+    <string name="default_video_quality">Calidá de videu predeterminada</string>
+    <string name="default_audio_quality">Calidá d\'audiu predeterminada</string>
+    <string name="best_available">La meyor disponible</string>
+    <string name="lowest_available">La más baxa disponible</string>
+    <string name="privacy_policy">Política de privacidá</string>
+    <string name="app_updates">Anovamientos de l\'aplicación</string>
+    <string name="auto_update_check_title">Buscar anovamientos automáticamente</string>
+    <string name="auto_update_check_summary">Buscar cada día versiones nueves de Tubik</string>
+    <string name="app_updates_check_title">Buscar anovamientos</string>
+    <string name="update_channel_name">Anovamientos de l\'aplicación</string>
+    <string name="update_channel_description">Avisos cuando hai disponible una versión nueva de Tubik</string>
+    <string name="update_notification_title">Anovamientu de Tubik disponible</string>
+    <string name="update_notification_text">La versión %1$s ta preparada en Configuración</string>
+    <string name="update_summary_available">Anovamientu disponible: v%1$s (actual: v%2$s)</string>
+    <string name="update_summary_up_to_date">v%1$s • Anovada</string>
+    <string name="update_summary_up_to_date_checked">v%1$s • Anovada (comprobóse %2$s)</string>
+    <string name="update_summary_incompatible">v%1$s • v%2$s rique Android API %3$d</string>
+    <string name="update_summary_unchecked">Versión actual: v%1$s • Toca pa comprobar</string>
+    <string name="update_checking">Buscando anovamientos…</string>
+    <string name="update_check_failed">Nun se pudieron buscar anovamientos: %1$s</string>
+    <string name="update_available_header">Versión %1$s disponible (actual: v%2$s)</string>
+    <string name="update_size_mb">Tamañu de la descarga: %1$.1f MiB</string>
+    <string name="update_release_notes_label">Notes de la versión</string>
+    <string name="update_no_release_notes">Nun s\'apurrieron notes de la versión.</string>
+    <string name="update_download_and_install">Descargar ya instalar</string>
+    <string name="update_downloading">Descargando l\'anovamientu…</string>
+    <string name="update_downloading_progress">Descargando l\'anovamientu (%1$d%%)…</string>
+    <string name="update_verifying">Verificando la robla y la suma de comprobación…</string>
+    <string name="update_verification_failed">Falló la verificación del anovamientu. El ficheru descargáu desanicióse por seguridá.</string>
+    <string name="update_download_failed">Falló la descarga: %1$s</string>
+    <string name="update_install_starting">Abriendo l\'instalador del sistema…</string>
+    <string name="update_install_success">Instalóse l\'anovamientu de Tubik</string>
+    <string name="update_install_failed">Falló la instalación: %1$s</string>
+    <string name="update_unpin_before_install">Desfixa la pantalla enantes d\'instalar un anovamientu. Pa desfixala, mantén primíos Atrás y Resume (o eslliza p\'arriba y mantén).</string>
+    <string name="update_unknown_sources_title">Permitir la instalación d\'aplicaciones</string>
+    <string name="update_unknown_sources_message">Pa instalar anovamientos de Tubik, permite que Tubik instale aplicaciones desconocíes na configuración d\'Android, depués vuelvi equí y toca Descargar ya instalar.</string>
+    <string name="update_open_install_permission">Abrir Configuración</string>
+    <string name="update_view_release_notes">Notes de la versión</string>
+    <string name="update_check_now">Comprobar agora</string>
+    <string name="update_close">Zarrar</string>
+    <string name="audio_only_default">Reproducir como audiu por defeutu</string>
+    <string name="audio_only_default_on">Agora los vídeos d\'esta canal reprodúcense como audiu</string>
+    <string name="audio_only_default_off">Agora los vídeos d\'esta canal reprodúcense como videu</string>
+    <string name="series">Series</string>
+    <string name="follow_series">Siguir</string>
+    <string name="following_series">Siguiendo</string>
+    <string name="unfollow_series">Dexar de siguir</string>
+    <string name="series_order_playlist">Orde de la llista</string>
+    <string name="series_order_newest">Primero lo más nuevo</string>
+    <string name="series_order_oldest">Primero lo más antiguo</string>
+    <string name="feed_scope">Nel feed</string>
+    <string name="feed_scope_all_uploads">Toles xubes</string>
+    <string name="feed_scope_series_only">Namás series</string>
+    <string name="feed_scope_all_uploads_on">Agora toles xubes d\'esta canal apaecen nel feed</string>
+    <string name="feed_scope_series_only_on">Agora namás les series d\'esta canal apaecen nel feed</string>
+    <string name="episodes">Episodios</string>
+    <string name="episode_listen">Escuchar</string>
+    <string name="episodes_empty">Nun hai episodios ensin ver</string>
+    <string name="episode_marked_watched">Marcóse como vistu</string>
+    <string name="series_new_episode">Episodiu nuevu</string>
+    <plurals name="series_unwatched_count">
+        <item quantity="one">%1$d ensin ver</item>
+        <item quantity="other">%1$d ensin ver</item>
+    </plurals>
+    <string name="series_empty_hint">Sigui clases, audiollibros y programes de radio como si fueren podcasts: abri una llista de reproducción y toca Siguir.</string>
+</resources>

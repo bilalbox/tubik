@@ -1,2 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <!-- Machine-translated first pass (#16); corrections from native speakers welcome. -->
+    <string name="default_video_quality">ናይ ቅድሚ-ምርጫ ጽሬት ቪድዮ</string>
+    <string name="default_audio_quality">ናይ ቅድሚ-ምርጫ ጽሬት ድምጺ</string>
+    <string name="best_available">እቲ ዝበለጸ ዘሎ</string>
+    <string name="lowest_available">እቲ ዝተሓተ ዘሎ</string>
+    <string name="privacy_policy">ፖሊሲ ብሕትውና</string>
+    <string name="app_updates">ምሕዳሳት ኣፕ</string>
+    <string name="auto_update_check_title">ምሕዳሳት ብኣውቶማቲክ ፈትሽ</string>
+    <string name="auto_update_check_summary">ሓደሽቲ ሕታማት Tubik መዓልታዊ ፈትሽ</string>
+    <string name="app_updates_check_title">ምሕዳሳት ፈትሽ</string>
+    <string name="update_channel_name">ምሕዳሳት ኣፕ</string>
+    <string name="update_channel_description">ሓድሽ ሕታም Tubik ምስ ዝህሉ ዝመጽእ መፍለጢታት</string>
+    <string name="update_notification_title">ምሕዳስ Tubik ኣሎ</string>
+    <string name="update_notification_text">ሕታም %1$s ኣብ ቅጥዕታት ድሉው እዩ</string>
+    <string name="update_summary_available">ምሕዳስ ኣሎ: v%1$s (ህሉው: v%2$s)</string>
+    <string name="update_summary_up_to_date">v%1$s • ዝተሓደሰ</string>
+    <string name="update_summary_up_to_date_checked">v%1$s • ዝተሓደሰ (ዝተፈተሸ %2$s)</string>
+    <string name="update_summary_incompatible">v%1$s • v%2$s Android API %3$d የድልዮ</string>
+    <string name="update_summary_unchecked">ህሉው ሕታም: v%1$s • ንምፍታሽ ጠውቕ</string>
+    <string name="update_checking">ምሕዳሳት ይፍተሹ ኣለዉ…</string>
+    <string name="update_check_failed">ምሕዳሳት ክፍተሹ ኣይተኻእለን: %1$s</string>
+    <string name="update_available_header">ሕታም %1$s ኣሎ (ህሉው: v%2$s)</string>
+    <string name="update_size_mb">ዓቐን ምውራድ: %1$.1f MiB</string>
+    <string name="update_release_notes_label">መዘኻኸሪ ሕታም</string>
+    <string name="update_no_release_notes">መዘኻኸሪ ሕታም ኣይቀረበን።</string>
+    <string name="update_download_and_install">ኣውርድን ጽዓንን</string>
+    <string name="update_downloading">ምሕዳስ ይወርድ ኣሎ…</string>
+    <string name="update_downloading_progress">ምሕዳስ ይወርድ ኣሎ (%1$d%%)…</string>
+    <string name="update_verifying">ፌርማን checksumን ይረጋገጹ ኣለዉ…</string>
+    <string name="update_verification_failed">ምርግጋጽ ምሕዳስ ኣይሰለጠን። እቲ ዝወረደ ፋይል ንድሕነት ተደምሲሱ።</string>
+    <string name="update_download_failed">ምውራድ ኣይሰለጠን: %1$s</string>
+    <string name="update_install_starting">ናይ ስርዓት ጸዓኒ ይኽፈት ኣሎ…</string>
+    <string name="update_install_success">ምሕዳስ Tubik ተጻዒኑ</string>
+    <string name="update_install_failed">ምጽዓን ኣይሰለጠን: %1$s</string>
+    <string name="update_unpin_before_install">ምሕዳስ ቅድሚ ምጽዓንካ ስክሪን ፍታሕ። ንምፍታሕ ድሕሪትን ሓፈሻዊ ትርኢትን ጠዊቕካ ሓዝ (ወይ ናብ ላዕሊ ሰሓብ ጌርካ ሓዝ)።</string>
+    <string name="update_unknown_sources_title">ምጽዓን ኣፕ ፍቐድ</string>
+    <string name="update_unknown_sources_message">ምሕዳሳት Tubik ንምጽዓን ኣብ ቅጥዕታት Android ንTubik ዘይፍለጡ ኣፕታት ክጽዕን ፍቐደሉ፣ ድሕሪኡ ናብዚ ተመሊስካ ኣውርድን ጽዓንን ጠውቕ።</string>
+    <string name="update_open_install_permission">ቅጥዕታት ክፈት</string>
+    <string name="update_view_release_notes">መዘኻኸሪ ሕታም</string>
+    <string name="update_check_now">ሕጂ ፈትሽ</string>
+    <string name="update_close">ዕጾ</string>
+    <string name="audio_only_default">ብቅድሚ-ምርጫ ከም ድምጺ ተጻወት</string>
+    <string name="audio_only_default_on">ቪድዮታት እዚ ቻነል ሕጂ ከም ድምጺ ይጻወቱ</string>
+    <string name="audio_only_default_off">ቪድዮታት እዚ ቻነል ሕጂ ከም ቪድዮ ይጻወቱ</string>
+    <string name="series">ተኸታታሊታት</string>
+    <string name="follow_series">ስዐብ</string>
+    <string name="following_series">ትስዕብ ኣለኻ</string>
+    <string name="unfollow_series">ምስዓብ ኣቋርጽ</string>
+    <string name="series_order_playlist">ስርዓት ዝርዝር ምጽዋት</string>
+    <string name="series_order_newest">ሓደሽቲ ቅድም</string>
+    <string name="series_order_oldest">ኣረጊት ቅድም</string>
+    <string name="feed_scope">ኣብ ፊድ</string>
+    <string name="feed_scope_all_uploads">ኩሎም ዝተሰቕሉ</string>
+    <string name="feed_scope_series_only">ተኸታታሊታት ጥራይ</string>
+    <string name="feed_scope_all_uploads_on">ኩሎም ዝተሰቕሉ ናይዚ ቻነል ሕጂ ናብ ፊድ ይበጽሑ</string>
+    <string name="feed_scope_series_only_on">ሕጂ ተኸታታሊታት ናይዚ ቻነል ጥራይ ናብ ፊድ ይበጽሑ</string>
+    <string name="episodes">ክፋላት</string>
+    <string name="episode_listen">ስማዕ</string>
+    <string name="episodes_empty">ዘይተራእየ ክፋል የለን</string>
+    <string name="episode_marked_watched">ከም ዝተራእየ ተመልኪቱ</string>
+    <string name="series_new_episode">ሓድሽ ክፋል</string>
+    <plurals name="series_unwatched_count">
+        <item quantity="one">%1$d ዘይተራእዩ</item>
+        <item quantity="other">%1$d ዘይተራእዩ</item>
+    </plurals>
+    <string name="series_empty_hint">ትምህርትታት፣ ናይ ድምጺ መጻሕፍትን ፈነወታት ሬድዮን ከም ፖድካስት ስዐብ: ዝርዝር ምጽዋት ክፈትን ስዐብ ጠውቕን።</string>
+</resources>
