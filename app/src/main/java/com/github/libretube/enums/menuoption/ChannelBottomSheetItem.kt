@@ -40,6 +40,16 @@ sealed class ChannelBottomSheetItem(
             drawableRes = R.drawable.ic_add_to_bookmark,
         )
 
+    /** A subscription's Feed Scope; changing it never needs the Parent PIN. */
+    data class FeedScope(val seriesOnly: Boolean) :
+        ChannelBottomSheetItem(
+            titleStringRes = R.string.feed_scope,
+            drawableRes = R.drawable.ic_subscriptions,
+            currentStringRes =
+                if (seriesOnly) R.string.feed_scope_series_only
+                else R.string.feed_scope_all_uploads,
+        )
+
     /** The channel's audio-only default; changing it never needs the Parent PIN. */
     data class AudioOnlyDefault(val enabled: Boolean) :
         ChannelBottomSheetItem(

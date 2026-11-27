@@ -50,24 +50,12 @@ class ChannelOptionsBottomSheet : BaseBottomSheet() {
                 ChannelBottomSheetItem.PlayOnBackground,
             )
         if (subscribed) optionsList.add(ChannelBottomSheetItem.AddToGroup)
-        val audioOnlyDefault = ChannelSettingSet.audioOnlyDefault
-        optionsList.add(
-            ChannelBottomSheetItem.AudioOnlyDefault(audioOnlyDefault.isEnabled(channelId)),
-        )
+        optionsList += channelSettingItems()
 
         setItems(optionsList) { which ->
             when (val option = optionsList[which]) {
-                is ChannelBottomSheetItem.AudioOnlyDefault -> {
-                    val enabled = !option.enabled
-                    audioOnlyDefault.set(channelId, enabled)
-                    Toast.makeText(
-                            requireContext(),
-                            if (enabled) R.string.audio_only_default_on
-                            else R.string.audio_only_default_off,
-                            Toast.LENGTH_SHORT,
-                        )
-                        .show()
-                }
+                is ChannelBottomSheetItem.FeedScope,
+                is ChannelBottomSheetItem.AudioOnlyDefault -> toggleChannelSetting(option)
 
                 ChannelBottomSheetItem.Share -> {
                     val bundle =
@@ -134,5 +122,39 @@ class ChannelOptionsBottomSheet : BaseBottomSheet() {
                 }
             }
         }
+    }
+
+    /** Per-channel settings that never weaken protection, so they never need the Parent PIN. */
+    private fun channelSettingItems(): List<ChannelBottomSheetItem> = buildList {
+        if (subscribed) {
+            add(ChannelBottomSheetItem.FeedScope(seriesOnlyFeedScope.isEnabled(channelId)))
+        }
+        add(ChannelBottomSheetItem.AudioOnlyDefault(audioOnlyDefault.isEnabled(channelId)))
+    }
+
+    private fun toggleChannelSetting(option: ChannelBottomSheetItem) {
+        val message =
+            when (option) {
+                is ChannelBottomSheetItem.FeedScope -> {
+                    seriesOnlyFeedScope.set(channelId, !option.seriesOnly)
+                    if (option.seriesOnly) R.string.feed_scope_all_uploads_on
+                    else R.string.feed_scope_series_only_on
+                }
+                is ChannelBottomSheetItem.AudioOnlyDefault -> {
+                    audioOnlyDefault.set(channelId, !option.enabled)
+                    if (option.enabled) R.string.audio_only_default_off
+                    else R.string.audio_only_default_on
+                }
+                else -> return
+            }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private companion object {
+        val seriesOnlyFeedScope
+            get() = ChannelSettingSet.seriesOnlyFeedScope
+
+        val audioOnlyDefault
+            get() = ChannelSettingSet.audioOnlyDefault
     }
 }

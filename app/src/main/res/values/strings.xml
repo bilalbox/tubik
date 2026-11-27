@@ -583,4 +583,9 @@
     <string name="series_order_playlist" tools:ignore="MissingTranslation">Playlist order</string>
     <string name="series_order_newest" tools:ignore="MissingTranslation">Newest first</string>
     <string name="series_order_oldest" tools:ignore="MissingTranslation">Oldest first</string>
+    <string name="feed_scope" tools:ignore="MissingTranslation">In the feed</string>
+    <string name="feed_scope_all_uploads" tools:ignore="MissingTranslation">All uploads</string>
+    <string name="feed_scope_series_only" tools:ignore="MissingTranslation">Series only</string>
+    <string name="feed_scope_all_uploads_on" tools:ignore="MissingTranslation">All of this channel\'s uploads now reach the feed</string>
+    <string name="feed_scope_series_only_on" tools:ignore="MissingTranslation">Only this channel\'s Series now reach the feed</string>
 </resources>

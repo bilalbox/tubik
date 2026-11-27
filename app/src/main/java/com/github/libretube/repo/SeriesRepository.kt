@@ -357,6 +357,7 @@ internal object PreferenceSeriesRefreshPreferences : SeriesRefreshPreferences {
 class SeriesAwareFeedRepository(
     private val delegate: FeedRepository = LocalFeedRepository(),
     private val series: SeriesRepository = SeriesRepository.instance,
+    private val seriesOnlyFeedScope: ChannelSettingSet? = ChannelSettingSet.seriesOnlyFeedScope,
 ) : FeedRepository {
     override suspend fun getFeed(
         refresh: FeedRefresh,
@@ -372,7 +373,11 @@ class SeriesAwareFeedRepository(
         return merged
     }
 
-    override suspend fun removeChannel(channelId: String) = delegate.removeChannel(channelId)
+    /** Unsubscribing also drops the channel's Feed Scope. */
+    override suspend fun removeChannel(channelId: String) {
+        delegate.removeChannel(channelId)
+        seriesOnlyFeedScope?.set(channelId, enabled = false)
+    }
 
     override suspend fun submitFeedItemChange(feedItem: SubscriptionsFeedItem) =
         delegate.submitFeedItemChange(feedItem)
