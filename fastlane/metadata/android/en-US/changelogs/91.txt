@@ -1,0 +1,6 @@
+Tubik v1.3.0:
+
+- Follow playlists as Series: new lectures, audiobook chapters and radio episodes from the playlists you follow now reach your feed. Your playlist bookmarks are Series now, under Series in Library with unwatched counts and a dot for new episodes.
+- New Episodes view on Subscriptions: your unwatched videos as a podcast-style list, with a play button that starts audio and a swipe to mark one watched.
+- Per channel, choose to play its videos as audio by default, and whether a subscription puts all its uploads in the feed or only its Series.
+- Long talks now count as watched once at most 5% is left.
