@@ -338,6 +338,7 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
                     playlistId = playlistId,
                     keepQueue = true,
                 ),
+            ownerChannelId = streamItem.uploaderUrl,
         )
     }
 

@@ -113,6 +113,7 @@ class SearchResultsAdapter(
                 NavigationHelper.navigateVideo(
                     root.context,
                     PlayerData(item.url, timestamp = timeStamp),
+                    ownerChannelId = item.uploaderUrl,
                 )
             }
 

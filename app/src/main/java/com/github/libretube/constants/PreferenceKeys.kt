@@ -110,6 +110,8 @@ object PreferenceKeys {
     const val ALLOWLIST_ENABLED = "allowlist_enabled"
     const val MUSIC_REMOVAL_ENABLED = "music_removal_enabled"
     const val MUSIC_REMOVAL_DISABLED_CHANNELS = "music_removal_disabled_channels"
+    const val AUDIO_ONLY_CHANNELS = "audio_only_channels"
+    const val SERIES_ONLY_FEED_CHANNELS = "series_only_feed_channels"
     const val SCREEN_PIN_ENABLED = "screen_pin_enabled"
     const val SETTINGS_PIN_LOCK_ENABLED = "settings_pin_lock_enabled"
     const val PARENT_PIN_HASH = "parent_pin_hash"

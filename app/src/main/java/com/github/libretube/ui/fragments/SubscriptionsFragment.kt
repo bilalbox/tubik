@@ -328,6 +328,7 @@ class SubscriptionsFragment : DynamicLayoutManagerFragment(R.layout.fragment_sub
                     videoId = streams.first().url,
                     keepQueue = true,
                 ),
+            ownerChannelId = streams.first().uploaderUrl,
         )
     }
 

@@ -2,7 +2,9 @@ package com.github.libretube.ui.sheets
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import com.github.libretube.R
 import com.github.libretube.api.MediaServiceRepository
 import com.github.libretube.constants.IntentData
 import com.github.libretube.enums.ShareObjectType
@@ -14,6 +16,7 @@ import com.github.libretube.helpers.NavigationHelper
 import com.github.libretube.obj.ShareData
 import com.github.libretube.parcelable.PlayerData
 import com.github.libretube.ui.dialogs.ShareDialog
+import com.github.libretube.util.ChannelSettingSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -41,15 +44,31 @@ class ChannelOptionsBottomSheet : BaseBottomSheet() {
         // List that stores the different menu options. In the future could be add more options
         // here.
         val optionsList =
-            mutableListOf(
+            mutableListOf<ChannelBottomSheetItem>(
                 ChannelBottomSheetItem.Share,
                 ChannelBottomSheetItem.PlayLatestVideos,
                 ChannelBottomSheetItem.PlayOnBackground,
             )
         if (subscribed) optionsList.add(ChannelBottomSheetItem.AddToGroup)
+        val audioOnlyDefault = ChannelSettingSet.audioOnlyDefault
+        optionsList.add(
+            ChannelBottomSheetItem.AudioOnlyDefault(audioOnlyDefault.isEnabled(channelId)),
+        )
 
         setItems(optionsList) { which ->
-            when (optionsList[which]) {
+            when (val option = optionsList[which]) {
+                is ChannelBottomSheetItem.AudioOnlyDefault -> {
+                    val enabled = !option.enabled
+                    audioOnlyDefault.set(channelId, enabled)
+                    Toast.makeText(
+                            requireContext(),
+                            if (enabled) R.string.audio_only_default_on
+                            else R.string.audio_only_default_off,
+                            Toast.LENGTH_SHORT,
+                        )
+                        .show()
+                }
+
                 ChannelBottomSheetItem.Share -> {
                     val bundle =
                         bundleOf(

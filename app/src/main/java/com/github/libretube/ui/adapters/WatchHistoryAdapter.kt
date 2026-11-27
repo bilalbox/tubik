@@ -68,7 +68,11 @@ class WatchHistoryAdapter(
             }
 
             root.setOnClickListener {
-                NavigationHelper.navigateVideo(root.context, PlayerData(video.url?.toID()))
+                NavigationHelper.navigateVideo(
+                    root.context,
+                    PlayerData(video.url?.toID()),
+                    ownerChannelId = video.uploaderUrl,
+                )
             }
 
             val activity = (root.context as BaseActivity)

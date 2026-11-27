@@ -79,7 +79,11 @@ class VideosAdapter(
             }
 
             root.setOnClickListener {
-                NavigationHelper.navigateVideo(root.context, PlayerData(videoId))
+                NavigationHelper.navigateVideo(
+                    root.context,
+                    PlayerData(videoId),
+                    ownerChannelId = video.uploaderUrl,
+                )
             }
 
             root.setOnLongClickListener {

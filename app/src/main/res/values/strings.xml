@@ -577,4 +577,8 @@
     <string name="update_view_release_notes" tools:ignore="MissingTranslation">Release notes</string>
     <string name="update_check_now" tools:ignore="MissingTranslation">Check now</string>
     <string name="update_close" tools:ignore="MissingTranslation">Close</string>
+    <!-- Series and Episodes (#17); English only until translated (#16) -->
+    <string name="audio_only_default" tools:ignore="MissingTranslation">Play as audio by default</string>
+    <string name="audio_only_default_on" tools:ignore="MissingTranslation">This channel\'s videos now play as audio</string>
+    <string name="audio_only_default_off" tools:ignore="MissingTranslation">This channel\'s videos now play as video</string>
 </resources>
