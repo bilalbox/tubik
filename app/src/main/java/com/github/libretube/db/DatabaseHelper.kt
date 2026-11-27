@@ -6,6 +6,7 @@ import com.github.libretube.db.obj.SearchHistoryItem
 import com.github.libretube.enums.ContentFilter
 import com.github.libretube.extensions.toID
 import com.github.libretube.repo.LocalUserDataRepository.Companion.ABSOLUTE_WATCHED_THRESHOLD
+import com.github.libretube.repo.LocalUserDataRepository.Companion.RELATIVE_REMAINING_WATCHED_THRESHOLD
 import com.github.libretube.repo.LocalUserDataRepository.Companion.RELATIVE_WATCHED_THRESHOLD
 import com.github.libretube.repo.UserDataRepositoryHelper
 import kotlinx.coroutines.Dispatchers
@@ -35,13 +36,22 @@ object DatabaseHelper {
             return@withContext isVideoWatched(position, duration)
         }
 
+    /**
+     * A video is watched when at most [ABSOLUTE_WATCHED_THRESHOLD] seconds are left after at least
+     * [RELATIVE_WATCHED_THRESHOLD] of it was watched, or when at most
+     * [RELATIVE_REMAINING_WATCHED_THRESHOLD] of it is left. The watch history page query in
+     * `WatchHistoryDao` repeats this rule in SQL and must stay in step with it.
+     */
     fun isVideoWatched(positionMillis: Long, durationSeconds: Long?): Boolean {
-        if (durationSeconds == null) return false
+        if (durationSeconds == null || durationSeconds <= 0) return false
 
         val progress = positionMillis / 1000
+        val remaining = durationSeconds - progress
 
-        return durationSeconds - progress <= ABSOLUTE_WATCHED_THRESHOLD &&
-            progress >= RELATIVE_WATCHED_THRESHOLD * durationSeconds
+        val nearEnd =
+            remaining <= ABSOLUTE_WATCHED_THRESHOLD &&
+                progress >= RELATIVE_WATCHED_THRESHOLD * durationSeconds
+        return nearEnd || remaining <= RELATIVE_REMAINING_WATCHED_THRESHOLD * durationSeconds
     }
 
     suspend fun filterUnwatched(streams: List<StreamItem>): List<StreamItem> {

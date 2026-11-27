@@ -235,6 +235,9 @@ dependencies {
     /* Testing */
     testImplementation(libs.junit)
     testImplementation(libs.onnxruntime.jvm)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.robolectric.annotations)
+    testImplementation(libs.robolectric.shadows.framework)
 }
 
 // TODO: exclude from release protobuf

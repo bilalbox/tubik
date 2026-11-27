@@ -29,6 +29,7 @@ class LocalUserDataRepositoryTest {
             watched: Boolean?,
             absoluteWatchedThresholdSeconds: Float,
             relativeWatchedThreshold: Float,
+            relativeRemainingWatchedThreshold: Float,
         ): List<WatchHistoryRow> =
             watchHistoryRows
                 .filter { it.rowId <= cursor }

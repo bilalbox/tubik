@@ -29,6 +29,7 @@ interface LocalUserDataSource {
         watched: Boolean?,
         absoluteWatchedThresholdSeconds: Float,
         relativeWatchedThreshold: Float,
+        relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow>
 
     suspend fun getPlaylistBookmarks(): List<PlaylistBookmark>
@@ -44,6 +45,7 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
         watched: Boolean?,
         absoluteWatchedThresholdSeconds: Float,
         relativeWatchedThreshold: Float,
+        relativeRemainingWatchedThreshold: Float,
     ): List<WatchHistoryRow> =
         Database.watchHistoryDao()
             .getPage(
@@ -52,6 +54,7 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
                 watched = watched,
                 absoluteWatchedThresholdSeconds = absoluteWatchedThresholdSeconds,
                 relativeWatchedThreshold = relativeWatchedThreshold,
+                relativeRemainingWatchedThreshold = relativeRemainingWatchedThreshold,
             )
 
     override suspend fun getPlaylistBookmarks(): List<PlaylistBookmark> =
@@ -327,6 +330,7 @@ class LocalUserDataRepository(
                 watched = watchedState.isWatched,
                 absoluteWatchedThresholdSeconds = ABSOLUTE_WATCHED_THRESHOLD,
                 relativeWatchedThreshold = RELATIVE_WATCHED_THRESHOLD,
+                relativeRemainingWatchedThreshold = RELATIVE_REMAINING_WATCHED_THRESHOLD,
             )
 
         val nextCursor = rows.lastOrNull()?.rowId?.minus(1)?.takeIf { rows.size == pageSize }
@@ -367,5 +371,8 @@ class LocalUserDataRepository(
 
         // can only mark as watched if at least 75% watched
         const val RELATIVE_WATCHED_THRESHOLD = 0.75f
+
+        // also watched when at most 5% is left, so long talks with a long outro count as watched
+        const val RELATIVE_REMAINING_WATCHED_THRESHOLD = 0.05f
     }
 }
