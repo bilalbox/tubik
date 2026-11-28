@@ -107,6 +107,11 @@ def build_manifest(
     min_supported_version_code: int | None = None,
 ) -> dict[str, object]:
     """Build the /updates/latest.json payload matching Spec #11 schema."""
+    expected_tag = f"v{version_name}"
+    if tag != expected_tag:
+        raise ValueError(
+            f"Release tag {tag!r} does not match app versionName {version_name!r} (expected {expected_tag!r})"
+        )
     normalized_sha = sha256.strip().lower()
     if not RE_SHA256.match(normalized_sha):
         raise ValueError(f"Invalid SHA-256 hex digest: {sha256!r}")

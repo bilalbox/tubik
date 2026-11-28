@@ -323,6 +323,19 @@ class UpdateWebsiteManifestTest(unittest.TestCase):
             self.assertNotEqual(raised.exception.code, 0)
             self.assertEqual(manifest_path.read_text(encoding="utf-8"), "{}")
 
+    def test_build_manifest_rejects_tag_version_mismatch(self):
+        with self.assertRaises(ValueError):
+            build_manifest(
+                tag="v1.3.2",
+                version_code=92,
+                version_name="1.3.1",
+                min_sdk=26,
+                sha256="a" * 64,
+                size_bytes=48123456,
+                changelog="Mismatch",
+                published_at="2026-11-28T07:37:57Z",
+            )
+
     def test_validate_manifest_rejects_min_supported_above_version_code(self):
         with self.assertRaises(ManifestError):
             validate_manifest(live_manifest(minSupportedVersionCode=86))

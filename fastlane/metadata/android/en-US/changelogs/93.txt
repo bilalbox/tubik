@@ -1,0 +1,5 @@
+Tubik v1.3.2:
+
+- Security: upgraded Parent PIN storage to PBKDF2-HMAC-SHA256 with retry backoff, disabled Android Auto Backup, hardened network security config, and tightened in-app updater verification.
+- Reliability: fixed audio worker and player service races, download queue/resume and cleanup issues, notification worker bugs, and local playlist removal.
+- Performance: faster feed refreshes and watch-position lookups.

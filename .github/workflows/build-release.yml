@@ -28,6 +28,24 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Verify release tag matches app versionName
+        if: github.ref_type == 'tag'
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, sys
+          sys.path.insert(0, "tools/release")
+          from update_website_manifest import parse_gradle_version
+
+          _, version_name, _ = parse_gradle_version(
+              pathlib.Path("app/build.gradle.kts").read_text(encoding="utf-8")
+          )
+          tag = os.environ["GITHUB_REF_NAME"]
+          expected = f"v{version_name}"
+          if tag != expected:
+              sys.exit(f"Release tag {tag!r} does not match app/build.gradle.kts versionName {version_name!r} (expected {expected!r})")
+          print(f"Verified tag {tag} matches versionName {version_name}")
+          PY
+
       - uses: ./.github/actions/setup-android
 
       - name: Configure release signing
