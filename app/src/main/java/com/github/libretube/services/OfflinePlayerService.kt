@@ -18,6 +18,7 @@ import com.github.libretube.R
 import com.github.libretube.constants.IntentData
 import com.github.libretube.db.DatabaseHelper
 import com.github.libretube.db.DatabaseHolder.Database
+import com.github.libretube.db.obj.Download
 import com.github.libretube.db.obj.DownloadWithItems
 import com.github.libretube.db.obj.filterByTab
 import com.github.libretube.enums.FileType
@@ -34,14 +35,21 @@ import com.github.libretube.ui.activities.NoInternetActivity
 import com.github.libretube.ui.fragments.DownloadTab
 import com.github.libretube.ui.fragments.DownloadsFragmentPage.Companion.sortDownloadList
 import com.github.libretube.util.AccessControl
+import com.github.libretube.util.AllowedSnapshot
 import com.github.libretube.util.PlayingQueue
 import com.github.libretube.util.normalizeChannelId
 import kotlin.io.path.exists
-import kotlinx.coroutines.CoroutineScope
+import kotlin.random.Random
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+
+internal fun selectAllowedShuffleDownloadId(
+    downloads: List<Download>,
+    snapshot: AllowedSnapshot,
+    random: Random = Random.Default,
+): String? =
+    downloads.filter { snapshot.isChannelAllowed(it.uploaderUrl) }.randomOrNull(random)?.videoId
 
 /** A service to play downloaded audio in the background */
 @OptIn(UnstableApi::class)
@@ -51,8 +59,6 @@ open class OfflinePlayerService : AbstractPlayerService() {
 
     private var downloadWithItems: DownloadWithItems? = null
     private lateinit var playerData: PlayerData
-
-    private val scope = CoroutineScope(Dispatchers.Main)
 
     private val playerListener =
         object : Player.Listener {
@@ -69,7 +75,7 @@ open class OfflinePlayerService : AbstractPlayerService() {
                             ?.toStreamItem()
                             ?.toWatchHistoryEntry(exoPlayer?.currentPosition) ?: return
 
-                    scope.launch(Dispatchers.IO) {
+                    serviceScope.launch(Dispatchers.IO) {
                         runCatching {
                             UserDataRepositoryHelper.userDataRepository.addToWatchHistory(
                                 watchHistoryEntry,
@@ -91,21 +97,21 @@ open class OfflinePlayerService : AbstractPlayerService() {
 
         this.videoId =
             if (playerData.shuffle) {
-                runBlocking(Dispatchers.IO) {
+                withContext(Dispatchers.IO) {
+                    val snapshot = AccessControl.instance.snapshot()
+                    val candidates =
                         if (playerData.downloadTab == DownloadTab.PLAYLIST) {
                             Database.downloadDao()
                                 .getDownloadPlaylistById(playerData.playlistId!!)
                                 .downloadVideos
-                                .randomOrNull()
                         } else {
                             Database.downloadDao()
                                 .getAll()
                                 .filterByTab(playerData.downloadTab!!)
-                                .randomOrNull()
-                                ?.download
+                                .map { it.download }
                         }
-                    }
-                    ?.videoId
+                    selectAllowedShuffleDownloadId(candidates, snapshot)
+                }
             } else {
                 playerData.videoId
             } ?: return
@@ -280,6 +286,5 @@ open class OfflinePlayerService : AbstractPlayerService() {
     /** Stop the service when app is removed from the task manager. */
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
-        onDestroy()
     }
 }

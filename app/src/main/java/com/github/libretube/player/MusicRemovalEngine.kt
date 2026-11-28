@@ -482,12 +482,10 @@ class MusicRemovalEngine(
         }
 
         fun close() {
-            if (hasProcessedHops) {
-                hasProcessedHops = false
-                runCatching { primaryModel?.close() }
-                runCatching { fallbackModel?.close() }
-                runCatching { resolvedGate?.close() }
-            }
+            hasProcessedHops = false
+            runCatching { primaryModel?.close() }
+            runCatching { fallbackModel?.close() }
+            runCatching { resolvedGate?.close() }
             primaryModel = null
             fallbackModel = null
             resolvedGate = null

@@ -49,6 +49,7 @@ import com.github.libretube.util.PlayingQueueMode
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -72,7 +73,8 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
     var isTransitioning = false
         private set
 
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    protected val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var transitionJob: Job? = null
     @Volatile private var sessionGeneration = 0L
     @Volatile
     protected var sessionToken: Long = 0L
@@ -321,9 +323,8 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
 
         this.videoId = videoId
 
-        CoroutineScope(Dispatchers.IO).launch {
-            startPlayback()
-        }
+        transitionJob?.cancel()
+        transitionJob = serviceScope.launch(Dispatchers.IO) { startPlayback() }
     }
 
     protected fun setSponsorBlockSegments(segments: List<Segment>) {

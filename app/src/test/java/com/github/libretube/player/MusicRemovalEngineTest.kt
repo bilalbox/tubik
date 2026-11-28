@@ -532,4 +532,19 @@ class MusicRemovalEngineTest {
         assertTrue("Expected 12 kHz attenuated < 0.01 RMS, got $alias12k", alias12k < 0.01f)
         assertTrue("Expected 14 kHz attenuated < 0.003 RMS, got $alias14k", alias14k < 0.003f)
     }
+
+    @Test
+    fun `close after ensureGeometry without processing hops still closes loaded model`() {
+        val model = FakeSpeechModel()
+        val engine = MusicRemovalEngine(modelProvider = { model })
+
+        engine.ensureGeometry()
+        assertTrue(engine.hasInitializedPrimaryModel)
+        assertEquals(0, model.processHopCalls)
+
+        engine.close()
+        assertEquals(1, model.closeCalls)
+        assertFalse(model.isLoaded)
+        assertFalse(engine.hasInitializedPrimaryModel)
+    }
 }

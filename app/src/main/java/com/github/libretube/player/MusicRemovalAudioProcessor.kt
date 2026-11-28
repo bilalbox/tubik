@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.LockSupport
+import java.util.concurrent.locks.ReentrantLock
 
 /** One hop of audio plus what the producer, worker and drain need to know about it. */
 private class HopSlot(hopSize: Int) {
@@ -111,13 +112,17 @@ class MusicRemovalAudioProcessor(
 ) : BaseAudioProcessor() {
 
     private val effectiveRingCapacity = ringBufferCapacityHops.coerceAtLeast(2)
-    private var inputRing = SpscHopRingBuffer(effectiveRingCapacity, engine.hopSize)
-    private var outputRing = SpscHopRingBuffer(effectiveRingCapacity, engine.hopSize)
+    @Volatile private var inputRing = SpscHopRingBuffer(effectiveRingCapacity, engine.hopSize)
+    @Volatile private var outputRing = SpscHopRingBuffer(effectiveRingCapacity, engine.hopSize)
 
     private val flushGeneration = AtomicLong(0L)
     private val workerHandledFlushGen = AtomicLong(0L)
+    private val nextWorkerId = AtomicLong(0L)
+    private val activeWorkerId = AtomicLong(0L)
     private val workerRunning = AtomicBoolean(false)
     private val workerInFlight = AtomicBoolean(false)
+    private val workerLifecycleLock = Any()
+    private val workerExecutionLock = ReentrantLock()
     private val overloadStateLock = Any()
     private val outputWaiterThread = AtomicReference<Thread?>(null)
     private val workerThreadRef = AtomicReference<Thread?>(null)
@@ -160,7 +165,7 @@ class MusicRemovalAudioProcessor(
         if (!isMusicRemovalEnabled()) {
             return inputAudioFormat
         }
-        syncEngineGeometry()
+        trySyncEngineGeometry()
         return AudioFormat(targetSampleRate, 1, C.ENCODING_PCM_16BIT)
     }
 
@@ -179,7 +184,7 @@ class MusicRemovalAudioProcessor(
 
         if (isEnabled && hopFill == 0) {
             if (!engine.hasInitializedPrimaryModel && !workerRunning.get()) {
-                syncEngineGeometry()
+                trySyncEngineGeometry()
             }
         }
         ensureWorkerStarted()
@@ -255,12 +260,18 @@ class MusicRemovalAudioProcessor(
 
     override fun onReset() {
         onFlush()
-        stopWorker()
+        val workerStopped = stopWorker()
         while (outputRing.discardOne()) {
             // Ensure outputRing is empty after worker exit
         }
-        while (inputRing.discardOne()) {
-            // Ensure inputRing is empty after worker exit
+        if (workerStopped && workerExecutionLock.tryLock()) {
+            try {
+                while (inputRing.discardOne()) {
+                    // Ensure inputRing is empty after worker exit
+                }
+            } finally {
+                workerExecutionLock.unlock()
+            }
         }
         clearOverloadMute()
     }
@@ -477,6 +488,15 @@ class MusicRemovalAudioProcessor(
         }
     }
 
+    private fun trySyncEngineGeometry() {
+        if (!workerExecutionLock.tryLock()) return
+        try {
+            syncEngineGeometry()
+        } finally {
+            workerExecutionLock.unlock()
+        }
+    }
+
     private fun syncEngineGeometry() {
         val geometry = engine.ensureGeometry()
         if (geometry.sampleRate == targetSampleRate && geometry.hopSize == targetHopSize) return
@@ -493,34 +513,41 @@ class MusicRemovalAudioProcessor(
     }
 
     private fun ensureWorkerStarted() {
-        if (workerRunning.get()) return
-        if (!workerRunning.compareAndSet(false, true)) return
-        val thread = Thread({ runWorkerLoop() }, "MusicRemoval-Worker").apply { isDaemon = true }
-        workerThreadRef.set(thread)
-        thread.start()
+        synchronized(workerLifecycleLock) {
+            if (workerRunning.get()) return
+            val workerId = nextWorkerId.incrementAndGet()
+            activeWorkerId.set(workerId)
+            workerRunning.set(true)
+            val thread =
+                Thread({ runWorkerLoop(workerId) }, "MusicRemoval-Worker").apply {
+                    isDaemon = true
+                }
+            workerThreadRef.set(thread)
+            thread.start()
+        }
     }
 
-    private fun stopWorker() {
-        if (!workerRunning.compareAndSet(true, false)) {
-            workerThreadRef.getAndSet(null)?.let { t ->
-                LockSupport.unpark(t)
-                runCatching { t.join(WORKER_JOIN_TIMEOUT_MS) }
-            }
-            return
+    private fun stopWorker(): Boolean {
+        val thread: Thread?
+        synchronized(workerLifecycleLock) {
+            workerRunning.set(false)
+            thread = workerThreadRef.getAndSet(null)
         }
-        val thread = workerThreadRef.getAndSet(null)
         if (thread != null) {
             LockSupport.unpark(thread)
             if (Thread.currentThread() !== thread) {
                 runCatching { thread.join(WORKER_JOIN_TIMEOUT_MS) }
             }
+            return !thread.isAlive
         }
+        return true
     }
 
-    private fun runWorkerLoop() {
+    private fun runWorkerLoop(myWorkerId: Long) {
         runCatching { Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO) }
+        workerExecutionLock.lock()
         try {
-            while (workerRunning.get()) {
+            while (isActiveWorker(myWorkerId)) {
                 handlePendingWorkerFlush()
                 workerInFlight.set(true)
 
@@ -541,7 +568,7 @@ class MusicRemovalAudioProcessor(
                 if (!polled) {
                     workerInFlight.set(false)
                     LockSupport.unpark(outputWaiterThread.get())
-                    if (!workerRunning.get()) break
+                    if (!isActiveWorker(myWorkerId)) break
                     if (
                         !inputRing.isEmpty || workerHandledFlushGen.get() != flushGeneration.get()
                     ) {
@@ -551,7 +578,8 @@ class MusicRemovalAudioProcessor(
                     continue
                 }
 
-                if (!isCurrentGeneration(polledGen)) {
+                if (!isCurrentGeneration(polledGen, myWorkerId)) {
+                    if (!isActiveWorker(myWorkerId)) break
                     handlePendingWorkerFlush()
                     continue
                 }
@@ -563,31 +591,44 @@ class MusicRemovalAudioProcessor(
                         enabled = polledEnabled,
                         previousEnabled = polledPrevEnabled,
                     ) { chunk ->
-                        syncOverloadMuteForGeneration(engine.isMutedForOverload, polledGen)
-                        offerOutput(chunk, polledGen)
+                        syncOverloadMuteForGeneration(
+                            engine.isMutedForOverload,
+                            polledGen,
+                            myWorkerId,
+                        )
+                        offerOutput(chunk, polledGen, myWorkerId)
                     }
                     continue
                 }
 
                 val output = engine.processHop(workerInHop, polledEnabled, polledPrevEnabled)
-                if (!isCurrentGeneration(polledGen)) {
+                if (!isCurrentGeneration(polledGen, myWorkerId)) {
+                    if (!isActiveWorker(myWorkerId)) break
                     handlePendingWorkerFlush()
                     continue
                 }
-                syncOverloadMuteForGeneration(engine.isMutedForOverload, polledGen)
-                offerOutput(output, polledGen)
+                syncOverloadMuteForGeneration(engine.isMutedForOverload, polledGen, myWorkerId)
+                offerOutput(output, polledGen, myWorkerId)
             }
         } finally {
-            workerInFlight.set(false)
-            engine.close()
-            workerThreadRef.compareAndSet(Thread.currentThread(), null)
-            workerRunning.set(false)
+            try {
+                workerInFlight.set(false)
+                synchronized(workerLifecycleLock) {
+                    if (activeWorkerId.get() == myWorkerId) {
+                        engine.close()
+                        workerThreadRef.compareAndSet(Thread.currentThread(), null)
+                        workerRunning.set(false)
+                    }
+                }
+            } finally {
+                workerExecutionLock.unlock()
+            }
             LockSupport.unpark(outputWaiterThread.get())
         }
     }
 
-    private fun offerOutput(output: HopOutput, gen: Long): Boolean {
-        while (isCurrentGeneration(gen)) {
+    private fun offerOutput(output: HopOutput, gen: Long, workerId: Long): Boolean {
+        while (isCurrentGeneration(gen, workerId)) {
             val offered =
                 outputRing.offer(output.samples) {
                     generation = gen
@@ -620,10 +661,14 @@ class MusicRemovalAudioProcessor(
         workerHandledFlushGen.set(currentGen)
     }
 
-    private fun syncOverloadMuteForGeneration(muted: Boolean, expectedGen: Long) {
+    private fun syncOverloadMuteForGeneration(
+        muted: Boolean,
+        expectedGen: Long,
+        workerId: Long,
+    ) {
         var changedTo: Boolean? = null
         synchronized(overloadStateLock) {
-            if (flushGeneration.get() != expectedGen || !workerRunning.get()) return
+            if (flushGeneration.get() != expectedGen || !isActiveWorker(workerId)) return
             if (isMutedForOverload != muted) {
                 isMutedForOverload = muted
                 changedTo = muted
@@ -646,8 +691,11 @@ class MusicRemovalAudioProcessor(
         }
     }
 
-    private fun isCurrentGeneration(gen: Long): Boolean =
-        workerRunning.get() && flushGeneration.get() == gen
+    private fun isActiveWorker(workerId: Long): Boolean =
+        workerRunning.get() && activeWorkerId.get() == workerId
+
+    private fun isCurrentGeneration(gen: Long, workerId: Long): Boolean =
+        isActiveWorker(workerId) && flushGeneration.get() == gen
 
     private fun hasPendingAsyncWork(): Boolean = !inputRing.isEmpty || workerInFlight.get()
 
