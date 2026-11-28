@@ -10,6 +10,7 @@ import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.api.obj.WatchHistoryEntryMetadata
 import com.github.libretube.constants.IntentData
 import com.github.libretube.constants.PreferenceKeys
+import com.github.libretube.db.DatabaseHelper
 import com.github.libretube.enums.ShareObjectType
 import com.github.libretube.enums.menuoption.VideoBottomSheetItem
 import com.github.libretube.extensions.parcelable
@@ -217,14 +218,16 @@ class VideoOptionsBottomSheet : BaseBottomSheet() {
 
         // show the mark as watched or unwatched option if watch positions are enabled
         lifecycleScope.launch(Dispatchers.IO) {
-            val watchHistoryEntry =
-                UserDataRepositoryHelper.userDataRepository.getFromWatchHistory(videoId)
+            val watchPosition = DatabaseHelper.getWatchPosition(videoId)
 
-            if (watchHistoryEntry != null) {
+            if (watchPosition != null) {
                 optionsList += VideoBottomSheetItem.MarkAsUnwatched
             }
 
-            if (watchHistoryEntry?.metadata?.finished != true) {
+            val isWatched =
+                watchPosition != null &&
+                    DatabaseHelper.isVideoWatched(watchPosition, streamItem.duration)
+            if (!isWatched) {
                 optionsList += VideoBottomSheetItem.MarkAsWatched
             }
 

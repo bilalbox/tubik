@@ -88,6 +88,10 @@ interface UserDataRepository {
 
     suspend fun clearWatchHistory()
 
+    suspend fun getWatchPosition(videoId: String): Long? = null
+
+    suspend fun getWatchPositions(videoIds: Collection<String>): Map<String, Long> = emptyMap()
+
     /** Series visible under the Allowlist; following goes through [SeriesRepository]. */
     suspend fun getSeriesList(): List<Series>
 

@@ -313,21 +313,44 @@ class SeriesRepository(
      */
     suspend fun summaries(
         isWatched: suspend (videoId: String, durationSeconds: Long?) -> Boolean,
-    ): Map<String, SeriesSummary> {
-        val snapshot = accessControl.snapshot()
-        val videosBySeries =
-            store
-                .getAllVideos()
-                .filter { snapshot.isChannelAllowed(it.uploaderUrl) }
-                .groupBy { it.seriesId }
-        return visibleSeries().associate { series ->
-            val videos = videosBySeries[series.playlistId].orEmpty()
-            series.playlistId to
-                SeriesSummary(
-                    unwatched = videos.count { !isWatched(it.videoId, it.duration) },
-                    hasNewEpisode = videos.any { it.foundAt > series.lastOpened },
-                )
+    ): Map<String, SeriesSummary> =
+        computeSeriesSummaries(visibleSeries(), allowedVideosBySeries()) { video ->
+            isWatched(video.videoId, video.duration)
         }
+
+    /**
+     * Batch-fetches watch positions once for all visible Series' videos via [getWatchPositions],
+     * avoiding per-video queries.
+     */
+    suspend fun summaries(
+        getWatchPositions: suspend (Collection<String>) -> Map<String, Long>,
+        isWatched: (positionMillis: Long, durationSeconds: Long?) -> Boolean,
+    ): Map<String, SeriesSummary> {
+        val visible = visibleSeries()
+        val videosBySeries = allowedVideosBySeries()
+        val visibleIds = visible.mapTo(mutableSetOf()) { it.playlistId }
+        val videoIds =
+            videosBySeries.entries
+                .asSequence()
+                .filter { it.key in visibleIds }
+                .flatMap { it.value }
+                .map { it.videoId }
+                .toList()
+        val positions = getWatchPositions(videoIds)
+        return computeSeriesSummaries(visible, videosBySeries) { video ->
+            val position = positions[video.videoId] ?: return@computeSeriesSummaries false
+            isWatched(position, video.duration)
+        }
+    }
+
+    private suspend fun allowedVideosBySeries(): Map<String, List<SeriesVideo>> {
+        val snapshot = accessControl.snapshot()
+        return store
+            .getAllVideos()
+            .filter { snapshot.isChannelAllowed(it.uploaderUrl) }
+            .groupBy {
+                it.seriesId
+            }
     }
 
     companion object {
@@ -337,6 +360,19 @@ class SeriesRepository(
             SeriesRepository(seriesOnlyFeedScope = ChannelSettingSet.seriesOnlyFeedScope)
         }
     }
+}
+
+private inline fun computeSeriesSummaries(
+    visible: List<Series>,
+    videosBySeries: Map<String, List<SeriesVideo>>,
+    isWatched: (SeriesVideo) -> Boolean,
+): Map<String, SeriesSummary> = visible.associate { series ->
+    val videos = videosBySeries[series.playlistId].orEmpty()
+    series.playlistId to
+        SeriesSummary(
+            unwatched = videos.count { !isWatched(it) },
+            hasNewEpisode = videos.any { it.foundAt > series.lastOpened },
+        )
 }
 
 internal object RoomSeriesStore : SeriesStore {

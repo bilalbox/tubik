@@ -175,9 +175,10 @@ class LibraryFragment : DynamicLayoutManagerFragment(R.layout.fragment_library) 
             val summaries =
                 withContext(Dispatchers.IO) {
                     runCatching {
-                            SeriesRepository.instance.summaries { videoId, duration ->
-                                DatabaseHelper.isVideoWatched(videoId, duration ?: 0)
-                            }
+                            SeriesRepository.instance.summaries(
+                                getWatchPositions = DatabaseHelper::getWatchPositions,
+                                isWatched = DatabaseHelper::isVideoWatched,
+                            )
                         }
                         .getOrDefault(emptyMap())
                 }

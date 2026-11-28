@@ -33,6 +33,10 @@ interface LocalUserDataSource {
     ): List<WatchHistoryRow>
 
     suspend fun getSeriesList(): List<Series>
+
+    suspend fun getWatchPosition(videoId: String): Long?
+
+    suspend fun getWatchPositions(videoIds: List<String>): List<WatchPosition>
 }
 
 internal object RoomLocalUserDataSource : LocalUserDataSource {
@@ -58,6 +62,12 @@ internal object RoomLocalUserDataSource : LocalUserDataSource {
             )
 
     override suspend fun getSeriesList(): List<Series> = Database.seriesDao().getAll()
+
+    override suspend fun getWatchPosition(videoId: String): Long? =
+        Database.watchPositionDao().findById(videoId)?.position
+
+    override suspend fun getWatchPositions(videoIds: List<String>): List<WatchPosition> =
+        Database.watchPositionDao().findByIds(videoIds)
 }
 
 class LocalUserDataRepository(
@@ -349,10 +359,27 @@ class LocalUserDataRepository(
         Database.watchHistoryDao().deleteAll()
     }
 
+    override suspend fun getWatchPosition(videoId: String): Long? =
+        localDataSource.getWatchPosition(videoId)
+
+    override suspend fun getWatchPositions(videoIds: Collection<String>): Map<String, Long> {
+        if (videoIds.isEmpty()) return emptyMap()
+        return buildMap {
+            for (chunk in videoIds.distinct().chunked(WATCH_POSITION_BATCH_SIZE)) {
+                for (watchPosition in localDataSource.getWatchPositions(chunk)) {
+                    put(watchPosition.videoId, watchPosition.position)
+                }
+            }
+        }
+    }
+
     override suspend fun getSeriesList(): List<Series> =
         accessControl.snapshot().filterSeries(localDataSource.getSeriesList())
 
     companion object {
+        // SQLite's bind parameter limit is 999; keep IN(...) batches comfortably below it.
+        private const val WATCH_POSITION_BATCH_SIZE = 900
+
         // can only mark as watched if less than 60s remaining
         const val ABSOLUTE_WATCHED_THRESHOLD = 60.0f
 

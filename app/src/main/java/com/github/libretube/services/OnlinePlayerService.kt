@@ -265,15 +265,11 @@ open class OnlinePlayerService : AbstractPlayerService() {
             exoPlayer?.seekTo(seekToPositionMs)
         } else if (watchPositionsEnabled) {
             scope.launch(Dispatchers.IO) {
-                UserDataRepositoryHelper.userDataRepository
-                    .getFromWatchHistory(videoId)
-                    ?.metadata
-                    ?.positionMillis
-                    ?.let {
-                        if (!DatabaseHelper.isVideoWatched(it, streams?.duration)) {
-                            withContext(Dispatchers.Main) { exoPlayer?.seekTo(it) }
-                        }
+                DatabaseHelper.getWatchPosition(videoId)?.let {
+                    if (!DatabaseHelper.isVideoWatched(it, streams?.duration)) {
+                        withContext(Dispatchers.Main) { exoPlayer?.seekTo(it) }
                     }
+                }
             }
         }
 

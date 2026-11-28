@@ -6,6 +6,7 @@ import com.github.libretube.db.obj.LocalPlaylistItem
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.Series
 import com.github.libretube.db.obj.WatchHistoryItem
+import com.github.libretube.db.obj.WatchPosition
 import com.github.libretube.enums.WatchHistoryStatus
 import com.github.libretube.util.AccessControl
 import com.github.libretube.util.InMemoryAccessControlStorage
@@ -20,7 +21,10 @@ class LocalUserDataRepositoryTest {
         var playlists: List<LocalPlaylistWithVideos> = emptyList(),
         var watchHistoryRows: List<WatchHistoryRow> = emptyList(),
         var bookmarks: List<Series> = emptyList(),
+        var watchPositions: Map<String, Long> = emptyMap(),
     ) : LocalUserDataSource {
+        val requestedWatchPositionBatches = mutableListOf<List<String>>()
+
         override suspend fun getLocalPlaylists(): List<LocalPlaylistWithVideos> = playlists
 
         override suspend fun getWatchHistoryPage(
@@ -37,6 +41,13 @@ class LocalUserDataRepositoryTest {
                 .take(limit)
 
         override suspend fun getSeriesList(): List<Series> = bookmarks
+
+        override suspend fun getWatchPosition(videoId: String): Long? = watchPositions[videoId]
+
+        override suspend fun getWatchPositions(videoIds: List<String>): List<WatchPosition> {
+            requestedWatchPositionBatches += videoIds
+            return videoIds.mapNotNull { id -> watchPositions[id]?.let { WatchPosition(id, it) } }
+        }
     }
 
     private fun samplePlaylist(
@@ -172,5 +183,29 @@ class LocalUserDataRepositoryTest {
                 listOf("pl_allowed", "pl_blocked"),
                 repo.getSeriesList().map { it.playlistId },
             )
+        }
+
+    @Test
+    fun `getWatchPosition and getWatchPositions query watch positions directly and chunk batches`() =
+        runBlocking {
+            val positions = (1..950).associate { "v_$it" to it * 1_000L }
+            val dataSource = FakeLocalUserDataSource(watchPositions = positions)
+            val repo =
+                LocalUserDataRepository(
+                    accessControl = accessControl(isAllowlistEnabled = { false }),
+                    localDataSource = dataSource,
+                )
+
+            assertEquals(42_000L, repo.getWatchPosition("v_42"))
+            assertNull(repo.getWatchPosition("missing"))
+
+            assertEquals(emptyMap<String, Long>(), repo.getWatchPositions(emptyList()))
+            assertEquals(0, dataSource.requestedWatchPositionBatches.size)
+
+            val queryIds = positions.keys.toList() + listOf("v_1", "v_42", "missing")
+            val result = repo.getWatchPositions(queryIds)
+
+            assertEquals(positions, result)
+            assertEquals(listOf(900, 51), dataSource.requestedWatchPositionBatches.map { it.size })
         }
 }

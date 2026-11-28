@@ -22,12 +22,18 @@ object DatabaseHelper {
         Database.searchHistoryDao().deleteAllExceptLatest(MAX_SEARCH_HISTORY_SIZE)
     }
 
-    suspend fun getWatchPosition(videoId: String) = runCatching {
-        UserDataRepositoryHelper.userDataRepository.getFromWatchHistory(videoId)
+    suspend fun getWatchPosition(videoId: String): Long? = runCatching {
+        UserDataRepositoryHelper.userDataRepository.getWatchPosition(videoId)
     }
         .getOrNull()
-        ?.metadata
-        ?.positionMillis
+
+    suspend fun getWatchPositions(videoIds: Collection<String>): Map<String, Long> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                    UserDataRepositoryHelper.userDataRepository.getWatchPositions(videoIds)
+                }
+                .getOrDefault(emptyMap())
+        }
 
     suspend fun isVideoWatched(videoId: String, duration: Long): Boolean =
         withContext(Dispatchers.IO) {
@@ -55,10 +61,16 @@ object DatabaseHelper {
     }
 
     suspend fun filterUnwatched(streams: List<StreamItem>): List<StreamItem> {
-        return streams.filter {
-            !isVideoWatched(it.url.orEmpty().toID(), it.duration ?: 0)
-        }
+        val positions = getWatchPositions(streams.mapNotNull { it.url?.toID() })
+        return filterUnwatched(streams, positions)
     }
+
+    fun filterUnwatched(streams: List<StreamItem>, positions: Map<String, Long>): List<StreamItem> =
+        streams.filter { stream ->
+            val videoId = stream.url.orEmpty().toID()
+            val position = positions[videoId] ?: return@filter true
+            !isVideoWatched(position, stream.duration ?: 0)
+        }
 
     suspend fun filterByStreamTypeAndWatchPosition(
         streams: List<StreamItem>,
