@@ -72,7 +72,7 @@ Details on what stays on the device and what network requests the app makes are 
 
 ## Security & Verification
 
-Official Tubik APKs are built and signed exclusively by GitHub Actions using APK Signature Scheme v2 and v3 (with v1 JAR signing disabled).
+Official Tubik APKs are built and signed exclusively by GitHub Actions using APK Signature Scheme v2 and v3 (with v1 JAR signing disabled). Every push, pull request, and weekly schedule runs automated **CodeQL** static analysis across the app's Kotlin/Java and native C/C++ code, release tooling (Python/JavaScript), and GitHub Actions workflows to catch security vulnerabilities and supply-chain attacks, alongside dependency vulnerability scanning (`osv-scanner`) and secret scanning. See [SECURITY.md](SECURITY.md) for supported versions and vulnerability reporting.
 
 ### Signing certificate fingerprint
 
