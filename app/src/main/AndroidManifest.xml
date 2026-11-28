@@ -22,7 +22,9 @@
 
     <application
         android:name=".LibreTubeApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
         android:banner="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"
         android:hardwareAccelerated="true"
