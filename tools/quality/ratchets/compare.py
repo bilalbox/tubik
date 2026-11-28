@@ -10,9 +10,11 @@ Contract:
 - floor (coverage): score below baseline.floor fails
 - empty coverage baseline: only floor is enforced (adopt / greenfield)
 - --update rewrites the baseline to current findings, refused when CI=true
+- --prune removes stale rows and tightens improved scores without adding novel
+  findings or loosening regressed scores, refused when CI=true
 
 Usage: python3 tools/quality/ratchets/compare.py \\
-  --baseline <path> --findings <path> [--update] [--result-json <path>]
+  --baseline <path> --findings <path> [--update|--prune] [--result-json <path>]
 """
 
 from __future__ import annotations
@@ -119,11 +121,54 @@ def rewrite_baseline(previous: dict[str, Any], current: list[dict[str, Any]]) ->
         findings.append(row)
 
     out: dict[str, Any] = {"version": 1, "findings": findings}
-    if "worseWhen" in previous:
-        out["worseWhen"] = previous["worseWhen"]
-    if "floor" in previous:
-        out["floor"] = previous["floor"]
+    for k, v in previous.items():
+        if k not in ("version", "findings"):
+            out[k] = v
     return out
+
+
+def prune_baseline(
+    previous: dict[str, Any], current: list[dict[str, Any]]
+) -> tuple[dict[str, Any], int, int, bool]:
+    direction = worse_when(previous)
+    current_by_id = {str(f["id"]): f for f in current}
+    sorted_prev = sorted(previous.get("findings", []), key=lambda x: str(x["id"]))
+
+    pruned = 0
+    tightened = 0
+    findings: list[dict[str, Any]] = []
+
+    for prev in sorted_prev:
+        fid = str(prev["id"])
+        cur = current_by_id.get(fid)
+        if cur is None:
+            pruned += 1
+            continue
+        row = dict(prev)
+        row["id"] = fid
+        prev_score = prev.get("score")
+        cur_score = cur.get("score")
+        if (
+            isinstance(prev_score, (int, float))
+            and not isinstance(prev_score, bool)
+            and isinstance(cur_score, (int, float))
+            and not isinstance(cur_score, bool)
+        ):
+            if (
+                direction == "higher"
+                and cur_score < prev_score
+                or direction == "lower"
+                and cur_score > prev_score
+            ):
+                row["score"] = cur_score
+                tightened += 1
+        findings.append(row)
+
+    next_b: dict[str, Any] = {"version": 1, "findings": findings}
+    for k, v in previous.items():
+        if k not in ("version", "findings"):
+            next_b[k] = v
+    return next_b, pruned, tightened, (pruned > 0 or tightened > 0)
 
 
 def report_failure(result: dict[str, Any]) -> None:
@@ -133,7 +178,7 @@ def report_failure(result: dict[str, Any]) -> None:
             print(f"  + {i}", file=sys.stderr)
     if result["stale"]:
         print(
-            "Stale baseline rows (finding gone — prune the baseline entry):",
+            "Stale baseline rows (finding gone — run with --prune to remove):",
             file=sys.stderr,
         )
         for i in result["stale"]:
@@ -161,8 +206,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--baseline", required=True)
     p.add_argument("--findings", required=True)
     p.add_argument("--update", action="store_true")
+    p.add_argument("--prune", action="store_true")
     p.add_argument("--result-json", default=None)
     args = p.parse_args(argv)
+
+    if args.update and args.prune:
+        print("Cannot combine --update and --prune.", file=sys.stderr)
+        return 2
 
     baseline_path = Path(args.baseline)
     findings_path = Path(args.findings)
@@ -181,6 +231,45 @@ def main(argv: list[str] | None = None) -> int:
         next_b = rewrite_baseline(baseline, findings)
         baseline_path.write_text(json.dumps(next_b, indent="\t") + "\n", encoding="utf-8")
         print(f"Updated baseline {baseline_path} ({len(next_b['findings'])} findings).")
+        return 0
+
+    if args.prune:
+        if is_ci():
+            print(
+                "Refusing baseline --prune under CI=true. "
+                "Baseline changes are local only.",
+                file=sys.stderr,
+            )
+            return 2
+        original = compare_findings(baseline, findings)
+        next_b, pruned, tightened, changed = prune_baseline(baseline, findings)
+        if changed:
+            baseline_path.write_text(json.dumps(next_b, indent="\t") + "\n", encoding="utf-8")
+            if not args.result_json:
+                print(
+                    f"Pruned {pruned} stale / tightened {tightened} rows in {baseline_path}."
+                )
+        remaining = {
+            "ok": (
+                len(original["novel"]) == 0
+                and len(original["regressions"]) == 0
+                and len(original["belowFloor"]) == 0
+            ),
+            "novel": original["novel"],
+            "stale": [],
+            "regressions": original["regressions"],
+            "belowFloor": original["belowFloor"],
+        }
+        if args.result_json:
+            Path(args.result_json).write_text(
+                json.dumps(remaining, indent="\t") + "\n", encoding="utf-8"
+            )
+        if not remaining["ok"]:
+            if not args.result_json:
+                report_failure(remaining)
+            return 1
+        if not changed and not args.result_json:
+            print(f"Ratchet OK ({len(findings)} findings match baseline).")
         return 0
 
     result = compare_findings(baseline, findings)

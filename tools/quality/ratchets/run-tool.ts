@@ -1,22 +1,27 @@
 /**
- * Shared entry scaffolding for tool-specific ratchets.
- * Collect findings → compare against committed baseline via compare.py → optional --update.
+ * Shared entry scaffolding for Node/TS tool-specific ratchets.
+ * Collect findings → compare in-process against committed baseline via compare.ts → optional --update or --prune.
  */
 
-import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { type CompareResult, type Finding, reportFailure } from "./compare";
+import { readFileSync, writeFileSync } from "node:fs";
+import {
+	type BaselineFile,
+	type CompareResult,
+	compareFindings,
+	type Finding,
+	isCiEnv,
+	pruneBaseline,
+	reportFailure,
+	rewriteBaseline,
+} from "./compare";
 
 export type CollectFindings = () => Finding[] | Promise<Finding[]>;
 
-function parseUpdateFlag(argv: string[]): boolean {
-	return argv.includes("--update");
-}
-
-function comparePy(): string {
-	return join(process.cwd(), "tools/quality/ratchets/compare.py");
+function parseFlags(argv: string[]): { update: boolean; prune: boolean } {
+	return {
+		update: argv.includes("--update"),
+		prune: argv.includes("--prune"),
+	};
 }
 
 export async function runRatchetTool(options: {
@@ -27,60 +32,92 @@ export async function runRatchetTool(options: {
 	/** Extra guidance printed after a failed compare (locations, fix command). */
 	onFailure?: (result: CompareResult) => void;
 }): Promise<void> {
-	const update = parseUpdateFlag(options.argv ?? process.argv.slice(2));
-	const findings = await options.collect();
-	const dir = mkdtempSync(join(tmpdir(), "quality-kit-ratchet-"));
-	const findingsPath = join(dir, "findings.json");
-	const resultPath = join(dir, "result.json");
-	try {
-		writeFileSync(
-			findingsPath,
-			`${JSON.stringify({ findings }, null, "\t")}\n`,
+	const { update, prune } = parseFlags(options.argv ?? process.argv.slice(2));
+	if (update && prune) {
+		console.error("Cannot combine --update and --prune.");
+		process.exit(2);
+	}
+	if (update && isCiEnv()) {
+		console.error(
+			"Refusing baseline --update under CI=true. Baseline growth is a conscious human act.",
 		);
-		const args = [
-			comparePy(),
-			"--baseline",
+		process.exit(2);
+	}
+	if (prune && isCiEnv()) {
+		console.error(
+			"Refusing baseline --prune under CI=true. Baseline changes are local only.",
+		);
+		process.exit(2);
+	}
+
+	const findings = await options.collect();
+	const baseline = JSON.parse(
+		readFileSync(options.baselinePath, "utf8"),
+	) as BaselineFile;
+
+	if (update) {
+		const next = rewriteBaseline(baseline, findings);
+		writeFileSync(
 			options.baselinePath,
-			"--findings",
-			findingsPath,
-		];
-		if (update) args.push("--update");
-		else args.push("--result-json", resultPath);
+			`${JSON.stringify(next, null, "\t")}\n`,
+			"utf8",
+		);
+		console.log(
+			`Updated baseline ${options.baselinePath} (${next.findings.length} findings).`,
+		);
+		process.exit(0);
+	}
 
-		const res = spawnSync("python3", args, {
-			encoding: "utf8",
-			cwd: process.cwd(),
-		});
-		if (res.stdout) process.stdout.write(res.stdout);
-		if (res.stderr) process.stderr.write(res.stderr);
-
-		if (update) {
-			process.exit(res.status ?? 1);
+	if (prune) {
+		const original = compareFindings(baseline, findings);
+		const { next, pruned, tightened, changed } = pruneBaseline(
+			baseline,
+			findings,
+		);
+		if (changed) {
+			writeFileSync(
+				options.baselinePath,
+				`${JSON.stringify(next, null, "\t")}\n`,
+				"utf8",
+			);
+			console.log(
+				`Pruned ${pruned} stale / tightened ${tightened} rows in ${options.baselinePath}.`,
+			);
 		}
-
-		if ((res.status ?? 1) === 0) {
+		const remaining: CompareResult = {
+			ok:
+				original.novel.length === 0 &&
+				original.regressions.length === 0 &&
+				original.belowFloor.length === 0,
+			novel: original.novel,
+			stale: [],
+			regressions: original.regressions,
+			belowFloor: original.belowFloor,
+		};
+		if (!remaining.ok) {
+			console.error(`${options.name} ratchet failed:`);
+			reportFailure(remaining);
+			options.onFailure?.(remaining);
+			process.exit(1);
+		}
+		if (!changed) {
 			console.log(
 				`${options.name} ratchet OK (${findings.length} findings match baseline).`,
 			);
-			process.exit(0);
 		}
-
-		let result: CompareResult = {
-			ok: false,
-			novel: [],
-			stale: [],
-			regressions: [],
-		};
-		try {
-			result = JSON.parse(readFileSync(resultPath, "utf8")) as CompareResult;
-		} catch {
-			/* Python already printed; keep empty structured result */
-		}
-		console.error(`${options.name} ratchet failed:`);
-		reportFailure(result);
-		options.onFailure?.(result);
-		process.exit(res.status ?? 1);
-	} finally {
-		rmSync(dir, { recursive: true, force: true });
+		process.exit(0);
 	}
+
+	const result = compareFindings(baseline, findings);
+	if (result.ok) {
+		console.log(
+			`${options.name} ratchet OK (${findings.length} findings match baseline).`,
+		);
+		process.exit(0);
+	}
+
+	console.error(`${options.name} ratchet failed:`);
+	reportFailure(result);
+	options.onFailure?.(result);
+	process.exit(1);
 }

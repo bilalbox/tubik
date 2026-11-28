@@ -1,0 +1,107 @@
+{
+	"version": 1,
+	"findings": [
+		{
+			"id": "app/src/main/java/com/github/libretube/api/NewPipeMediaServiceRepository.kt",
+			"score": 644,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/helpers/PlayerHelper.kt",
+			"score": 1039,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/player/MusicRemovalAudioProcessor.kt",
+			"score": 669,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/player/MusicRemovalEngine.kt",
+			"score": 833,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/player/parser/SabrClient.kt",
+			"score": 847,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/services/AbstractPlayerService.kt",
+			"score": 705,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/services/DownloadService.kt",
+			"score": 712,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/services/OnlinePlayerService.kt",
+			"score": 540,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/activities/MainActivity.kt",
+			"score": 836,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/fragments/AudioPlayerFragment.kt",
+			"score": 665,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/fragments/DownloadsFragment.kt",
+			"score": 717,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/fragments/PlayerFragment.kt",
+			"score": 1589,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/fragments/PlaylistFragment.kt",
+			"score": 651,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/fragments/SubscriptionsFragment.kt",
+			"score": 654,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/ui/views/CustomExoPlayerView.kt",
+			"score": 1625,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/main/java/com/github/libretube/updater/AppUpdater.kt",
+			"score": 598,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/test/java/com/github/libretube/api/AllowlistMediaServiceRepositoryTest.kt",
+			"score": 898,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/test/java/com/github/libretube/helpers/PlayerBufferingAndSchedulingTest.kt",
+			"score": 516,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/test/java/com/github/libretube/player/MusicRemovalEngineTest.kt",
+			"score": 535,
+			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/test/java/com/github/libretube/repo/LocalFeedRepositoryTest.kt",
+			"score": 745,
+			"note": "Legacy file-size adoption baseline"
+		}
+	],
+	"worseWhen": "higher",
+	"maxLines": 500
+}

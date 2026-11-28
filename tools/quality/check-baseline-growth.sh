@@ -66,6 +66,7 @@ mapfile -t candidates < <(
 			baselines/complexity.json \
 			baselines/biome-diagnostics.json \
 			baselines/coverage.json \
+			baselines/file-size.json \
 			.rev-dep.baseline.json \
 			.rev-dep.duplicates.json \
 			.betterleaksignore \
@@ -180,7 +181,7 @@ def osv_rows(text: str) -> set[str]:
 
 def classify(path: str) -> str:
     name = Path(path).name
-    if name in ("complexity.json", "biome-diagnostics.json", "coverage.json"):
+    if name in ("complexity.json", "biome-diagnostics.json", "coverage.json", "file-size.json"):
         return "ratchet"
     if name == ".rev-dep.baseline.json":
         return "rev-dep-baseline"

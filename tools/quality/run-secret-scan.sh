@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Betterleaks v1 secret scan — shared layer, used by every Host Pack.
-# Usage: ./tools/quality/run-secret-scan.sh [--staged] [--verbose] [-- betterleaks args…]
+# Usage: ./tools/quality/run-secret-scan.sh [--staged | --diff [--base <ref>]] [--verbose] [-- betterleaks args…]
 #
 # Modes:
 #   --staged       pre-commit: `betterleaks git --staged`
+#   --diff         fast diff gate: `betterleaks dir` on changed/untracked files only
 #   (default)      local gate: `betterleaks dir .` (working tree + untracked)
 #   CI=true        `betterleaks git --log-opts=origin/$GITHUB_BASE_REF..HEAD`
 #                  (fallback: full `git` when GITHUB_BASE_REF is unset / unresolvable)
@@ -22,20 +23,50 @@ is_ci() {
 }
 
 is_staged=0
+is_diff=0
 is_verbose=0
+diff_base="${QUALITY_GATE_BASE:-}"
 extra_args=()
-for arg in "$@"; do
-	case "${arg}" in
-		--staged) is_staged=1 ;;
-		--verbose) is_verbose=1 ;;
-		--) ;;
-		*) extra_args+=("${arg}") ;;
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		--staged)
+			is_staged=1
+			shift
+			;;
+		--diff)
+			is_diff=1
+			shift
+			;;
+		--base)
+			if [[ $# -lt 2 ]]; then
+				echo "error: --base requires a git ref" >&2
+				exit 2
+			fi
+			diff_base="$2"
+			shift 2
+			;;
+		--base=*)
+			diff_base="${1#--base=}"
+			shift
+			;;
+		--verbose)
+			is_verbose=1
+			shift
+			;;
+		--)
+			shift
+			;;
+		*)
+			extra_args+=("$1")
+			shift
+			;;
 	esac
 done
 
-if ! is_ci; then
-	is_verbose=1
-fi
+case "${QUALITY_GATE_VERBOSE:-}" in
+	"" | 0 | [Ff][Aa][Ll][Ss][Ee]) ;;
+	*) is_verbose=1 ;;
+esac
 
 version_major() {
 	local out="$1"
@@ -78,11 +109,47 @@ resolve_bin() {
 	exit 2
 }
 
-bin="$(resolve_bin)"
+collect_diff_files() {
+	local base="${1:-HEAD}"
+	if [[ -f "${SCRIPT_DIR}/gate-lib.sh" ]]; then
+		# shellcheck source=gate-lib.sh
+		source "${SCRIPT_DIR}/gate-lib.sh"
+		quality_changed_files --base "${base}"
+		return $?
+	fi
+	if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		return 1
+	fi
+	{
+		if git rev-parse --verify "${base}" >/dev/null 2>&1; then
+			git diff --name-only --diff-filter=ACMR "${base}"
+		else
+			git diff --cached --name-only --diff-filter=ACMR
+			git diff --name-only --diff-filter=ACMR
+		fi
+		git ls-files --others --exclude-standard
+	} | sort -u | while IFS= read -r f; do
+		if [[ -n "${f}" && -f "${f}" ]]; then
+			printf '%s\n' "${f}"
+		fi
+	done
+}
+
 args=()
+diff_files=()
 
 if ((is_staged)); then
 	args+=(git --staged)
+elif ((is_diff)); then
+	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		mapfile -t diff_files < <(collect_diff_files "${diff_base:-HEAD}")
+		if ((${#diff_files[@]} == 0)); then
+			exit 0
+		fi
+		args+=(dir)
+	else
+		args+=(dir .)
+	fi
 elif is_ci; then
 	# PR workflows set GITHUB_BASE_REF; Host ci.yml uses fetch-depth: 0 so the
 	# remote-tracking base ref is present. workflow_dispatch / missing ref → full git.
@@ -119,5 +186,14 @@ if [[ -f "${REPO_ROOT}/.betterleaksignore" ]]; then
 fi
 
 args+=("${extra_args[@]+"${extra_args[@]}"}")
+if ((${#diff_files[@]} > 0)); then
+	args+=("${diff_files[@]}")
+fi
 
-"${bin}" "${args[@]}"
+bin="$(resolve_bin)"
+rc=0
+"${bin}" "${args[@]}" || rc=$?
+if ((rc != 0)); then
+	echo "fix: remove the secret/token from code (if a test fixture false positive, add fingerprint to .betterleaksignore)" >&2
+fi
+exit "${rc}"

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ktfmt (kotlinlang style) over tracked Kotlin sources.
-# Usage: ./tools/quality/kotlin-android/run-format.sh [--fix [files…] | --staged]
+# Usage: ./tools/quality/kotlin-android/run-format.sh [--fix [files…] | --files <files…> | --staged]
 #   (none)   check only; exit 1 and list files that would change
+#   --files  check only the given repo-relative files
 #   --fix    format in place: the given repo-relative files, else all files
 #   --staged check the staged content of staged Kotlin files (pre-commit);
 #            never writes the working tree or the index
@@ -16,15 +17,21 @@ cd "${REPO_ROOT}"
 
 mode="${1:-check}"
 case "${mode}" in
-	check|--fix|--staged) ;;
+	check|--fix|--files|--staged) ;;
 	*)
-		echo "usage: $0 [--fix [files...] | --staged]" >&2
+		echo "usage: $0 [--fix [files...] | --files <files...> | --staged]" >&2
 		exit 2
 		;;
 esac
 
 if [[ "${mode}" == "--staged" ]]; then
 	mapfile -d '' -t files < <(git diff --cached --name-only -z --diff-filter=ACMR -- '*.kt' '*.kts')
+elif [[ "${mode}" == "--files" ]]; then
+	if (($# <= 1)); then
+		exit 0
+	fi
+	files=("${@:2}")
+	mode="check"
 elif [[ "${mode}" == "--fix" ]] && (($# > 1)); then
 	files=("${@:2}")
 else

@@ -82,4 +82,9 @@ if [[ -f "${config}" ]]; then
 fi
 args+=("${extra_args[@]+"${extra_args[@]}"}")
 
-osv-scanner "${args[@]}"
+rc=0
+osv-scanner "${args[@]}" || rc=$?
+if ((rc != 0)); then
+	echo "fix: upgrade the vulnerable dependency, or record [[IgnoredVulns]] id + non-empty reason in osv-scanner.toml" >&2
+fi
+exit "${rc}"

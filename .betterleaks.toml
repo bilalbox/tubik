@@ -12,10 +12,12 @@ betterleaksMinVersion = "v1.9.0"
 useDefault = true
 
 [[allowlists]]
-description = "Fixtures and the kit lock file (every Host)"
+description = "Fixtures, baselines, and the kit lock file (every Host)"
 paths = [
   # apply's lock file: content hashes keyed by path (e.g. run-secret-scan.sh).
   '''(?:^|/)\.quality-kit\.lock\.json$''',
+  # Shared and Pack ratchet baselines (coverage, file-size, complexity, biome).
+  '''(?i)(?:^|/)baselines\/.*''',
   # Intentional fixture leaks only — test source dirs are scanned.
   '''(?i)fixtures\/.*''',
 ]
