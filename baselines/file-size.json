@@ -13,12 +13,12 @@
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/player/MusicRemovalAudioProcessor.kt",
-			"score": 669,
+			"score": 717,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/player/MusicRemovalEngine.kt",
-			"score": 833,
+			"score": 831,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
@@ -27,18 +27,23 @@
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
+			"id": "app/src/main/java/com/github/libretube/repo/LocalFeedRepository.kt",
+			"score": 513,
+			"note": "Added via --update; replace with owning issue note."
+		},
+		{
 			"id": "app/src/main/java/com/github/libretube/services/AbstractPlayerService.kt",
-			"score": 705,
+			"score": 706,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/services/DownloadService.kt",
-			"score": 712,
+			"score": 824,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/services/OnlinePlayerService.kt",
-			"score": 540,
+			"score": 543,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
@@ -63,7 +68,7 @@
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/ui/fragments/PlaylistFragment.kt",
-			"score": 651,
+			"score": 658,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
@@ -78,7 +83,7 @@
 		},
 		{
 			"id": "app/src/main/java/com/github/libretube/updater/AppUpdater.kt",
-			"score": 598,
+			"score": 676,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
@@ -93,13 +98,18 @@
 		},
 		{
 			"id": "app/src/test/java/com/github/libretube/player/MusicRemovalEngineTest.kt",
-			"score": 535,
+			"score": 550,
 			"note": "Legacy file-size adoption baseline"
 		},
 		{
 			"id": "app/src/test/java/com/github/libretube/repo/LocalFeedRepositoryTest.kt",
-			"score": 745,
+			"score": 879,
 			"note": "Legacy file-size adoption baseline"
+		},
+		{
+			"id": "app/src/test/java/com/github/libretube/updater/AppUpdaterTest.kt",
+			"score": 556,
+			"note": "Added via --update; replace with owning issue note."
 		}
 	],
 	"worseWhen": "higher",
