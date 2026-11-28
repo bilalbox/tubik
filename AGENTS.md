@@ -32,6 +32,8 @@ Do not declare completion with only piecemeal checks (a single Gradle task, one 
 
 A task is not complete until `gate.sh fast` passes cleanly (and `full` for UI/dependency changes).
 
+- When changing dependencies in `gradle/libs.versions.toml`, regenerate `app/gradle.lockfile` with `./gradlew :app:dependencies --write-locks` and commit it.
+
 ## Screenshot tests (Roborazzi, JVM-only)
 
 - Every `@Preview` in a module's namespace becomes a screenshot test automatically; no emulator or device is needed.

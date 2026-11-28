@@ -13,6 +13,12 @@ plugins {
     alias(libs.plugins.google.protobuf)
 }
 
+configurations.configureEach {
+    if (name.endsWith("RuntimeClasspath") || name.endsWith("CompileClasspath")) {
+        resolutionStrategy.activateDependencyLocking()
+    }
+}
+
 /*
 'keystore.properties' should look like the following:
 

@@ -76,7 +76,7 @@ validate_ignores() {
 
 validate_ignores "${config}"
 
-args=(scan source -r . --allow-no-lockfiles)
+args=(scan source -r .)
 if [[ -f "${config}" ]]; then
 	args+=(--config "${config}")
 fi
