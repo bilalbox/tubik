@@ -23,7 +23,7 @@ Automatic update checks start on and can be turned off in Settings (**Check for 
 
 If you choose **Download & Install** in Settings, Tubik downloads the signed release APK from the URL listed in `latest.json` (hosted on `https://tubik-releases.23p.dev`) and verifies its SHA-256 checksum and signing certificate before handing it to Android's package installer.
 
-`tubik.23p.dev` (Cloudflare Pages) and `tubik-releases.23p.dev` (Cloudflare R2) are hosted on Cloudflare with Cloudflare Web Analytics disabled and zero cookies or tracking scripts. Update checks, APK downloads, and website visits do not send personal identifiers, device identifiers, or usage analytics. Standard web server connection logs (such as IP address and requested URL) are handled transiently by the hosting CDN without tracking profiles.
+`tubik.23p.dev` (Cloudflare Pages) and `tubik-releases.23p.dev` (Cloudflare R2) are hosted on Cloudflare. The website (`tubik.23p.dev`) uses Cloudflare Web Analytics — anonymous, cookie-free aggregate page-view analytics — and displays aggregate APK download counts. Update checks and APK downloads from the app do not send personal identifiers, device identifiers, or usage analytics. Standard web server connection logs (such as IP address and requested URL) are handled transiently by the hosting CDN without tracking profiles.
 
 ## While you watch
 

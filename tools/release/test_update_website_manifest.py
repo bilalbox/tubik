@@ -247,7 +247,7 @@ class UpdateWebsiteManifestTest(unittest.TestCase):
 
         privacy_html = " ".join((WEBSITE_DIR / "privacy" / "index.html").read_text(encoding="utf-8").split())
         self.assertIn("https://tubik.23p.dev/updates/latest.json", privacy_html)
-        self.assertIn("Cloudflare Web Analytics disabled", privacy_html)
+        self.assertIn("Cloudflare Web Analytics", privacy_html)
 
     def run_cli(self, *args):
         with patch.object(sys, "argv", ["update_website_manifest.py", *map(str, args)]):
