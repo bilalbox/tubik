@@ -1,5 +1,6 @@
 package com.github.libretube.repo
 
+import androidx.room.withTransaction
 import com.github.libretube.api.obj.Playlist
 import com.github.libretube.api.obj.Playlists
 import com.github.libretube.api.obj.StreamItem
@@ -9,6 +10,7 @@ import com.github.libretube.api.obj.WatchHistoryEntryMetadata
 import com.github.libretube.db.DatabaseHolder.Database
 import com.github.libretube.db.dao.WatchHistoryRow
 import com.github.libretube.db.obj.LocalPlaylist
+import com.github.libretube.db.obj.LocalPlaylistItem
 import com.github.libretube.db.obj.LocalPlaylistWithVideos
 import com.github.libretube.db.obj.LocalSubscription
 import com.github.libretube.db.obj.Series
@@ -22,6 +24,17 @@ import com.github.libretube.util.AccessControl
  */
 interface LocalUserDataSource {
     suspend fun getLocalPlaylists(): List<LocalPlaylistWithVideos>
+
+    suspend fun getLocalPlaylist(playlistId: String): LocalPlaylistWithVideos? =
+        getLocalPlaylists().firstOrNull { it.playlist.id.toString() == playlistId }
+
+    suspend fun removePlaylistVideo(playlistVideo: LocalPlaylistItem) {
+        error("removePlaylistVideo not implemented")
+    }
+
+    suspend fun updatePlaylist(playlist: LocalPlaylist) {
+        error("updatePlaylist not implemented")
+    }
 
     suspend fun getWatchHistoryPage(
         limit: Int,
@@ -42,6 +55,17 @@ interface LocalUserDataSource {
 internal object RoomLocalUserDataSource : LocalUserDataSource {
     override suspend fun getLocalPlaylists(): List<LocalPlaylistWithVideos> =
         Database.localPlaylistsDao().getAll()
+
+    override suspend fun getLocalPlaylist(playlistId: String): LocalPlaylistWithVideos? =
+        playlistId.toIntOrNull()?.let { Database.localPlaylistsDao().getById(it) }
+
+    override suspend fun removePlaylistVideo(playlistVideo: LocalPlaylistItem) {
+        Database.localPlaylistsDao().removePlaylistVideo(playlistVideo)
+    }
+
+    override suspend fun updatePlaylist(playlist: LocalPlaylist) {
+        Database.localPlaylistsDao().updatePlaylist(playlist)
+    }
 
     override suspend fun getWatchHistoryPage(
         limit: Int,
@@ -78,7 +102,8 @@ class LocalUserDataRepository(
 
     override suspend fun getPlaylist(playlistId: String): Playlist {
         val relation =
-            localDataSource.getLocalPlaylists().first { it.playlist.id.toString() == playlistId }
+            localDataSource.getLocalPlaylist(playlistId)
+                ?: throw NoSuchElementException("Local playlist $playlistId not found")
         val filteredVideos = accessControl.snapshot().filterLocalPlaylistItems(relation.videos)
 
         return Playlist(
@@ -105,30 +130,31 @@ class LocalUserDataRepository(
     }
 
     override suspend fun addToPlaylist(playlistId: String, vararg videos: StreamItem): Boolean {
-        val localPlaylist =
-            Database.localPlaylistsDao().getAll().first { it.playlist.id.toString() == playlistId }
+        val localPlaylist = localDataSource.getLocalPlaylist(playlistId) ?: return false
 
-        for (video in videos) {
-            val localPlaylistItem = video.toLocalPlaylistItem(playlistId)
+        Database.withTransaction {
+            val dao = Database.localPlaylistsDao()
+            for (video in videos) {
+                val localPlaylistItem = video.toLocalPlaylistItem(playlistId)
 
-            val existingVideo =
-                Database.localPlaylistsDao().getPlaylistVideo(playlistId, localPlaylistItem.videoId)
-            if (existingVideo != null) {
-                // update existing video metadata
-                localPlaylistItem.id = existingVideo.id
-                Database.localPlaylistsDao().updatePlaylistVideo(localPlaylistItem)
-                continue
-            }
+                val existingVideo = dao.getPlaylistVideo(playlistId, localPlaylistItem.videoId)
+                if (existingVideo != null) {
+                    // update existing video metadata
+                    localPlaylistItem.id = existingVideo.id
+                    dao.updatePlaylistVideo(localPlaylistItem)
+                    continue
+                }
 
-            // add the new video to the database
-            Database.localPlaylistsDao().addPlaylistVideo(localPlaylistItem)
+                // add the new video to the database
+                dao.addPlaylistVideo(localPlaylistItem)
 
-            val playlist = localPlaylist.playlist
-            if (playlist.thumbnailUrl.isEmpty()) {
-                // set the new playlist thumbnail URL
-                localPlaylistItem.thumbnailUrl?.let {
-                    playlist.thumbnailUrl = it
-                    Database.localPlaylistsDao().updatePlaylist(playlist)
+                val playlist = localPlaylist.playlist
+                if (playlist.thumbnailUrl.isEmpty()) {
+                    // set the new playlist thumbnail URL
+                    localPlaylistItem.thumbnailUrl?.let {
+                        playlist.thumbnailUrl = it
+                        dao.updatePlaylist(playlist)
+                    }
                 }
             }
         }
@@ -137,13 +163,9 @@ class LocalUserDataRepository(
     }
 
     override suspend fun renamePlaylist(playlistId: String, newName: String): Boolean {
-        val playlist =
-            Database.localPlaylistsDao()
-                .getAll()
-                .first { it.playlist.id.toString() == playlistId }
-                .playlist
+        val playlist = localDataSource.getLocalPlaylist(playlistId)?.playlist ?: return false
         playlist.name = newName
-        Database.localPlaylistsDao().updatePlaylist(playlist)
+        localDataSource.updatePlaylist(playlist)
 
         return true
     }
@@ -152,13 +174,9 @@ class LocalUserDataRepository(
         playlistId: String,
         newDescription: String,
     ): Boolean {
-        val playlist =
-            Database.localPlaylistsDao()
-                .getAll()
-                .first { it.playlist.id.toString() == playlistId }
-                .playlist
+        val playlist = localDataSource.getLocalPlaylist(playlistId)?.playlist ?: return false
         playlist.description = newDescription
-        Database.localPlaylistsDao().updatePlaylist(playlist)
+        localDataSource.updatePlaylist(playlist)
 
         return true
     }
@@ -168,18 +186,24 @@ class LocalUserDataRepository(
         videoId: String,
         index: Int,
     ): Boolean {
-        val transaction =
-            Database.localPlaylistsDao().getAll().first { it.playlist.id.toString() == playlistId }
-        Database.localPlaylistsDao()
-            .removePlaylistVideo(
-                transaction.videos[index],
-            )
-        // set a new playlist thumbnail if the first video got removed
-        if (index == 0) {
-            transaction.playlist.thumbnailUrl =
-                transaction.videos.getOrNull(1)?.thumbnailUrl.orEmpty()
+        val transaction = localDataSource.getLocalPlaylist(playlistId)
+        val target = transaction?.let {
+            it.videos.firstOrNull { video -> video.videoId == videoId }
+                ?: it.videos.getOrNull(index)
         }
-        Database.localPlaylistsDao().updatePlaylist(transaction.playlist)
+        if (transaction == null || target == null) return false
+        localDataSource.removePlaylistVideo(target)
+        val remaining =
+            transaction.videos.filter {
+                it !== target && (target.id == 0 || it.id != target.id)
+            }
+        if (
+            transaction.playlist.thumbnailUrl == target.thumbnailUrl ||
+                transaction.playlist.thumbnailUrl.isEmpty()
+        ) {
+            transaction.playlist.thumbnailUrl = remaining.firstOrNull()?.thumbnailUrl.orEmpty()
+            localDataSource.updatePlaylist(transaction.playlist)
+        }
 
         return true
     }

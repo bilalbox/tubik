@@ -12,7 +12,9 @@ import com.github.libretube.util.AccessControl
 import com.github.libretube.util.InMemoryAccessControlStorage
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class LocalUserDataRepositoryTest {
@@ -26,6 +28,33 @@ class LocalUserDataRepositoryTest {
         val requestedWatchPositionBatches = mutableListOf<List<String>>()
 
         override suspend fun getLocalPlaylists(): List<LocalPlaylistWithVideos> = playlists
+
+        override suspend fun getLocalPlaylist(playlistId: String): LocalPlaylistWithVideos? =
+            playlists.firstOrNull {
+                it.playlist.id.toString() == playlistId
+            }
+
+        override suspend fun removePlaylistVideo(playlistVideo: LocalPlaylistItem) {
+            playlists = playlists.map { entry ->
+                if (entry.playlist.id == playlistVideo.playlistId) {
+                    entry.copy(
+                        videos =
+                            entry.videos.filter {
+                                it !== playlistVideo &&
+                                    (playlistVideo.id == 0 || it.id != playlistVideo.id)
+                            },
+                    )
+                } else {
+                    entry
+                }
+            }
+        }
+
+        override suspend fun updatePlaylist(playlist: LocalPlaylist) {
+            playlists = playlists.map { entry ->
+                if (entry.playlist.id == playlist.id) entry.copy(playlist = playlist) else entry
+            }
+        }
 
         override suspend fun getWatchHistoryPage(
             limit: Int,
@@ -208,4 +237,51 @@ class LocalUserDataRepositoryTest {
             assertEquals(positions, result)
             assertEquals(listOf(900, 51), dataSource.requestedWatchPositionBatches.map { it.size })
         }
+
+    @Test
+    fun `removeFromPlaylist deletes by videoId when allowlist hides earlier items`() = runBlocking {
+        val blockedItem =
+            LocalPlaylistItem(
+                playlistId = 1,
+                videoId = "blocked_vid",
+                uploaderUrl = "/channel/UC_BLOCKED",
+                thumbnailUrl = "blocked_thumb",
+            )
+        val allowedItem =
+            LocalPlaylistItem(
+                playlistId = 1,
+                videoId = "allowed_vid",
+                uploaderUrl = "/channel/UC_ALLOWED_1",
+                thumbnailUrl = "allowed_thumb",
+            )
+        val dataSource =
+            FakeLocalUserDataSource(
+                playlists =
+                    listOf(
+                        LocalPlaylistWithVideos(
+                            playlist =
+                                LocalPlaylist(
+                                        name = "Kids Mix",
+                                        thumbnailUrl = "allowed_thumb",
+                                    )
+                                    .apply { id = 1 },
+                            videos = listOf(blockedItem, allowedItem),
+                        ),
+                    ),
+            )
+        val repo =
+            LocalUserDataRepository(
+                accessControl = accessControl(isAllowlistEnabled = { true }),
+                localDataSource = dataSource,
+            )
+
+        val filtered = repo.getPlaylist("1")
+        assertEquals(listOf("allowed_vid"), filtered.relatedStreams.map { it.url })
+
+        assertTrue(repo.removeFromPlaylist("1", "allowed_vid", 0))
+        assertEquals(listOf("blocked_vid"), dataSource.playlists.single().videos.map { it.videoId })
+        assertEquals("blocked_thumb", dataSource.playlists.single().playlist.thumbnailUrl)
+        assertFalse(repo.removeFromPlaylist("1", "missing_vid", 99))
+        assertFalse(repo.removeFromPlaylist("999", "allowed_vid", 0))
+    }
 }
