@@ -10,18 +10,12 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.util.SparseBooleanArray
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.Builder
 import androidx.core.app.PendingIntentCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
-import androidx.core.util.contains
-import androidx.core.util.keyIterator
-import androidx.core.util.set
-import androidx.core.util.valueIterator
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.lifecycleScope
 import com.github.libretube.LibreTubeApp.Companion.DOWNLOAD_CHANNEL_NAME
 import com.github.libretube.R
 import com.github.libretube.api.MediaServiceRepository
@@ -64,10 +58,13 @@ import kotlin.io.path.createFile
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.div
 import kotlin.io.path.fileSize
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -78,20 +75,71 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.buffer
 import okio.sink
 
+/**
+ * Tracks download queue items with explicit lifecycle states so paused/failed items are never
+ * auto-resumed.
+ */
+internal class DownloadQueueTracker {
+    enum class State {
+        QUEUED,
+        RUNNING,
+        PAUSED,
+        FAILED,
+    }
+
+    private val states = LinkedHashMap<Int, State>()
+
+    @Synchronized
+    fun enqueue(id: Int) {
+        if (states[id] == State.RUNNING) return
+        states[id] = State.QUEUED
+    }
+
+    @Synchronized
+    fun markRunning(id: Int) {
+        states[id] = State.RUNNING
+    }
+
+    @Synchronized
+    fun markPaused(id: Int) {
+        states[id] = State.PAUSED
+    }
+
+    @Synchronized
+    fun markFailed(id: Int) {
+        states[id] = State.FAILED
+    }
+
+    @Synchronized
+    fun remove(id: Int) {
+        states.remove(id)
+    }
+
+    @Synchronized fun stateOf(id: Int): State? = states[id]
+
+    @Synchronized fun isRunning(id: Int): Boolean = states[id] == State.RUNNING
+
+    @Synchronized fun activeCount(): Int = states.values.count { it == State.RUNNING }
+
+    @Synchronized
+    fun nextQueuedId(): Int? = states.entries.firstOrNull { it.value == State.QUEUED }?.key
+
+    @Synchronized
+    fun clear() {
+        states.clear()
+    }
+}
+
 /** Download service with custom implementation of downloading using [HttpURLConnection]. */
 class DownloadService : LifecycleService() {
     private val binder = LocalBinder()
     private val dispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-    private val coroutineContext = dispatcher + SupervisorJob()
+    private val serviceScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var summaryNotificationBuilder: Builder
 
-    /**
-     * Maps all currently running downloads to `true`, and all paused or stopped downloads to
-     * `false`.
-     */
-    private val downloadQueue = SparseBooleanArray()
+    private val downloadQueue = DownloadQueueTracker()
     private val _downloadFlow = MutableSharedFlow<Pair<Int, DownloadStatus>>()
     val downloadFlow: SharedFlow<Pair<Int, DownloadStatus>> = _downloadFlow
 
@@ -120,7 +168,7 @@ class DownloadService : LifecycleService() {
                 ?: return START_NOT_STICKY
         val videoId = downloadData.videoId
 
-        lifecycleScope.launch(coroutineContext) {
+        serviceScope.launch {
             val streams = loadStreamsInfo(videoId) ?: return@launch
 
             storeVideoMetadata(videoId, streams)
@@ -185,7 +233,7 @@ class DownloadService : LifecycleService() {
         // asynchronously load the remaining metadata
         // this allows the main thread to already start the actual download items (i.e. video/audio)
         // while the thumbnail and SponsorBlock segments are loaded in the background
-        lifecycleScope.launch(Dispatchers.IO) {
+        serviceScope.launch(Dispatchers.IO) {
             downloadExtraVideoMetadata(videoId, streams.thumbnailUrl, thumbnailTargetPath)
         }
     }
@@ -237,45 +285,61 @@ class DownloadService : LifecycleService() {
      */
     @SuppressLint("UnsafeOptInUsageError")
     private suspend fun selectFormatAndDownloadFile(item: DownloadItem) {
-        val streams = loadStreamsInfo(item.videoId) ?: return
-        if (item.type == FileType.SUBTITLE) {
+        val streams = loadStreamsInfo(item.videoId)
+        val provider = streams?.let { createDownloadProvider(item, it) }
+        if (provider == null) {
+            downloadQueue.markFailed(item.id)
+            startNextEnqueueDownload()
+            stopServiceIfDone()
+            return
+        }
+        downloadFile(item, provider)
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private suspend fun createDownloadProvider(
+        item: DownloadItem,
+        streams: Streams,
+    ): DownloadProvider? {
+        val transportContext =
+            MediaServiceRepository.instance.getStreamTransportContext(item.videoId)
+        return if (item.type == FileType.SUBTITLE) {
             // subtitles are always plain files and don't use SABR
-            val subtitle =
-                streams.subtitles.firstOrNull { it.code == item.language }
-                    ?: run {
-                        Log.e(TAG(), "No matching subtitle found for language ${item.language}")
-                        toastFromMainDispatcher(getString(R.string.download_failed))
-                        _downloadFlow.emit(
-                            item.id to DownloadStatus.Error("No matching subtitle found", null),
-                        )
-                        return
-                    }
-            downloadFile(item, RawByteStreamDownloadProvider(subtitle.url!!.toHttpUrl()))
-        } else {
-            val selectedStream =
-                selectMatchingStream(streams, item)
-                    ?: run {
-                        Log.e(
-                            TAG(),
-                            "No matching stream found for ${item.fileName} format=${item.format} quality=${item.quality}",
-                        )
-                        toastFromMainDispatcher(getString(R.string.download_failed))
-                        _downloadFlow.emit(
-                            item.id to DownloadStatus.Error("No matching stream found", null),
-                        )
-                        return
-                    }
-            if (selectedStream.url?.startsWith("http") == true) {
-                downloadFile(item, RawByteStreamDownloadProvider(selectedStream.url!!.toHttpUrl()))
+            val subtitle = streams.subtitles.firstOrNull { it.code == item.language }
+            if (subtitle == null) {
+                Log.e(TAG(), "No matching subtitle found for language ${item.language}")
+                emitSelectionFailure(item.id, "No matching subtitle found")
+                null
             } else {
-                val transportContext =
-                    MediaServiceRepository.instance.getStreamTransportContext(item.videoId)
-                val sabrDownloader =
-                    SabrDownloadProvider(item, streams, selectedStream, transportContext)
-                downloadFile(item, sabrDownloader)
+                RawByteStreamDownloadProvider(subtitle.url!!.toHttpUrl(), transportContext)
+            }
+        } else {
+            val selectedStream = selectMatchingStream(streams, item)
+            when {
+                selectedStream == null -> {
+                    Log.e(
+                        TAG(),
+                        "No matching stream found for ${item.fileName} format=${item.format} quality=${item.quality}",
+                    )
+                    emitSelectionFailure(item.id, "No matching stream found")
+                    null
+                }
+                selectedStream.url?.startsWith("http") == true ->
+                    RawByteStreamDownloadProvider(
+                        selectedStream.url!!.toHttpUrl(),
+                        transportContext,
+                    )
+                else -> SabrDownloadProvider(item, streams, selectedStream, transportContext)
             }
         }
     }
+
+    private suspend fun emitSelectionFailure(id: Int, message: String) {
+        toastFromMainDispatcher(getString(R.string.download_failed))
+        _downloadFlow.emit(id to DownloadStatus.Error(message, null))
+    }
+
+    private class DownloadLoopState(var totalRead: Long, var retries: Int = 0)
 
     /**
      * Starts and progresses until the download is canceled or finished.
@@ -286,85 +350,111 @@ class DownloadService : LifecycleService() {
         item: DownloadItem,
         downloadProvider: DownloadProvider,
     ) {
-        downloadQueue[item.id] = true
+        downloadQueue.markRunning(item.id)
         val notificationBuilder = getNotificationBuilder(item)
         setResumeNotification(notificationBuilder, item)
 
         val sink = item.path.sink(StandardOpenOption.APPEND).buffer()
-        var totalRead = item.path.fileSize()
-        var numberOfTries = 0
-        while (downloadQueue[item.id] && !item.isFinished) {
-            try {
-                when (val result = downloadProvider.downloadNextChunk(item, sink)) {
-                    DownloadProgressResult.DownloadComplete -> {
-                        setPauseNotification(notificationBuilder, item, true)
-                        _downloadFlow.emit(item.id to DownloadStatus.Completed)
-                        downloadQueue[item.id] = false
-                        break
-                    }
-                    DownloadProgressResult.Failed -> {
-                        if (numberOfTries < MAX_SEGMENT_RETRIES) {
-                            // try to download segment again after a short delay
-                            delay(200)
-                            numberOfTries++
-                        } else {
-                            setPauseNotification(notificationBuilder, item, false)
-                            pause(item.id)
-                            toastFromMainThread(
-                                "${getString(R.string.download)}: ${getString(R.string.download_failed)}",
-                            )
-                            _downloadFlow.emit(
-                                item.id to
-                                    DownloadStatus.Error(getString(R.string.download_failed), null),
-                            )
-                            break
-                        }
-                    }
-                    is DownloadProgressResult.Progressed -> {
-                        numberOfTries = 0
-                        totalRead += result.bytes
-                        _downloadFlow.emit(
-                            item.id to
-                                DownloadStatus.Progress(
-                                    result.bytes,
-                                    totalRead,
-                                    item.downloadSize,
-                                ),
-                        )
-                        updateNotification(notificationBuilder, item, totalRead.toInt())
-                    }
-                }
-            } catch (_: CancellationException) {
-                break
-            } catch (e: Exception) {
-                toastFromMainThread("${getString(R.string.download)}: ${e.message}")
-                Log.e(this@DownloadService::class.java.name, e.stackTraceToString())
-                _downloadFlow.emit(item.id to DownloadStatus.Error(e.message.toString(), e))
-                break
+        val loopState = DownloadLoopState(totalRead = item.path.fileSize())
+        try {
+            while (downloadQueue.isRunning(item.id) && !item.isFinished) {
+                val shouldContinue =
+                    stepDownloadChunk(item, downloadProvider, sink, notificationBuilder, loopState)
+                if (!shouldContinue) break
+            }
+        } finally {
+            withContext(NonCancellable + Dispatchers.IO) {
+                runCatching { sink.flush() }
+                runCatching { sink.close() }
             }
         }
 
-        withContext(Dispatchers.IO) {
-            sink.flush()
-            sink.close()
-        }
-
-        // start the next download if there are any remaining ones enqueued
+        finalizeDownloadLoop(item, notificationBuilder)
         startNextEnqueueDownload()
-
-        // explicitly send a pause event if the user paused the download, although it's not yet
-        // finished
-        if (!item.isFinished) pause(item.id)
-
-        // if no new download was enqueued (i.e. there's no paused/stopped download left),
-        // look if any downloads are still running, and if not, stop the service
         stopServiceIfDone()
     }
 
-    private suspend fun startNextEnqueueDownload() {
-        for (id in downloadQueue.keyIterator()) {
-            if (downloadQueue[id]) continue
+    private suspend fun stepDownloadChunk(
+        item: DownloadItem,
+        downloadProvider: DownloadProvider,
+        sink: okio.BufferedSink,
+        notificationBuilder: Builder,
+        loopState: DownloadLoopState,
+    ): Boolean {
+        return try {
+            when (val result = downloadProvider.downloadNextChunk(item, sink)) {
+                DownloadProgressResult.DownloadComplete -> {
+                    setPauseNotification(notificationBuilder, item, true)
+                    _downloadFlow.emit(item.id to DownloadStatus.Completed)
+                    downloadQueue.remove(item.id)
+                    false
+                }
+                DownloadProgressResult.Failed ->
+                    handleChunkFailure(item, notificationBuilder, loopState)
+                is DownloadProgressResult.Progressed -> {
+                    loopState.retries = 0
+                    loopState.totalRead += result.bytes
+                    _downloadFlow.emit(
+                        item.id to
+                            DownloadStatus.Progress(
+                                result.bytes,
+                                loopState.totalRead,
+                                item.downloadSize,
+                            ),
+                    )
+                    updateNotification(notificationBuilder, item, loopState.totalRead.toInt())
+                    true
+                }
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            downloadQueue.markFailed(item.id)
+            toastFromMainThread("${getString(R.string.download)}: ${e.message}")
+            Log.e(this@DownloadService::class.java.name, e.stackTraceToString())
+            _downloadFlow.emit(item.id to DownloadStatus.Error(e.message.toString(), e))
+            false
+        }
+    }
 
+    private suspend fun handleChunkFailure(
+        item: DownloadItem,
+        notificationBuilder: Builder,
+        loopState: DownloadLoopState,
+    ): Boolean {
+        if (loopState.retries < MAX_SEGMENT_RETRIES) {
+            delay(200)
+            loopState.retries++
+            return true
+        }
+        setPauseNotification(notificationBuilder, item, false)
+        downloadQueue.markFailed(item.id)
+        toastFromMainThread(
+            "${getString(R.string.download)}: ${getString(R.string.download_failed)}",
+        )
+        _downloadFlow.emit(
+            item.id to DownloadStatus.Error(getString(R.string.download_failed), null),
+        )
+        return false
+    }
+
+    private suspend fun finalizeDownloadLoop(
+        item: DownloadItem,
+        notificationBuilder: Builder,
+    ) {
+        if (downloadQueue.isRunning(item.id) && item.isFinished) {
+            setPauseNotification(notificationBuilder, item, true)
+            _downloadFlow.emit(item.id to DownloadStatus.Completed)
+            downloadQueue.remove(item.id)
+        } else if (downloadQueue.stateOf(item.id) == DownloadQueueTracker.State.PAUSED) {
+            setPauseNotification(notificationBuilder, item, false)
+            _downloadFlow.emit(item.id to DownloadStatus.Paused)
+        }
+    }
+
+    private suspend fun startNextEnqueueDownload() {
+        while (true) {
+            val id = downloadQueue.nextQueuedId() ?: return
             val dbItem = Database.downloadDao().findDownloadItemById(id)
             if (
                 dbItem != null &&
@@ -372,6 +462,8 @@ class DownloadService : LifecycleService() {
             ) {
                 resume(id)
                 return
+            } else {
+                downloadQueue.remove(id)
             }
         }
     }
@@ -401,8 +493,7 @@ class DownloadService : LifecycleService() {
      * concurrent downloads.
      */
     private fun mayStartNewDownload(): Boolean {
-        val downloadCount = downloadQueue.valueIterator().asSequence().count { it }
-        return downloadCount < DownloadHelper.MAX_CONCURRENT_DOWNLOADS
+        return downloadQueue.activeCount() < DownloadHelper.MAX_CONCURRENT_DOWNLOADS
     }
 
     /**
@@ -419,13 +510,15 @@ class DownloadService : LifecycleService() {
                 .apply { deleteIfExists() }
                 .createFile()
 
-        lifecycleScope.launch(coroutineContext) {
+        serviceScope.launch {
             item.id = Database.downloadDao().insertDownloadItem(item).toInt()
 
             if (mayStartNewDownload()) {
                 selectFormatAndDownloadFile(item)
             } else {
-                pause(item.id)
+                downloadQueue.enqueue(item.id)
+                _downloadFlow.emit(item.id to DownloadStatus.Paused)
+                stopServiceIfDone()
             }
         }
     }
@@ -433,27 +526,35 @@ class DownloadService : LifecycleService() {
     /** Resume download which may have been paused. */
     fun resume(id: Int) {
         // If file is already downloading then avoid new download job.
-        if (downloadQueue[id]) return
+        if (downloadQueue.isRunning(id)) return
 
         if (!mayStartNewDownload()) {
             toastFromMainThread(getString(R.string.concurrent_downloads_limit_reached))
-            lifecycleScope.launch(coroutineContext) {
+            downloadQueue.enqueue(id)
+            serviceScope.launch {
                 _downloadFlow.emit(id to DownloadStatus.Paused)
             }
             return
         }
 
-        lifecycleScope.launch(coroutineContext) {
-            val file = Database.downloadDao().findDownloadItemById(id) ?: return@launch
+        downloadQueue.enqueue(id)
+        serviceScope.launch {
+            val file =
+                Database.downloadDao().findDownloadItemById(id)
+                    ?: run {
+                        downloadQueue.remove(id)
+                        stopServiceIfDone()
+                        return@launch
+                    }
             selectFormatAndDownloadFile(file)
         }
     }
 
     /** Pause downloading job for given [id]. If no downloads are active, stop the service. */
     fun pause(id: Int) {
-        downloadQueue[id] = false
+        downloadQueue.markPaused(id)
 
-        lifecycleScope.launch(coroutineContext) {
+        serviceScope.launch {
             _downloadFlow.emit(id to DownloadStatus.Paused)
         }
 
@@ -462,7 +563,7 @@ class DownloadService : LifecycleService() {
 
     /** Resume all downloads: Queue them all, then fill empty slots. */
     private fun resumeAll() {
-        lifecycleScope.launch(coroutineContext) {
+        serviceScope.launch {
             val incompleteItems =
                 withContext(Dispatchers.IO) {
                     Database.downloadDao()
@@ -472,16 +573,21 @@ class DownloadService : LifecycleService() {
                 }
 
             incompleteItems.forEach {
-                if (!downloadQueue.contains(it.id)) {
-                    downloadQueue.put(it.id, false)
+                if (!downloadQueue.isRunning(it.id)) {
+                    downloadQueue.enqueue(it.id)
                 }
             }
 
-            val current = downloadQueue.valueIterator().asSequence().count { it }
+            val current = downloadQueue.activeCount()
             val slotsToFill = DownloadHelper.MAX_CONCURRENT_DOWNLOADS - current
 
             if (slotsToFill > 0) {
-                val candidates = incompleteItems.filter { !downloadQueue[it.id] }.take(slotsToFill)
+                val candidates =
+                    incompleteItems
+                        .filter {
+                            downloadQueue.stateOf(it.id) == DownloadQueueTracker.State.QUEUED
+                        }
+                        .take(slotsToFill)
 
                 candidates.forEach { item ->
                     launch {
@@ -489,24 +595,27 @@ class DownloadService : LifecycleService() {
                     }
                 }
             }
+
+            stopServiceIfDone()
         }
     }
 
     /** Stop downloading job for given [id]. If no downloads are active, stop the service. */
-    private fun stop(id: Int) =
-        lifecycleScope.launch(coroutineContext) {
-            downloadQueue[id] = false
-            _downloadFlow.emit(id to DownloadStatus.Stopped)
+    private fun stop(id: Int) = serviceScope.launch {
+        downloadQueue.remove(id)
+        _downloadFlow.emit(id to DownloadStatus.Stopped)
 
-            val item = Database.downloadDao().findDownloadItemById(id) ?: return@launch
+        val item = Database.downloadDao().findDownloadItemById(id)
+        if (item != null) {
             notificationManager.cancel(item.getNotificationId())
             Database.downloadDao().deleteDownloadItemById(id)
-            stopServiceIfDone()
         }
+        stopServiceIfDone()
+    }
 
     /** Stop service if no downloads are active */
     private fun stopServiceIfDone() {
-        if (downloadQueue.valueIterator().asSequence().none { it }) {
+        if (downloadQueue.activeCount() == 0 && downloadQueue.nextQueuedId() == null) {
             ServiceCompat.stopForeground(this@DownloadService, ServiceCompat.STOP_FOREGROUND_DETACH)
             sendBroadcast(Intent(ACTION_SERVICE_STOPPED))
             stopSelf()
@@ -537,7 +646,7 @@ class DownloadService : LifecycleService() {
 
     /** Check whether the file downloading or not. */
     fun isDownloading(id: Int): Boolean {
-        return downloadQueue[id]
+        return downloadQueue.isRunning(id)
     }
 
     private fun notifyForeground() {
@@ -681,7 +790,10 @@ class DownloadService : LifecycleService() {
     }
 
     override fun onDestroy() {
+        serviceScope.cancel()
+        dispatcher.close()
         downloadQueue.clear()
+        cachedStreamsInfo.clear()
         IS_DOWNLOAD_RUNNING = false
         sendBroadcast(Intent(ACTION_SERVICE_STOPPED))
         super.onDestroy()

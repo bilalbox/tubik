@@ -5,6 +5,10 @@ import com.github.libretube.db.DatabaseHolder
 import com.github.libretube.db.obj.DownloadItem
 import com.github.libretube.extensions.TAG
 import com.github.libretube.helpers.DownloadHelper
+import com.github.libretube.player.StreamTransportContext
+import java.net.HttpURLConnection
+import java.nio.file.Files
+import java.nio.file.StandardOpenOption
 import java.time.Duration
 import kotlin.io.path.fileSize
 import kotlin.math.min
@@ -19,21 +23,14 @@ import okio.IOException
 import okio.source
 
 /** Download from RAW HTTP stream. */
-class RawByteStreamDownloadProvider(val url: HttpUrl) : DownloadProvider {
-    private val httpClient: OkHttpClient by lazy {
-        OkHttpClient.Builder()
-            .connectTimeout(Duration.ofMillis(DownloadHelper.DEFAULT_TIMEOUT.toLong()))
-            .readTimeout(Duration.ofMillis(DownloadHelper.DEFAULT_TIMEOUT.toLong()))
-            .retryOnConnectionFailure(true)
-            .addInterceptor { chain ->
-                val request = chain.request().newBuilder().header("User-Agent", USER_AGENT).build()
-                chain.proceed(request)
-            }
-            .build()
-    }
+class RawByteStreamDownloadProvider(
+    val url: HttpUrl,
+    private val transportContext: StreamTransportContext? = null,
+    private val httpClient: OkHttpClient = transportContext?.httpClient ?: buildDefaultHttpClient(),
+) : DownloadProvider {
 
     private sealed interface ConnectionResult {
-        data class Success(val response: Response) : ConnectionResult
+        data class Success(val response: Response, val isFullBody: Boolean) : ConnectionResult
 
         data object Completed : ConnectionResult
 
@@ -44,22 +41,42 @@ class RawByteStreamDownloadProvider(val url: HttpUrl) : DownloadProvider {
         item: DownloadItem,
         sink: BufferedSink,
     ): DownloadProgressResult {
-        val startByteOffset = item.path.fileSize()
+        val startByteOffset = if (Files.exists(item.path)) item.path.fileSize() else 0L
         if (item.downloadSize > 0L && startByteOffset >= item.downloadSize) {
             return DownloadProgressResult.DownloadComplete
         }
 
         val conn = startConnection(url, startByteOffset, item)
-        val response =
+        val (response, isFullBody) =
             when (conn) {
                 ConnectionResult.Completed -> return DownloadProgressResult.DownloadComplete
                 ConnectionResult.Failed -> return DownloadProgressResult.Failed
-                is ConnectionResult.Success -> conn.response
+                is ConnectionResult.Success -> conn.response to conn.isFullBody
             }
 
+        if (isFullBody && startByteOffset > 0L) {
+            truncateExistingFile(item, sink)
+        }
+
+        val totalRead = streamBodyToSink(response, sink)
+        return computeProgressResult(isFullBody, item, startByteOffset, totalRead)
+    }
+
+    private suspend fun truncateExistingFile(item: DownloadItem, sink: BufferedSink) {
+        withContext(Dispatchers.IO) {
+            sink.flush()
+            Files.newByteChannel(
+                    item.path,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING,
+                )
+                .close()
+        }
+    }
+
+    private suspend fun streamBodyToSink(response: Response, sink: BufferedSink): Long {
         val body = response.body
         val sourceByte = body.byteStream().source()
-
         var totalRead = 0L
         var lastRead = 0L
         try {
@@ -73,32 +90,31 @@ class RawByteStreamDownloadProvider(val url: HttpUrl) : DownloadProvider {
             }
         } finally {
             withContext(Dispatchers.IO) {
-                try {
-                    sourceByte.close()
-                } catch (_: Exception) {}
-                try {
-                    body.close()
-                } catch (_: Exception) {}
-                try {
-                    response.close()
-                } catch (_: Exception) {}
+                runCatching { sourceByte.close() }
+                runCatching { body.close() }
+                runCatching { response.close() }
             }
         }
-
-        return if (item.downloadSize > 0L) {
-            if (startByteOffset + totalRead >= item.downloadSize) {
-                DownloadProgressResult.DownloadComplete
-            } else {
-                DownloadProgressResult.Progressed(totalRead)
-            }
-        } else {
-            if (totalRead == 0L) {
-                DownloadProgressResult.DownloadComplete
-            } else {
-                DownloadProgressResult.Progressed(totalRead)
-            }
-        }
+        return totalRead
     }
+
+    private fun computeProgressResult(
+        isFullBody: Boolean,
+        item: DownloadItem,
+        startByteOffset: Long,
+        totalRead: Long,
+    ): DownloadProgressResult =
+        when {
+            isFullBody -> DownloadProgressResult.DownloadComplete
+            item.downloadSize > 0L ->
+                if (startByteOffset + totalRead >= item.downloadSize) {
+                    DownloadProgressResult.DownloadComplete
+                } else {
+                    DownloadProgressResult.Progressed(totalRead)
+                }
+            totalRead == 0L -> DownloadProgressResult.DownloadComplete
+            else -> DownloadProgressResult.Progressed(totalRead)
+        }
 
     private suspend fun startConnection(
         url: HttpUrl,
@@ -106,61 +122,78 @@ class RawByteStreamDownloadProvider(val url: HttpUrl) : DownloadProvider {
         item: DownloadItem,
     ): ConnectionResult {
         val readLimit = item.downloadSize.takeIf { it > 0L }
-        val rangeHeader =
-            if (readLimit != null) {
-                if (alreadyRead >= readLimit) {
-                    return ConnectionResult.Completed
-                }
-                val endByte = min(readLimit - 1L, alreadyRead + BYTES_PER_REQUEST - 1L)
-                "bytes=$alreadyRead-$endByte"
-            } else {
-                val endByte = alreadyRead + BYTES_PER_REQUEST - 1L
-                "bytes=$alreadyRead-$endByte"
-            }
-
-        val request =
-            Request.Builder().url(url).method("GET", null).header("Range", rangeHeader).build()
+        if (readLimit != null && alreadyRead >= readLimit) {
+            return ConnectionResult.Completed
+        }
+        val request = buildRangeRequest(url, alreadyRead, readLimit)
 
         return withContext(Dispatchers.IO) {
             try {
-                val call = httpClient.newCall(request)
-                val response = call.execute()
-
-                if (response.code == 416) {
-                    response.close()
-                    // 416 Range Not Satisfiable: file is already fully downloaded
-                    return@withContext if (alreadyRead > 0L) {
-                        ConnectionResult.Completed
-                    } else {
-                        ConnectionResult.Failed
-                    }
-                }
-
-                if (!response.isSuccessful) {
-                    Log.e(TAG(), "HTTP error ${response.code} downloading: ${response.message}")
-                    response.close()
-                    return@withContext ConnectionResult.Failed
-                }
-
-                // Parse real content length from Content-Range header if present (e.g. "bytes
-                // 0-524287/15234567")
-                response.header("Content-Range")?.let { contentRange ->
-                    val total = contentRange.substringAfterLast("/", "").toLongOrNull()
-                    if (total != null && total > 0L && total != item.downloadSize) {
-                        item.downloadSize = total
-                        try {
-                            DatabaseHolder.Database.downloadDao().updateDownloadItem(item)
-                        } catch (_: Throwable) {
-                            // Database might not be initialized in test environments
-                        }
-                    }
-                }
-
-                ConnectionResult.Success(response)
+                val response = httpClient.newCall(request).execute()
+                handleResponse(response, alreadyRead, item)
             } catch (e: IOException) {
-                Log.e(TAG(), "IO error while downloading chunk: ${e.message}", e)
+                runCatching { Log.e(TAG(), "IO error while downloading chunk: ${e.message}", e) }
                 ConnectionResult.Failed
             }
+        }
+    }
+
+    private fun buildRangeRequest(url: HttpUrl, alreadyRead: Long, readLimit: Long?): Request {
+        val endByte =
+            if (readLimit != null) {
+                min(readLimit - 1L, alreadyRead + BYTES_PER_REQUEST - 1L)
+            } else {
+                alreadyRead + BYTES_PER_REQUEST - 1L
+            }
+        val requestBuilder = Request.Builder().url(url).method("GET", null)
+        transportContext?.headers?.forEach { (key, value) -> requestBuilder.header(key, value) }
+        val userAgent = transportContext?.resolveUserAgent(url.toString()) ?: USER_AGENT
+        return requestBuilder
+            .header("User-Agent", userAgent)
+            .header("Range", "bytes=$alreadyRead-$endByte")
+            .build()
+    }
+
+    private suspend fun handleResponse(
+        response: Response,
+        alreadyRead: Long,
+        item: DownloadItem,
+    ): ConnectionResult {
+        if (response.code == HTTP_RANGE_NOT_SATISFIABLE) {
+            response.close()
+            // 416 Range Not Satisfiable: file is already fully downloaded
+            return if (alreadyRead > 0L) ConnectionResult.Completed else ConnectionResult.Failed
+        }
+
+        return if (!response.isSuccessful) {
+            runCatching {
+                Log.e(TAG(), "HTTP error ${response.code} downloading: ${response.message}")
+            }
+            response.close()
+            ConnectionResult.Failed
+        } else {
+            val isFullBody = response.code == HttpURLConnection.HTTP_OK
+            updateItemDownloadSize(response, isFullBody, item)
+            ConnectionResult.Success(response, isFullBody)
+        }
+    }
+
+    private suspend fun updateItemDownloadSize(
+        response: Response,
+        isFullBody: Boolean,
+        item: DownloadItem,
+    ) {
+        val detectedTotal =
+            if (isFullBody) {
+                response.body.contentLength()
+            } else {
+                // Parse real content length from Content-Range header (e.g. "bytes
+                // 0-524287/15234567")
+                response.header("Content-Range")?.substringAfterLast("/", "")?.toLongOrNull() ?: -1L
+            }
+        if (detectedTotal > 0L && detectedTotal != item.downloadSize) {
+            item.downloadSize = detectedTotal
+            runCatching { DatabaseHolder.Database.downloadDao().updateDownloadItem(item) }
         }
     }
 
@@ -168,5 +201,13 @@ class RawByteStreamDownloadProvider(val url: HttpUrl) : DownloadProvider {
         private const val USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0"
         private const val BYTES_PER_REQUEST = 512 * 1024L
+        private const val HTTP_RANGE_NOT_SATISFIABLE = 416
+
+        private fun buildDefaultHttpClient(): OkHttpClient =
+            OkHttpClient.Builder()
+                .connectTimeout(Duration.ofMillis(DownloadHelper.DEFAULT_TIMEOUT.toLong()))
+                .readTimeout(Duration.ofMillis(DownloadHelper.DEFAULT_TIMEOUT.toLong()))
+                .retryOnConnectionFailure(true)
+                .build()
     }
 }
