@@ -35,7 +35,7 @@ class AppUpdaterTest {
         var screenPinned: Boolean = false,
         var canRequestInstalls: Boolean = true,
         var apkInfo: ApkVerificationInfo? =
-            ApkVerificationInfo("dev.twenty3p.tubik", setOf(VALID_CERT)),
+            ApkVerificationInfo("dev.twenty3p.tubik", setOf(VALID_CERT), versionCode = 90L),
         var installedSigners: Set<String>? = setOf(VALID_CERT),
         var commitResult: Result<Unit> = Result.success(Unit),
         var onReadApkInfo: (() -> Unit)? = null,
@@ -111,7 +111,8 @@ class AppUpdaterTest {
         minSdk: Int = 26,
         sha256: String = VALID_SHA256,
         sizeBytes: Long = 1024L,
-        apkUrl: String = "https://tubik.23p.dev/updates/tubik-v1.3.0.apk",
+        apkUrl: String = "https://tubik-releases.23p.dev/tubik-v1.3.0.apk",
+        releaseNotesUrl: String = "https://github.com/bilalbox/tubik/releases/tag/v$versionName",
     ): UpdateManifest =
         UpdateManifest(
             schemaVersion = 1,
@@ -121,7 +122,7 @@ class AppUpdaterTest {
             sha256 = sha256,
             sizeBytes = sizeBytes,
             apkUrl = apkUrl,
-            releaseNotesUrl = "https://github.com/bilalbox/tubik/releases/tag/v$versionName",
+            releaseNotesUrl = releaseNotesUrl,
             changelog = "Bug fixes",
         )
 
@@ -236,7 +237,8 @@ class AppUpdaterTest {
         }
 
         val pinnedPlatform = FakeUpdatePlatform(dir, screenPinned = true)
-        val pinnedUpdater = AppUpdater(pinnedPlatform, InMemoryUpdateStorage(), client)
+        val pinnedUpdater =
+            AppUpdater(pinnedPlatform, InMemoryUpdateStorage(), client, currentVersionCode = 86)
         assertEquals(
             DownloadAndInstallOutcome.BlockedByScreenPin,
             pinnedUpdater.downloadAndInstall(sampleManifest()),
@@ -245,7 +247,8 @@ class AppUpdaterTest {
 
         val noPermPlatform =
             FakeUpdatePlatform(dir, screenPinned = false, canRequestInstalls = false)
-        val noPermUpdater = AppUpdater(noPermPlatform, InMemoryUpdateStorage(), client)
+        val noPermUpdater =
+            AppUpdater(noPermPlatform, InMemoryUpdateStorage(), client, currentVersionCode = 86)
         assertEquals(
             DownloadAndInstallOutcome.NeedsUnknownSourcesPermission,
             noPermUpdater.downloadAndInstall(sampleManifest()),
@@ -268,6 +271,7 @@ class AppUpdaterTest {
                 platform = platform,
                 storage = InMemoryUpdateStorage(),
                 httpClient = stubHttpClient { req -> bytesResponse(req, payload) },
+                currentVersionCode = 86,
             )
 
         val stages = mutableListOf<DownloadAndInstallStage>()
@@ -281,56 +285,81 @@ class AppUpdaterTest {
         assertTrue(stages.contains(DownloadAndInstallStage.Installing))
     }
 
+    private fun computeSha256(dir: File, bytes: ByteArray): String {
+        val refFile = File(dir, "hash.tmp").apply { writeBytes(bytes) }
+        return AppUpdater.computeSha256(refFile).also { refFile.delete() }
+    }
+
     @Test
-    fun `downloadAndInstall deletes staged APK on verification, Screen Pin, and commit failures`() {
+    fun `downloadAndInstall deletes staged APK on SHA-256 and signature failures`() {
         val payload = "tampered-apk-payload".toByteArray()
         val tempDir = tempUpdatesDir()
-        val refFile = File(tempDir, "hash.tmp").apply { writeBytes(payload) }
-        val realSha = AppUpdater.computeSha256(refFile)
-        refFile.delete()
+        val realSha = computeSha256(tempDir, payload)
         val client = stubHttpClient { req -> bytesResponse(req, payload) }
 
-        // 1. SHA-256 mismatch deletes staged APK
         val badShaOutcome =
-            AppUpdater(FakeUpdatePlatform(tempDir), InMemoryUpdateStorage(), client)
-                .downloadAndInstall(sampleManifest(sha256 = VALID_SHA256))
+            AppUpdater(
+                    FakeUpdatePlatform(tempDir),
+                    InMemoryUpdateStorage(),
+                    client,
+                    currentVersionCode = 86,
+                )
+                .downloadAndInstall(
+                    sampleManifest(sha256 = VALID_SHA256, sizeBytes = payload.size.toLong()),
+                )
         assertTrue(badShaOutcome is DownloadAndInstallOutcome.VerificationFailed)
         assertTrue(tempDir.listFiles().orEmpty().isEmpty())
 
-        // 2. Signing-certificate mismatch deletes staged APK
         val badCertPlatform =
             FakeUpdatePlatform(
                 updatesDir = tempDir,
-                apkInfo = ApkVerificationInfo("dev.twenty3p.tubik", setOf("deadbeef".repeat(8))),
+                apkInfo =
+                    ApkVerificationInfo(
+                        "dev.twenty3p.tubik",
+                        setOf("deadbeef".repeat(8)),
+                        versionCode = 90L,
+                    ),
             )
         val badCertOutcome =
-            AppUpdater(badCertPlatform, InMemoryUpdateStorage(), client)
-                .downloadAndInstall(sampleManifest(sha256 = realSha))
+            AppUpdater(badCertPlatform, InMemoryUpdateStorage(), client, currentVersionCode = 86)
+                .downloadAndInstall(
+                    sampleManifest(sha256 = realSha, sizeBytes = payload.size.toLong()),
+                )
         assertEquals(
             DownloadAndInstallOutcome.VerificationFailed(VerificationResult.SignatureMismatch),
             badCertOutcome,
         )
         assertTrue(tempDir.listFiles().orEmpty().isEmpty())
+    }
 
-        // 3. Screen Pin activated mid-download deletes staged APK and never commits
+    @Test
+    fun `downloadAndInstall deletes staged APK on mid-download Screen Pin and commit failure`() {
+        val payload = "tampered-apk-payload".toByteArray()
+        val tempDir = tempUpdatesDir()
+        val realSha = computeSha256(tempDir, payload)
+        val client = stubHttpClient { req -> bytesResponse(req, payload) }
+
         val midPinPlatform = FakeUpdatePlatform(updatesDir = tempDir)
         midPinPlatform.onReadApkInfo = { midPinPlatform.screenPinned = true }
         val midPinOutcome =
-            AppUpdater(midPinPlatform, InMemoryUpdateStorage(), client)
-                .downloadAndInstall(sampleManifest(sha256 = realSha))
+            AppUpdater(midPinPlatform, InMemoryUpdateStorage(), client, currentVersionCode = 86)
+                .downloadAndInstall(
+                    sampleManifest(sha256 = realSha, sizeBytes = payload.size.toLong()),
+                )
         assertEquals(DownloadAndInstallOutcome.BlockedByScreenPin, midPinOutcome)
         assertTrue(midPinPlatform.committedFiles.isEmpty())
         assertTrue(tempDir.listFiles().orEmpty().isEmpty())
 
-        // 4. PackageInstaller commit failure deletes staged APK
         val failCommitPlatform =
             FakeUpdatePlatform(
                 updatesDir = tempDir,
                 commitResult = Result.failure(IOException("Session failed")),
             )
         val failCommitOutcome =
-            AppUpdater(failCommitPlatform, InMemoryUpdateStorage(), client)
-                .downloadAndInstall(sampleManifest(sha256 = realSha))
+            AppUpdater(failCommitPlatform, InMemoryUpdateStorage(), client, currentVersionCode = 86)
+                .downloadAndInstall(
+                    sampleManifest(sha256 = realSha, sizeBytes = payload.size.toLong()),
+                )
         assertTrue(failCommitOutcome is DownloadAndInstallOutcome.InstallFailed)
         assertTrue(tempDir.listFiles().orEmpty().isEmpty())
     }
@@ -360,6 +389,165 @@ class AppUpdaterTest {
             assertFalse(stagedApk.exists())
             assertFalse(extraFile.exists())
         }
+
+    @Test
+    fun `evaluate rejects disallowed apkUrl host, disallowed releaseNotesUrl, and oversized sizeBytes`() {
+        val badHostManifest = sampleManifest(apkUrl = "https://evil.example/tubik-v1.3.0.apk")
+        assertTrue(
+            UpdateManifest.evaluate(badHostManifest, currentVersionCode = 86, currentSdkInt = 33)
+                is UpdateCheckResult.InvalidManifest,
+        )
+
+        val badNotesManifest =
+            sampleManifest(releaseNotesUrl = "https://evil.example/bilalbox/tubik/releases")
+        assertTrue(
+            UpdateManifest.evaluate(badNotesManifest, currentVersionCode = 86, currentSdkInt = 33)
+                is UpdateCheckResult.InvalidManifest,
+        )
+
+        val oversizedManifest = sampleManifest(sizeBytes = UpdateManifest.MAX_APK_SIZE_BYTES + 1L)
+        assertTrue(
+            UpdateManifest.evaluate(oversizedManifest, currentVersionCode = 86, currentSdkInt = 33)
+                is UpdateCheckResult.InvalidManifest,
+        )
+    }
+
+    @Test
+    fun `downloadAndInstall rejects redirects to disallowed APK hosts`() {
+        val dir = tempUpdatesDir()
+        val payload = "signed-tubik-release-apk-bytes".toByteArray()
+        val redirectedRequest = Request.Builder().url("https://evil.example/tubik.apk").build()
+        val client = stubHttpClient {
+            Response.Builder()
+                .request(redirectedRequest)
+                .protocol(Protocol.HTTP_1_1)
+                .code(200)
+                .message("OK")
+                .body(
+                    payload.toResponseBody("application/vnd.android.package-archive".toMediaType()),
+                )
+                .build()
+        }
+
+        val updater =
+            AppUpdater(
+                platform = FakeUpdatePlatform(dir),
+                storage = InMemoryUpdateStorage(),
+                httpClient = client,
+                currentVersionCode = 86,
+            )
+        val outcome = updater.downloadAndInstall(sampleManifest(sizeBytes = payload.size.toLong()))
+
+        assertTrue(outcome is DownloadAndInstallOutcome.DownloadFailed)
+        assertTrue(dir.listFiles().orEmpty().isEmpty())
+    }
+
+    @Test
+    fun `isAllowedReleaseNotesUrl enforces github repository releases prefix`() {
+        assertTrue(UpdateManifest.isAllowedReleaseNotesUrl(""))
+        assertTrue(
+            UpdateManifest.isAllowedReleaseNotesUrl(
+                "https://github.com/bilalbox/tubik/releases/tag/v1.3.1",
+            ),
+        )
+        assertFalse(
+            UpdateManifest.isAllowedReleaseNotesUrl(
+                "http://github.com/bilalbox/tubik/releases/tag/v1.3.1",
+            ),
+        )
+        assertFalse(
+            UpdateManifest.isAllowedReleaseNotesUrl("https://github.com/other/repo/releases"),
+        )
+        assertFalse(
+            UpdateManifest.isAllowedReleaseNotesUrl(
+                "https://evil.example/bilalbox/tubik/releases/tag/v1.3.1",
+            ),
+        )
+    }
+
+    @Test
+    fun `downloadAndInstall rejects APK with lower or mismatched versionCode`() {
+        val dir = tempUpdatesDir()
+        val payload = "signed-tubik-release-apk-bytes".toByteArray()
+        val refFile = File(dir, "ref.tmp").apply { writeBytes(payload) }
+        val realSha = AppUpdater.computeSha256(refFile)
+        refFile.delete()
+        val client = stubHttpClient { req -> bytesResponse(req, payload) }
+        val manifest =
+            sampleManifest(
+                versionCode = 90,
+                sha256 = realSha,
+                sizeBytes = payload.size.toLong(),
+            )
+
+        // 1. APK versionCode <= installed currentVersionCode (downgrade / replay)
+        val downgradePlatform =
+            FakeUpdatePlatform(
+                updatesDir = dir,
+                apkInfo =
+                    ApkVerificationInfo("dev.twenty3p.tubik", setOf(VALID_CERT), versionCode = 85L),
+            )
+        val downgradeOutcome =
+            AppUpdater(
+                    downgradePlatform,
+                    InMemoryUpdateStorage(),
+                    client,
+                    currentVersionCode = 86,
+                )
+                .downloadAndInstall(manifest)
+        assertEquals(
+            DownloadAndInstallOutcome.VerificationFailed(
+                VerificationResult.VersionMismatch(expected = 90L, actual = 85L),
+            ),
+            downgradeOutcome,
+        )
+        assertTrue(dir.listFiles().orEmpty().isEmpty())
+
+        // 2. APK versionCode > currentVersionCode but != manifest.versionCode
+        val mismatchPlatform =
+            FakeUpdatePlatform(
+                updatesDir = dir,
+                apkInfo =
+                    ApkVerificationInfo("dev.twenty3p.tubik", setOf(VALID_CERT), versionCode = 88L),
+            )
+        val mismatchOutcome =
+            AppUpdater(
+                    mismatchPlatform,
+                    InMemoryUpdateStorage(),
+                    client,
+                    currentVersionCode = 86,
+                )
+                .downloadAndInstall(manifest)
+        assertEquals(
+            DownloadAndInstallOutcome.VerificationFailed(
+                VerificationResult.VersionMismatch(expected = 90L, actual = 88L),
+            ),
+            mismatchOutcome,
+        )
+        assertTrue(dir.listFiles().orEmpty().isEmpty())
+    }
+
+    @Test
+    fun `downloadAndInstall aborts when response body exceeds or is truncated below manifest sizeBytes`() {
+        val dir = tempUpdatesDir()
+        val bodyBytes = "0123456789abcdef".toByteArray() // 16 bytes
+        val client = stubHttpClient { req -> bytesResponse(req, bodyBytes) }
+        val updater =
+            AppUpdater(
+                platform = FakeUpdatePlatform(dir),
+                storage = InMemoryUpdateStorage(),
+                httpClient = client,
+                currentVersionCode = 86,
+            )
+
+        val oversizedOutcome = updater.downloadAndInstall(sampleManifest(sizeBytes = 8L))
+        assertTrue(oversizedOutcome is DownloadAndInstallOutcome.DownloadFailed)
+        assertTrue(dir.listFiles().orEmpty().isEmpty())
+
+        val truncatedOutcome = updater.downloadAndInstall(sampleManifest(sizeBytes = 32L))
+        assertTrue(truncatedOutcome is DownloadAndInstallOutcome.DownloadFailed)
+        assertTrue(dir.listFiles().orEmpty().isEmpty())
+    }
 
     companion object {
         private val VALID_SHA256 = "a".repeat(64)

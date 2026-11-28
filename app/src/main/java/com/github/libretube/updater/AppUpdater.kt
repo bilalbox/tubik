@@ -38,6 +38,10 @@ data class UpdateManifest(
 
     companion object {
         const val SUPPORTED_SCHEMA_VERSION = 1
+        const val ALLOWED_APK_HOST = "tubik-releases.23p.dev"
+        const val ALLOWED_RELEASE_NOTES_HOST = "github.com"
+        const val ALLOWED_RELEASE_NOTES_PATH_PREFIX = "/bilalbox/tubik/releases"
+        const val MAX_APK_SIZE_BYTES = 200L * 1024L * 1024L
         private val SHA256_HEX_REGEX = Regex("^[0-9a-fA-F]{64}$")
 
         fun parse(jsonString: String): UpdateManifest =
@@ -49,6 +53,19 @@ data class UpdateManifest(
         fun isValidSha256Hex(sha256: String): Boolean = SHA256_HEX_REGEX.matches(sha256.trim())
 
         fun isHttpsUrl(url: String): Boolean = url.trim().toHttpUrlOrNull()?.isHttps == true
+
+        fun isAllowedApkUrl(url: String): Boolean {
+            val parsed = url.trim().toHttpUrlOrNull() ?: return false
+            return parsed.isHttps && parsed.host.equals(ALLOWED_APK_HOST, ignoreCase = true)
+        }
+
+        fun isAllowedReleaseNotesUrl(url: String): Boolean =
+            url.isBlank() ||
+                url.trim().toHttpUrlOrNull()?.let { parsed ->
+                    parsed.isHttps &&
+                        parsed.host.equals(ALLOWED_RELEASE_NOTES_HOST, ignoreCase = true) &&
+                        parsed.encodedPath.startsWith(ALLOWED_RELEASE_NOTES_PATH_PREFIX)
+                } == true
 
         fun evaluate(
             manifest: UpdateManifest,
@@ -73,9 +90,13 @@ data class UpdateManifest(
                     "Unsupported schemaVersion: ${manifest.schemaVersion}"
                 manifest.versionCode <= 0 || manifest.versionName.isBlank() ->
                     "Invalid version metadata"
-                !isHttpsUrl(manifest.apkUrl) -> "APK URL must use HTTPS"
+                !isAllowedApkUrl(manifest.apkUrl) -> "APK URL must use HTTPS on $ALLOWED_APK_HOST"
+                !isAllowedReleaseNotesUrl(manifest.releaseNotesUrl) ->
+                    "Release notes URL must point to $ALLOWED_RELEASE_NOTES_HOST$ALLOWED_RELEASE_NOTES_PATH_PREFIX"
                 !isValidSha256Hex(manifest.sha256) -> "Invalid SHA-256 digest format"
                 manifest.sizeBytes < 0L -> "Invalid negative sizeBytes"
+                manifest.sizeBytes > MAX_APK_SIZE_BYTES ->
+                    "APK size exceeds maximum allowed ($MAX_APK_SIZE_BYTES bytes)"
                 else -> null
             }
     }
@@ -112,6 +133,7 @@ sealed interface BackgroundCheckOutcome {
 data class ApkVerificationInfo(
     val packageName: String,
     val signerSha256Set: Set<String>,
+    val versionCode: Long = 0L,
 )
 
 sealed interface VerificationResult {
@@ -120,6 +142,8 @@ sealed interface VerificationResult {
     data class Sha256Mismatch(val expected: String, val actual: String) : VerificationResult
 
     data class PackageMismatch(val expected: String, val actual: String?) : VerificationResult
+
+    data class VersionMismatch(val expected: Long, val actual: Long) : VerificationResult
 
     data object MissingSignatures : VerificationResult
 
@@ -373,7 +397,14 @@ class AppUpdater(
         }
 
         onStage(DownloadAndInstallStage.Verifying)
-        val verification = transport.verifyApk(apkFile, manifest.sha256, platform)
+        val verification =
+            transport.verifyApk(
+                apkFile = apkFile,
+                expectedSha256 = manifest.sha256,
+                expectedVersionCode = manifest.versionCode.toLong(),
+                currentVersionCode = currentVersionCode.toLong(),
+                platform = platform,
+            )
         val postBlocked =
             if (verification == VerificationResult.Success) checkPreconditions() else null
 
@@ -415,8 +446,10 @@ class AppUpdater(
             targetDir: File,
             onProgress: (bytesRead: Long, totalBytes: Long) -> Unit,
         ): Result<File> = runCatching {
-            val url = manifest.apkUrl.trim().toHttpUrlOrNull()
-            require(url != null && url.isHttps) { "APK URL must use HTTPS: ${manifest.apkUrl}" }
+            require(UpdateManifest.isAllowedApkUrl(manifest.apkUrl)) {
+                "APK URL must use HTTPS on ${UpdateManifest.ALLOWED_APK_HOST}: ${manifest.apkUrl}"
+            }
+            val url = requireNotNull(manifest.apkUrl.trim().toHttpUrlOrNull())
 
             cleanDirectory(targetDir)
             check(targetDir.exists() || targetDir.mkdirs()) {
@@ -430,7 +463,7 @@ class AppUpdater(
             try {
                 val request = Request.Builder().url(url).get().build()
                 httpClient.newCall(request).execute().use { response ->
-                    validateHttpsSuccess(response, "APK download")
+                    validateHttpsSuccess(response, "APK download", isApkDownload = true)
                     streamResponseBody(response.body, partFile, manifest.sizeBytes, onProgress)
                 }
                 check(partFile.renameTo(finalFile)) { "Failed to finalize downloaded APK" }
@@ -447,6 +480,8 @@ class AppUpdater(
         fun verifyApk(
             apkFile: File,
             expectedSha256: String,
+            expectedVersionCode: Long,
+            currentVersionCode: Long,
             platform: UpdatePlatform,
         ): VerificationResult {
             val outcome =
@@ -464,7 +499,12 @@ class AppUpdater(
                     if (!hashesMatch) {
                         VerificationResult.Sha256Mismatch(normalizedExpected, actualSha256)
                     } else {
-                        verifySignatures(apkFile, platform)
+                        verifySignatures(
+                            apkFile = apkFile,
+                            expectedVersionCode = expectedVersionCode,
+                            currentVersionCode = currentVersionCode,
+                            platform = platform,
+                        )
                     }
                 }
             if (outcome != VerificationResult.Success) {
@@ -478,7 +518,12 @@ class AppUpdater(
             directory.listFiles()?.forEach { child -> if (child.isFile) child.delete() }
         }
 
-        private fun verifySignatures(apkFile: File, platform: UpdatePlatform): VerificationResult {
+        private fun verifySignatures(
+            apkFile: File,
+            expectedVersionCode: Long,
+            currentVersionCode: Long,
+            platform: UpdatePlatform,
+        ): VerificationResult {
             val expectedPackage = platform.packageName
             val archiveInfo = platform.readApkVerificationInfo(apkFile)
             val installedSigners = platform.readInstalledSigners(expectedPackage)
@@ -492,16 +537,33 @@ class AppUpdater(
                     VerificationResult.MissingSignatures
                 archiveInfo.signerSha256Set != installedSigners ->
                     VerificationResult.SignatureMismatch
+                archiveInfo.versionCode != expectedVersionCode ||
+                    archiveInfo.versionCode <= currentVersionCode ->
+                    VerificationResult.VersionMismatch(
+                        expected = expectedVersionCode,
+                        actual = archiveInfo.versionCode,
+                    )
                 else -> VerificationResult.Success
             }
         }
 
-        private fun validateHttpsSuccess(response: Response, label: String) {
-            if (!response.request.url.isHttps) {
-                throw IOException("Refused redirect to non-HTTPS URL: ${response.request.url}")
-            }
-            if (!response.isSuccessful) {
-                throw IOException("$label failed with HTTP ${response.code}")
+        private fun validateHttpsSuccess(
+            response: Response,
+            label: String,
+            isApkDownload: Boolean = false,
+        ) {
+            val failureMessage =
+                when {
+                    !response.request.url.isHttps ->
+                        "Refused redirect to non-HTTPS URL: ${response.request.url}"
+                    isApkDownload &&
+                        !UpdateManifest.isAllowedApkUrl(response.request.url.toString()) ->
+                        "Refused redirect to disallowed APK host: ${response.request.url}"
+                    !response.isSuccessful -> "$label failed with HTTP ${response.code}"
+                    else -> null
+                }
+            if (failureMessage != null) {
+                throw IOException(failureMessage)
             }
         }
 
@@ -513,6 +575,12 @@ class AppUpdater(
         ) {
             val totalBytes =
                 body.contentLength().takeIf { it > 0L } ?: fallbackSizeBytes.coerceAtLeast(0L)
+            val maxAllowedBytes =
+                if (fallbackSizeBytes > 0L) {
+                    minOf(fallbackSizeBytes, UpdateManifest.MAX_APK_SIZE_BYTES)
+                } else {
+                    UpdateManifest.MAX_APK_SIZE_BYTES
+                }
             var bytesReadTotal = 0L
             val buffer = ByteArray(STREAM_BUFFER_SIZE)
             body.byteStream().use { input ->
@@ -520,11 +588,21 @@ class AppUpdater(
                     while (true) {
                         val read = input.read(buffer)
                         if (read == -1) break
-                        output.write(buffer, 0, read)
                         bytesReadTotal += read
+                        if (bytesReadTotal > maxAllowedBytes) {
+                            throw IOException(
+                                "APK download exceeded allowed size ($maxAllowedBytes bytes)",
+                            )
+                        }
+                        output.write(buffer, 0, read)
                         onProgress(bytesReadTotal, totalBytes)
                     }
                 }
+            }
+            if (fallbackSizeBytes > 0L && bytesReadTotal != fallbackSizeBytes) {
+                throw IOException(
+                    "APK download size mismatch: expected $fallbackSizeBytes, got $bytesReadTotal",
+                )
             }
         }
     }
