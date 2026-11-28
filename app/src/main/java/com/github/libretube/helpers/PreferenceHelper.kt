@@ -282,6 +282,26 @@ object PreferenceHelper {
         authSettings.edit(commit = true) { putString(PreferenceKeys.PARENT_PIN_SALT, newValue) }
     }
 
+    fun getParentPinFailedAttempts(): Int {
+        return authSettings.getInt(PreferenceKeys.PARENT_PIN_FAILED_ATTEMPTS, 0)
+    }
+
+    fun setParentPinFailedAttempts(newValue: Int) {
+        authSettings.edit(commit = true) {
+            putInt(PreferenceKeys.PARENT_PIN_FAILED_ATTEMPTS, newValue)
+        }
+    }
+
+    fun getParentPinLockedUntil(): Long {
+        return authSettings.getLong(PreferenceKeys.PARENT_PIN_LOCKED_UNTIL, 0L)
+    }
+
+    fun setParentPinLockedUntil(newValue: Long) {
+        authSettings.edit(commit = true) {
+            putLong(PreferenceKeys.PARENT_PIN_LOCKED_UNTIL, newValue)
+        }
+    }
+
     fun updateLastFeedWatchedTime(time: Long, seenByUser: Boolean) {
         // only update the time if the time is newer
         // this avoids cases, where the user last saw an older video, which had already been seen,

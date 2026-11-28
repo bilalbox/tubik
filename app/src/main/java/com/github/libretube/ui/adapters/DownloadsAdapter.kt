@@ -34,7 +34,6 @@ import kotlin.io.path.fileSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class DownloadsAdapter(
@@ -192,18 +191,21 @@ class DownloadsAdapter(
     }
 
     fun deleteAllDownloads(onlyDeleteWatched: Boolean) {
-        val (toDelete, toKeep) =
-            currentList.partition {
-                !onlyDeleteWatched ||
-                    runBlocking(Dispatchers.IO) {
-                        DatabaseHelper.isVideoWatched(
-                            it.download.videoId,
-                            it.download.duration ?: 0,
-                        )
-                    }
-            }
-
+        val items = currentList
         CoroutineScope(Dispatchers.IO).launch {
+            val positions =
+                if (onlyDeleteWatched) {
+                    DatabaseHelper.getWatchPositions(items.map { it.download.videoId })
+                } else {
+                    emptyMap()
+                }
+            val (toDelete, toKeep) =
+                items.partition { item ->
+                    if (!onlyDeleteWatched) return@partition true
+                    val position = positions[item.download.videoId] ?: return@partition false
+                    DatabaseHelper.isVideoWatched(position, item.download.duration ?: 0)
+                }
+
             for (item in toDelete) {
                 DownloadHelper.deleteDownloadIncludingFiles(item)
             }

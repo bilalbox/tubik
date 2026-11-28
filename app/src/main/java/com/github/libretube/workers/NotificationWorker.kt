@@ -28,6 +28,7 @@ import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.repo.FeedRefresh
 import com.github.libretube.ui.activities.MainActivity
 import com.github.libretube.ui.views.TimePickerPreference
+import com.github.libretube.util.DataSaverMode
 import java.time.LocalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -87,25 +88,23 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
 
         val lastFeedCheckMillis = PreferenceHelper.getLastCheckedFeedTime(seenByUser = false)
 
-        // first time notifications are enabled or no new video available
-        if (lastFeedCheckMillis == 0L || videoFeed.none { it.uploaded > lastFeedCheckMillis })
+        // Seed baseline on first run so subsequent checks only notify for newly uploaded streams
+        if (seedInitialNotificationFeedTimeIfFirstRun(lastFeedCheckMillis, videoFeed)) {
             return true
+        }
+        if (videoFeed.none { it.uploaded > lastFeedCheckMillis }) return true
 
         val channelsToIgnore = PreferenceHelper.getIgnorableNotificationChannels()
         val enableShortsNotification =
             PreferenceHelper.getBoolean(PreferenceKeys.SHORTS_NOTIFICATIONS, false)
 
         val channelGroups =
-            videoFeed
-                .asSequence()
-                // filter the new videos until the last seen video in the feed
-                .filter { it.uploaded > lastFeedCheckMillis }
-                // don't show notifications for shorts videos if not enabled
-                .filter { enableShortsNotification || !it.isShort }
-                // hide for notifications unsubscribed channels
-                .filter { it.uploaderUrl!!.toID() !in channelsToIgnore }
-                // group the new streams by the uploader
-                .groupBy { it.uploaderUrl!!.toID() }
+            groupNewStreamsForNotifications(
+                videoFeed = videoFeed,
+                lastFeedCheckMillis = lastFeedCheckMillis,
+                enableShortsNotification = enableShortsNotification,
+                channelsToIgnore = channelsToIgnore,
+            )
 
         // update the last feed check time in order to not show the same notification again
         PreferenceHelper.updateLastFeedWatchedTime(videoFeed.first().uploaded, seenByUser = false)
@@ -140,6 +139,9 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
             return
         }
 
+        val validStreams = streams.filter { !it.url?.toID().isNullOrEmpty() }
+        if (validStreams.isEmpty()) return
+
         val summaryId = group.hashCode()
         val intent =
             Intent(applicationContext, MainActivity::class.java)
@@ -158,16 +160,16 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
         val newStreams =
             applicationContext.resources.getQuantityString(
                 R.plurals.channel_new_streams,
-                streams.size,
-                streams.size,
+                validStreams.size,
+                validStreams.size,
             )
         val summary = NotificationCompat.InboxStyle().setSummaryText(newStreams)
-        streams.forEach {
+        validStreams.forEach {
             summary.addLine(it.title)
         }
         val summaryNotification =
             createNotificationBuilder(group)
-                .setContentTitle(streams[0].uploaderName)
+                .setContentTitle(validStreams[0].uploaderName)
                 .setContentText(newStreams)
                 // The intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
@@ -175,23 +177,28 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
                 .setStyle(summary)
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                 // Show channel avatar on Android versions below 7.0.
-                .setLargeIcon(downloadImage(streams[0].uploaderAvatar))
+                .setLargeIcon(downloadImage(validStreams[0].uploaderAvatar))
                 .build()
 
         // Create stream notifications. These are automatically grouped on Android 7.0 and later.
         val notifications =
             withContext(Dispatchers.IO) {
-                streams.map { async { createStreamNotification(group, it) } }.awaitAll()
+                validStreams
+                    .map { async { createStreamNotification(group, it) } }
+                    .awaitAll()
+                    .filterNotNull()
             }
-        notificationManager.notify(notifications)
-        notificationManager.notify(summaryId, summaryNotification)
+        if (notifications.isNotEmpty()) {
+            notificationManager.notify(notifications)
+            notificationManager.notify(summaryId, summaryNotification)
+        }
     }
 
     private suspend fun createStreamNotification(
         group: String,
         stream: StreamItem,
-    ): NotificationWithIdAndTag {
-        val videoId = stream.url!!.toID()
+    ): NotificationWithIdAndTag? {
+        val videoId = stream.url?.toID()?.takeIf { it.isNotEmpty() } ?: return null
         val intent =
             Intent(applicationContext, MainActivity::class.java)
                 .setFlags(INTENT_FLAGS)
@@ -229,7 +236,7 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
     }
 
     private suspend fun downloadImage(url: String?): Bitmap? {
-        return if (PreferenceHelper.getBoolean(PreferenceKeys.DATA_SAVER_MODE, false)) {
+        return if (shouldDownloadNotificationImage(applicationContext)) {
             ImageHelper.getImage(applicationContext, url)
         } else {
             null
@@ -251,4 +258,40 @@ class NotificationWorker(appContext: Context, parameters: WorkerParameters) :
                 Intent.FLAG_ACTIVITY_NEW_TASK or
                 Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
+}
+
+internal fun shouldDownloadNotificationImage(context: Context): Boolean =
+    !DataSaverMode.isEnabled(context)
+
+internal fun seedInitialNotificationFeedTimeIfFirstRun(
+    lastFeedCheckMillis: Long,
+    videoFeed: List<StreamItem>,
+): Boolean {
+    if (lastFeedCheckMillis != 0L) return false
+    videoFeed.firstOrNull()?.uploaded?.let { latest ->
+        PreferenceHelper.updateLastFeedWatchedTime(latest, seenByUser = false)
+    }
+    return true
+}
+
+internal fun groupNewStreamsForNotifications(
+    videoFeed: List<StreamItem>,
+    lastFeedCheckMillis: Long,
+    enableShortsNotification: Boolean,
+    channelsToIgnore: Collection<String>,
+): Map<String, List<StreamItem>> {
+    val ignoredChannelSet = channelsToIgnore.toSet()
+    return videoFeed
+        .asSequence()
+        .filter { it.uploaded > lastFeedCheckMillis }
+        .filter { enableShortsNotification || !it.isShort }
+        .mapNotNull { item ->
+            val channelId = item.uploaderUrl?.toID()?.takeIf { it.isNotEmpty() }
+            if (channelId == null || channelId in ignoredChannelSet) {
+                null
+            } else {
+                channelId to item
+            }
+        }
+        .groupBy({ it.first }, { it.second })
 }

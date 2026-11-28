@@ -15,6 +15,8 @@ import com.github.libretube.helpers.PreferenceHelper
 import java.security.MessageDigest
 import java.security.SecureRandom
 import java.util.Base64
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.PBEKeySpec
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,10 +27,60 @@ internal fun normalizeChannelId(primary: String?, fallback: String? = null): Str
     return first ?: fallback?.takeIf { it.isNotBlank() }?.toID()?.takeIf { it.isNotBlank() }
 }
 
+private object PinCrypto {
+    const val PBKDF2_PREFIX = "pbkdf2_sha256$"
+    const val PBKDF2_ITERATIONS = 120_000
+    const val PBKDF2_KEY_BITS = 256
+
+    fun hashPin(
+        pin: String,
+        saltBytes: ByteArray,
+        iterations: Int = PBKDF2_ITERATIONS,
+    ): String {
+        val spec = PBEKeySpec(pin.toCharArray(), saltBytes, iterations, PBKDF2_KEY_BITS)
+        val key =
+            try {
+                SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).encoded
+            } finally {
+                spec.clearPassword()
+            }
+        return "${PBKDF2_PREFIX}${iterations}$${Base64.getEncoder().encodeToString(key)}"
+    }
+
+    fun legacySha256Hash(pin: String, saltBytes: ByteArray): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        digest.update(saltBytes)
+        val hashed = digest.digest(pin.toByteArray(Charsets.UTF_8))
+        return Base64.getEncoder().encodeToString(hashed)
+    }
+
+    fun matchesStoredHash(
+        normalizedPin: String,
+        saltBytes: ByteArray,
+        storedHash: String,
+    ): Boolean {
+        val candidateHash =
+            if (storedHash.startsWith(PBKDF2_PREFIX)) {
+                val parts = storedHash.removePrefix(PBKDF2_PREFIX).split('$', limit = 2)
+                val iterations = parts.getOrNull(0)?.toIntOrNull()?.takeIf { it > 0 }
+                if (parts.size != 2 || iterations == null) return false
+                hashPin(normalizedPin, saltBytes, iterations)
+            } else {
+                legacySha256Hash(normalizedPin, saltBytes)
+            }
+        return MessageDigest.isEqual(
+            storedHash.toByteArray(Charsets.UTF_8),
+            candidateHash.toByteArray(Charsets.UTF_8),
+        )
+    }
+}
+
 /** Persistence port for Parent PIN, Allowlist, Music Removal, Channel Opt-Out, and Screen Pin. */
 interface AccessControlStorage {
     var pinHash: String?
     var pinSalt: String?
+    var failedPinAttempts: Int
+    var pinLockedUntilEpochMillis: Long
     var allowlistEnabled: Boolean
     var musicRemovalEnabled: Boolean
     var musicRemovalDisabledChannels: Set<String>
@@ -39,12 +91,23 @@ interface AccessControlStorage {
 internal data class InMemoryAccessControlStorage(
     override var pinHash: String? = null,
     override var pinSalt: String? = null,
+    override var failedPinAttempts: Int = 0,
+    override var pinLockedUntilEpochMillis: Long = 0L,
     override var allowlistEnabled: Boolean = false,
     override var musicRemovalEnabled: Boolean = true,
     override var musicRemovalDisabledChannels: Set<String> = emptySet(),
     override var screenPinEnabled: Boolean = false,
     override var settingsPinLockEnabled: Boolean = false,
 ) : AccessControlStorage
+
+/** Result of a Parent PIN verification attempt, including exponential backoff lockouts. */
+sealed interface PinVerificationResult {
+    data object Verified : PinVerificationResult
+
+    data class Incorrect(val failedAttempts: Int) : PinVerificationResult
+
+    data class LockedOut(val remainingMillis: Long) : PinVerificationResult
+}
 
 /** UI prompt adapter for verifying the Parent PIN before protected actions or weakening changes. */
 fun interface PinPromptAdapter {
@@ -164,6 +227,7 @@ class AccessControl(
     private val getAllowedSubscriptions: suspend () -> List<Subscription> = {
         runCatching { SubscriptionHelper.getSubscriptions() }.getOrDefault(emptyList())
     },
+    private val clockMillis: () -> Long = System::currentTimeMillis,
 ) {
     private val secureRandom = SecureRandom()
     private val _musicRemovalRevision = MutableStateFlow(0L)
@@ -268,31 +332,58 @@ class AccessControl(
             val saltBytes = ByteArray(SALT_BYTES)
             secureRandom.nextBytes(saltBytes)
             storage.pinSalt = Base64.getEncoder().encodeToString(saltBytes)
-            storage.pinHash = hashPin(normalized, saltBytes)
+            storage.pinHash = PinCrypto.hashPin(normalized, saltBytes)
+            storage.failedPinAttempts = 0
+            storage.pinLockedUntilEpochMillis = 0L
         }
         return valid
     }
 
-    fun checkPin(pin: String): Boolean {
-        val storedHash = storage.pinHash
-        val storedSalt = storage.pinSalt
-        val normalized = pin.trim()
-        val saltBytes = storedSalt?.let {
-            runCatching { Base64.getDecoder().decode(it) }.getOrNull()
+    fun verifyPin(pin: String): PinVerificationResult {
+        val now = clockMillis()
+        val lockedUntil = storage.pinLockedUntilEpochMillis
+        if (lockedUntil > now) {
+            return PinVerificationResult.LockedOut(lockedUntil - now)
         }
-        return if (storedHash == null || saltBytes == null || normalized.isEmpty()) {
-            false
-        } else {
-            val candidateHash = hashPin(normalized, saltBytes)
-            MessageDigest.isEqual(
-                storedHash.toByteArray(Charsets.UTF_8),
-                candidateHash.toByteArray(Charsets.UTF_8),
-            )
+        val storedHash = storage.pinHash
+        val saltBytes =
+            storage.pinSalt?.let { runCatching { Base64.getDecoder().decode(it) }.getOrNull() }
+        val normalized = pin.trim()
+        return when {
+            storedHash == null || saltBytes == null -> PinVerificationResult.Incorrect(0)
+            normalized.isNotEmpty() &&
+                PinCrypto.matchesStoredHash(normalized, saltBytes, storedHash) -> {
+                storage.failedPinAttempts = 0
+                storage.pinLockedUntilEpochMillis = 0L
+                if (!storedHash.startsWith(PinCrypto.PBKDF2_PREFIX)) {
+                    setPin(normalized)
+                }
+                PinVerificationResult.Verified
+            }
+            else -> recordFailedAttempt(now)
         }
     }
 
+    fun checkPin(pin: String): Boolean = verifyPin(pin) == PinVerificationResult.Verified
+
     fun changePin(currentPin: String, newPin: String): Boolean =
         checkPin(currentPin) && setPin(newPin)
+
+    private fun recordFailedAttempt(now: Long): PinVerificationResult {
+        val failedAttempts = storage.failedPinAttempts + 1
+        storage.failedPinAttempts = failedAttempts
+        return if (failedAttempts >= MAX_FAILED_ATTEMPTS_BEFORE_LOCKOUT) {
+            val shift =
+                (failedAttempts - MAX_FAILED_ATTEMPTS_BEFORE_LOCKOUT).coerceAtMost(
+                    MAX_BACKOFF_SHIFT,
+                )
+            val cooldown = minOf(BASE_LOCKOUT_MILLIS shl shift, MAX_LOCKOUT_MILLIS)
+            storage.pinLockedUntilEpochMillis = now + cooldown
+            PinVerificationResult.LockedOut(cooldown)
+        } else {
+            PinVerificationResult.Incorrect(failedAttempts)
+        }
+    }
 
     private fun applyMutation(change: PolicyChange) {
         when (change) {
@@ -313,15 +404,12 @@ class AccessControl(
         }
     }
 
-    private fun hashPin(pin: String, saltBytes: ByteArray): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        digest.update(saltBytes)
-        val hashed = digest.digest(pin.toByteArray(Charsets.UTF_8))
-        return Base64.getEncoder().encodeToString(hashed)
-    }
-
     companion object {
         private const val SALT_BYTES = 16
+        private const val MAX_FAILED_ATTEMPTS_BEFORE_LOCKOUT = 5
+        private const val BASE_LOCKOUT_MILLIS = 30_000L
+        private const val MAX_LOCKOUT_MILLIS = 900_000L
+        private const val MAX_BACKOFF_SHIFT = 5
 
         val instance: AccessControl by lazy { AccessControl(PreferenceAccessControlStorage) }
     }
@@ -335,6 +423,14 @@ object PreferenceAccessControlStorage : AccessControlStorage {
     override var pinSalt: String?
         get() = PreferenceHelper.getParentPinSalt()
         set(value) = PreferenceHelper.setParentPinSalt(value)
+
+    override var failedPinAttempts: Int
+        get() = PreferenceHelper.getParentPinFailedAttempts()
+        set(value) = PreferenceHelper.setParentPinFailedAttempts(value)
+
+    override var pinLockedUntilEpochMillis: Long
+        get() = PreferenceHelper.getParentPinLockedUntil()
+        set(value) = PreferenceHelper.setParentPinLockedUntil(value)
 
     override var allowlistEnabled: Boolean
         get() = PreferenceHelper.getBoolean(PreferenceKeys.ALLOWLIST_ENABLED, false)

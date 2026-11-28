@@ -20,6 +20,7 @@ import com.github.libretube.updater.DownloadAndInstallStage
 import com.github.libretube.updater.UpdateCheckResult
 import com.github.libretube.updater.UpdateInstallStatus
 import com.github.libretube.updater.UpdateManifest
+import com.github.libretube.updater.VerificationResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -165,9 +166,10 @@ class AppUpdateDialog(
             positive.setOnClickListener { beginDownloadAndInstall(views, manifest) }
 
             val notesUrl = manifest.releaseNotesUrl
-            val hasHttpsNotes = UpdateManifest.isHttpsUrl(notesUrl)
-            neutral.isVisible = hasHttpsNotes
-            if (hasHttpsNotes) {
+            val hasAllowedNotes =
+                UpdateManifest.isAllowedReleaseNotesUrl(notesUrl) && notesUrl.isNotBlank()
+            neutral.isVisible = hasAllowedNotes
+            if (hasAllowedNotes) {
                 neutral.setOnClickListener {
                     if (updater.canOpenExternalLink()) {
                         IntentHelper.openLinkFromHref(context, fragmentManager, notesUrl)
@@ -250,7 +252,16 @@ class AppUpdateDialog(
                         outcome.error.displayMessage(),
                     )
             is DownloadAndInstallOutcome.VerificationFailed ->
-                views.statusView.setText(R.string.update_verification_failed)
+                when (outcome.result) {
+                    VerificationResult.FileMissing,
+                    is VerificationResult.PackageMismatch,
+                    VerificationResult.MissingSignatures,
+                    VerificationResult.SignatureMismatch,
+                    is VerificationResult.Sha256Mismatch,
+                    is VerificationResult.VersionMismatch ->
+                        views.statusView.setText(R.string.update_verification_failed)
+                    VerificationResult.Success -> Unit
+                }
             is DownloadAndInstallOutcome.InstallFailed ->
                 views.statusView.text =
                     context.getString(

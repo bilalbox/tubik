@@ -392,9 +392,7 @@ object ImportHelper {
                 else -> emptyList()
             }
 
-        for (video in videos) {
-            DatabaseHolder.Database.watchHistoryDao().insert(video)
-        }
+        DatabaseHolder.Database.watchHistoryDao().insertAll(videos)
 
         if (videos.isEmpty()) {
             context.toastFromMainDispatcher(R.string.emptyList)

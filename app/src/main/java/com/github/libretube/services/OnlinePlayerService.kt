@@ -49,10 +49,8 @@ import com.github.libretube.util.PlayingQueue
 import com.github.libretube.util.YoutubeHlsPlaylistParser
 import com.github.libretube.util.normalizeChannelId
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -70,8 +68,6 @@ open class OnlinePlayerService : AbstractPlayerService() {
     private var currentStream: ResolvedPlaybackStream? = null
     private val streams: Streams?
         get() = currentStream?.streams
-
-    private val scope = CoroutineScope(Dispatchers.Main)
 
     /*
     Current job that's loading a new video (the value is null if no video is loading at the moment).
@@ -120,7 +116,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                                     ?.toStreamItem(videoId)
                                     ?.toWatchHistoryEntry(exoPlayer?.currentPosition) ?: return
 
-                            scope.launch(Dispatchers.IO) {
+                            serviceScope.launch(Dispatchers.IO) {
                                 runCatching {
                                     UserDataRepositoryHelper.userDataRepository.addToWatchHistory(
                                         watchHistoryEntry,
@@ -186,7 +182,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
         // start loading the video info while keeping a reference to the job
         // so that it can be canceled once a different video is loaded
-        fetchVideoInfoJob = scope.launch {
+        val job = serviceScope.launch {
             val loaded =
                 withContext(Dispatchers.IO) {
                     try {
@@ -255,8 +251,11 @@ open class OnlinePlayerService : AbstractPlayerService() {
             }
         }
 
-        fetchVideoInfoJob?.join()
-        fetchVideoInfoJob = null
+        fetchVideoInfoJob = job
+        job.join()
+        if (fetchVideoInfoJob === job) {
+            fetchVideoInfoJob = null
+        }
     }
 
     private fun configurePlayer(seekToPositionMs: Long) {
@@ -264,16 +263,21 @@ open class OnlinePlayerService : AbstractPlayerService() {
         if (seekToPositionMs != 0L) {
             exoPlayer?.seekTo(seekToPositionMs)
         } else if (watchPositionsEnabled) {
-            scope.launch(Dispatchers.IO) {
-                UserDataRepositoryHelper.userDataRepository
-                    .getFromWatchHistory(videoId)
-                    ?.metadata
-                    ?.positionMillis
-                    ?.let {
-                        if (!DatabaseHelper.isVideoWatched(it, streams?.duration)) {
-                            withContext(Dispatchers.Main) { exoPlayer?.seekTo(it) }
+            val targetVideoId = videoId
+            val targetDuration = streams?.duration
+            serviceScope.launch(Dispatchers.IO) {
+                DatabaseHelper.getWatchPosition(targetVideoId)?.let {
+                    if (
+                        videoId == targetVideoId &&
+                            !DatabaseHelper.isVideoWatched(it, targetDuration)
+                    ) {
+                        withContext(Dispatchers.Main) {
+                            if (videoId == targetVideoId) {
+                                exoPlayer?.seekTo(it)
+                            }
                         }
                     }
+                }
             }
         }
 
@@ -320,7 +324,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
         val shouldPlayWhenReady = exoPlayer?.playWhenReady ?: true
 
         refreshStreamJob?.cancel()
-        refreshStreamJob = scope.launch {
+        refreshStreamJob = serviceScope.launch {
             val outcome =
                 withContext(Dispatchers.IO) {
                     streamResolver.recover(activeVideoId, resumePositionMs)
@@ -363,7 +367,6 @@ open class OnlinePlayerService : AbstractPlayerService() {
         fetchVideoInfoJob = null
         refreshStreamJob?.cancel()
         refreshStreamJob = null
-        scope.cancel()
         super.onDestroy()
     }
 

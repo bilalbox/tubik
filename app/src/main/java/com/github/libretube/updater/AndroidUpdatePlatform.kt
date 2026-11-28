@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.PendingIntentCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -50,6 +51,7 @@ internal class AndroidUpdatePlatform(
         return ApkVerificationInfo(
             packageName = info.packageName,
             signerSha256Set = extractSignerFingerprints(info),
+            versionCode = PackageInfoCompat.getLongVersionCode(info),
         )
     }
 

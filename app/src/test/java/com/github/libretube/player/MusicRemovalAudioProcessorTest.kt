@@ -31,6 +31,7 @@ class MusicRemovalAudioProcessorTest {
     ) : SpeechModel {
         val processCalls = AtomicInteger(0)
         val resetCalls = AtomicInteger(0)
+        val closeCalls = AtomicInteger(0)
 
         override fun processHop(hop: FloatArray): FloatArray {
             processCalls.incrementAndGet()
@@ -39,6 +40,11 @@ class MusicRemovalAudioProcessorTest {
 
         override fun reset() {
             resetCalls.incrementAndGet()
+        }
+
+        override fun close() {
+            closeCalls.incrementAndGet()
+            isLoaded = false
         }
     }
 
@@ -347,5 +353,64 @@ class MusicRemovalAudioProcessorTest {
         } finally {
             OrtSpeechRuntime.clearSharedInstancesForTests()
         }
+    }
+
+    @Test
+    fun `slow exiting worker after reset and restart does not close engine or break new worker`() {
+        val slowHopEntered = CountDownLatch(1)
+        val releaseSlowHop = CountDownLatch(1)
+        val blockFirstHop = AtomicBoolean(true)
+        val model =
+            FakeSpeechModel(sampleRate = 16000, hopSize = 512) { hop ->
+                if (blockFirstHop.getAndSet(false)) {
+                    slowHopEntered.countDown()
+                    releaseSlowHop.await(3, TimeUnit.SECONDS)
+                    FloatArray(hop.size) { 0.1f }
+                } else {
+                    FloatArray(hop.size) { 0.5f }
+                }
+            }
+        val processor =
+            MusicRemovalAudioProcessor(
+                engine =
+                    MusicRemovalEngine(
+                        modelProvider = { model },
+                        config =
+                            MusicRemovalConfig(
+                                overloadSustainHops = 100,
+                                enablePostFilter = false,
+                                logTelemetry = false,
+                            ),
+                    ),
+                isMusicRemovalEnabled = { true },
+            )
+        try {
+            processor.configure(AudioProcessor.AudioFormat(16000, 1, C.ENCODING_PCM_16BIT))
+            processor.flush()
+
+            // Trigger worker 1 and wait until it blocks inside processHop (> 500 ms join timeout).
+            processor.queueInput(pcm16Buffer(ShortArray(512 * 2) { 5000 }))
+            assertTrue(slowHopEntered.await(1, TimeUnit.SECONDS))
+
+            // Reset times out while worker 1 is still blocked, then immediately restart for track
+            // 2.
+            processor.reset()
+            processor.configure(AudioProcessor.AudioFormat(16000, 1, C.ENCODING_PCM_16BIT))
+            processor.flush()
+            processor.queueInput(pcm16Buffer(ShortArray(512 * 2) { 5000 }))
+
+            // Release worker 1 after worker 2 has already started; worker 1 must not close engine.
+            releaseSlowHop.countDown()
+
+            val out = drainShorts(processor, minShorts = 512)
+            assertTrue("Expected processed output from restarted worker", out.any { it > 10000 })
+            assertFalse(processor.isMutedForOverload)
+            assertTrue(model.isLoaded)
+            assertEquals(0, model.closeCalls.get())
+        } finally {
+            releaseSlowHop.countDown()
+            processor.reset()
+        }
+        assertEquals(1, model.closeCalls.get())
     }
 }

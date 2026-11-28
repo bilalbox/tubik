@@ -10,8 +10,11 @@ import com.github.libretube.db.obj.WatchPosition
 interface WatchPositionDao {
     @Query("SELECT * FROM watchPosition") suspend fun getAll(): List<WatchPosition>
 
-    @Query("SELECT * FROM watchPosition WHERE videoId LIKE :videoId LIMIT 1")
+    @Query("SELECT * FROM watchPosition WHERE videoId = :videoId LIMIT 1")
     suspend fun findById(videoId: String): WatchPosition?
+
+    @Query("SELECT * FROM watchPosition WHERE videoId IN (:videoIds)")
+    suspend fun findByIds(videoIds: List<String>): List<WatchPosition>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(watchPosition: WatchPosition)

@@ -119,6 +119,8 @@ object PreferenceKeys {
     const val SETTINGS_PIN_LOCK_ENABLED = "settings_pin_lock_enabled"
     const val PARENT_PIN_HASH = "parent_pin_hash"
     const val PARENT_PIN_SALT = "parent_pin_salt"
+    const val PARENT_PIN_FAILED_ATTEMPTS = "parent_pin_failed_attempts"
+    const val PARENT_PIN_LOCKED_UNTIL = "parent_pin_locked_until"
     const val CHANGE_PARENT_PIN = "change_parent_pin"
 
     // App updates (OTA)

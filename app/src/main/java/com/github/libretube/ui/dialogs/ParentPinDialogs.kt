@@ -9,11 +9,14 @@ import com.github.libretube.R
 import com.github.libretube.extensions.dpToPx
 import com.github.libretube.util.AccessControl
 import com.github.libretube.util.PinPromptAdapter
+import com.github.libretube.util.PinVerificationResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlin.math.ceil
 
 object ParentPinDialogs {
+    private const val MILLIS_PER_SECOND = 1000.0
 
     fun promptAdapter(context: Context): PinPromptAdapter =
         PinPromptAdapter { onVerified, onCancelled ->
@@ -103,12 +106,16 @@ object ParentPinDialogs {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 pinLayout.error = null
                 val pin = pinInput.text?.toString()?.trim().orEmpty()
-                if (AccessControl.instance.checkPin(pin)) {
-                    verified = true
-                    dialog.dismiss()
-                    onVerified()
-                } else {
-                    pinLayout.error = context.getString(R.string.parent_pin_incorrect)
+                when (val result = AccessControl.instance.verifyPin(pin)) {
+                    PinVerificationResult.Verified -> {
+                        verified = true
+                        dialog.dismiss()
+                        onVerified()
+                    }
+                    is PinVerificationResult.Incorrect,
+                    is PinVerificationResult.LockedOut -> {
+                        pinLayout.error = formatVerificationError(context, result)
+                    }
                 }
             }
         }
@@ -152,17 +159,42 @@ object ParentPinDialogs {
                     confirmLayout.error = context.getString(R.string.parent_pin_mismatch)
                     return@setOnClickListener
                 }
-                if (AccessControl.instance.changePin(currentPin, newPin)) {
-                    Toast.makeText(context, R.string.parent_pin_updated, Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                } else {
-                    currentLayout.error = context.getString(R.string.parent_pin_incorrect)
+                when (val result = AccessControl.instance.verifyPin(currentPin)) {
+                    PinVerificationResult.Verified -> {
+                        if (AccessControl.instance.setPin(newPin)) {
+                            Toast.makeText(context, R.string.parent_pin_updated, Toast.LENGTH_SHORT)
+                                .show()
+                            dialog.dismiss()
+                        }
+                    }
+                    is PinVerificationResult.Incorrect,
+                    is PinVerificationResult.LockedOut -> {
+                        currentLayout.error = formatVerificationError(context, result)
+                    }
                 }
             }
         }
         dialog.show()
         return dialog
     }
+
+    private fun formatVerificationError(
+        context: Context,
+        result: PinVerificationResult,
+    ): String? =
+        when (result) {
+            PinVerificationResult.Verified -> null
+            is PinVerificationResult.Incorrect -> context.getString(R.string.parent_pin_incorrect)
+            is PinVerificationResult.LockedOut -> {
+                val seconds =
+                    ceil(result.remainingMillis / MILLIS_PER_SECOND).toLong().coerceAtLeast(1L)
+                context.resources.getQuantityString(
+                    R.plurals.parent_pin_locked_out,
+                    seconds.coerceAtMost(Int.MAX_VALUE.toLong()).toInt(),
+                    seconds,
+                )
+            }
+        }
 
     private fun createContainer(context: Context): LinearLayout {
         val padding = 20f.dpToPx()

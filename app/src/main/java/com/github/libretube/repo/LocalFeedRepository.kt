@@ -113,15 +113,28 @@ class LocalFeedRepository(
         return when (plan) {
             FeedRefreshPlan.UseCachedFeed -> cachedFeed.map(SubscriptionsFeedItem::toStreamItem)
             is FeedRefreshPlan.Refresh -> {
-                if (
+                val isFullRefresh =
                     refresh !is FeedRefresh.OnlySome &&
                         plan.channelIds.size == subscribedChannelIds.size
-                ) {
+                if (isFullRefresh) {
                     feedStore.cleanUpOlderThan(minimumDateMillis)
                 }
+                val cachedUploaderIds =
+                    resolveCachedUploaderIds(
+                        plan = plan,
+                        refresh = refresh,
+                        cachedFeed = cachedFeed,
+                        isFullRefresh = isFullRefresh,
+                        minimumDateMillis = minimumDateMillis,
+                    )
                 val refreshFailure =
-                    refreshFeed(plan.channelIds, minimumDateMillis, onProgressUpdate)
-                if (refreshFailure == null) {
+                    refreshFeed(
+                        plan.channelIds,
+                        minimumDateMillis,
+                        cachedUploaderIds,
+                        onProgressUpdate,
+                    )
+                if (isFullRefresh && refreshFailure == null) {
                     preferences.lastLocalFeedRefreshTimestampMillis = nowMillis
                 }
                 val updatedFeed = feedStore.getFeedItems()
@@ -143,9 +156,30 @@ class LocalFeedRepository(
         }
     }
 
+    private suspend fun resolveCachedUploaderIds(
+        plan: FeedRefreshPlan.Refresh,
+        refresh: FeedRefresh,
+        cachedFeed: List<SubscriptionsFeedItem>,
+        isFullRefresh: Boolean,
+        minimumDateMillis: Long,
+    ): Set<String> {
+        if (plan.channelIds.isEmpty()) return emptySet()
+        val preRefreshItems =
+            when {
+                refresh !is FeedRefresh.Automatically -> feedStore.getFeedItems()
+                isFullRefresh ->
+                    cachedFeed.filter { it.uploaded >= minimumDateMillis || it.uploaded == -1L }
+                else -> cachedFeed
+            }
+        return preRefreshItems.mapNotNullTo(HashSet()) {
+            it.uploaderUrl?.toID()?.takeIf(String::isNotEmpty)
+        }
+    }
+
     private suspend fun refreshFeed(
         channelIds: List<String>,
         minimumDateMillis: Long,
+        cachedUploaderIds: Set<String>,
         onProgressUpdate: (FeedProgress) -> Unit,
     ): Throwable? {
         if (channelIds.isEmpty()) return null
@@ -171,6 +205,7 @@ class LocalFeedRepository(
                         fetchChannelInBatch(
                             channelId = channelId,
                             minimumDateMillis = minimumDateMillis,
+                            cachedUploaderIds = cachedUploaderIds,
                             channelExtractionCount = channelExtractionCount,
                             lastFailure = lastFailure,
                             totalExtractionCount = totalExtractionCount,
@@ -191,13 +226,16 @@ class LocalFeedRepository(
     private suspend fun fetchChannelInBatch(
         channelId: String,
         minimumDateMillis: Long,
+        cachedUploaderIds: Set<String>,
         channelExtractionCount: AtomicInteger,
         lastFailure: AtomicReference<Throwable?>,
         totalExtractionCount: AtomicInteger,
         totalChannels: Int,
         onProgressUpdate: (FeedProgress) -> Unit,
     ): Pair<Subscription?, List<StreamItem>>? {
-        val result = runCatching { getRelatedStreams(channelId, minimumDateMillis) }
+        val result = runCatching {
+            getRelatedStreams(channelId, minimumDateMillis, cachedUploaderIds)
+        }
         result.onFailure { failure ->
             if (failure is CancellationException) throw failure
             lastFailure.compareAndSet(null, failure)
@@ -217,6 +255,7 @@ class LocalFeedRepository(
     private suspend fun getRelatedStreams(
         channelId: String,
         minimumDateMillis: Long,
+        cachedUploaderIds: Set<String>,
     ): Pair<Subscription?, List<StreamItem>> {
         val canonicalChannelId = channelId.toID()
         // RSS can be empty or fail while the channel tab still has videos. A failed feed
@@ -226,7 +265,14 @@ class LocalFeedRepository(
         val rssEntries = rssFeed?.items.orEmpty()
         val rssByVideoId = rssEntries.map { it.item }.associateBy { it.url.orEmpty().toID() }
 
-        if (!shouldFetchChannel(canonicalChannelId, rssEntries, minimumDateMillis)) {
+        if (
+            !shouldFetchChannel(
+                canonicalChannelId,
+                rssEntries,
+                minimumDateMillis,
+                cachedUploaderIds,
+            )
+        ) {
             return Pair(null, emptyList())
         }
 
@@ -269,6 +315,7 @@ class LocalFeedRepository(
         canonicalChannelId: String,
         rssEntries: List<ChannelFeedEntry>,
         minimumDateMillis: Long,
+        cachedUploaderIds: Set<String>,
     ): Boolean {
         val newestVideoId =
             rssEntries
@@ -279,8 +326,7 @@ class LocalFeedRepository(
         val newestStored =
             newestVideoId?.takeIf { it.isNotEmpty() }?.let { feedStore.containsFeedItem(it) } ==
                 true
-        val hasCachedVideos =
-            feedStore.getFeedItems().any { it.uploaderUrl?.toID() == canonicalChannelId }
+        val hasCachedVideos = canonicalChannelId in cachedUploaderIds
         val uploadTimes = rssEntries.map { it.item.uploaded.takeIf { ts -> ts > 0L } }
         return shouldFetchChannelVideos(
             uploadTimes,

@@ -398,11 +398,18 @@ class PlaylistFragment : DynamicLayoutManagerFragment(R.layout.fragment_playlist
         lifecycleScope.launch {
             val watched =
                 withContext(Dispatchers.IO) {
+                    val positions =
+                        DatabaseHelper.getWatchPositions(
+                            sortedStreams.mapNotNull { it.url?.toID() },
+                        )
                     sortedStreams
-                        .filter {
-                            DatabaseHelper.isVideoWatched(it.url.orEmpty().toID(), it.duration ?: 0)
+                        .mapNotNull { stream ->
+                            val id = stream.url?.toID() ?: return@mapNotNull null
+                            val position = positions[id] ?: return@mapNotNull null
+                            id.takeIf {
+                                DatabaseHelper.isVideoWatched(position, stream.duration ?: 0)
+                            }
                         }
-                        .mapNotNull { it.url?.toID() }
                         .toSet()
                 }
             val queue = seriesQueue(sortedStreams, streamItem) { it.url?.toID() in watched }
