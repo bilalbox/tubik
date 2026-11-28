@@ -23,7 +23,9 @@ GITHUB_API_BASE = "https://api.github.com"
 DEFAULT_RELEASES_HOST = "tubik-releases.23p.dev"
 DEFAULT_GITHUB_REPO = "bilalbox/tubik"
 SCHEMA_VERSION = 1
-MAX_CLOUDFLARE_LOOKBACK_DAYS = 30
+# Cloudflare caps `httpRequestsAdaptiveGroups` at 30 days (4w2d) from `startDate 00:00Z` to `now`,
+# so 29 days prior to `today` keeps the inclusive span strictly under 30 days at any UTC hour.
+MAX_CLOUDFLARE_LOOKBACK_DAYS = 29
 WEEK_WINDOW_DAYS = 7
 
 CLOUDFLARE_DOWNLOADS_QUERY = """
@@ -315,7 +317,7 @@ def main() -> None:
         "--lookback-days",
         type=int,
         default=14,
-        help="Days of Cloudflare analytics to query (max 30; defaults to 30 on first run with empty ledger)",
+        help="Days of Cloudflare analytics to query (max 29; defaults to 29 on first run with empty ledger)",
     )
     args = parser.parse_args()
 
