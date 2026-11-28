@@ -1,0 +1,67 @@
+name: Update download stats
+
+on:
+  schedule:
+    # Run every 6 hours; Cloudflare GraphQL analytics and R2 stats.json are cached for 1 hour.
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: download-stats
+  cancel-in-progress: false
+
+jobs:
+  update-stats:
+    name: Refresh download stats in R2
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Fetch existing stats ledger from R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          ENDPOINT="https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          if aws s3api head-object \
+            --bucket tubik-releases \
+            --key stats-ledger.json \
+            --endpoint-url "${ENDPOINT}" >/dev/null 2>&1; then
+            aws s3 cp "s3://tubik-releases/stats-ledger.json" "${RUNNER_TEMP}/stats-ledger.json" \
+              --endpoint-url "${ENDPOINT}"
+          else
+            echo "No existing stats-ledger.json in R2; starting fresh ledger."
+          fi
+
+      - name: Aggregate Cloudflare and GitHub download stats
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 tools/release/update_download_stats.py \
+            --ledger "${RUNNER_TEMP}/stats-ledger.json" \
+            --output "${RUNNER_TEMP}/stats.json"
+          cat "${RUNNER_TEMP}/stats.json"
+
+      - name: Upload stats and ledger to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          ENDPOINT="https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          aws s3 cp "${RUNNER_TEMP}/stats-ledger.json" "s3://tubik-releases/stats-ledger.json" \
+            --endpoint-url "${ENDPOINT}" \
+            --content-type "application/json" \
+            --cache-control "no-store"
+          aws s3 cp "${RUNNER_TEMP}/stats.json" "s3://tubik-releases/stats.json" \
+            --endpoint-url "${ENDPOINT}" \
+            --content-type "application/json" \
+            --cache-control "public, max-age=3600"

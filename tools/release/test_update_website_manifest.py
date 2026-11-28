@@ -222,7 +222,15 @@ class UpdateWebsiteManifestTest(unittest.TestCase):
 
         for html_path in [WEBSITE_DIR / "index.html", WEBSITE_DIR / "privacy" / "index.html"]:
             text = html_path.read_text(encoding="utf-8")
-            self.assertNotIn("<script", text.lower(), f"Unexpected <script> in {html_path}")
+            script_tags = re.findall(r"<script\b[^>]*>.*?</script>", text, re.I | re.DOTALL)
+            if html_path.name == "index.html" and html_path.parent == WEBSITE_DIR:
+                self.assertEqual(
+                    script_tags,
+                    ['<script src="/stats.js" defer></script>'],
+                    f"Only the local /stats.js script is allowed in {html_path}",
+                )
+            else:
+                self.assertEqual(script_tags, [], f"Unexpected <script> in {html_path}")
             self.assertIsNone(
                 re.search(r'<(?:link|img|iframe)\b[^>]*\b(?:href|src)="https?://', text, re.I),
                 f"Unexpected external subresource in {html_path}",
@@ -232,6 +240,10 @@ class UpdateWebsiteManifestTest(unittest.TestCase):
                     continue
                 target = WEBSITE_DIR / asset_ref.lstrip("/")
                 self.assertTrue(target.exists(), f"Missing local target {asset_ref} referenced in {html_path}")
+
+        stats_js = (WEBSITE_DIR / "stats.js").read_text(encoding="utf-8")
+        self.assertIn("https://tubik-releases.23p.dev/stats.json", stats_js)
+        self.assertIn('credentials: "omit"', stats_js)
 
         privacy_html = " ".join((WEBSITE_DIR / "privacy" / "index.html").read_text(encoding="utf-8").split())
         self.assertIn("https://tubik.23p.dev/updates/latest.json", privacy_html)
