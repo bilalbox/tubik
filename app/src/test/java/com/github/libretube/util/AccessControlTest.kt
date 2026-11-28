@@ -10,6 +10,8 @@ import com.github.libretube.db.obj.Download
 import com.github.libretube.db.obj.DownloadWithItems
 import com.github.libretube.db.obj.LocalPlaylistItem
 import com.github.libretube.db.obj.Series
+import java.security.MessageDigest
+import java.util.Base64
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -45,6 +47,7 @@ class AccessControlTest {
         assertTrue(ac.setPin(" 1234 "))
         assertTrue(ac.policy.isPinSet)
         assertNotEquals("1234", storage.pinHash)
+        assertTrue(storage.pinHash.orEmpty().startsWith("pbkdf2_sha256$120000$"))
         assertTrue(ac.checkPin("1234"))
         assertTrue(ac.checkPin(" 1234 "))
         assertFalse(ac.checkPin("0000"))
@@ -56,6 +59,56 @@ class AccessControlTest {
         assertTrue(ac.changePin("1234", "5678"))
         assertFalse(ac.checkPin("1234"))
         assertTrue(ac.checkPin("5678"))
+    }
+
+    @Test
+    fun `checkPin verifies legacy SHA-256 hash and transparently upgrades storage to PBKDF2`() {
+        val saltBytes = ByteArray(16) { it.toByte() }
+        val encodedSalt = Base64.getEncoder().encodeToString(saltBytes)
+        val digest = MessageDigest.getInstance("SHA-256")
+        digest.update(saltBytes)
+        val legacyHash =
+            Base64.getEncoder().encodeToString(digest.digest("1234".toByteArray(Charsets.UTF_8)))
+
+        val storage = InMemoryAccessControlStorage(pinHash = legacyHash, pinSalt = encodedSalt)
+        val ac = AccessControl(storage)
+
+        assertFalse(ac.checkPin("9999"))
+        assertEquals(legacyHash, storage.pinHash)
+
+        assertTrue(ac.checkPin("1234"))
+        assertTrue(storage.pinHash.orEmpty().startsWith("pbkdf2_sha256$120000$"))
+        assertNotEquals(legacyHash, storage.pinHash)
+        assertTrue(ac.checkPin("1234"))
+    }
+
+    @Test
+    fun `verifyPin enforces exponential backoff after 5 failed attempts and resets on success`() {
+        var now = 1_000_000L
+        val storage = InMemoryAccessControlStorage()
+        val ac = AccessControl(storage, clockMillis = { now }).apply { setPin("1234") }
+
+        for (attempt in 1..4) {
+            assertEquals(PinVerificationResult.Incorrect(attempt), ac.verifyPin("0000"))
+        }
+        assertEquals(PinVerificationResult.LockedOut(30_000L), ac.verifyPin("0000"))
+
+        now += 10_000L
+        assertEquals(PinVerificationResult.LockedOut(20_000L), ac.verifyPin("1234"))
+        assertFalse(ac.checkPin("1234"))
+
+        now += 20_000L
+        assertEquals(PinVerificationResult.LockedOut(60_000L), ac.verifyPin("0000"))
+
+        now += 60_000L
+        assertEquals(PinVerificationResult.Verified, ac.verifyPin("1234"))
+        assertEquals(0, storage.failedPinAttempts)
+        assertEquals(0L, storage.pinLockedUntilEpochMillis)
+
+        assertEquals(PinVerificationResult.Incorrect(1), ac.verifyPin("0000"))
+        assertTrue(ac.setPin("5678"))
+        assertEquals(0, storage.failedPinAttempts)
+        assertEquals(0L, storage.pinLockedUntilEpochMillis)
     }
 
     @Test
